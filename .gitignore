@@ -7,3 +7,5 @@ Gemfile.lock
 db/groonga/development
 db/groonga/production
 db/groonga/test
+db/groonga/schema.rb
+*~

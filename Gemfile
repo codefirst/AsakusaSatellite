@@ -8,7 +8,9 @@ end
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'rcov'
-gem 'rev-websocket'
+gem 'em-websocket'
+gem 'sinatra'
+gem 'thin'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

@@ -1,8 +1,9 @@
 class CreateRooms < ActiveGroonga::Migration
   def up
     create_table(:rooms) do |table|
-      table.short_text(:name)
-      table.timestamps
+      table.short_text(:title)
+      table.time(:created_at)
+      table.reference(:users)
     end
   end
 

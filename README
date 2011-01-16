@@ -15,6 +15,9 @@ AsakusaSatellite is a realtime chat application.
  $ bundle install --path vendor/bundle
  $ rake groonga:migrate
 
+=== Install for Developer
+ $ cp bleis-hooks/* .git/hooks
+
 === Access
  $ rails server
 access to http://localhost:3000/chat/tweet

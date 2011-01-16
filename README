@@ -1,5 +1,22 @@
 == AsakusaSatellite
 
-=== インストール 
-$ bundle install --path vendor/bundle
+AsakusaSatellite is a realtime chat application.
+
+=== Authors
+* @suer
+* @mallowlabs
+* @mzp
+
+=== Requirement
+* Ruby 1.8.7
+* groonga (1.0.6 or lator)
+
+=== Install
+ $ bundle install --path vendor/bundle
+ $ rake groonga:migrate
+
+=== Access
+ $ rails server
+access to http://localhost:3000/chat/tweet
+
 

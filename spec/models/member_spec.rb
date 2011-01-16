@@ -10,7 +10,7 @@ describe Member do
     end
 
     it "本文を取得できる(trivial)" do
-      @message.body.should = @body
+      @message.body.should == @body
     end
   end
 end

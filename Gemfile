@@ -7,6 +7,7 @@ group :development, :test do
 end
 gem 'haml-rails'
 gem 'jquery-rails'
+gem 'rcov'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

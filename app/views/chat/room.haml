@@ -1,2 +1,7 @@
+- form_for :chat, :url => {:controller => 'chat', :action => 'room'} do |f|
+  %input{:type => 'text', :name => 'message'}
+  %input{:type => 'submit', :value => 'tweet'}
 
+- @messages.each do |message|
+  .message= message.body
 

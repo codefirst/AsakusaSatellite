@@ -3,18 +3,21 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe ChatController do
   describe "発言投稿時は" do
     it "一件messageが増える" do
-      Room.new.save! if Room.select(:id => 1).any?
+      room = Room.new
+      room.save!
+      message = 'テストメッセージ'
       Proc.new { 
-        post :room, {:room_id => 1, :message => 'テストメッセージ'}
+        post :room, {:room_id => room.id, :message => message}
       }.should change(Message, :count).by(1)
+      assigns[:message].room.id.should == room.id
+      assigns[:message].body.should == message
     end
-    it "部屋がない場合はエラー" do
+    it "部屋がない場合はエラーメッセージを表示する" do
       room = Room.new
       room.save
       room.delete if room
       post :room, {:room_id => 1, :message => 'テストメッセージ'}
       pending
-      #response.should.redirect_to :error
     end
   end
 

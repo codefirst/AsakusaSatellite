@@ -1,0 +1,5 @@
+== AsakusaSatellite
+
+=== インストール 
+$ bundle install --path vendor/bundle
+

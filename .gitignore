@@ -1,0 +1,6 @@
+vendor/bundle
+db/*.sqlite3
+log/*.log
+tmp/**/*
+Gemfile.lock
+.bundle

@@ -1,0 +1,6 @@
+- form_for :tweet, :url => {:controller => 'tweets', :action => 'create'} do |f|
+  %input{:type => 'text', :name => 'content'}
+  %input{:type => 'submit', :value => 'tweet'}
+
+- @tweets.each do |tweet|
+  .tweet= tweet.content

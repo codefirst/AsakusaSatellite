@@ -20,6 +20,7 @@ AsakusaSatellite is a realtime chat application.
 
 === Access
  $ rails server
+ $ ruby websocket/server
 access to http://localhost:3000/chat/tweet
 
 === Test

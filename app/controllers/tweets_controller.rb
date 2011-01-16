@@ -9,5 +9,5 @@ class TweetsController< ApplicationController
     Tweet.new(:content => params[:content]).save
     redirect_to :controller => 'chat', :action => 'tweet'
   end
-
+  alias_method :new, :create
 end

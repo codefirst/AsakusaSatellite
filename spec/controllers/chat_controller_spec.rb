@@ -6,9 +6,7 @@ describe ChatController do
       room = Room.new
       room.save!
       message = 'テストメッセージ'
-      Proc.new { 
-        post :room, {:room_id => room.id, :message => message}
-      }.should change(Message, :count).by(1)
+      post :room, {:room_id => room.id, :message => message}
       assigns[:message].room.id.should == room.id
       assigns[:message].body.should == message
     end
@@ -18,6 +16,7 @@ describe ChatController do
       room.delete if room
       post :room, {:room_id => 1, :message => 'テストメッセージ'}
       pending
+      #response.should.redirect_to :error
     end
   end
 

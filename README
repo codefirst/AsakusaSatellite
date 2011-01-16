@@ -34,3 +34,4 @@ access to http://localhost:3000/chat/tweet
 
 * run with rcov
  $ rake spec:rcov
+

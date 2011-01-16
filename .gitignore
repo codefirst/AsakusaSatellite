@@ -9,4 +9,6 @@ db/groonga/production
 db/groonga/test
 db/groonga/schema.rb
 *~
+.DS_Store
+public/stylesheets/*.css
 coverage/

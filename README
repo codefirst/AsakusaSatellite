@@ -22,4 +22,12 @@ AsakusaSatellite is a realtime chat application.
  $ rails server
 access to http://localhost:3000/chat/tweet
 
+=== Test
+* setup
+ $ rake groonga:migrate RAILS_ENV=test
 
+* indivisual testing
+ $ ruby spec/{controller,model}/$(name)_spec.rb
+
+* test all
+ $ rake spec

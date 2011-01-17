@@ -3,13 +3,17 @@
 
 body
   :background-color #fafafa
+  :color #333
 
 .header
   :background-image url(../images/logo.png)
   :background-repeat no-repeat
   :text-indent -999px
-  :height 90px
+  :height 70px
   :margin-left 15px
+  :margin-right 15px
+  :border-bottom 1px solid #ccc
+  :margin-bottom 40px
 
 .main
   :width 720px
@@ -18,10 +22,13 @@ body
   :background-color #fff
 
 .footer
-  :margin-top 40px
+  :margin-top 50px
+  :margin-left 15px
+  :margin-right 15px
   :color #999
   :text-align center
   :font-size 80%
+  :border-top 1px solid #ccc
 
 a
   :color !link-color
@@ -45,3 +52,45 @@ a:hover
 a:active
   :text-decoration none
 
+td
+  :border-top 1px solid #ddd
+
+.room-list
+  :width 660px
+  :margin auto
+  :font-size 80%
+  td
+    :text-align center
+  .name
+    :width 60%
+  .update
+
+.buttons
+  :text-align center
+  :margin-top 20px
+
+// http://papermashup.com/pretty-css3-buttons/
+.button, .button:hover, .button:visited, .button:link
+  :background #222 url(../images/overlay.png) repeat-x
+  :display inline-block
+  :padding 5px 10px 6px
+  :color #fff
+  :text-decoration none
+  :-moz-border-radius 6px
+  :-webkit-border-radius 6px
+  :-moz-box-shadow 0 1px 3px rgba(0,0,0,0.6)
+  :-webkit-box-shadow 0 1px 3px rgba(0,0,0,0.6)
+  :text-shadow 0 -1px 1px rgba(0,0,0,0.25)
+  :border-bottom 1px solid rgba(0,0,0,0.25)
+  :position relative
+  :cursor pointer
+
+.large.button, .large.button:visited
+  :font-size 14px
+  :padding 8px 14px 9px
+  :font-weight bold
+
+.red.button, .red.button:visited
+  :background-color #e62728
+.red.button:hover
+  :background-color #cf2525

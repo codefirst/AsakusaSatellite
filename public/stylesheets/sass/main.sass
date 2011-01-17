@@ -20,6 +20,8 @@ body
   :margin auto
   :border 1px solid #ccc
   :background-color #fff
+  :-moz-box-shadow 1px 1px 2px #999
+  :-webkit-box-shadow 1px 1px 2px #999
 
 .footer
   :margin-top 50px
@@ -55,6 +57,11 @@ a:active
 td
   :border-top 1px solid #ddd
 
+.yield
+  :width 660px
+  :margin auto
+  :text-align center
+
 .room-list
   :width 660px
   :margin auto
@@ -68,6 +75,28 @@ td
 .buttons
   :text-align center
   :margin-top 20px
+
+// form
+form
+  :vertical-align bottom
+input.text
+  :border 1px solid #999
+  :font-size 18px
+  :height 34px
+  :width 360px
+  :background-color #fafafa
+  :margin-left 50px
+input.text:focus
+  :background-color #fff
+input.submit, input.submit:hover
+  :border none
+fieldset
+  :border none
+  :border-top 1px solid #ddd
+  :border-bottom 1px solid #ddd
+  :padding-bottom 20px
+legend
+  :padding 10px
 
 // http://papermashup.com/pretty-css3-buttons/
 .button, .button:hover, .button:visited, .button:link

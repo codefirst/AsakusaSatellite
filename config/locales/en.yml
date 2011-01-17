@@ -6,3 +6,5 @@ en:
   Name: "Name"
   LastUpdate: "Last Update"
   CreateNewRoom: "Create New Room"
+  Create: "Create"
+  InputRoomName: "Input room name"

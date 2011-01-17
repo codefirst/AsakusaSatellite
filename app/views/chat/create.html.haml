@@ -1,0 +1,6 @@
+.yield
+ =form_for :room do |form|
+  %fieldset
+   %legend= t(:InputRoomName)
+   =text_field :room, :name, :class => :text
+   =submit_tag t("Create"), :class => "submit red button large"

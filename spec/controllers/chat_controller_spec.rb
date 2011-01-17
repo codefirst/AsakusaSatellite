@@ -6,7 +6,7 @@ describe ChatController do
       room = Room.new
       room.save!
       message = 'テストメッセージ'
-      post :room, {:room_id => room.id, :message => message}
+      post :message, {:room_id => room.id, :message => message}
       assigns[:message].room.id.should == room.id
       assigns[:message].body.should == message
     end
@@ -14,7 +14,7 @@ describe ChatController do
       room = Room.new
       room.save
       room.delete if room
-      post :room, {:room_id => 1, :message => 'テストメッセージ'}
+      post :message, {:room_id => 1, :message => 'テストメッセージ'}
       pending
       #response.should.redirect_to :error
     end
@@ -44,6 +44,14 @@ describe ChatController do
       pending
       post :delete, {:room_id => 1, :message_id => 1}
       #response.should.redirect_to :error
+    end
+  end
+
+  describe "部屋作成時は" do
+    it "一件roomが増える" do
+      title = 'テスト部屋'
+      post :room, {:room => {:title => title}}
+      assigns[:room].title.should == title
     end
   end
 end

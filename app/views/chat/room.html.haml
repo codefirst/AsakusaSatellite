@@ -1,4 +1,5 @@
-- form_for :chat, :url => {:controller => 'chat', :action => 'room'} do |f|
+.title= @room.title
+- form_for :chat, :url => {:controller => 'chat', :action => 'message', :room_id => @room.id} do |f|
   %input{:type => 'text', :name => 'message'}
   %input{:type => 'submit', :value => 'tweet'}
 

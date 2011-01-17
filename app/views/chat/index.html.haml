@@ -2,22 +2,12 @@
  %tr
   %th=t :Name
   %th=t :LastUpdate
- %tr
-  %td.name
-   =link_to "チャットルーム 1", :controller => :chat, :action => :room, :id => 1
-  %td.update 2011/1/21 20:07
- %tr
-  %td.name
-   =link_to "Room 2", :controller => :chat, :action => :room, :id => 2
-  %td.update 2011/1/11 10:47
- %tr
-  %td.name
-   =link_to "転職するけど質問ある？", :controller => :chat, :action => :room, :id => 3
-  %td.update 2011/1/1 0:29
- %tr
-  %td.name
-   =link_to "KariyaSiesta のマネタイズを議論するスレ", :controller => :chat, :action => :room, :id => 4
-  %td.update 2010/12/28 9:49
+ - @rooms.each do |room|
+  %tr
+   %td.name
+    =link_to room.title, :controller => :chat, :action => :room, :id => room
+   %td.update 
+    = l(room.created_at)
 
 .buttons
  =link_to t(:CreateNewRoom), {:controller => :chat, :action => :create}, :class => "large red button"

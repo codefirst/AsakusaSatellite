@@ -2,6 +2,67 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%m/%d/%Y"
+      short: "%b %d"
+      long: "%B %d, %Y"
+      
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      time: "%I:%M %p"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "am"
+    pm: "pm"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute"
+      less_than_x_seconds:
+        one:   "less than 1 second"
+        other: "less than {{count}} seconds"
+      x_seconds:
+        one:   "1 second"
+        other: "{{count}} seconds"
+      less_than_x_minutes:
+        one:   "less than a minute"
+        other: "less than {{count}} minutes"
+      x_minutes:
+        one:   "1 minute"
+        other: "{{count}} minutes"
+      about_x_hours:
+        one:   "about 1 hour"
+        other: "about {{count}} hours"
+      x_days:
+        one:   "1 day"
+        other: "{{count}} days"
+      about_x_months:
+        one:   "about 1 month"
+        other: "about {{count}} months"
+      x_months:
+        one:   "1 month"
+        other: "{{count}} months"
+      about_x_years:
+        one:   "about 1 year"
+        other: "about {{count}} years"
+      over_x_years:
+        one:   "over 1 year"
+        other: "over {{count}} years"
+
   hello: "Hello world"
   Name: "Name"
   LastUpdate: "Last Update"

@@ -10,7 +10,7 @@ class TweetsController< ApplicationController
   def create
     Tweet.new(:content => params[:content]).save
     fork {
-      system 'curl http://0.0.0.0:8081/publish'
+      open('curl http://0.0.0.0:8081/publish'){|_|}
     }
     redirect_to :controller => 'chat', :action => 'tweet'
   end

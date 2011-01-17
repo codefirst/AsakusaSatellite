@@ -11,7 +11,7 @@ require 'open-uri'
 Groonga::Context.default_options = { :encoding => :utf8 }
 Groonga::Database.new File.expand_path('../db/groonga/development/db',File.dirname(__FILE__))
 
-require File.expand_path('../app/models/tweet',File.dirname(__FILE__))
+require File.expand_path('../app/models/message',File.dirname(__FILE__))
 
 EventMachine.run do
   $clients = []
@@ -31,7 +31,7 @@ EventMachine.run do
 
     ws.onmessage do |msg|
       puts "recv: #{msg}"
-      system("curl '#{URI.encode("http://0.0.0.0:3000/tweets/new?content=#{msg}")}' > /tmp/hoge 2>&1")
+      open(URI.encode("http://0.0.0.0:3000/tweets/new?content=#{msg}")){|_|}
     end
 
     ws.onclose do

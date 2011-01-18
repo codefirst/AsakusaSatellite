@@ -11,6 +11,7 @@ gem 'rcov'
 gem 'em-websocket'
 gem 'sinatra'
 gem 'thin'
+gem 'rubytter'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

@@ -1,13 +1,13 @@
 %table.room-list
  %tr
-  %th=t :Name
-  %th=t :LastUpdate
+  %th=t :name
+  %th=t :last_update
  - @rooms.each do |room|
   %tr
    %td.name
     =link_to room.title, :controller => :chat, :action => :room, :id => room
-   %td.update 
+   %td.update
     = l(room.created_at)
 
 .buttons
- =link_to t(:CreateNewRoom), {:controller => :chat, :action => :create}, :class => "large red button"
+ =link_to t(:create_new_room), {:controller => :chat, :action => :create}, :class => "large red button"

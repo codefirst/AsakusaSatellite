@@ -10,10 +10,10 @@ en:
       default: "%m/%d/%Y"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
     abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
@@ -28,7 +28,7 @@ en:
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "half a minute"
@@ -63,10 +63,9 @@ en:
         one:   "over 1 year"
         other: "over {{count}} years"
 
-  hello: "Hello world"
-  Name: "Name"
-  LastUpdate: "Last Update"
-  CreateNewRoom: "Create New Room"
-  Create: "Create"
-  InputRoomName: "Input room name"
+  name: "Name"
+  last_update: "Last Update"
+  create_new_room: "Create New Room"
+  create: "Create"
+  input_room_name: "Input room name"
   send: "Send"

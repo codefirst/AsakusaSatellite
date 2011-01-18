@@ -1,6 +1,6 @@
 .yield
- =form_for :room, :url => {:action => 'room'} do |form|
+ =form_for :room, :url => {:action => :room} do |form|
   %fieldset
-   %legend= t(:InputRoomName)
+   %legend= t(:input_room_name)
    =text_field :room, :title, :class => :text
-   =submit_tag t("Create"), :class => "submit red button large"
+   =submit_tag t(:create), :class => "submit red button large"

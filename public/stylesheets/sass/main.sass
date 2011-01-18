@@ -1,6 +1,8 @@
-!link-color = #e2041b
+// variable
+_!link-color = #e2041b
 !link-visited-color = #e597b2
 
+// layout
 body
   :background-color #fafafa
   :color #333
@@ -32,6 +34,64 @@ body
   :font-size 80%
   :border-top 1px solid #ccc
 
+.yield
+  :width 660px
+  :margin auto
+  :text-align center
+
+// normal tag
+h3
+  :padding 2px
+  :background -moz-linear-gradient(center top, #eeeeee 41%,#dddddd 100%)
+  :background -webkit-gradient(linear, left top, left bottom, color-stop(0.41, #f4f4f4),color-stop(1, #ededed))
+  :border 1px solid #ccc
+  :font-size 100%
+
+td
+  :border-top 1px solid #ddd
+
+// pages
+.room-list
+  :width 660px
+  :margin auto
+  :font-size 80%
+  td
+    :text-align center
+  .name
+    :width 60%
+  .update
+
+.message-list
+  :margin-bottom 20px
+
+.message
+  :border 1px solid #eee
+  :text-align left
+  :padding 5px
+  :padding-left 10px
+  :padding-right 10px
+  :margin-bottom 3px
+  :-moz-border-radius 5px 5px 5px 5px
+  :-webkit-border-radius 5px 5px 5px 5px
+  :background -moz-linear-gradient(center top, #fcfcfc 40%,#efefef 100%)
+  :background -webkit-gradient(linear, left top, left bottom, color-stop(0.4, #fcfcfc),color-stop(1, #efefef))
+  :-moz-box-shadow 0 1px 1px #ccc
+  :-webkit-box-shadow 0 1px 1px #ccc
+  :font-size 90%
+  p
+    :padding 0
+    :margin 0
+  img
+    :width 24px
+    :height 24px
+  span
+    :font-weight bold
+
+.buttons
+  :text-align center
+  :margin-top 20px
+
+// link
 a
   :color !link-color
   :font-style normal
@@ -53,28 +113,6 @@ a:hover
 
 a:active
   :text-decoration none
-
-td
-  :border-top 1px solid #ddd
-
-.yield
-  :width 660px
-  :margin auto
-  :text-align center
-
-.room-list
-  :width 660px
-  :margin auto
-  :font-size 80%
-  td
-    :text-align center
-  .name
-    :width 60%
-  .update
-
-.buttons
-  :text-align center
-  :margin-top 20px
 
 // form
 form

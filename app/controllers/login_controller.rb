@@ -8,27 +8,15 @@ class LoginController < ApplicationController
   def oauth
     callback_url = "http://#{request.host_with_port}/login/oauth_callback"
     request_token = self.class.consumer.get_request_token(:oauth_callback => callback_url)
-    #request_token = self.class.consumer.get_request_token()
 
     session[:request_token] = {
       :token => request_token.token,
       :secret => request_token.secret
     }
 
-    redirect_to request_token.authorize_url
+    session[:oauth_referer] = request.referer
 
-    #    auth = LoginController.consumer
-    #    request_token = OAuth::AccessToken.new(
-    #      auth,
-    #      'http://twitter.com/oauth/access_token',
-    #      'http://twitter.com/oauth/authorize'
-    #    )
-    ##    request_token = auth.get_request_token(
-    ##      :oauth_callback => "http://#{request.host_with_port}/oauth_callback"
-    ##    )
-    #    session[:request_token] = request_token.token
-    #    session[:request_token_secret] = request_token.secret
-    #    redirect_to request_token.authorize_url
+    redirect_to request_token.authorize_url
   end
 
   def oauth_callback
@@ -54,7 +42,7 @@ class LoginController < ApplicationController
       
       screen_name = OAuthRubytter.new(access_token).user_timeline('').first.user.screen_name
       users = User.select('id, name') do |record|
-        record['name'] =~ screen_name
+        record['name'] == screen_name
       end
       if users.records.size > 0
         User.current = users.records.first
@@ -67,12 +55,14 @@ class LoginController < ApplicationController
 
     session.delete :request_token
 
-    redirect_to :index
+    redirect_to session[:oauth_referer]
+    session.delete :oauth_referer
   end
 
   def logout
     session.delete :login_user_id
     User.current = nil
-    redirect_to :controller => 'chat', :action => 'index'
+    #redirect_to :controller => 'chat', :action => 'index'
+    redirect_to request.referer
   end
 end

@@ -8,10 +8,9 @@
      %span _mzp
     %p= message.body
 
- .input
-  = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id} do |f|
-   =text_field_tag :message, '', :class => :text
-   =submit_tag t(:send), :class => 'submit red button large'
-
-
+ - if User.logged?
+  .input
+   = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id} do |f|
+    =text_field_tag :message, '', :class => :text
+    =submit_tag t(:send), :class => 'submit red button large'
 

@@ -15,8 +15,8 @@
     = link_to image_tag("logo.png", :alt => 'AsakusaSatellite'), {:controller => :chat}
     .contextual
      = t(:welcome_maessage) + User.current.name if User.current
-     = link_to t(:logout), :controller => 'login', :action => 'logout' if User.logged?
-     = link_to t(:login), :controller => 'login', :action => 'oauth' unless User.logged?
+     = link_to t(:logout), :controller => 'login', :action => 'logout' if logged?
+     = link_to t(:login), :controller => 'login', :action => 'oauth' unless logged?
    .content
     = yield
    .footer

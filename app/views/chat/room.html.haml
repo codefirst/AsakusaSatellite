@@ -1,14 +1,16 @@
 .yield
- %h3.title= @room.title
+ %h3.title
+  = @room.title
+  = t(:room_created_by) + " " + @room.user.name unless @room.user.nil?
  .message-list
   = @messages.each do |message|
    .message
     %p
      %img{:src=>'http://a3.twimg.com/profile_images/567093430/coco_normal.png', :alt => '_mzp'}
-     %span _mzp
+     %span= message.user.name if message.user
     %p= message.body
 
- - if User.logged?
+ - if logged?
   .input
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id} do |f|
     =text_field_tag :message, '', :class => :text

@@ -72,3 +72,4 @@ en:
   welcome_maessage: "welcome, "
   login: "Login"
   logout: "Logout"
+  room_created_by: "owner: "

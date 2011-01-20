@@ -9,7 +9,7 @@ class ChatController < ApplicationController
 
   def room
     if request.post?
-      @room = Room.new(:title => params[:room][:title])
+      @room = Room.new(:title => params[:room][:title], :user => User.current)
       if @room.save
         redirect_to :action => 'room', :id => @room.id
       else
@@ -25,7 +25,7 @@ class ChatController < ApplicationController
   def message
     if request.post?
       room = Room.find(params[:room_id])
-      @message = Message.new(:room => room, :body => params[:message])
+      @message = Message.new(:room => room, :body => params[:message], :user => User.current)
       unless @message.save
         # TODO: error handling
       end

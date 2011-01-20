@@ -3,7 +3,7 @@ class CreateRooms < ActiveGroonga::Migration
     create_table(:rooms) do |table|
       table.short_text(:title)
       table.time(:created_at)
-      table.reference(:users)
+      table.reference(:user, "users")
     end
   end
 

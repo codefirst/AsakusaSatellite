@@ -9,5 +9,6 @@
    %td.update
     = l(room.created_at)
 
-.buttons
- =link_to t(:create_new_room), {:controller => :chat, :action => :create}, :class => "large red button"
+- if logged?
+ .buttons
+  =link_to t(:create_new_room), {:controller => :chat, :action => :create}, :class => "large red button"

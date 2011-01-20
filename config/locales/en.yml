@@ -69,3 +69,6 @@ en:
   create: "Create"
   input_room_name: "Input room name"
   send: "Send"
+  welcome_maessage: "welcome, "
+  login: "Login"
+  logout: "Logout"

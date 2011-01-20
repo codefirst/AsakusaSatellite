@@ -51,10 +51,28 @@ class LoginController < ApplicationController
         :token => access_token.token,
         :secret => access_token.secret
       }
+      
+      screen_name = OAuthRubytter.new(access_token).user_timeline('').first.user.screen_name
+      users = User.select('id, name') do |record|
+        record['name'] =~ screen_name
+      end
+      if users.records.size > 0
+        User.current = users.records.first
+      else
+        User.current = User.new(:name => screen_name)
+        User.current.save
+      end
+      session[:login_user_id] = User.current.id
     end
 
     session.delete :request_token
 
     redirect_to :index
+  end
+
+  def logout
+    session.delete :login_user_id
+    User.current = nil
+    redirect_to :controller => 'chat', :action => 'index'
   end
 end

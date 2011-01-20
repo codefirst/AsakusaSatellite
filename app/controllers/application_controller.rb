@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'application'
+  before_filter :check_login
 
   def self.consumer
     OAuth::Consumer.new(
@@ -10,4 +11,8 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  private
+  def check_login
+    User.current ||= User.find(session[:login_user_id])
+  end
 end

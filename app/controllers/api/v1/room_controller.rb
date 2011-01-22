@@ -1,6 +1,7 @@
 module Api
   module V1
     class RoomController < ApplicationController
+      include ChatHelper
       respond_to :json, :xml
       def show
         room = Room.find(params[:id])
@@ -14,11 +15,17 @@ module Api
         else
           @messages = Message.all
         end
-        logger.info "i++++++++++++++++++++++++++++++"
-        logger.info @messages.expression[0]
         respond_with(@messages)
       end
 
+      def post
+        unless User.logged?
+          render :json => {:status => 'error', :error => 'login not yet'}
+          return
+        end
+        create_message(params[:room_id], params[:message])
+        render :json => {:status => 'ok'}
+      end
     end
   end
 end

@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  #protect_from_forgery
   layout 'application'
   before_filter :check_login
 

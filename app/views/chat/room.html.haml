@@ -6,7 +6,8 @@
   = @messages.each do |message|
    .message
     %p
-     %img{:src => message.user.profile_image_url, :alt => message.user.screen_name}
+     - if message.user
+      %img{:src => message.user.profile_image_url, :alt => message.user.screen_name}
      %span= message.user.name if message.user
     %p= message.body
 

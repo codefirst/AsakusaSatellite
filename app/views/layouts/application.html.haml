@@ -18,6 +18,8 @@
      = link_to t(:logout), :controller => 'login', :action => 'logout' if logged?
      = link_to t(:login), :controller => 'login', :action => 'oauth' unless logged?
    .content
+    - if flash[:error]
+     .error_message= flash[:error]
     = yield
    .footer
     %p Copyright (C) 2011 RAISIN. All rights reserved.

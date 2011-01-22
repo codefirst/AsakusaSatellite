@@ -23,13 +23,20 @@ class ChatController < ApplicationController
   end
 
   def message
+    unless User.logged?
+      flash[:error] = t(:error_message_user_not_login_yet)
+      redirect_to :controller => 'chat'
+      return
+    end
     if request.post?
       room = Room.find(params[:room_id])
       @message = Message.new(:room => room, :body => params[:message], :user => User.current)
       unless @message.save
         # TODO: error handling
       end
+      redirect_to :action => 'room', :id => params[:room_id]
+      return 
     end
-    redirect_to :action => 'room', :id => params[:room_id]
+    redirect_to :controller => 'chat'
   end
 end

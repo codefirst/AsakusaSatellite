@@ -6,7 +6,7 @@
   = @messages.each do |message|
    .message
     %p
-     %img{:src=>'http://a3.twimg.com/profile_images/567093430/coco_normal.png', :alt => '_mzp'}
+     %img{:src => message.user.profile_image_url, :alt => message.user.screen_name}
      %span= message.user.name if message.user
     %p= message.body
 

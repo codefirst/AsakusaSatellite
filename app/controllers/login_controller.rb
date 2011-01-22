@@ -40,16 +40,8 @@ class LoginController < ApplicationController
         :secret => access_token.secret
       }
       
-      screen_name = OAuthRubytter.new(access_token).user_timeline('').first.user.screen_name
-      users = User.select('id, name') do |record|
-        record['name'] == screen_name
-      end
-      if users.records.size > 0
-        User.current = users.records.first
-      else
-        User.current = User.new(:name => screen_name)
-        User.current.save
-      end
+#      screen_name = OAuthRubytter.new(access_token).user_timeline('').first.user.screen_name
+      set_user_from(access_token)  
       session[:login_user_id] = User.current.id
     end
 
@@ -64,5 +56,35 @@ class LoginController < ApplicationController
     User.current = nil
     #redirect_to :controller => 'chat', :action => 'index'
     redirect_to request.referer
+  end
+
+  private
+  def set_user_from(access_token)
+    response = self.class.consumer.request(
+      :get,
+        '/account/verify_credentials.json',
+        access_token, { :scheme => :query_string }
+    ) 
+    case response
+    when Net::HTTPSuccess
+      @user_info = JSON.parse(response.body)
+      unless @user_info['screen_name']
+        flash[:notice] = "Authentication failed"
+        redirect_to :action => :index
+        return
+      end
+    else
+      RAILS_DEFAULT_LOGGER.error "Failed to get user info via OAuth"
+      flash[:notice] = "Authentication failed"
+      redirect_to :action => :index
+      return
+    end
+    users = User.select('id, name') do |record|
+      record['name'] == @user_info['screen_name']
+    end
+    User.current = (users.records.size > 0 ? users.records.first : User.new)
+    User.current.name = @user_info['name']
+    User.current.profile_image_url = @user_info['profile_image_url']
+    User.current.save
   end
 end

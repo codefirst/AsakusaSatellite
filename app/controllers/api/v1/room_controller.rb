@@ -6,7 +6,10 @@ module Api
         room = Room.find(params[:id])
         if params[:since_date]
           @messages = Message.select do |record|
-            record.match("created_at:>=#{params[:since_date].to_date.beginning_of_day.to_i} room:#{params[:id]}")
+            [
+              record.created_at >= params[:since_date].to_date.beginning_of_day.to_i,
+              record.room == room
+            ]
           end
         else
           @messages = Message.all

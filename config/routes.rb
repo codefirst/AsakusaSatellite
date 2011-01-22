@@ -1,7 +1,13 @@
 AsakusaSatellite::Application.routes.draw do
-  resources :tweets
 
   get '/' => 'chat#index', :as => :index
+
+  namespace(:api) do
+    namespace(:v1) do
+      resources :room
+    end
+  end
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

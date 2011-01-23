@@ -4,9 +4,8 @@ AsakusaSatellite::Application.routes.draw do
 
   namespace(:api) do
     namespace(:v1) do
-      resources :room do
-        post 'post'
-      end
+      resources :room 
+      resources :message 
     end
   end
     

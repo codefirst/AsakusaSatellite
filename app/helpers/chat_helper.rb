@@ -1,3 +1,5 @@
+require 'open-uri'
+
 module ChatHelper
   def create_message(room_id, message)
     room = Room.find(room_id)
@@ -5,6 +7,7 @@ module ChatHelper
     unless @message.save
       return false
     end
+    publish_message(:create, @message)
     true
   end
 
@@ -15,6 +18,7 @@ module ChatHelper
     unless @message.save
       return false
     end
+    publish_message(:update, @message)
     true
   end
 
@@ -23,7 +27,15 @@ module ChatHelper
     unless @message.destroy
       return false
     end
+    publish_message(:delete, @message)
     true
   end
 
+  private
+  def publish_message(event, message)
+    puts message
+    fork {
+      open("http://localhost:8081/message/#{event}/#{message.id}"){|_|}
+    }
+  end
 end

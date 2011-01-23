@@ -11,18 +11,14 @@ require 'open-uri'
 Groonga::Context.default_options = { :encoding => :utf8 }
 Groonga::Database.new File.expand_path('../db/groonga/development/db',File.dirname(__FILE__))
 
-require File.expand_path('../app/models/message',File.dirname(__FILE__))
+Dir[File.expand_path('../app/models/*',File.dirname(__FILE__))].each do|model|
+  puts model
+  load model
+end
+
 
 EventMachine.run do
   $clients = []
-
-  class App < Sinatra::Base
-    get '/publish' do
-      t = Time.now.to_s
-      $clients.each {|c| c.send t.to_s }
-      'ok'
-    end
-  end
 
   EventMachine::WebSocket.start(:host => '0.0.0.0', :port => 8080) do |ws|
     ws.onopen do
@@ -39,5 +35,27 @@ EventMachine.run do
     end
   end
 
+  class App < Sinatra::Base
+    get '/message/:event/:id' do
+      event = params[:event]
+      id    = params[:id]
+      puts "#{event}: #{id}"
+      case event
+      when 'create', 'update'
+        m = Message.find(id)
+        json = <<JSON
+{
+  "event" : "#{event}",
+  "content" : #{m.encode_json(nil)}
+}
+JSON
+        puts json
+        $clients.each{|c|
+          c.send json
+        }
+      end
+      ""
+    end
+  end
   App.run! :port => 8081
 end

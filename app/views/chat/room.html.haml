@@ -1,10 +1,17 @@
 .yield
+ %script{:type=>'text/javascript'}
+  //<![CDATA[
+  var Global = { 'room_id' : #{@room.id} }
+  //]]>
+
+ %script{:src=>'/javascripts/jquery.min.js', :type=>'text/javascript'}
+ %script{:src=>'/javascripts/room.js', :type=>'text/javascript'}
  %h3.title
   = @room.title
   = t(:room_created_by) + " " + @room.user.name unless @room.user.nil?
  .message-list
   = @messages.each do |message|
-   .message
+   .message{:target => message.id}
     %p
      - if message.user
       %img{:src => message.user.profile_image_url, :alt => message.user.screen_name}
@@ -13,7 +20,8 @@
 
  - if logged?
   .input
-   = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id} do |f|
+   = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id } do |f|
     =text_field_tag :message, '', :class => :text
     =submit_tag t(:send), :class => 'submit red button large'
-
+  %div.status
+   connecting...

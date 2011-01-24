@@ -8,8 +8,9 @@ require 'active_groonga'
 require 'uri'
 require 'open-uri'
 
+rails_env = ENV['RAILS_ENV'] || 'development'
 Groonga::Context.default_options = { :encoding => :utf8 }
-Groonga::Database.new File.expand_path('../db/groonga/development/db',File.dirname(__FILE__))
+Groonga::Database.new File.expand_path("../db/groonga/#{rails_env}/db",File.dirname(__FILE__))
 
 Dir[File.expand_path('../app/models/*',File.dirname(__FILE__))].each do|model|
   puts model

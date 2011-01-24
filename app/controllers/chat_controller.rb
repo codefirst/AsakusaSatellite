@@ -5,7 +5,7 @@ class ChatController < ApplicationController
   end
 
   def index
-    @rooms = Room.all
+    @rooms = Room.all || []
   end
 
   def room

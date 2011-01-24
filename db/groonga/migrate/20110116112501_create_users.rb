@@ -5,6 +5,7 @@ class CreateUsers < ActiveGroonga::Migration
       table.short_text(:screen_name)
       table.short_text(:email)
       table.short_text(:profile_image_url)
+      table.short_text(:spell)
     end
   end
 

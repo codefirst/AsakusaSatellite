@@ -6,7 +6,8 @@ class LoginController < ApplicationController
   end
 
   def oauth
-    callback_url = "http://#{request.host_with_port}/login/oauth_callback"
+    callback_url = url_for(:controller => 'login', :action => 'oauth_callback')
+    #"http://#{request.relative_url_root}/login/oauth_callback"
     request_token = self.class.consumer.get_request_token(:oauth_callback => callback_url)
 
     session[:request_token] = {
@@ -79,11 +80,12 @@ class LoginController < ApplicationController
       redirect_to :action => :index
       return
     end
-    users = User.select('id, name') do |record|
+    users = User.select do |record|
       record['screen_name'] == @user_info['screen_name']
     end
-    User.current = (users.records.size > 0 ? users.records.first : User.new)
-    User.current.screen_name = @user_info['screen_name']
+    User.current = (users.records.size > 0 ? users.first : User.new)
+    logger.info users.first.name
+    User.current.screen_name ||= @user_info['screen_name']
     User.current.name = @user_info['name']
     User.current.profile_image_url = @user_info['profile_image_url']
     User.current.save

@@ -1,0 +1,6 @@
+.yield
+ =form_for :account, :url => {:action => :account} do |form|
+  %fieldset
+   %legend= t(:your_secret_key)
+   =text_field :account, :secret_key, :class => :text, :disabled => true, :value => "qwertyuiop1asdfghjkl9"
+   =submit_tag t(:generate), :class => "submit red button large"

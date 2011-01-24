@@ -1,5 +1,7 @@
 AsakusaSatellite::Application.routes.draw do
 
+  get "account/index"
+
   get '/' => 'chat#index', :as => :index
 
   namespace(:api) do

@@ -74,3 +74,5 @@ en:
   logout: "Logout"
   room_created_by: "owner: "
   error_message_user_not_login_yet: "Unable to post message. Just login users can be allowed to post messages."
+  your_secret_key: "Your secret key"
+  generate: "Generate"

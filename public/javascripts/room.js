@@ -1,5 +1,5 @@
 var config = {
-    entry : "ws://" + location.host + ":8080"
+    entry : "ws://" + location.hostname + ":8080"
 }
 
 function log(msg){

@@ -4,8 +4,8 @@
   var Global = { 'room_id' : #{@room.id} }
   //]]>
 
- %script{:src=>'/javascripts/jquery.min.js', :type=>'text/javascript'}
- %script{:src=>'/javascripts/room.js', :type=>'text/javascript'}
+ = javascript_include_tag "jquery.min"
+ = javascript_include_tag "room"
  %h3.title
   = @room.title
   = t(:room_created_by) + " " + @room.user.name unless @room.user.nil?

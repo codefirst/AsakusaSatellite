@@ -80,9 +80,10 @@ class LoginController < ApplicationController
       return
     end
     users = User.select('id, name') do |record|
-      record['name'] == @user_info['screen_name']
+      record['screen_name'] == @user_info['screen_name']
     end
     User.current = (users.records.size > 0 ? users.records.first : User.new)
+    User.current.screen_name = @user_info['screen_name']
     User.current.name = @user_info['name']
     User.current.profile_image_url = @user_info['profile_image_url']
     User.current.save

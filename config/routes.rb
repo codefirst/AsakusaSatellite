@@ -8,6 +8,7 @@ AsakusaSatellite::Application.routes.draw do
     namespace(:v1) do
       resources :room 
       resources :message 
+      get 'login', :controller => 'login', :action => 'index'
     end
   end
     

@@ -4,6 +4,11 @@ module Api
       include ChatHelper
       respond_to :json
 
+      def show
+        @message = Message.find params[:id]
+        respond_with(@message.encode_json(nil))
+      end
+
       def create
         unless User.logged?
           render :json => {:status => 'error', :error => 'login not yet'}

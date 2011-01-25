@@ -33,7 +33,6 @@ module ChatHelper
 
   private
   def publish_message(event, message)
-    puts message
     fork {
       open("http://localhost:8081/message/#{event}/#{message.id}"){|_|}
     }

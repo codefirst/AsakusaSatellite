@@ -1,0 +1,5 @@
+=form_for :search, :url => {:action => :search}, :html => {:method => :get} do |form|
+ %fieldset
+  %legend= t(:search_messages)
+  =text_field :search, :message, :class => :text, :value => @query
+  =submit_tag t(:search), :class => "submit red button large"

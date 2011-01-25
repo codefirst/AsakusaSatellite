@@ -1,5 +1,9 @@
 AsakusaSatellite::Application.routes.draw do
 
+  get "search/index"
+
+  get "search/search"
+
   get "account/index"
 
   get '/' => 'chat#index', :as => :index

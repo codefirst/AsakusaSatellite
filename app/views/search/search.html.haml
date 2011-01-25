@@ -1,0 +1,14 @@
+.yield
+ = render :partial => 'search_form'
+ - @results.each do |result|
+  - next if result[:messages].count == 0
+  %h3.title= result[:room].title
+  .message-list
+  - result[:messages].each do |message|
+   .message{:target => message.id}
+    %p
+     - if message.user
+      %img{:src => message.user.profile_image_url, :alt => message.user.screen_name}
+     %span= message.user.name if message.user
+    %p= message.body
+

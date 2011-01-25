@@ -1,9 +1,4 @@
 .yield
- %script{:type=>'text/javascript'}
-  //<![CDATA[
-  var Global = { 'room_id' : #{@room.id} }
-  //]]>
-
  = javascript_include_tag "jquery.min"
  = javascript_include_tag "room"
  %h3.title
@@ -25,3 +20,8 @@
     =submit_tag t(:send), :class => 'submit red button large'
   %div.status
    connecting...
+  %script{:type=>'text/javascript'}
+   //<![CDATA[
+   $(".message-list").recvMessage();
+   $("form").sendMessage({ 'room_id' : #{@room.id} });
+   //]]>

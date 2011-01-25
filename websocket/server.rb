@@ -12,6 +12,11 @@ config_path = File.expand_path('../config/websocket.yml',
                                File.dirname(__FILE__))
 puts "load from: #{config_path}"
 WsConfig = YAML.load_file config_path
+p WsConfig
+
+def rails_root
+  "http#{WsConfig['use_rails_ssl'] ? 's' : ''}://#{WsConfig['roots']}"
+end
 
 EventMachine.run do
   $clients = []
@@ -24,7 +29,7 @@ EventMachine.run do
 
     ws.onmessage do |msg|
       puts "recv: #{msg}"
-      open(URI.encode("http://#{WsConfig['roots']}/tweets/new?content=#{msg}")){|_|}
+      open(URI.encode("#{rails_root}/tweets/new?content=#{msg}")){|_|}
     end
 
     ws.onclose do
@@ -38,7 +43,7 @@ EventMachine.run do
       id    = params[:id]
       case event
       when 'create', 'update'
-        open("http://#{WsConfig['roots']}/api/v1/message/#{id}.json"){|io|
+        open("#{rails_root}/api/v1/message/#{id}.json"){|io|
           json = <<JSON
           {
             "event" : "#{event}",

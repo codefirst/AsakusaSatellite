@@ -4,7 +4,7 @@ require 'yaml'
 module ChatHelper
   def create_message(room_id, message)
     room = Room.find(room_id)
-    @message = Message.new(:room => room, :body => message, :user => User.current)
+    @message = Message.new(:room => room, :body => message, :user => current_user)
     unless @message.save
       return false
     end

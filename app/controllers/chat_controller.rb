@@ -10,7 +10,7 @@ class ChatController < ApplicationController
 
   def room
     if request.post?
-      @room = Room.new(:title => params[:room][:title], :user => User.current)
+      @room = Room.new(:title => params[:room][:title], :user => current_user)
       if @room.save
         redirect_to :action => 'room', :id => @room.id
       else
@@ -24,7 +24,7 @@ class ChatController < ApplicationController
   end
 
   def message
-    unless User.logged?
+    unless logged?
       flash[:error] = t(:error_message_user_not_login_yet)
       redirect_to :controller => 'chat'
       return

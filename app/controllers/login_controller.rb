@@ -40,10 +40,7 @@ class LoginController < ApplicationController
         :token => access_token.token,
         :secret => access_token.secret
       }
-      
-#      screen_name = OAuthRubytter.new(access_token).user_timeline('').first.user.screen_name
       set_user_from(access_token)  
-      session[:login_user_id] = User.current.id
     end
 
     session.delete :request_token
@@ -53,9 +50,7 @@ class LoginController < ApplicationController
   end
 
   def logout
-    session.delete :login_user_id
-    User.current = nil
-    #redirect_to :controller => 'chat', :action => 'index'
+    session.delete :current_user_id
     redirect_to request.referer
   end
 
@@ -83,10 +78,11 @@ class LoginController < ApplicationController
     users = User.select do |record|
       record['screen_name'] == @user_info['screen_name']
     end
-    User.current = (users.records.size > 0 ? users.first : User.new)
-    User.current.screen_name ||= @user_info['screen_name']
-    User.current.name = @user_info['name']
-    User.current.profile_image_url = @user_info['profile_image_url']
-    User.current.save
+    user = (users.records.size > 0 ? users.first : User.new)
+    user.screen_name ||= @user_info['screen_name']
+    user.name = @user_info['name']
+    user.profile_image_url = @user_info['profile_image_url']
+    user.save
+    set_current_user(user)
   end
 end

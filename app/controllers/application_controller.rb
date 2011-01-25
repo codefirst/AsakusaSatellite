@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   layout 'application'
   before_filter :check_login
 
+  include ApplicationHelper
+
   def self.consumer
     OAuth::Consumer.new(
       "9LW1gS1FgwkxEdVQV6Aug",
@@ -11,8 +13,9 @@ class ApplicationController < ActionController::Base
     )
   end
 
+
   private
   def check_login
-    User.current ||= User.find(session[:login_user_id])
+    logged?
   end
 end

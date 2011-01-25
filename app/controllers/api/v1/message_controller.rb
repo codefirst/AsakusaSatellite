@@ -10,7 +10,7 @@ module Api
       end
 
       def create
-        unless User.logged?
+        unless logged?
           render :json => {:status => 'error', :error => 'login not yet'}
           return
         end
@@ -19,7 +19,7 @@ module Api
       end
 
       def update
-        unless User.logged?
+        unless logged?
           render :json => {:status => 'error', :error => 'login not yet'}
           return
         end
@@ -28,7 +28,7 @@ module Api
       end
 
       def destroy
-        unless User.logged?
+        unless logged?
           render :json => {:status => 'error', :error => 'login not yet'}
           return
         end

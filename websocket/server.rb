@@ -6,22 +6,25 @@ require 'sinatra'
 require 'thin'
 require 'uri'
 require 'open-uri'
+require 'yaml'
 
-RailsRoots,_ = *ARGV
-RailsRoots ||= "0.0.0.0:3000"
-puts RailsRoots
+config_path = File.expand_path('../config/websocket.yml',
+                               File.dirname(__FILE__))
+puts "load from: #{config_path}"
+WsConfig = YAML.load_file config_path
 
 EventMachine.run do
   $clients = []
 
-  EventMachine::WebSocket.start(:host => '0.0.0.0', :port => 8080) do |ws|
+  EventMachine::WebSocket.start(:host => '0.0.0.0',
+                                :port => WsConfig['websocketPort']) do |ws|
     ws.onopen do
       $clients << ws
     end
 
     ws.onmessage do |msg|
       puts "recv: #{msg}"
-      open(URI.encode("http://#{RailsRoots}/tweets/new?content=#{msg}")){|_|}
+      open(URI.encode("http://#{WsConfig['roots']}/tweets/new?content=#{msg}")){|_|}
     end
 
     ws.onclose do
@@ -35,7 +38,7 @@ EventMachine.run do
       id    = params[:id]
       case event
       when 'create', 'update'
-        open("http://#{RailsRoots}/api/v1/message/#{id}.json"){|io|
+        open("http://#{WsConfig['roots']}/api/v1/message/#{id}.json"){|io|
           json = <<JSON
           {
             "event" : "#{event}",
@@ -49,5 +52,5 @@ JSON
       "ok"
     end
   end
-  App.run! :port => 8081
+  App.run! :port => WsConfig['httpPort']
 end

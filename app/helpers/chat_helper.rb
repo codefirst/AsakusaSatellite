@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'yaml'
 
 module ChatHelper
   def create_message(room_id, message)
@@ -34,7 +35,7 @@ module ChatHelper
   private
   def publish_message(event, message)
     fork {
-      open("http://localhost:8081/message/#{event}/#{message.id}"){|_|}
+      open("http://localhost:#{WebsocketConfig.httpPort}/message/#{event}/#{message.id}"){|_|}
     }
   end
 end

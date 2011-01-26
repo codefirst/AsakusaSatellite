@@ -1,6 +1,7 @@
+= javascript_include_tag :on_the_spot
 .yield
  %h3.title
-  = @room.title
+  = on_the_spot_edit @room, :title
   = t(:room_created_by) + " " + @room.user.name unless @room.user.nil?
  .message-list
   = @messages.each do |message|

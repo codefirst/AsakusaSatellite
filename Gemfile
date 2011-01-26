@@ -13,6 +13,7 @@ gem 'sinatra'
 gem 'thin'
 gem 'oauth'
 gem 'json'
+gem "on_the_spot"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

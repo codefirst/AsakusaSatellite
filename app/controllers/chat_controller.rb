@@ -1,5 +1,7 @@
 class ChatController < ApplicationController
   include ChatHelper
+  can_edit_on_the_spot
+
   def tweet
     @tweets = Tweet.all
   end
@@ -34,4 +36,12 @@ class ChatController < ApplicationController
     end
     redirect_to :controller => 'chat'
   end
+
+  def update_attribute_on_the_spot
+    room = Room.find(params[:id].split('__')[-1].to_i)
+    room.title = params[:value]
+    room.save
+    render :text => room.title
+  end
+
 end

@@ -7,6 +7,7 @@ AsakusaSatellite::Application.routes.draw do
   get "account/index"
 
   get '/' => 'chat#index', :as => :index
+  get "chat/update_attribute_on_the_spot"
 
   namespace(:api) do
     namespace(:v1) do
@@ -15,7 +16,8 @@ AsakusaSatellite::Application.routes.draw do
       get 'login', :controller => 'login', :action => 'index'
     end
   end
-    
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

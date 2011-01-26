@@ -47,7 +47,7 @@
 	},config);
 	var target = this;
 
-	$().ready(function() {
+	$(function() {
 	    target.bind("submit",function(e){
 		e.stopPropagation();
 		e.preventDefault();

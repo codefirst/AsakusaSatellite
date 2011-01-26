@@ -8,6 +8,8 @@ require 'uri'
 require 'open-uri'
 require 'yaml'
 
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 config_path = File.expand_path('../config/websocket.yml',
                                File.dirname(__FILE__))
 puts "load from: #{config_path}"

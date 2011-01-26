@@ -12,3 +12,4 @@ db/groonga/schema.rb
 .DS_Store
 public/stylesheets/*.css
 coverage/
+config/websocket.yml

@@ -5,9 +5,12 @@
   %meta{:name => "content-style-type", :content => "text/css"}
   = stylesheet_link_tag :all
   %meta{:name => "content-script-type", :content => "text/javascript"}
+  = javascript_include_tag "jquery.min"
   = javascript_include_tag :defaults
+  = yield :javascripts
   = csrf_meta_tag
   %link{:rel=>"alternate", :type=>"application/rss+xml", :title=>"RSS", :href=>"?format=rss"}
+  = favicon_link_tag
   %title AsakusaSatellite
  %body
   .main

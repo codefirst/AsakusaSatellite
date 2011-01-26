@@ -21,7 +21,10 @@
 = content_for :javascripts do
  = javascript_include_tag "room"
  %script{:type=>'text/javascript'}
+  //<![CDATA[
   $(function() { |
-    $(".message-list").recvMessage(); |
-    $("form").sendMessage({ 'room_id' : #{@room.id} }); |
+    $(".message-list").recvMessage({ entry: "ws://" + location.hostname + ":#{WebsocketConfig.websocketPort}" }); |
+    $("form").sendMessage({ 'room_id' : #{@room.id}, entry : '#{url_for(:controller=>'api/v1/message', :action=>'create')}' }) |
   }); |
+  //]]>
+

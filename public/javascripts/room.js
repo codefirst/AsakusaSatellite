@@ -42,7 +42,7 @@
 
     jQuery.fn.sendMessage = function(config){
 	config = jQuery.extend({
-	    url: '/api/v1/message',
+	    entry: '/api/v1/message',
 	    input : "input.text"
 	},config);
 	var target = this;
@@ -58,7 +58,7 @@
 
 		jQuery.ajax({
 		    type: 'POST',
-		    url: config.url,
+		    url: config.entry,
 		    data: {
 			'room_id' : config.room_id,
 			'message' : text

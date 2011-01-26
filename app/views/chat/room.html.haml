@@ -1,14 +1,25 @@
 = javascript_include_tag :on_the_spot
 .yield
- %h3.title
-  = on_the_spot_edit @room, :title
-  = t(:room_created_by) + " " + @room.user.name unless @room.user.nil?
+ %div.room-info
+  %div
+   .left
+    %h3.title= on_the_spot_edit @room, :title
+   .right
+    =link_to image_tag("action_stop.gif"), :controller => :room, :action => :delete
+   .clear
+  - unless @room.user.nil?
+   %div.room-owner
+    = t(:room_created_by) + " "
+    %img.profile{:src => @room.user.profile_image_url, :alt => @room.user.screen_name}
+    = @room.user.name
+  %div.room-date
+   = t(:created_at) + " " + l(@room.created_at)
  .message-list
   = @messages.each do |message|
    .message{:target => message.id}
     %p
      - if message.user
-      %img{:src => message.user.profile_image_url, :alt => message.user.screen_name}
+      %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
      %span= message.user.name if message.user
     %p= message.body
 

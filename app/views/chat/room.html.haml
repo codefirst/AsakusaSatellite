@@ -16,13 +16,17 @@
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id } do |f|
     =text_field_tag :message, '', :class => :text
     =submit_tag t(:send), :class => 'submit red button large'
-  %div.status
-   connecting...
+  %div
+   %img.connection-status
 = content_for :javascripts do
  = javascript_include_tag "room"
  :javascript
   $(function() {
-    $(".message-list").recvMessage({ entry: "ws://" + location.hostname + ":#{WebsocketConfig.websocketPort}" });
+    $(".message-list").recvMessage({
+     entry: "ws://" + location.hostname + ":#{WebsocketConfig.websocketPort}",
+     success_icon : '#{image_path('connection.gif')}',
+     fail_icon    : '#{image_path('connection_fail.gif')}',
+    });
     $("form").sendMessage({ 'room_id' : #{@room.id}, entry : '#{url_for(:controller=>'api/v1/message', :action=>'create')}' })
   });
 

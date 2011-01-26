@@ -6,8 +6,14 @@
     jQuery.fn.recvMessage = function(config){
 	config = jQuery.extend({
 	    entry : "ws://" + location.hostname + ":18081",
-	    onCreate : function(){}
+	    onCreate : function(){},
+	    onStatus : function(b){
+		$("img.connection-status").each(function(_,c){
+		    c.src = b ?  config.success_icon : config.fail_icon;
+		});
+	    }
 	},config);
+	config.onStatus(false);
 
 	var target = this;
 
@@ -24,9 +30,8 @@
 
 	var ws = new WebSocket(config.entry);
 	ws.onopen = function() {
-	    log("connected.");
+	    config.onStatus(true);
 	}
-
 
 	ws.onmessage = function(text){
 	    eval("var message = " + text.data);
@@ -37,9 +42,9 @@
 	    }
 	}
 	ws.onerror = function(msg){
-	    log("error: " + msg);
+	    console.log(msg);
+	    config.onStatus(false);
 	}
-
     };
 
     jQuery.fn.sendMessage = function(config){

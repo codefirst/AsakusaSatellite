@@ -34,8 +34,8 @@ module ChatHelper
 
   private
   def publish_message(event, message)
-    fork {
+    Thread.new do
       open("http://localhost:#{WebsocketConfig.httpPort}/message/#{event}/#{message.id}"){|_|}
-    }
+    end
   end
 end

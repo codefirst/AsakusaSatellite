@@ -5,7 +5,8 @@
 
     jQuery.fn.recvMessage = function(config){
 	config = jQuery.extend({
-	    entry : "ws://" + location.hostname + ":18081"
+	    entry : "ws://" + location.hostname + ":18081",
+	    onCreate : function(){}
 	},config);
 
 	var target = this;
@@ -31,6 +32,7 @@
 	    eval("var message = " + text.data);
 	    if(message.event == "create"){
 		var c = message.content;
+		config.onCreate(c);
 		appendMessage(c);
 	    }
 	}

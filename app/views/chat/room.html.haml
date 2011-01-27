@@ -21,12 +21,12 @@
      - if message.user
       %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
      %span= message.user.name if message.user
-    %p= message.body
+    %p!= message.body.to_s.gsub("\n","<br />")
 
  - if logged?
   .input
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id } do |f|
-    =text_field_tag :message, '', :class => :text
+    =text_area_tag :message, '', :class => :text
     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
   %div
    %img.connection-status

@@ -21,7 +21,7 @@
 	    return "<div class='message' style='display:none' target='" + message.id + "'>" +
 		"<p><img class='profile' src='" + message.profile_image_url + "'>" +
 		"<span>" + message.name + "</span></p>" +
-		"<p>" + message.body + "</p></div>"
+		"<p>" + message.body.replace("\n","<br />") + "</p></div>"
 	}
 
 	function appendMessage(message) {
@@ -56,31 +56,42 @@
 	},config);
 	var target = this;
 
+	function submit(elem){
+	    var elem = $(elem)
+	    var text = elem.val();
+	    elem.val("");
+
+	    jQuery.ajax({
+		type: 'POST',
+		url: config.entry,
+		data: {
+		    'room_id' : config.room_id,
+		    'message' : text
+		},
+		success: function(e) {
+		    console.log("message sent");
+		    console.log(e);
+		},
+		error : function(e){
+		    console.log("error");
+		    console.log(e);
+		}
+	    });
+	}
+
 	$(function() {
+	    $(".text", target).keydown(function(e){
+		if(e.keyCode == 13 && !e.shiftKey){
+		    e.stopPropagation();
+		    e.preventDefault();
+
+		    submit(e.target);
+		}
+	    });
 	    target.bind("submit",function(e){
 		e.stopPropagation();
 		e.preventDefault();
-
-		var elem = $(config.input, e.target);
-		var text = elem.val();
-		elem.val("");
-
-		jQuery.ajax({
-		    type: 'POST',
-		    url: config.entry,
-		    data: {
-			'room_id' : config.room_id,
-			'message' : text
-		    },
-		    success: function(e) {
-
-			log("message sent:" + e);
-		    },
-		    error : function(e){
-			console.log(e);
-			log("message error:" + e.statusText);
-		    }
-		});
+		submit($(".text",e.target));
 	    });
 	});
     };

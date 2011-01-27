@@ -19,7 +19,7 @@
 
 	function makeMessage(message){
 	    return "<div class='message' target='" + message.id + "'>" +
-		"<p><img src='" + message.profile_image_url + "'>" +
+		"<p><img class='profile' src='" + message.profile_image_url + "'>" +
 		"<span>" + message.name + "</span></p>" +
 		"<p>" + message.body + "</p></div>"
 	}

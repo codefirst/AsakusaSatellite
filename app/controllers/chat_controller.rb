@@ -26,13 +26,25 @@ class ChatController < ApplicationController
   end
 
   def message
+    logger.info params[:fileupload]
     unless logged?
       flash[:error] = t(:error_message_user_not_login_yet)
       redirect_to :controller => 'chat'
       return
     end
+    message = nil
     if request.post?
-      create_message(params[:room_id], params[:message])
+      if request[:fileupload]
+        message = params[:filename]
+        open("#{RAILS_ROOT}/public/upload/#{request[:filename]}", "wb") do |f|
+          f.write() 
+        end
+      else 
+        message = params[:message]
+      end
+      logger.info "+++++++++++"
+      logger.info message
+      create_message(params[:room_id], message)
     end
     redirect_to :controller => 'chat'
   end

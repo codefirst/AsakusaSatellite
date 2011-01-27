@@ -1,4 +1,3 @@
-= javascript_include_tag :on_the_spot
 .yield
  %div.room-info
   %div
@@ -31,6 +30,8 @@
   %div
    %img.connection-status
 = content_for :javascripts do
+ = javascript_include_tag :on_the_spot
+ = javascript_include_tag 'jquery.dropUploader'
  = javascript_include_tag "room"
  = javascript_include_tag "jquery.desktopnotify"
  :javascript
@@ -51,5 +52,17 @@
       'room_id' : #{@room.id},
       entry : '#{url_for(:controller=>'api/v1/message', :action=>'create')}' })
     $('#send').desktopNotifyAddPermission();
+
+    $('.message-list').dropUploader({
+      "action" : "#{url_for(:controller => 'chat', :action => 'message')}",
+      "allowedMimetypes" : [ 'image/png', 'image/jpeg', 'image/png', 'text/plain' ],
+      "onProgress" : function(value){
+          console.log(value);
+      },
+      "onPartialError" : function(){
+      },
+      "onComplete" : function(){
+      }
+    });
   });
 

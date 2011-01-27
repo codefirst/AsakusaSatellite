@@ -4,6 +4,7 @@ class Message < ActiveGroonga::Base
       'id'   => self.id,
       'body' => self.body,
       'name' => (self.user ? self.user.name : 'Anonymous User'),
+      'screen_name' => (self.user ? self.user.screen_name : 'Anonymous User'),
       'profile_image_url' => (self.user ? self.user.profile_image_url : ''),
       'created_at' => self.created_at,
     }.to_json

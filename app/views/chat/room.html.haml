@@ -41,11 +41,13 @@
       success_icon : '#{image_path('connection.gif')}',
       fail_icon    : '#{image_path('connection_fail.gif')}',
       onCreate : function(message) {
-        $.fn.desktopNotify({
-          picture: message.profile_image_url,
-          title: message.name,
-          text : message.body
-        })
+        if(message.screen_name != '#{current_user.screen_name}') {
+          $.fn.desktopNotify({
+            picture: message.profile_image_url,
+            title: message.name,
+            text : message.body
+          });
+       }
        $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
       }
     });

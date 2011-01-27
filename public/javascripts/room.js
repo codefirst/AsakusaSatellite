@@ -18,14 +18,16 @@
 	var target = this;
 
 	function makeMessage(message){
-	    return "<div class='message' target='" + message.id + "'>" +
+	    return "<div class='message' style='display:none' target='" + message.id + "'>" +
 		"<p><img class='profile' src='" + message.profile_image_url + "'>" +
 		"<span>" + message.name + "</span></p>" +
 		"<p>" + message.body + "</p></div>"
 	}
 
 	function appendMessage(message) {
-	    target.append(makeMessage(message))
+	    var dom = $(makeMessage(message));
+	    target.append(dom);
+	    dom.fadeIn();
 	}
 
 	var ws = new WebSocket(config.entry);

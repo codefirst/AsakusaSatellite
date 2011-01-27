@@ -32,6 +32,7 @@
    %img.connection-status
 = content_for :javascripts do
  = javascript_include_tag "room"
+ = javascript_include_tag "jquery.scrollTo-min"
  = javascript_include_tag "jquery.desktopnotify"
  :javascript
   $(function() {
@@ -45,6 +46,7 @@
           title: message.name,
           text : message.body
         })
+       $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
       }
     });
     $("form").sendMessage({

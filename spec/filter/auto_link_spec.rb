@@ -19,4 +19,8 @@ describe AsakusaSatellite::Filter::AutoLink do
     @filter.process('ほげhttp://example.comほげ').should == 'ほげ<a href="http://example.com">http://example.com</a>ほげ'
     @filter.process('ほげhttp://example.com/abcほげ').should == 'ほげ<a href="http://example.com/abc">http://example.com/abc</a>ほげ'
   end
+
+  it 'twitpicを展開する' do
+    @filter.process('http://twitpic.com/3gy2dn').should == '<a href="http://twitpic.com/3gy2dn" class="expand-image"><img src="http://twitpic.com/show/thumb/3gy2dn" /></a>'
+  end
 end

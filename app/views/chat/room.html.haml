@@ -34,16 +34,20 @@
  = javascript_include_tag "jquery.websocket"
  = javascript_include_tag "jquery.multiline"
  = javascript_include_tag "jquery.scrollTo-min"
+ = javascript_include_tag "jquery.tmpl.min"
  = javascript_include_tag "jquery.desktopnotify"
+ - templ = render :partial => 'message', :locals => { |
+    :id                => '${id}', |
+    :profile_image_url => '${profile_image_url}', |
+    :screen_name => '${screen_name}', |
+    :name => '${name}', |
+    :body => '${body}' }
  :javascript
   $(function() {
+    // 表示時のメッセージ
+    $.template( "messageTemplate", #{templ.inspect} );
     $(".message-list").webSocket({
-     makeElement : function(message){
-       return "<div class='message' style='display:none' target='" + message.id + "'>" +
-        "<p><img class='profile' src='" + message.profile_image_url + "'>" +
-        "<span>" + message.name + "</span></p>" +
-        "<p>" + message.body.replace("\n","<br />") + "</p></div>";
-     }
+     makeElement : function(message){ return  $.tmpl( "messageTemplate", message ); }
     });
 
     // メッセージの送信

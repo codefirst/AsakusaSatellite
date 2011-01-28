@@ -1,5 +1,9 @@
 class Message < ActiveGroonga::Base
   def encode_json(_)
+    self.to_hash.to_json
+  end
+
+  def to_hash
     {
       'id'   => self.id,
       'body' => self.body,
@@ -8,7 +12,7 @@ class Message < ActiveGroonga::Base
       'screen_name' => (self.user ? self.user.screen_name : 'Anonymous User'),
       'profile_image_url' => (self.user ? self.user.profile_image_url : ''),
       'created_at' => self.created_at,
-    }.to_json
+    }
   end
 
   def html_body

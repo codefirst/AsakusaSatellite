@@ -12,6 +12,15 @@ module Api
               record.room == room
             ]
           end
+        elsif params[:until_id]
+          @messages = Message.select do |record|
+            [
+             record._id.to_i < params[:until_id].to_i,
+             record.room == room
+            ]
+          end.
+            sort([{:key => "created_at", :order => :desc}], :limit => params[:count] || 20).
+            to_a.reverse.map{|x| x.to_hash }
         else
           @messages = Message.all
         end

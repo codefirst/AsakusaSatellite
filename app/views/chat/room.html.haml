@@ -14,6 +14,8 @@
     = @room.user.name
   %div.room-date
    = t(:created_at) + " " + l(@room.created_at)
+ %div{:class => 'red button large', :id => 'read-more'}
+  read more
  .message-list
   - @messages.reverse_each do |message|
    = render :partial => 'message', :locals => { |
@@ -44,11 +46,24 @@
     :body => '{{html html_body}}' }
  :javascript
   $(function() {
+    function makeElement(message){ return  $.tmpl( "messageTemplate", message ); }
+
+    // read more
+    $('#read-more').bind('click',function(){
+      $.getJSON(
+        '#{url_for(:controller=>'api/v1/room', :action=>:show, :id=> @room.id, :format=>'json' )}',
+        { 'until_id' : $('.message-list > .message:first').attr('target') },
+        function(xs){
+          var ys = $(xs).map(function(){ return makeElement(this)[0]; });
+          ys.hide();
+          $('.message-list').prepend(ys);
+          ys.fadeIn();
+        })
+    });
+
     // 表示時のメッセージ
     $.template( "messageTemplate", #{templ.inspect} );
-    $(".message-list").webSocket({
-     makeElement : function(message){ return  $.tmpl( "messageTemplate", message ); }
-    });
+    $(".message-list").webSocket({ makeElement : makeElement });
 
     // メッセージの送信
     $('textarea#message').multiline();

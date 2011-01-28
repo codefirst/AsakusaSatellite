@@ -22,7 +22,9 @@ module Api
             sort([{:key => "created_at", :order => :desc}], :limit => params[:count] || 20).
             to_a.reverse.map{|x| x.to_hash }
         else
-          @messages = Message.all
+          @messages = Message.select do|record|
+            record.room == room
+          end
         end
         respond_with(@messages)
       end

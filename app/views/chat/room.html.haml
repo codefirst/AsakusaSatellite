@@ -16,12 +16,12 @@
    = t(:created_at) + " " + l(@room.created_at)
  .message-list
   = @messages.each do |message|
-   .message{:target => message.id}
-    %p
-     - if message.user
-      %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
-     %span= message.user.name if message.user
-    %p!= message.body.to_s.gsub("\n","<br />")
+   = render :partial => 'message', :locals => { |
+    :id                => message.id, |
+    :profile_image_url => message.user && message.user.profile_image_url, |
+    :screen_name =>  message.user && message.user.screen_name, |
+    :name =>  message.user.name, |
+    :body => message.body }
 
  - if logged?
   .input

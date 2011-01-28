@@ -28,32 +28,64 @@
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id } do |f|
     =text_area_tag :message, '', :class => :text
     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
-  %div
-   %img.connection-status
+    =image_tag("connection_fail.gif", :class => 'websocket-status')
+
 = content_for :javascripts do
- = javascript_include_tag "room"
+ = javascript_include_tag "jquery.websocket"
+ = javascript_include_tag "jquery.multiline"
  = javascript_include_tag "jquery.scrollTo-min"
  = javascript_include_tag "jquery.desktopnotify"
  :javascript
   $(function() {
-    $(".message-list").recvMessage({
-      entry: "ws://" + location.hostname + ":#{WebsocketConfig.websocketPort}",
-      success_icon : '#{image_path('connection.gif')}',
-      fail_icon    : '#{image_path('connection_fail.gif')}',
-      onCreate : function(message) {
-        if(message.screen_name != '#{current_user.screen_name}') {
-          $.fn.desktopNotify({
+    $(".message-list").webSocket({
+     makeElement : function(message){
+       return "<div class='message' style='display:none' target='" + message.id + "'>" +
+        "<p><img class='profile' src='" + message.profile_image_url + "'>" +
+        "<span>" + message.name + "</span></p>" +
+        "<p>" + message.body.replace("\n","<br />") + "</p></div>";
+     }
+    });
+
+    // メッセージの送信
+    $('textarea#message').multiline();
+    $(".message-list").bind('websocket::connect', function(_, ws){
+      $('form').bind('submit', function(e){
+        e.stopPropagation();
+        e.preventDefault();
+
+        jQuery.post(
+         '#{url_for(:controller=>'api/v1/message', :action=>'create')}',
+         { 'room_id' : '#{@room.id}',
+           'message' : $('textarea#message').val()})
+      });
+    });
+    $(".message-list").bind('websocket::create', function(){
+      $('textarea#message').val('');
+    });
+
+    // WebSocket接続状況の表示
+    $(".message-list").bind('websocket::connect', function(){
+      $("img.websocket-status").attr('src', '#{image_path('connection.gif')}');
+    });
+    $(".message-list").bind('websocket::error', function(){
+      $("img.websocket-status").attr('src', '#{image_path('connection_fail.gif')}');
+    });
+
+    // 表示後スクロール
+    $(".message-list").bind('websocket::create', function(){
+      $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
+    });
+
+    // 通知
+    $(".message-list").bind('websocket::create', function(_, message){
+      if(message.screen_name != '#{current_user.screen_name}') {
+        $.fn.desktopNotify({
             picture: message.profile_image_url,
             title: message.name,
             text : message.body
-          });
-       }
-       $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
+        });
       }
     });
-    $("form").sendMessage({
-      'room_id' : #{@room.id},
-      entry : '#{url_for(:controller=>'api/v1/message', :action=>'create')}' })
     $('#send').desktopNotifyAddPermission();
   });
 

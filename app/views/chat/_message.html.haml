@@ -3,4 +3,4 @@
   - unless profile_image_url.empty?
    %img.profile{:src => profile_image_url, :alt => screen_name}
   %span= name
- %pre= body
+ %pre!= body

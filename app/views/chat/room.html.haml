@@ -15,7 +15,7 @@
   %div.room-date
    = t(:created_at) + " " + l(@room.created_at)
  .message-list
-  = @messages.each do |message|
+  - @messages.reverse_each do |message|
    = render :partial => 'message', :locals => { |
     :id                => message.id, |
     :profile_image_url => message.user && message.user.profile_image_url, |

@@ -13,3 +13,4 @@ db/groonga/schema.rb
 public/stylesheets/*.css
 coverage/
 config/websocket.yml
+config/filter.yml

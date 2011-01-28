@@ -52,7 +52,7 @@
     $('#read-more').bind('click',function(){
       $.getJSON(
         '#{url_for(:controller=>'api/v1/room', :action=>:show, :id=> @room.id, :format=>'json' )}',
-        { 'offset' : $('.message-list').children('.message').size() + 1 },
+        { 'until_id' : $('.message-list > .message:first').attr('target') },
         function(xs){
           var ys = $(xs).map(function(){ return makeElement(this)[0]; });
           ys.hide();

@@ -1,6 +1,6 @@
 module ApplicationHelper
   def logged?
-    not session[:current_user_id].nil?
+    not current_user.nil?
   end
 
   def current_user

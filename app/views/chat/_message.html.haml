@@ -4,3 +4,7 @@
    %img.profile{:src => profile_image_url, :alt => screen_name}
   %span= name
  %pre!= body
+ - unless attachment.nil? || attachment.empty?
+  %p.attachment
+   %img{:src => attachment }
+

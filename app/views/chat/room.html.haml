@@ -22,7 +22,8 @@
     :profile_image_url => message.user && message.user.profile_image_url, |
     :screen_name =>  message.user && message.user.screen_name, |
     :name =>  message.user.name, |
-    :body => message.html_body }
+    :body => message.html_body, |
+    :attachment => message.attachment && "#{url_for(:action => 'index')}upload/#{File.basename(message.attachment.disk_filename)}" }
 
  - if logged?
   .input
@@ -44,7 +45,8 @@
     :profile_image_url => '${profile_image_url}', |
     :screen_name => '${screen_name}', |
     :name => '${name}', |
-    :body => '{{html html_body}}' }
+    :body => '{{html html_body}}',
+    :attachment => '' }
  :javascript
   $(function() {
     function makeElement(message){ return  $.tmpl( "messageTemplate", message ); }

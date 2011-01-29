@@ -13,47 +13,100 @@
     = @room.user.name
   %div.room-date
    = t(:created_at) + " " + l(@room.created_at)
+ %div{:class => 'red button large', :id => 'read-more'}
+  read more
  .message-list
-  = @messages.each do |message|
-   .message{:target => message.id}
-    %p
-     - if message.user
-      %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
-     %span= message.user.name if message.user
-    %p
-     = message.body
-     - if message.attachment
-      %img{:src => "#{url_for(:action => 'index')}upload/#{File.basename(message.attachment.disk_filename)}"} 
+  - @messages.reverse_each do |message|
+   = render :partial => 'message', :locals => { |
+    :id                => message.id, |
+    :profile_image_url => message.user && message.user.profile_image_url, |
+    :screen_name =>  message.user && message.user.screen_name, |
+    :name =>  message.user.name, |
+    :body => message.html_body }
 
  - if logged?
   .input
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id } do |f|
-    =text_field_tag :message, '', :class => :text
+    =text_area_tag :message, '', :class => :text
     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
-  %div
-   %img.connection-status
+    =image_tag("connection_fail.gif", :class => 'websocket-status')
+
 = content_for :javascripts do
  = javascript_include_tag :on_the_spot
  = javascript_include_tag 'jquery.dropUploader'
- = javascript_include_tag "room"
+ = javascript_include_tag "jquery.websocket"
+ = javascript_include_tag "jquery.multiline"
+ = javascript_include_tag "jquery.scrollTo-min"
+ = javascript_include_tag "jquery.tmpl.min"
  = javascript_include_tag "jquery.desktopnotify"
+ - templ = render :partial => 'message', :locals => { |
+    :id                => '${id}', |
+    :profile_image_url => '${profile_image_url}', |
+    :screen_name => '${screen_name}', |
+    :name => '${name}', |
+    :body => '{{html html_body}}' }
  :javascript
   $(function() {
-    $(".message-list").recvMessage({
-      entry: "ws://" + location.hostname + ":#{WebsocketConfig.websocketPort}",
-      success_icon : '#{image_path('connection.gif')}',
-      fail_icon    : '#{image_path('connection_fail.gif')}',
-      onCreate : function(message) {
-        $.fn.desktopNotify({
-          picture: message.profile_image_url,
-          title: message.name,
-          text : message.body
+    function makeElement(message){ return  $.tmpl( "messageTemplate", message ); }
+
+    // read more
+    $('#read-more').bind('click',function(){
+      $.getJSON(
+        '#{url_for(:controller=>'api/v1/room', :action=>:show, :id=> @room.id, :format=>'json' )}',
+        { 'offset' : $('.message-list').children('.message').size() + 1 },
+        function(xs){
+          var ys = $(xs).map(function(){ return makeElement(this)[0]; });
+          ys.hide();
+          $('.message-list').prepend(ys);
+          ys.fadeIn();
         })
+    });
+
+    // 表示時のメッセージ
+    $.template( "messageTemplate", #{templ.inspect} );
+    $(".message-list").webSocket({ makeElement : makeElement });
+
+    // メッセージの送信
+    $('textarea#message').multiline();
+    $(".message-list").bind('websocket::connect', function(_, ws){
+      $('form').bind('submit', function(e){
+        e.stopPropagation();
+        e.preventDefault();
+
+        jQuery.post(
+         '#{url_for(:controller=>'api/v1/message', :action=>'create')}',
+         { 'room_id' : '#{@room.id}',
+           'message' : $('textarea#message').val()})
+      });
+    });
+    $(".message-list").bind('websocket::create', function(){
+      $('textarea#message').val('');
+    });
+
+    // WebSocket接続状況の表示
+    $(".message-list").bind('websocket::connect', function(){
+      $("img.websocket-status").attr('src', '#{image_path('connection.gif')}');
+    });
+    $(".message-list").bind('websocket::error', function(){
+      $("img.websocket-status").attr('src', '#{image_path('connection_fail.gif')}');
+    });
+
+    // 表示後スクロール
+    $(".message-list").bind('websocket::create', function(){
+      $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
+    });
+    $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
+
+    // 通知
+    $(".message-list").bind('websocket::create', function(_, message){
+      if(message.screen_name != '#{current_user.screen_name}') {
+        $.fn.desktopNotify({
+            picture: message.profile_image_url,
+            title: message.name,
+            text : message.body
+        });
       }
     });
-    $("form").sendMessage({
-      'room_id' : #{@room.id},
-      entry : '#{url_for(:controller=>'api/v1/message', :action=>'create')}' })
     $('#send').desktopNotifyAddPermission();
 
     $('.message-list').dropUploader({

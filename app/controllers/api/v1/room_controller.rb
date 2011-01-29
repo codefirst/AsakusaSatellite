@@ -12,8 +12,30 @@ module Api
               record.room == room
             ]
           end
+        elsif params[:until_id]
+          @messages = Message.select do |record|
+            [
+             record._id.to_i < params[:until_id].to_i,
+             record.room == room
+            ]
+          end.
+            sort([{:key => "created_at", :order => :desc}], :limit => params[:count] || 20).
+            to_a.reverse.map{|x| x.to_hash }
+        elsif params[:offset]
+          begin
+            @messages = Message.select do |record|
+              record.room == room
+            end.sort([{:key => 'created_at', :order => :desc}], 
+                     :limit => (params[:count] ? params[:count].to_i : nil) || 20, 
+                     :offset => params[:offset].to_i).
+                     to_a.reverse
+          rescue Groonga::TooLargeOffset
+            @messages = []
+          end
         else
-          @messages = Message.all
+          @messages = Message.select do|record|
+            record.room == room
+          end
         end
         respond_with(@messages)
       end

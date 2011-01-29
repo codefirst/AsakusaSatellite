@@ -14,3 +14,4 @@ public/stylesheets/*.css
 coverage/
 config/websocket.yml
 public/upload/*
+config/filter.yml

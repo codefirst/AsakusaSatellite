@@ -2,6 +2,8 @@ class ChatController < ApplicationController
   include ChatHelper
   can_edit_on_the_spot
 
+  PageSize = 20
+
   def tweet
     @tweets = Tweet.all
   end
@@ -22,7 +24,7 @@ class ChatController < ApplicationController
     @room ||= Room.find(params[:id])
     @messages = Message.select('id, room.id, user.id, body') do |record|
       record.created_at >= Time.now.beginning_of_day and record.room == @room
-    end
+    end.sort([{:key => "created_at", :order => :desc}], :limit => PageSize)
   end
 
   def message

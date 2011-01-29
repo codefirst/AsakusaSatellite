@@ -37,9 +37,9 @@ class ChatController < ApplicationController
       if request[:fileupload]
         message = params[:filename]
         open("#{RAILS_ROOT}/public/upload/#{request[:filename]}", "wb") do |f|
-          f.write() 
+          f.write(params[:file].read)
         end
-      else 
+      else
         message = params[:message]
       end
       logger.info "+++++++++++"

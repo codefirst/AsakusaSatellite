@@ -2,7 +2,7 @@
     $.fn.dropUploader = function(options){
         var self       = this;
         var options    = options;
-        
+
         /**
          * _onDragstart
          * @param {Object} elm
@@ -17,7 +17,7 @@
                 });
             }
         }
-        
+
         /**
          * _onMouseover
          * @param {Object} elm
@@ -32,7 +32,7 @@
                 });
             }
         }
-        
+
         /**
          * _onMouseout
          * @param {Object} elm
@@ -47,7 +47,7 @@
                 });
             }
         }
-        
+
         /**
          * _getAction
          * @param {string} action
@@ -71,12 +71,12 @@
             url += '&fileupload=1'
             return url;
         }
-        
+
         var result = this.each(function(){
             var elm = this;
             if(window.addEventListener){
                 //for only 2 browsers. this means Google Chrome and Firefox having File API
-                if(navigator.userAgent.match("Chrome") || (navigator.userAgent.match("Firefox") && window.FileReader)){ 
+                if(navigator.userAgent.match("Chrome") || (navigator.userAgent.match("Firefox") && window.FileReader)){
                     //setDroppable(elm);
                 }
                 elm.addEventListener(
@@ -172,7 +172,10 @@
                                         }
                                     }
                                 }
-                                xhr.send(files[i]);
+                                var file = files[i];
+                                var data = new FormData();
+                                data.append("file", file);
+                                xhr.send(data);
                             }
                             else{
                                 if(i === counter){// upload is finished

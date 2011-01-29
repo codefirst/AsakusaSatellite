@@ -20,7 +20,10 @@
      - if message.user
       %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
      %span= message.user.name if message.user
-    %p= message.body
+    %p
+     = message.body
+     - if message.attachment
+      %img{:src => "#{url_for(:action => 'index')}upload/#{File.basename(message.attachment.disk_filename)}"} 
 
  - if logged?
   .input

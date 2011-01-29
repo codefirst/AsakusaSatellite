@@ -8,5 +8,12 @@ class Message < ActiveGroonga::Base
       'created_at' => self.created_at,
     }.to_json
   end
+
+  def attachment
+    attachments = Attachment.select do |record|
+      record.message == self
+    end
+    attachments.nil? ? nil : attachments.first
+  end
 end
 

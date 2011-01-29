@@ -35,16 +35,24 @@ class ChatController < ApplicationController
     message = nil
     if request.post?
       if request[:fileupload]
-        message = params[:filename]
-        open("#{RAILS_ROOT}/public/upload/#{request[:filename]}", "wb") do |f|
+        filename = params[:filename]
+        disk_filename = Time.now.strftime("%Y%m%d%H%M%S") + Time.now.usec.to_s + "_" + filename
+        message = create_message(params[:room_id], "")
+        Time.now.strftime("")
+        open("#{RAILS_ROOT}/public/upload/#{disk_filename}", "wb") do |f|
           f.write(params[:file].read)
         end
+        attachement = Attachment.new(:filename => params[:filename],
+                       :disk_filename => "#{RAILS_ROOT}/public/upload/#{disk_filename}", 
+                       :message => message)
+        attachement.save
+            
       else
         message = params[:message]
+        create_message(params[:room_id], message)
       end
       logger.info "+++++++++++"
       logger.info message
-      create_message(params[:room_id], message)
     end
     redirect_to :controller => 'chat'
   end

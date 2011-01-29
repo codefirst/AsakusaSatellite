@@ -9,7 +9,7 @@ module ChatHelper
       return false
     end
     publish_message(:create, @message)
-    true
+    @message
   end
 
   def update_message(message_id, message)

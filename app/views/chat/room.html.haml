@@ -23,7 +23,7 @@
     :screen_name =>  message.user && message.user.screen_name, |
     :name =>  message.user.name, |
     :body => message.html_body, |
-    :attachment => message.attachment && "#{url_for(:action => 'index')}upload/#{File.basename(message.attachment.disk_filename)}" }
+    :attachment => message.attachment && File.basename(message.attachment.disk_filename) }
 
  - if logged?
   .input
@@ -40,16 +40,34 @@
  = javascript_include_tag "jquery.scrollTo-min"
  = javascript_include_tag "jquery.tmpl.min"
  = javascript_include_tag "jquery.desktopnotify"
- - templ = render :partial => 'message', :locals => { |
+ - noAttachTempl = render :partial => 'message', :locals => { |
     :id                => '${id}', |
     :profile_image_url => '${profile_image_url}', |
     :screen_name => '${screen_name}', |
     :name => '${name}', |
     :body => '{{html html_body}}',
     :attachment => '' }
+ - attachTempl = render :partial => 'message', :locals => { |
+    :id                => '${id}', |
+    :profile_image_url => '${profile_image_url}', |
+    :screen_name => '${screen_name}', |
+    :name => '${name}', |
+    :body => '{{html html_body}}',
+    :attachment => '${attachment.disk_filename}' }
  :javascript
   $(function() {
-    function makeElement(message){ return  $.tmpl( "messageTemplate", message ); }
+    // 表示時のメッセージ
+    $.template( "noAttachTemplate", #{noAttachTempl.inspect} );
+    $.template( "attachTemplate", #{attachTempl.inspect} );
+
+    $(".message-list").webSocket({ makeElement : makeElement });
+    function makeElement(message){
+      if(message.attachment){
+       return $.tmpl( "attachTemplate", message );
+      }else{
+       return $.tmpl( "noAttachTemplate", message );
+      }
+    }
 
     // read more
     $('#read-more').bind('click',function(){
@@ -63,10 +81,6 @@
           ys.fadeIn();
         })
     });
-
-    // 表示時のメッセージ
-    $.template( "messageTemplate", #{templ.inspect} );
-    $(".message-list").webSocket({ makeElement : makeElement });
 
     // メッセージの送信
     $('textarea#message').multiline();

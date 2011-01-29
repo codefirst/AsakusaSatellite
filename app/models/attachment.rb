@@ -1,10 +1,9 @@
 class Attachment < ActiveGroonga::Base
-  def encode_json(_)
+  def to_hash
     {
       :disk_filename => File.basename(self.disk_filename),
       :filename => self.filename,
-      :content_type => content_type
-    }.to_json
+      :content_type => self.content_type
+    }
   end
 end
-

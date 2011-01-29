@@ -6,5 +6,5 @@
  %pre!= body
  - unless attachment.nil? || attachment.empty?
   %p.attachment
-   %img{:src => attachment }
+   %img{:src => "#{url_for(:action => 'index')}upload/#{attachment}" }
 

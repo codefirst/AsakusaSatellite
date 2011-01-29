@@ -71,6 +71,10 @@
             url += '&fileupload=1'
             return url;
         }
+        var fieldName = options['fieldName'];
+        if(!fieldName){
+            fieldName = 'file';
+        }
 
         var result = this.each(function(){
             var elm = this;
@@ -174,7 +178,7 @@
                                 }
                                 var file = files[i];
                                 var data = new FormData();
-                                data.append("file", file);
+                                data.append(fieldName, file);
                                 xhr.send(data);
                             }
                             else{

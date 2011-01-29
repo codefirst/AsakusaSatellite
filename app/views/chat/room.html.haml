@@ -54,14 +54,16 @@
     $('#send').desktopNotifyAddPermission();
 
     $('.message-list').dropUploader({
-      "action" : "#{url_for(:controller => 'chat', :action => 'message')}",
-      "allowedMimetypes" : [ 'image/png', 'image/jpeg', 'image/png', 'text/plain' ],
-      "onProgress" : function(value){
+      action : "#{url_for(:controller => 'chat', :action => 'message')}",
+      allowedMimetypes : [ 'image/png', 'image/jpeg', 'image/png', 'text/plain' ],
+      params : [{ room_id : '#{@room.id}'},
+                 { authenticity_token: '#{ form_authenticity_token }'}],
+      onProgress : function(value){
           console.log(value);
       },
-      "onPartialError" : function(){
+      onPartialError : function(){
       },
-      "onComplete" : function(){
+      onComplete : function(){
       }
     });
   });

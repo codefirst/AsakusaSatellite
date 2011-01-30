@@ -2,5 +2,5 @@
  =form_for :account, :url => {:controller => :account} do |form|
   %fieldset
    %legend= t(:your_secret_key)
-   =text_field :account, :secret_key, :class => :text, :disabled => true, :value => user_current.spell
+   =text_field :account, :secret_key, :class => :text, :disabled => true, :value => current_user.spell
    =submit_tag t(:generate), :class => "submit red button large"

@@ -9,7 +9,9 @@ class ChatController < ApplicationController
   end
 
   def index
-    @rooms = Room.all || []
+    @rooms = Room.select do |record|
+      record.deleted == false
+    end || []
   end
 
   def room

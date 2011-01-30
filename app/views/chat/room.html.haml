@@ -4,7 +4,8 @@
    .left
     %h3.title= on_the_spot_edit @room, :title
    .right
-    =link_to image_tag("action_stop.gif"), :controller => :room, :action => :delete
+    =link_to image_tag("action_stop.gif"), {:controller => :room, :action => :delete, :id => @room}, |
+        :onclick => "return confirm('Are you sure?');"
    .clear
   - unless @room.user.nil?
    %div.room-owner

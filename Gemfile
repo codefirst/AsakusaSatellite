@@ -15,6 +15,7 @@ gem 'thin'
 gem 'oauth'
 gem 'json'
 gem "on_the_spot"
+gem "uuidtools"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

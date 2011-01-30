@@ -7,7 +7,6 @@ class LoginController < ApplicationController
 
   def oauth
     callback_url = url_for(:controller => 'login', :action => 'oauth_callback')
-    #"http://#{request.relative_url_root}/login/oauth_callback"
     request_token = self.class.consumer.get_request_token(:oauth_callback => callback_url)
 
     session[:request_token] = {

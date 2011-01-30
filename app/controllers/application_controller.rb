@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
 
   def self.consumer
     OAuth::Consumer.new(
-      "9LW1gS1FgwkxEdVQV6Aug",
-      "GQZKypcKJTGI0iRz4s7B24B0u8JkMl91zUxmCc6E",
-      { :site => "http://twitter.com" }
+      Setting[:oauth_request_token],
+      Setting[:oauth_request_token_secret],
+      { :site => Setting[:oauth_request_site] }
     )
   end
 

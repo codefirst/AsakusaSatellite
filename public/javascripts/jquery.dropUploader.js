@@ -194,6 +194,7 @@
                                 counter++;
                             }
                         }
+                        _onMouseout(this);
                     },
                     false
                 );

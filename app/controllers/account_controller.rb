@@ -7,11 +7,13 @@ class AccountController < ApplicationController
 
     if request.post? or current_user.spell.blank?
       length = (20..30).to_a.choice
-      chars = ('a'..'Z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
+      chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
       password = Array.new(length) { chars[rand(chars.size)] }.join
-      current_user.spell = password
-      current_user.save
+#      user = User.find(session[:current_user_id])
+      user = current_user
+      user.spell = password
+      user.save
+      
     end
   end
-
 end

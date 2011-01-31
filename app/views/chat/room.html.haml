@@ -24,6 +24,7 @@
     :screen_name =>  message.user && message.user.screen_name, |
     :name =>  message.user.name, |
     :body => message.html_body, |
+    :created_at => l(message.created_at), |
     :attachment => message.attachment && File.basename(message.attachment.disk_filename) }
 
  - if logged?
@@ -46,14 +47,16 @@
     :profile_image_url => '${profile_image_url}', |
     :screen_name => '${screen_name}', |
     :name => '${name}', |
-    :body => '{{html html_body}}',
+    :created_at => '${created_at}', |
+    :body => '{{html html_body}}', |
     :attachment => '' }
  - attachTempl = render :partial => 'message', :locals => { |
     :id                => '${id}', |
     :profile_image_url => '${profile_image_url}', |
     :screen_name => '${screen_name}', |
     :name => '${name}', |
-    :body => '{{html html_body}}',
+    :created_at => '${created_at}', |
+    :body => '{{html html_body}}', |
     :attachment => '${attachment.disk_filename}' }
  :javascript
   $(function() {

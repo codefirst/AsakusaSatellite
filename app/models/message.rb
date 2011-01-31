@@ -11,7 +11,7 @@ class Message < ActiveGroonga::Base
       'name' => (self.user ? self.user.name : 'Anonymous User'),
       'screen_name' => (self.user ? self.user.screen_name : 'Anonymous User'),
       'profile_image_url' => (self.user ? self.user.profile_image_url : ''),
-      'created_at' => self.created_at,
+      'created_at' => I18n.l(self.created_at),
       'attachment' => self.attachment && self.attachment.to_hash
     }
   end

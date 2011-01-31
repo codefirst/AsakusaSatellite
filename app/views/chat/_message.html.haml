@@ -3,6 +3,7 @@
   - unless profile_image_url.empty?
    %img.profile{:src => profile_image_url, :alt => screen_name}
   %span= name
+  %span.update_time= created_at
  %pre!= body
  - unless attachment.nil? || attachment.empty?
   %p.attachment

@@ -116,7 +116,7 @@
 
     // 通知
     $(".message-list").bind('websocket::create', function(_, message){
-      if(message.screen_name != '#{current_user.screen_name}') {
+      if(message.screen_name != "#{current_user.nil? ? '' : current_user.screen_name}") {
         $.fn.desktopNotify({
             picture: message.profile_image_url,
             title: message.name,

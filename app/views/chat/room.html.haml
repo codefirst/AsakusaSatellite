@@ -126,7 +126,7 @@
     });
     $('#send').desktopNotifyAddPermission();
 
-    $('.message-list').dropUploader({
+    uploadConfig = {
       action : "#{url_for(:controller => 'chat', :action => 'message')}",
       allowedMimetypes : [ 'image/png', 'image/jpeg', 'image/png', 'text/plain' ],
       params : [{ room_id : '#{@room.id}'},
@@ -138,6 +138,8 @@
       },
       onComplete : function(){
       }
-    });
+    };
+    $('.message-list').dropUploader(uploadConfig);
+    $('#message').dropUploader(uploadConfig);
   });
 

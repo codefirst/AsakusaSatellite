@@ -15,6 +15,10 @@ module Api
           return
         end
         create_message(params[:room_id], params[:message])
+        room = Room.find(params[:room_id])
+        room.updated_at = Time.now
+        room.save
+
         render :json => {:status => 'ok'}
       end
 

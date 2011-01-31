@@ -14,11 +14,10 @@ class Attachment < ActiveGroonga::Base
     open("#{UPLOAD_DIR}/#{disk_filename}", "wb") do |f|
       f.write(file.read)
     end
-    attachement = Attachment.new(:filename => filename,
+    attachment = Attachment.new(:filename => filename,
                                  :disk_filename => "#{UPLOAD_DIR}/#{disk_filename}", 
                                  :message => message)
-    attachement.save
-    logger.info "hoge"
+    attachment.save
     attachment
   end
 end

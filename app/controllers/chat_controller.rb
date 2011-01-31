@@ -16,7 +16,7 @@ class ChatController < ApplicationController
 
   def room
     if request.post?
-      @room = Room.new(:title => params[:room][:title], :user => current_user)
+      @room = Room.new(:title => params[:room][:title], :user => current_user, :updated_at => Time.now)
       if @room.save
         redirect_to :action => 'room', :id => @room.id
       else
@@ -43,6 +43,9 @@ class ChatController < ApplicationController
         message_body = params[:message]
         create_message(params[:room_id], message_body)
       end
+      room = Room.find(params[:room_id])
+      room.updated_at = Time.now
+      room.save
     end
     redirect_to :controller => 'chat'
   end

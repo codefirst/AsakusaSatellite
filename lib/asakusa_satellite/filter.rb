@@ -16,24 +16,14 @@ module AsakusaSatellite
       end
 
       def self.inherited(klass)
-        @@klass = klass
-      end
-
-      def self.sub_class
-        @@klass
+        filter_config = AsakusaSatellite::Filter[klass.name.underscore.split('/')[-1]]
+        AsakusaSatellite::Filter.add_filter(klass, OpenStruct.new(filter_config)) if filter_config
       end
     end
 
     def initialize!(config)
-      base = Pathname.new(File.dirname(__FILE__)) + 'filter/'
-
       @plugins = []
-      config.each do|c|
-        c = OpenStruct.new c
-
-        require base + c.name.underscore
-        @plugins << Base.sub_class.new(c)
-      end
+      @config = config
     end
 
     def process(text)
@@ -43,6 +33,17 @@ module AsakusaSatellite
       end
     end
 
-    module_function :initialize!, :process
+    def add_filter(klass, config)
+      @plugins << klass.new(config)
+    end
+
+    def [](name)
+      @config.each do |c|
+        return c if c['name'] == name
+      end
+      nil
+    end
+
+    module_function :initialize!, :process, :add_filter, :[]
   end
 end

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-require 'spec_helper'
-require 'asakusa_satellite/filter/auto_link'
+require File.dirname(__FILE__) + '/../../../../../spec/spec_helper'
+require 'auto_link'
 
 describe AsakusaSatellite::Filter::AutoLink do
   before do

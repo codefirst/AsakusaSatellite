@@ -22,9 +22,9 @@ class AsakusaSatellite::Filter::AutoLink < AsakusaSatellite::Filter::Base
       end
 
       if link && image then
-        %[<a href="#{link}" class="expand-image"><img src="#{image}" /></a>]
+        %[<a target="_blank" href="#{link}" class="expand-image"><img src="#{image}" /></a>]
       else
-        %[<a href="#{url}">#{url}</a>]
+        %[<a target="_blank" href="#{url}">#{url}</a>]
       end
     end
   end

@@ -120,6 +120,7 @@
     $(".message-list .attachment img").bind("load", function(){
       $(window).scrollTo( 'form', 0, { easing:'swing', queue:true, axis:'y' } );
     });
+    $("textarea")[0].focus();
 
     // 通知
     $(".message-list").bind('websocket::create', function(_, message){

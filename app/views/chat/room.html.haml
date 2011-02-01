@@ -116,6 +116,9 @@
       $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
     });
     $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
+    $(".message-list .attachment img").bind("load", function(){
+      $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
+    });
 
     // 通知
     $(".message-list").bind('websocket::create', function(_, message){

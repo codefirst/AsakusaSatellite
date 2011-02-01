@@ -2,8 +2,8 @@ require 'open-uri'
 require 'yaml'
 
 module ChatHelper
-  def create_message(room_id, message)
-    return if message.strip.empty?
+  def create_message(room_id, message, opt = {})
+    return if !opt[:force] and message.strip.empty?
 
     room = Room.find(room_id)
     @message = Message.new(:room => room, :body => message, :user => current_user)

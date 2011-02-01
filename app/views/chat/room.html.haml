@@ -1,3 +1,4 @@
+-# -*- coding: utf-8 -*-
 .yield
  %div.room-info
   %div
@@ -64,14 +65,23 @@
     $.template( "noAttachTemplate", #{noAttachTempl.inspect} );
     $.template( "attachTemplate", #{attachTempl.inspect} );
 
-    $(".message-list").webSocket({ makeElement : makeElement });
+    function scrollAfterImage(e){
+      $(".attachment img", e).bind("load", function(){
+        $(window).scrollTo( 'form', 0, { easing:'swing', queue:true, axis:'y' } );
+      });
+    }
+
     function makeElement(message){
       if(message.attachment){
-       return $.tmpl( "attachTemplate", message );
+       var dom = $.tmpl( "attachTemplate", message );
+       scrollAfterImage(dom);
       }else{
-       return $.tmpl( "noAttachTemplate", message );
+       var dom = $.tmpl( "noAttachTemplate", message );
       }
+      return dom;
     }
+
+    $(".message-list").webSocket({ makeElement : makeElement });
 
     // read more
     $('#read-more').bind('click',function(){
@@ -116,11 +126,8 @@
       $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
     });
     $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
-
-    $(".message-list .attachment img").bind("load", function(){
-      $(window).scrollTo( 'form', 0, { easing:'swing', queue:true, axis:'y' } );
-    });
-    $("textarea")[0].focus();
+    scrollAfterImage($(".message-list"))
+    $("textarea.text")[0].focus();
 
     // 通知
     $(".message-list").bind('websocket::create', function(_, message){

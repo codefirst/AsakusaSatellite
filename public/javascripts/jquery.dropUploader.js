@@ -43,7 +43,7 @@
             }
             else{
                 $(elm).css({
-                    "border" : "none"
+                    "border" : ""
                 });
             }
         }

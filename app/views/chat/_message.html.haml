@@ -4,7 +4,7 @@
    %img.profile{:src => profile_image_url, :alt => screen_name}
   %span= name
   %span.update_time= created_at
- %pre!= body
+ %p.body!= body
  - unless attachment.nil? || attachment.empty?
   %p.attachment
    %a{:href => "#{url_for(:action => 'index')}upload/#{attachment}" }

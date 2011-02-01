@@ -109,8 +109,10 @@
            'message' : $('textarea#message').val()})
       });
     });
-    $(".message-list").bind('websocket::create', function(){
-      $('textarea#message').val('');
+    $(".message-list").bind('websocket::create', function(_, message){
+      if(message.screen_name == "#{current_user.nil? ? '' : current_user.screen_name}") {
+        $('textarea#message').val('');
+      }
     });
 
     // WebSocket接続状況の表示

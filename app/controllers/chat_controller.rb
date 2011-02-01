@@ -4,10 +4,6 @@ class ChatController < ApplicationController
 
   PageSize = 20
 
-  def tweet
-    @tweets = Tweet.all
-  end
-
   def index
     @rooms = Room.select do |record|
       record.deleted == false

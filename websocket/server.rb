@@ -29,11 +29,6 @@ EventMachine.run do
       $clients << ws
     end
 
-    ws.onmessage do |msg|
-      puts "recv: #{msg}"
-      open(URI.encode("#{rails_root}/tweets/new?content=#{msg}")){|_|}
-    end
-
     ws.onclose do
       $clients.delete ws
     end

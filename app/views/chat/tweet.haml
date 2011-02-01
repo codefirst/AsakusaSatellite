@@ -1,9 +1,0 @@
-%script{:type => 'text/javascript', :src  => '/javascripts/jquery.min.js'}
-%script{:type => 'text/javascript', :src  => '/javascripts/rails.js'}
-%script{:type => 'text/javascript', :src  => '/javascripts/tweet.js'}
-- form_for :tweet, :url => {:controller => 'tweets', :action => 'create'}, :html => { :class => 'tweet' } do |f|
-  %input{:type => 'text', :name => 'content'}
-  %input{:type => 'submit', :value => 'tweet'}
-
-%div#tweets
-

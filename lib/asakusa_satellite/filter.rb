@@ -1,4 +1,5 @@
 require 'pathname'
+require 'cgi'
 
 module AsakusaSatellite
   module Filter
@@ -36,6 +37,7 @@ module AsakusaSatellite
     end
 
     def process(text)
+      text = CGI.escapeHTML(text).gsub("\n", "<br />")
       @plugins.reduce(text) do|text, obj|
         obj.process text
       end

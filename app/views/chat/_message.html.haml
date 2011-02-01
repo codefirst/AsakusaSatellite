@@ -7,5 +7,6 @@
  %pre!= body
  - unless attachment.nil? || attachment.empty?
   %p.attachment
-   %img{:src => "#{url_for(:action => 'index')}upload/#{attachment}" }
+   %a{:href => "#{url_for(:action => 'index')}upload/#{attachment}" }
+    %img{:src => "#{url_for(:action => 'index')}upload/#{attachment}" }
 

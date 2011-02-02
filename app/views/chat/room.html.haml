@@ -102,17 +102,12 @@
       $('form').bind('submit', function(e){
         e.stopPropagation();
         e.preventDefault();
-
         jQuery.post(
          '#{url_for(:controller=>'api/v1/message', :action=>'create')}',
          { 'room_id' : '#{@room.id}',
-           'message' : $('textarea#message').val()})
-      });
-    });
-    $(".message-list").bind('websocket::create', function(_, message){
-      if(message.screen_name == "#{current_user.nil? ? '' : current_user.screen_name}") {
+           'message' : $('textarea#message').val()});
         $('textarea#message').val('');
-      }
+      });
     });
 
     // WebSocket接続状況の表示

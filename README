@@ -36,3 +36,12 @@ access to http://localhost:3000/
 * run with rcov
  $ rake spec:rcov
 
+=== Generate Filter Plugin
+* generate 
+ $ rails g as_filter test
+* edit filies
+** vendor/plugins/as_test_filter/lib/test_filter.rb
+** vendor/plugins/as_test_filter/spec/lib/test_filter_spec.rb
+* edit config
+** config/filters.yml
+  - name: test_filter

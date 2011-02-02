@@ -7,6 +7,6 @@ class AsFilterGenerator < Rails::Generators::NamedBase
     template 'as_filter.rb',
              "vendor/plugins/as_#{file_name.underscore}_filter/lib/#{file_name.underscore}_filter.rb"
     template 'spec.rb',
-             "vendor/plugins/as_#{file_name.underscore}_filter/spec/lib/#{file_name.underscore}_filter.rb"
+             "vendor/plugins/as_#{file_name.underscore}_filter/spec/lib/#{file_name.underscore}_filter_spec.rb"
   end
 end

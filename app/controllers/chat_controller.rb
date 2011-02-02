@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 class ChatController < ApplicationController
   include ChatHelper
   can_edit_on_the_spot
@@ -8,6 +9,23 @@ class ChatController < ApplicationController
     @rooms = Room.select do |record|
       record.deleted == false
     end || []
+  end
+
+  def show
+    @id      = params[:id]
+    @window  = params[:c].to_i || 5
+    @message = Message.find @id
+    @room    = @message.room
+
+    prev = Message.select('id, room.id, user.id, body') do |record|
+      record.id < @message.id
+    end.sort([{:key => "created_at", :order => :desc}], :limit => @window).to_a
+
+    next_ = Message.select('id, room.id, user.id, body') do |record|
+      record.id > @message.id
+    end.sort([{:key => "created_at", :order => :desc}], :limit => @window).to_a
+
+    @messages = next_ + [ @message ] + prev
   end
 
   def room

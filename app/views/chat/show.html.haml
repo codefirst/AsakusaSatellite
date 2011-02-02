@@ -1,0 +1,31 @@
+-# -*- coding: utf-8 -*-
+.yield
+ %div.room-info
+  %div
+   .left
+    %h3.title
+     = on_the_spot_edit @room, :title
+     \/ #{@message.user.name}: #{@message.body.each_char.to_a[0,10]}
+   .right
+    =link_to image_tag("action_stop.gif"), {:controller => :room, :action => :delete, :id => @room}, |
+        :onclick => "return confirm('Are you sure?');"
+   .clear
+  - unless @room.user.nil?
+   %div.room-owner
+    = t(:room_created_by) + " "
+    %img.profile{:src => @room.user.profile_image_url, :alt => @room.user.screen_name}
+    = @room.user.name
+  %div.room-date
+   = t(:created_at) + " " + l(@room.created_at)
+ .message-list
+  - @messages.reverse_each do |message|
+   = render :partial => 'message', :locals => { |
+    :id                => message.id, |
+    :room           => @room, |
+    :profile_image_url => message.user && message.user.profile_image_url, |
+    :screen_name =>  message.user && message.user.screen_name, |
+    :name =>  message.user.name, |
+    :body => message.html_body, |
+    :created_at => l(message.created_at), |
+    :attachment => message.attachment && File.basename(message.attachment.disk_filename) }
+

@@ -71,4 +71,10 @@ class ChatController < ApplicationController
     render :text => room.title
   end
 
+  def update_message_on_the_spot
+    message = Message.find(params[:id])
+    message.body = params[:value]
+    message.save
+    render :text => message.body 
+  end
 end

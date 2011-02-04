@@ -52,7 +52,7 @@ class ChatController < ApplicationController
     if request.post?
       if request[:fileupload]
         message = create_message(params[:room_id], "", :force => true)
-        @attachment = Attachment.create_and_save_file(params[:filename], params[:file], message)
+        @attachment = Attachment.create_and_save_file(params[:filename], params[:file], params[:mimetype], message)
       else
         message_body = params[:message]
         create_message(params[:room_id], message_body)

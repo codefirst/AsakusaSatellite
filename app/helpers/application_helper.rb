@@ -10,4 +10,8 @@ module ApplicationHelper
   def set_current_user(user)
     session[:current_user_id] = user.id
   end
+
+  def image_mimetype?(mimetype)
+    mimetype =~ /^image\//
+  end
 end

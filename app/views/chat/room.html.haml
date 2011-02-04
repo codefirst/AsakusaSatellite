@@ -26,6 +26,8 @@
     :name =>  message.user.name, |
     :body => message.html_body, |
     :created_at => l(message.created_at), |
+    :filename => message.attachment && message.attachment.filename, |
+    :mimetype => message.attachment && message.attachment.mimetype, |
     :attachment => message.attachment && File.basename(message.attachment.disk_filename) }
 
  - if logged?
@@ -50,6 +52,8 @@
     :name => '${name}', |
     :created_at => '${created_at}', |
     :body => '{{html html_body}}', |
+    :filename => '', |
+    :mimetype => '', |
     :attachment => '' }
  - attachTempl = render :partial => 'message', :locals => { |
     :id                => '${id}', |
@@ -58,6 +62,8 @@
     :name => '${name}', |
     :created_at => '${created_at}', |
     :body => '{{html html_body}}', |
+    :filename => '${message.attachment && message.attachment.filename}', |
+    :mimetype => '${message.attachment && message.attachment.mimetype}', |
     :attachment => '${attachment.disk_filename}' }
  :javascript
   $(function() {

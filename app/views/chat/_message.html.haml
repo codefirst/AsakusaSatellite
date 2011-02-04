@@ -10,5 +10,8 @@
  - unless attachment.nil? || attachment.empty?
   %p.attachment
    %a{:target => "_blank", :href => "#{url_for(:action => 'index')}upload/#{attachment}" }
-    %img{:src => "#{url_for(:action => 'index')}upload/#{attachment}" }
+    - if image_mimetype?(mimetype)
+     %img{:src => "#{url_for(:action => 'index')}upload/#{attachment}" }
+    - else
+     = filename 
 

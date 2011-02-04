@@ -4,6 +4,7 @@ class CreateAttachments < ActiveGroonga::Migration
       table.short_text(:disk_filename)
       table.short_text(:filename)
       table.short_text(:content_type)
+      table.short_text(:mimetype)
       table.reference(:message, "messages")
       table.timestamps
     end

@@ -130,60 +130,16 @@
                         var response = [];
                         $(this).addClass('wait');
                         for(var i = 0; i < files.length; i++){
-                            if($.inArray(files[i].type, options['allowedMimetypes']) > -1){
-                                var xhr = new XMLHttpRequest();
-                                total = total + files[i].size;
-                                xhr.upload.onprogress = function(e){
-                                    loaded = loaded + e.loaded;
-                                    if(typeof options['onProgress'] === 'function'){
-                                        options['onProgress']((loaded / total) * 100 + "%");
-                                    }
+                            var xhr = new XMLHttpRequest();
+                            total = total + files[i].size;
+                            xhr.upload.onprogress = function(e){
+                                loaded = loaded + e.loaded;
+                                if(typeof options['onProgress'] === 'function'){
+                                    options['onProgress']((loaded / total) * 100 + "%");
                                 }
-                                xhr.upload.onload = function(e){
-                                    counter++;
-                                    if(i === counter){// upload is finished
-                                        if(typeof options['onComplete'] === 'function'){
-                                            options['onComplete']();
-                                        }
-                                        $(this).removeClass('wait');
-                                        if(typeof options['onProgress'] === 'function'){
-                                            options['onProgress'](0);
-                                        }
-                                    }
-                                    else{
-                                    }
-                                }
-                                var filename = files[i].name;
-                                var action = _getAction(options['action'], files[i].fileName);
-                                xhr.open('post', action);
-                                xhr.onreadystatechange = function(e){
-                                    if(this instanceof XMLHttpRequest && this.readyState === 4){
-                                        xcounter++;
-                                        try{
-                                            response.push(this.responseText);
-                                            if(i === xcounter){// upload is finished
-                                                $(this).removeClass('wait');
-                                                if(typeof options['onProgress'] === 'function'){
-                                                    options['onProgress'](0);
-                                                }
-                                                options['onComplete'](response);
-                                            }
-                                            else{
-                                            }
-                                        }
-                                        catch(e){
-                                            if(typeof options['onError'] === 'function'){
-                                                options['onError']();
-                                            }
-                                        }
-                                    }
-                                }
-                                var file = files[i];
-                                var data = new FormData();
-                                data.append(fieldName, file);
-                                xhr.send(data);
                             }
-                            else{
+                            xhr.upload.onload = function(e){
+                                counter++;
                                 if(i === counter){// upload is finished
                                     if(typeof options['onComplete'] === 'function'){
                                         options['onComplete']();
@@ -193,8 +149,38 @@
                                         options['onProgress'](0);
                                     }
                                 }
-                                counter++;
+                                else{
+                                }
                             }
+                            var filename = files[i].name;
+                            var action = _getAction(options['action'], files[i].fileName);
+                            xhr.open('post', action);
+                            xhr.onreadystatechange = function(e){
+                                if(this instanceof XMLHttpRequest && this.readyState === 4){
+                                    xcounter++;
+                                    try{
+                                        response.push(this.responseText);
+                                        if(i === xcounter){// upload is finished
+                                            $(this).removeClass('wait');
+                                            if(typeof options['onProgress'] === 'function'){
+                                                options['onProgress'](0);
+                                            }
+                                            options['onComplete'](response);
+                                        }
+                                        else{
+                                        }
+                                    }
+                                    catch(e){
+                                        if(typeof options['onError'] === 'function'){
+                                            options['onError']();
+                                        }
+                                    }
+                                }
+                            }
+                            var file = files[i];
+                            var data = new FormData();
+                            data.append(fieldName, file);
+                            xhr.send(data);
                         }
                         _onMouseout(this);
                     },

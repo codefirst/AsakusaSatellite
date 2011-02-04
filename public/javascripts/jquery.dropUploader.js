@@ -71,10 +71,8 @@
             url += '&fileupload=1'
             return url;
         }
-        var fieldName = options['fieldName'];
-        if(!fieldName){
-            fieldName = 'file';
-        }
+        var fieldName = (!options['fieldName'] ? 'file' : options['fieldName']);
+        var mimetypeFieldName = (!options['mimetypeFieldName'] ? 'mimetype' : options['mimetypeFieldName']);
 
         var result = this.each(function(){
             var elm = this;
@@ -180,6 +178,7 @@
                             var file = files[i];
                             var data = new FormData();
                             data.append(fieldName, file);
+                            data.append(mimetypeFieldName, file.type);
                             xhr.send(data);
                         }
                         _onMouseout(this);

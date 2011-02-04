@@ -62,8 +62,8 @@
     :name => '${name}', |
     :created_at => '${created_at}', |
     :body => '{{html html_body}}', |
-    :filename => '${message.attachment && message.attachment.filename}', |
-    :mimetype => '${message.attachment && message.attachment.mimetype}', |
+    :filename => '${attachment.filename}', |
+    :mimetype => '${attachment.mimetype}', |
     :attachment => '${attachment.disk_filename}' }
  :javascript
   $(function() {

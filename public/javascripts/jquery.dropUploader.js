@@ -86,7 +86,9 @@
                 elm.addEventListener(
                     'dragstart',
                     function(e){
-                        _onDragstart(this);
+                        if (e.dataTransfer.files > 0) {
+                            _onDragstart(this);
+                        }
                         e.preventDefault();
                     },
                     false

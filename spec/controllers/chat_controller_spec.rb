@@ -2,20 +2,26 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ChatController do
   describe "発言投稿時は" do
+    before do
+      user = User.new
+      user.save
+      session[:current_user_id] = user.id
+    end
+
     it "一件messageが増える" do
-      room = Room.new
-      room.save!
-      message = 'テストメッセージ'
-      post :message, {:room_id => room.id, :message => message}
-      assigns[:message].room.id.should == room.id
-      assigns[:message].body.should == message
+      lambda {
+        room = Room.new
+        room.save!
+        message = 'テストメッセージ'
+        post :message, {:room_id => room.id, :message => message}
+      }.should change(Message.all.records, :size).by(1)
     end
     it "部屋がない場合はエラーメッセージを表示する" do
+      pending
       room = Room.new
       room.save
       room.delete if room
-      post :message, {:room_id => 1, :message => 'テストメッセージ'}
-      pending
+      post :message, {:room_id => room.id, :message => 'テストメッセージ'}
       #response.should.redirect_to :error
     end
   end

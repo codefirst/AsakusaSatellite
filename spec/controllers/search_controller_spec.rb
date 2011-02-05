@@ -21,8 +21,6 @@ describe SearchController do
       message.room = room
       message.save!
       get :search, {:search => {:message => 'テスト'}}
-      require 'pp'
-      pp assigns[:results]
       assigns[:results].count.should == 1
       assigns[:results][0][:messages].count.should == 1
     end

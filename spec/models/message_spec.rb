@@ -5,16 +5,15 @@ describe Message do
   before do
     @body = 'これは本文です'
     @room_name = 'テストの部屋'
-#    @room = mock_model(Room)
-#    @room.stub!(:title).and_return(@room_name)
     @room = Room.new(:title => @room_name)
     @room.save!
-    @message = Message.new(:body => @body)
+    @user = User.new(:name => 'test user', :screen_name => 'test')
+    @user.save!
+    @message = Message.new(:body => @body, :user => @user)
     @message.save!
   end
 
-  # ActiveGroonga の評価のため非常に基本的なspec
-  it "本文を取得できる(trivial)" do
+  it "本文を取得できる" do
     @message.body.should == @body
   end
 
@@ -23,4 +22,18 @@ describe Message do
     @message.save!
     @message.room.title.should == @room_name
   end
+
+  it "Hashに変換できる" do
+    @message.to_hash.should == {
+        "name" => @message.user.name,
+        "created_at" => I18n.l(@message.created_at),
+        "profile_image_url" => @message.user.profile_image_url,
+        "html_body" => @message.body,
+        "body" => @message.body,
+        "attachment" => nil,
+        "id" => @message.id,
+        "screen_name" => @message.user.screen_name
+    }
+  end
+  
 end

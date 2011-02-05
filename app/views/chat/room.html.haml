@@ -52,7 +52,6 @@
     :name => '${name}', |
     :created_at => '${created_at}', |
     :body => '{{html html_body}}', |
-    :filename => '', |
     :mimetype => '', |
     :attachment => '' }
  - attachTempl = render :partial => 'message', :locals => { |
@@ -63,13 +62,25 @@
     :created_at => '${created_at}', |
     :body => '{{html html_body}}', |
     :filename => '${attachment.filename}', |
-    :mimetype => '${attachment.mimetype}', |
+    :mimetype => '', |
     :attachment => '${attachment.disk_filename}' }
+ - attachTemplImg = render :partial => 'message', :locals => { |
+    :id                => '${id}', |
+    :profile_image_url => '${profile_image_url}', |
+    :screen_name => '${screen_name}', |
+    :name => '${name}', |
+    :created_at => '${created_at}', |
+    :body => '{{html html_body}}', |
+    :filename => '${attachment.filename}', |
+    :mimetype => 'image/dummy', |
+    :attachment => '${attachment.disk_filename}' }
+
  :javascript
   $(function() {
     // 表示時のメッセージ
     $.template( "noAttachTemplate", #{noAttachTempl.inspect} );
     $.template( "attachTemplate", #{attachTempl.inspect} );
+    $.template( "attachTemplateImg", #{attachTemplImg.inspect} );
 
     function scrollAfterImage(e){
       $(".attachment img", e).bind("load", function(){
@@ -79,10 +90,15 @@
 
     function makeElement(message){
       if(message.attachment){
-       var dom = $.tmpl( "attachTemplate", message );
-       scrollAfterImage(dom);
+        var content_type = message.attachment.content_type;
+        if(content_type != null && content_type.indexOf("image/") == 0 ){
+          var dom = $.tmpl( "attachTemplateImg", message );
+          scrollAfterImage(dom);
+        }else{
+          var dom = $.tmpl( "attachTemplate", message );
+        }
       }else{
-       var dom = $.tmpl( "noAttachTemplate", message );
+        var dom = $.tmpl( "noAttachTemplate", message );
       }
       return dom;
     }

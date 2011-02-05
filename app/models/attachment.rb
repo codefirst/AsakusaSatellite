@@ -5,7 +5,7 @@ class Attachment < ActiveGroonga::Base
     {
       :disk_filename => File.basename(self.disk_filename),
       :filename => self.filename,
-      :content_type => self.content_type
+      :content_type => self.mimetype
     }
   end
 
@@ -16,7 +16,7 @@ class Attachment < ActiveGroonga::Base
     end
     attachment = Attachment.new(:filename => filename,
                                 :mimetype => mimetype,
-                                :disk_filename => "#{UPLOAD_DIR}/#{disk_filename}", 
+                                :disk_filename => "#{UPLOAD_DIR}/#{disk_filename}",
                                 :message => message)
     attachment.save
     attachment

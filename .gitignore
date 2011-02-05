@@ -16,3 +16,4 @@ config/websocket.yml
 public/upload/*
 config/filter.yml
 config/settings.yml
+.autotest

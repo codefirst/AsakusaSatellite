@@ -5,6 +5,9 @@ gem 'activegroonga'
 group :development, :test do
   gem "rspec-rails", ">= 2.3.0"
   gem 'nokogiri'
+  gem 'autotest'
+  gem 'autotest-rails'
+  gem 'autotest-growl'
 end
 gem 'haml-rails'
 gem 'jquery-rails'

@@ -1,6 +1,6 @@
 == AsakusaSatellite
 
-AsakusaSatellite is a realtime chat application.
+AsakusaSatellite is a realtime chat application for Developers.
 
 === Authors
 * @suer
@@ -9,11 +9,14 @@ AsakusaSatellite is a realtime chat application.
 
 === Requirement
 * Ruby 1.8.7
-* groonga (1.0.6 or lator)
+* Rails 3.0.3 or later
 
 === Install
  $ bundle install --path vendor/bundle
  $ rake groonga:migrate
+ $ cp config/filter.yml.example config/filter.yml
+ $ cp config/websocket.yml.example config/websocket.yml
+ $ cp config/settings.yml.example config/settings.yml
 
 === Install for Developer
  $ cp bleis-hooks/* .git/hooks
@@ -36,8 +39,15 @@ access to http://localhost:3000/
 * run with rcov
  $ rake spec:rcov
 
+* autotest
+create .autotest file
+ require 'autotest/timestamp'
+ require 'autotest/growl'
+run autotest task
+ $ bundle exec autotest
+
 === Generate Filter Plugin
-* generate 
+* generate
  $ rails g as_filter test
 * edit filies
 ** vendor/plugins/as_test_filter/lib/test_filter.rb

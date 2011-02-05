@@ -49,7 +49,6 @@ describe ChatController do
       room.delete if room
       pending
       post :delete, {:room_id => 1, :message_id => 1}
-      #response.should.redirect_to :error
     end
   end
 

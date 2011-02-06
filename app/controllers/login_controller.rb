@@ -22,6 +22,8 @@ class LoginController < ApplicationController
   def oauth_callback
     if params[:denied]
       session.delete :oauth
+      redirect_to :controller => 'chat', :action => 'index'
+      return
     else
       request_token = OAuth::RequestToken.new(
         self.class.consumer,

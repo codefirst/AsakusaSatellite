@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include AsakusaSatellite::Hook::Helper
+
   def logged?
     not current_user.nil?
   end

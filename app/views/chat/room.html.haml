@@ -1,5 +1,5 @@
 -# -*- coding: utf-8 -*-
-.chat_room_top= call_hook(:chat_room_top, :room => @room)
+.chat_room_top= raw(call_hook(:chat_room_top, :room => @room))
 .yield
  %div.room-info
   %div
@@ -37,7 +37,7 @@
     =text_area_tag :message, '', :class => :text
     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
     =image_tag("connection_fail.gif", :class => 'websocket-status')
-.chat_room_bottom=call_hook(:chat_room_bottom, :room => @room)
+.chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))
 
 = content_for :javascripts do
  = javascript_include_tag :on_the_spot

@@ -1,3 +1,4 @@
+require 'asakusa_satellite/hook'
 module ApplicationHelper
   include AsakusaSatellite::Hook::Helper
 

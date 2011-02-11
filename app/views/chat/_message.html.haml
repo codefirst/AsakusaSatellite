@@ -6,7 +6,10 @@
   %span.update_time 
    %a{:target => "_blank", :href => url_for(:action => 'show', :id => id).gsub('%7Bid%7D','{id}') }= created_at
  %p.body
-  %span.on_the_spot_editing{:id=>id, :title=>'', :'title'=>' ', :'data-tooltip'=>' ', :'data-url'=>url_for(:controller => 'chat', :action => 'update_message_on_the_spot')}!= body
+  - if current_user and screen_name == current_user.screen_name
+   %span.on_the_spot_editing{:id=>id, :title=>'', :'title'=>' ', :'data-tooltip'=>' ', :'data-url'=>url_for(:controller => 'chat', :action => 'update_message_on_the_spot')}!= body
+  - else
+   %span!= body
  - unless attachment.nil? || attachment.empty?
   %p.attachment
    %a{:target => "_blank", :href => "#{url_for(:action => 'index')}upload/#{attachment}" }

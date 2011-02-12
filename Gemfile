@@ -7,6 +7,7 @@ group :development, :test do
   gem 'nokogiri'
   gem 'autotest'
   gem 'autotest-growl'
+  gem 'ci_reporter'
 end
 gem 'haml-rails'
 gem 'jquery-rails'

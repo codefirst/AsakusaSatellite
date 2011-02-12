@@ -34,10 +34,21 @@
  = javascript_include_tag 'jquery.dropUploader'
  = javascript_include_tag "jquery.websocket"
  = javascript_include_tag "jquery.multiline"
+ = javascript_include_tag "jquery.onthespot"
  = javascript_include_tag "jquery.scrollTo-min"
  = javascript_include_tag "jquery.desktopnotify"
  :javascript
   $(function() {
+    // on the spot
+    function editable(_, e){
+      var e = $(e);
+      e.onTheSpot({
+        url  : '#{url_for(:action => 'update_message_on_the_spot')}',
+        data : e.attr('original')
+      });
+    }
+    $(".on-the-spot").each(editable);
+
     // 表示時のメッセージ
     function scrollAfterImage(e){
       $(".attachment img", e).bind("load", function(){
@@ -46,9 +57,10 @@
     }
 
     function makeElement(message){
-      return $(message.view);
+      var dom = $(message.view);
+      $(".on-the-spot", dom).each(editable);
+      return dom;
     }
-
     $(".message-list").webSocket({ makeElement : makeElement });
 
     // read more

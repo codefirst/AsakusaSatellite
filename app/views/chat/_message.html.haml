@@ -5,11 +5,11 @@
   %span= message.user.name
   %span.update_time
    %a{:target => "_blank", :href => url_for(:action => 'show', :id => message.id) }= message.created_at
- %p.body
-  - if current_user and message.user.screen_name == current_user.screen_name
-   %span.on_the_spot_editing{:id=> message.id, :'title'=>' ', :'data-tooltip'=>' ', :'data-url'=>url_for(:controller => 'chat', :action => 'update_message_on_the_spot')}!= message.html_body
-  - else
-   %span!= message.html_body
+ - if current_user and message.user.screen_name == current_user.screen_name
+  %div.body.on-the-spot{ :original => message.body, :id => message.id }
+   != message.html_body
+ - else
+  %div.body
  - unless message.attachment.nil? || message.attachment.empty?
   %p.attachment
    %a{:target => "_blank", :href => "#{url_for(:action => 'index')}upload/#{message.attachment}" }
@@ -17,4 +17,3 @@
      %img{:src => "#{url_for(:action => 'index')}upload/#{message.attachment}" }
     - else
      = message.filename
-

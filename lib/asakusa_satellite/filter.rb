@@ -28,7 +28,14 @@ module AsakusaSatellite
 
     def process(text)
       text = CGI.escapeHTML(text)
-      @plugins.reduce(text) do|text, obj|
+
+      @process ||= @config.map{|c|
+        @plugins.find{|p|
+          p.class.name.underscore.split('/')[-1] == c['name']
+        }
+      }
+
+      @process.reduce(text) do|text, obj|
         obj.process text
       end
     end

@@ -27,17 +27,25 @@ module AsakusaSatellite
     end
 
     def process(text)
-      text = CGI.escapeHTML(text)
-
       @process ||= @config.map{|c|
         @plugins.find{|p|
           p.class.name.underscore.split('/')[-1] == c['name']
         }
       }
 
-      @process.reduce(text) do|text, obj|
-        obj.process text
-      end
+      lines = CGI.escapeHTML(text).split("\n")
+
+      @process.reduce(lines) do|lines, obj|
+        if obj.respond_to? :process
+          lines = lines.map{|line| obj.process(line) }
+        end
+
+        if obj.respond_to? :process_all
+          lines = obj.process_all lines
+        end
+
+        lines
+      end.join("<br />")
     end
 
     def add_filter(klass, config)

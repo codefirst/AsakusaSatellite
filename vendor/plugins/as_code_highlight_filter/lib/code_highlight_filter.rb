@@ -15,8 +15,16 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
     yss << ys
   end
 
-  def process(text)
-    group(text){|x| x =~ /\A\w+::/ }.map{|item|
+  def strip(xs)
+    if xs.first.empty? then
+      strip xs[1..-1]
+    else
+      xs
+    end
+  end
+
+  def process_all(lines)
+    xs = group(lines){|x| x =~ /\A\w+::/ }.map{|item|
       lang,*body = item
       case lang
       when /\A(\w+)::/
@@ -24,7 +32,9 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
       else
         item.join("")
       end
-    }.join("")
+    }
+
+    strip xs
   end
 end
 

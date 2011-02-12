@@ -10,6 +10,7 @@
    != message.html_body
  - else
   %div.body
+   != message.html_body
  - unless message.attachment.nil? || message.attachment.empty?
   %p.attachment
    %a{:target => "_blank", :href => "#{url_for(:action => 'index')}upload/#{message.attachment}" }

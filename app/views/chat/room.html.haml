@@ -40,14 +40,13 @@
  :javascript
   $(function() {
     // on the spot
-    function editable(_, e){
+    $(".on-the-spot").each(function(_, e){
       var e = $(e);
       e.onTheSpot({
         url  : '#{url_for(:action => 'update_message_on_the_spot')}',
         data : e.attr('original')
       });
-    }
-    $(".on-the-spot").each(editable);
+    });
 
     // 表示時のメッセージ
     function scrollAfterImage(e){
@@ -58,7 +57,13 @@
 
     function makeElement(message){
       var dom = $(message.view);
-      $(".on-the-spot", dom).each(editable);
+      //自分の発言なら編集できるようにする
+      if(message.screen_name == "#{current_user.nil? ? '' : current_user.screen_name}") {
+        $(".body", dom).onTheSpot({
+          url  : '#{url_for(:action => 'update_message_on_the_spot')}',
+          data : message.body
+       });
+      }
       return dom;
     }
     $(".message-list").webSocket({ makeElement : makeElement });

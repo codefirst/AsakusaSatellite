@@ -30,11 +30,10 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
       when /\A(\w+)::/
         CodeRay.scan(body.join(""), $1).div
       else
-        item.join("")
+        item
       end
     }
-
-    strip xs
+    strip xs.flatten
   end
 end
 

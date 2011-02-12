@@ -34,7 +34,6 @@ module AsakusaSatellite
       }
 
       lines = CGI.escapeHTML(text).split("\n")
-
       @process.reduce(lines) do|lines, obj|
         if obj.respond_to? :process
           lines = lines.map{|line| obj.process(line) }

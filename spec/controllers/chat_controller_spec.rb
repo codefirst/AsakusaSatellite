@@ -68,4 +68,31 @@ describe ChatController do
       assigns[:room].title.should == title
     end
   end
+
+  it "index アクセス時は削除されていない部屋が表示される" do
+    Room.all.each {|room| room.delete}
+    room1 = Room.new.save
+    room2 = Room.new(:deleted => true).save
+    get :index
+    assigns[:rooms].each {|room| room.deleted.should be_false}
+    assigns[:rooms].records.size.should == 1
+  end
+
+  it "show アクセス時は前後n件が表示される" do
+    room = Room.new
+    room.save
+    10.times { Message.new(:room => room).save }
+    message = Message.new(:room => room)
+    message.save
+    10.times { Message.new(:room => room).save }
+    get :show, :id => message.id, :c => 5
+    assigns[:messages].size.should == 11
+  end
+
+  it "部屋の名前を変更する" do
+    room = Room.new(:title => 'init')
+    room.save
+    get :update_attribute_on_the_spot, :id => "room__title__#{room.id}", :value => 'modified'
+    Room.find(room.id).title.should == 'modified'
+  end
 end

@@ -27,7 +27,7 @@ module AsakusaSatellite
     end
 
     def process(text)
-      text = CGI.escapeHTML(text).gsub("\n", "<br />")
+      text = CGI.escapeHTML(text)
       @plugins.reduce(text) do|text, obj|
         obj.process text
       end

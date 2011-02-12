@@ -17,3 +17,5 @@ public/upload/*
 config/filter.yml
 config/settings.yml
 .autotest
+spec/reports
+*.swp

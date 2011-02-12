@@ -79,3 +79,4 @@ en:
   search: "Search"
   search_messages: "Search messages"
   created_at: "Created at: "
+  are_you_sure_you_want_to_delete: "Are you sure you want to delete this room?"

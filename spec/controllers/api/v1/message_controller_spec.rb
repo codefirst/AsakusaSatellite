@@ -17,6 +17,9 @@ describe Api::V1::MessageController do
       response.body.should have_json("/body[text() = 'hoge']")
       response.body.should have_json("/view")
       response.body.should have_json("/profile_image_url[text() = '#{image_url}']")
+
+      # permlinkがAPIのほうを差していない
+      response.body.should have_json("/view[not(contains(text(), 'api'))]")
     end
 
     it "1件postする" do

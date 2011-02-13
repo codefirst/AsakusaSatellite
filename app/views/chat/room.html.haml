@@ -4,7 +4,11 @@
  %div.room-info
   %div
    .left
-    %h3.title= on_the_spot_edit @room, :title
+    %h3.title
+     - if @room.user == current_user
+      = on_the_spot_edit @room, :title
+     - else
+      = @room.title
    .right
     - if logged?
      = form_tag({:controller => :room, :action => :delete, :id => @room}, {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete)}');", :action => :post}) do

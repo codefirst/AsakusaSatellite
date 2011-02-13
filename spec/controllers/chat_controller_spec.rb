@@ -89,10 +89,27 @@ describe ChatController do
     assigns[:messages].size.should == 11
   end
 
-  it "部屋の名前を変更する" do
-    room = Room.new(:title => 'init')
-    room.save
-    get :update_attribute_on_the_spot, :id => "room__title__#{room.id}", :value => 'modified'
-    Room.find(room.id).title.should == 'modified'
+  context "部屋の名前の変更" do
+    before do
+      @owner = User.new
+      @owner.save
+      @room = Room.new(:title => 'init', :user => @owner)
+      @room.save
+
+    end
+    it "オーナーは部屋の名前を変更できる" do
+      session[:current_user_id] = @owner.id
+      get :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => 'modified'
+      Room.find(@room.id).title.should == 'modified'
+    end
+
+    it "オーナー以外のユーザは部屋の名前を変更できない" do
+      user = User.new
+      user.save
+      session[:current_user_id] = user.id
+      lambda {
+        get(:update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => 'modified')
+      }.should raise_error
+    end
   end
 end

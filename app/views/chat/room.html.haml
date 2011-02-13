@@ -23,7 +23,7 @@
    = render :partial => 'message', :locals => { :message => message }
  - if logged?
   .input
-   = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id } do |f|
+   = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
     =text_area_tag :message, '', :class => :text
     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
     =image_tag("connection_fail.gif", :class => 'websocket-status')
@@ -84,7 +84,7 @@
     // メッセージの送信
     $('textarea#message').multiline();
     $(".message-list").bind('websocket::connect', function(_, ws){
-      $('form').bind('submit', function(e){
+      $('form.inputarea').bind('submit', function(e){
         e.stopPropagation();
         e.preventDefault();
         jQuery.post(

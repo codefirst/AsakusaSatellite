@@ -7,10 +7,12 @@
    %a{:href => url_for(:controller => :chat, :action => :room, :id => (message.room ? message.room.id : ""), :c => message.id) }= message.created_at
  - if current_user and message.user.screen_name == current_user.screen_name
   %div.body.on-the-spot{ :original => message.body, :id => message.id }
-   != message.html_body
+   :plain
+    #{message.html_body}
  - else
   %div.body
-   != message.html_body
+   :plain
+     #{message.html_body}
  - unless message.attachment.nil?
   %p.attachment
    %a{:target => "_blank", :href => url_for('/') + "upload/" + File.basename(message.attachment.disk_filename) }

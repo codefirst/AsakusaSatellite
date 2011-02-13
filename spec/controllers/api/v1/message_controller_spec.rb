@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe Api::V1::MessageController do
   describe "発言取得API" do
-    it "1件取得すると :name, :body, :profile_image_url, :view が取得できる" do
+    it "1件取得すると :name, :body, :profile_image_url が取得できる" do
       image_url = 'http://example.com/hoge.png'
       user = mock_model(User)
       user.stub!(:screen_name).and_return('user')
@@ -15,7 +14,6 @@ describe Api::V1::MessageController do
       get :show, :id => message.id, :format => 'json'
       response.body.should have_json("/screen_name[text() = 'user']")
       response.body.should have_json("/body[text() = 'hoge']")
-      response.body.should have_json("/view")
       response.body.should have_json("/profile_image_url[text() = '#{image_url}']")
     end
 

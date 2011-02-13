@@ -1,4 +1,5 @@
-AsakusaSatellite::Application.routes.draw do
+# -*- coding: undecided -*-
+AsakusaSatellite::Application.routes.draw do|map|
 
   get "search/index"
 
@@ -19,6 +20,8 @@ AsakusaSatellite::Application.routes.draw do
     end
   end
 
+
+  map.message '/chat/show/:id',:controller => "chat", :action=> "show"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

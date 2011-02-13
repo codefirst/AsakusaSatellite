@@ -99,7 +99,7 @@ describe ChatController do
     end
     it "オーナーは部屋の名前を変更できる" do
       session[:current_user_id] = @owner.id
-      get :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => 'modified'
+      post :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => 'modified'
       Room.find(@room.id).title.should == 'modified'
     end
 
@@ -108,8 +108,15 @@ describe ChatController do
       user.save
       session[:current_user_id] = user.id
       lambda {
-        get(:update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => 'modified')
+        post :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => 'modified'
       }.should raise_error
     end
+
+    it "空文字の時は更新しない" do
+      session[:current_user_id] = @owner.id
+      get :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => ''
+      Room.find(@room.id).title.should == 'init'
+    end
+
   end
 end

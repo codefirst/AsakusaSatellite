@@ -68,9 +68,11 @@ class ChatController < ApplicationController
 
   def update_attribute_on_the_spot
     room = Room.find(params[:id].split('__')[-1].to_i)
-    raise Error unless room.user == current_user
-    room.title = params[:value]
-    room.save
+    unless params[:value].blank?
+      raise Error unless room.user == current_user
+      room.title = params[:value]
+      room.save
+    end
     render :text => room.title
   end
 

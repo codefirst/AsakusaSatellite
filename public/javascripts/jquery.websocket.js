@@ -37,6 +37,13 @@
 		target.append(dom);
 		dom.fadeIn();
 	    });
+
+	    target.bind('websocket::update', function(_, obj) {
+		var dom = $( config.makeElement(obj) );
+		dom.hide();
+		$("[target=" + obj.id + "]").replaceWith(dom);
+		dom.fadeIn();
+	    });
 	}
     }
 })(jQuery);

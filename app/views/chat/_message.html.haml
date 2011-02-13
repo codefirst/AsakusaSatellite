@@ -10,7 +10,7 @@
    :plain
     #{message.html_body}
  - else
-  %div.body
+  %div.body{ :id => message.id }
    :plain
      #{message.html_body}
  - unless message.attachment.nil?

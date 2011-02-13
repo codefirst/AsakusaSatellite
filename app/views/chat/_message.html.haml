@@ -11,10 +11,10 @@
  - else
   %div.body
    != message.html_body
- - unless message.attachment.nil? || message.attachment.empty?
+ - unless message.attachment.nil?
   %p.attachment
    %a{:target => "_blank", :href => "#{url_for(:action => 'index')}upload/#{message.attachment}" }
-    - if image_mimetype?(message.mimetype)
+    - if image_mimetype?(message.attachment.mimetype)
      %img{:src => "#{url_for(:action => 'index')}upload/#{message.attachment}" }
     - else
      = message.filename

@@ -16,6 +16,7 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
   end
 
   def strip(xs)
+    return [] if xs.empty?
     if xs.first.empty? then
       strip xs[1..-1]
     else

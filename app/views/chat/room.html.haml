@@ -110,9 +110,9 @@
 
     // 表示後スクロール
     $(".message-list").bind('websocket::create', function(){
-      $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
+      $(window).scrollTo( 'form.inputarea', 500, { easing:'swing', queue:true, axis:'y' } );
     });
-    $(window).scrollTo( 'form', 500, { easing:'swing', queue:true, axis:'y' } );
+    $(window).scrollTo( 'form.inputarea', 500, { easing:'swing', queue:true, axis:'y' } );
     scrollAfterImage($(".message-list"))
     $("textarea.text")[0].focus();
 

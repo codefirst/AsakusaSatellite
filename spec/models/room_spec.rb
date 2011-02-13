@@ -26,6 +26,14 @@ describe Room do
       rooms = Room.all_live
       rooms.count.should == 1
     end
-   end
+  end
+
+  describe "生成時" do
+    it "タイトルが空の場合生成に失敗する" do
+      Room.new(:title => '').save.should be_false
+      Room.new(:title => nil).save.should be_false
+      Room.new.save.should be_false
+    end 
+  end
 
 end

@@ -5,7 +5,7 @@ describe RoomController do
     user = User.new
     user.save
     session[:current_user_id] = user.id
-    @room = Room.new(:user => user)
+    @room = Room.new(:title => 'title', :user => user)
     @room.save
    end
 

@@ -32,7 +32,9 @@ class ChatController < ApplicationController
       if @room.save
         redirect_to :action => 'room', :id => @room.id
       else
-        # TODO: error handling
+        flash[:error] = t(:error_room_cannot_create)
+        redirect_to :action => 'create'
+        return
       end
     end
     @room ||= Room.find(params[:id])

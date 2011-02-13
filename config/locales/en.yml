@@ -81,3 +81,5 @@ en:
   created_at: "Created at: "
   are_you_sure_you_want_to_delete: "Are you sure you want to delete this room?"
   select_a_room: "Select a room"
+
+  error_room_cannot_create: "Error: cannot create any rooms"

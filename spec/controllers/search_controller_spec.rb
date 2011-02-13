@@ -14,7 +14,7 @@ describe SearchController do
     it "ヒットするメッセージがあれば検索される" do
       Message.select.each { |r| r.delete }
       Room.select.each { |r| r.delete }
-      room = Room.new
+      room = Room.new(:title => 'test')
       room.save!
       message = Message.new
       message.body = 'テストメッセージ'
@@ -27,7 +27,7 @@ describe SearchController do
     it "ヒットするメッセージがなければ検索されない" do
       Message.select.each { |r| r.delete }
       Room.select.each { |r| r.delete }
-      room = Room.new
+      room = Room.new(:title => 'test')
       room.save!
       message = Message.new
       message.body = 'テストメッセージ'

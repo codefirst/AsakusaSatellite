@@ -10,7 +10,7 @@ describe ChatController do
 
     it "一件messageが増える" do
       lambda {
-        room = Room.new
+        room = Room.new(:title => 'test')
         room.save!
         message = 'テストメッセージ'
         post :message, {:room_id => room.id, :message => message}
@@ -18,7 +18,7 @@ describe ChatController do
     end
 
     it "部屋がない場合はエラーメッセージとなる" do
-      room = Room.new
+      room = Room.new(:title => 'test')
       room.save
       room.delete
       lambda {
@@ -29,7 +29,7 @@ describe ChatController do
 
   describe "発言一覧時は" do
     it "デフォルトで該当する部屋のメッセージの20件を取得する" do
-      room = Room.new
+      room = Room.new(:title => 'test')
       room.save
       50.times do
         Message.new(:room => room).save
@@ -71,8 +71,8 @@ describe ChatController do
 
   it "index アクセス時は削除されていない部屋が表示される" do
     Room.all.each {|room| room.delete}
-    room1 = Room.new.save
-    room2 = Room.new(:deleted => true).save
+    Room.new(:title => 'test').save
+    Room.new(:title => 'test', :deleted => true).save
     get :index
     assigns[:rooms].each {|room| room.deleted.should be_false}
     assigns[:rooms].records.size.should == 1

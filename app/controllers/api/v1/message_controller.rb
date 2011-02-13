@@ -6,11 +6,7 @@ module Api
 
       def show
         @message = Message.find params[:id]
-        view = render_to_string(:file   => "#{RAILS_ROOT}/app/views/chat/_message.html.haml",
-                                :locals => { :message => @message },
-                                :layout => false)
-        hash = @message.to_hash.merge :view => view
-        respond_with(hash.to_json)
+        respond_with(to_json(@message))
       end
 
       def create

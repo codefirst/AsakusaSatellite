@@ -19,13 +19,4 @@
    = t(:created_at) + " " + l(@room.created_at)
  .message-list
   - @messages.reverse_each do |message|
-   = render :partial => 'message', :locals => { |
-    :id                => message.id, |
-    :room           => @room, |
-    :profile_image_url => message.user && message.user.profile_image_url, |
-    :screen_name =>  message.user && message.user.screen_name, |
-    :name =>  message.user.name, |
-    :body => message.html_body, |
-    :created_at => l(message.created_at), |
-    :attachment => message.attachment && File.basename(message.attachment.disk_filename) }
-
+   = render :partial => 'message', :locals => { :message => message }

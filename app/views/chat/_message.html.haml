@@ -15,8 +15,8 @@
      #{message.html_body}
  - unless message.attachment.nil?
   %p.attachment
-   %a{:target => "_blank", :href => url_for('/') + "upload/" + File.basename(message.attachment.disk_filename) }
+   %a{:target => "_blank", :href => root_path + "upload/" + File.basename(message.attachment.disk_filename) }
     - if image_mimetype?(message.attachment.mimetype)
-     %img{:src => url_for('/') + "upload/" + File.basename(message.attachment.disk_filename)}
+     %img{:src => root_path + "upload/" + File.basename(message.attachment.disk_filename)}
     - else
      = message.filename

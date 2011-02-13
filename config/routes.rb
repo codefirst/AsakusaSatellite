@@ -9,10 +9,12 @@ AsakusaSatellite::Application.routes.draw do
   get '/' => 'chat#index', :as => :index
   get "chat/update_attribute_on_the_spot"
 
+  root :to => 'chat#index'
+
   namespace(:api) do
     namespace(:v1) do
-      resources :room 
-      resources :message 
+      resources :room
+      resources :message
       get 'login', :controller => 'login', :action => 'index'
     end
   end

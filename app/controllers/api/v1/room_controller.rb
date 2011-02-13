@@ -25,8 +25,8 @@ module Api
           begin
             @messages = Message.select do |record|
               record.room == room
-            end.sort([{:key => 'created_at', :order => :desc}], 
-                     :limit => (params[:count] ? params[:count].to_i : nil) || 20, 
+            end.sort([{:key => 'created_at', :order => :desc}],
+                     :limit => (params[:count] ? params[:count].to_i : nil) || 20,
                      :offset => params[:offset].to_i).
                      to_a.reverse
           rescue Groonga::TooLargeOffset
@@ -37,7 +37,7 @@ module Api
             record.room == room
           end
         end
-        respond_with(@messages)
+        respond_with(@messages.map{|m| to_json(m) })
       end
 
     end

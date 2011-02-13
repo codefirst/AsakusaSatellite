@@ -34,6 +34,13 @@ module ChatHelper
     true
   end
 
+  def to_json(message)
+    view = render_to_string(:file   => "#{RAILS_ROOT}/app/views/chat/_message.html.haml",
+                            :locals => { :message => message },
+                            :layout => false)
+    message.to_hash.merge( :view => view )
+  end
+
   private
   def publish_message(event, message)
     Thread.new do

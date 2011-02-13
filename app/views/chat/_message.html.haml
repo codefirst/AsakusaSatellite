@@ -13,8 +13,8 @@
    != message.html_body
  - unless message.attachment.nil?
   %p.attachment
-   %a{:target => "_blank", :href => "#{url_for(:action => 'index')}upload/#{message.attachment}" }
+   %a{:target => "_blank", :href => "#{url_for(:action => 'index')}upload/#{File.basename(message.attachment.disk_filename)}" }
     - if image_mimetype?(message.attachment.mimetype)
-     %img{:src => "#{url_for(:action => 'index')}upload/#{message.attachment}" }
+     %img{:src => "#{url_for(:action => 'index')}upload/#{File.basename(message.attachment.disk_filename)}" }
     - else
      = message.filename

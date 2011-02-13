@@ -6,8 +6,9 @@
    .left
     %h3.title= on_the_spot_edit @room, :title
    .right
-    = form_tag({:controller => :room, :action => :delete, :id => @room}, {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete)}');", :action => :post}) do
-     = image_submit_tag "action_stop.gif"
+    - if logged?
+     = form_tag({:controller => :room, :action => :delete, :id => @room}, {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete)}');", :action => :post}) do
+      = image_submit_tag "action_stop.gif"
    .clear
   - unless @room.user.nil?
    %div.room-owner

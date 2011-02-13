@@ -1,14 +1,18 @@
-%table.room-list
- %tr
-  %th=t :name
-  %th=t :last_update
- - @rooms.each do |room|
-  %tr
-   %td.name
-    =link_to room.title, :controller => :chat, :action => :room, :id => room
-   %td.update
-    = l(room.updated_at)
+.yield
+ = render :partial => 'search/search_form', :locals => {:advanced => false}
 
-- if logged?
- .buttons
-  =link_to t(:create_new_room), {:controller => :chat, :action => :create}, :class => "large red button"
+ %table.room-list
+  %tr
+   %th=t :name
+   %th=t :last_update
+  - @rooms.each do |room|
+   %tr
+    %td.name
+     =link_to room.title, :controller => :chat, :action => :room, :id => room
+    %td.update
+     = l(room.updated_at)
+
+ - if logged?
+  .buttons
+   =link_to t(:create_new_room), {:controller => :chat, :action => :create}, :class => "large red button"
+

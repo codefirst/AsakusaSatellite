@@ -1,5 +1,10 @@
-=form_for :search, :url => {:action => :search}, :html => {:method => :get} do |form|
+=form_for :search, :url => {:controller => :search, :action => :search}, |
+          :html => {:method => :get, :class => 'search-form'} do |form|
  %fieldset
   %legend= t(:search_messages)
-  =text_field :search, :message, :class => :text, :value => @query
-  =submit_tag t(:search), :class => "submit red button large"
+  .left
+   =text_field :search, :message, {:class => :text, :autofocus => true, :value => @query}
+   =select :room, :id, @rooms, {:selected => @room_id, :prompt => t('select_a_room')} if advanced
+  .right
+   =submit_tag t(:search), :class => "submit red button large"
+  .clear

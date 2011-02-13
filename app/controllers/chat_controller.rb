@@ -6,9 +6,7 @@ class ChatController < ApplicationController
   PageSize = 20
 
   def index
-    @rooms = Room.select do |record|
-      record.deleted == false
-    end || []
+    @rooms = Room.all_live
   end
 
   def show

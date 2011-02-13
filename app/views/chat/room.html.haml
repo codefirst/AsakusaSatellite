@@ -56,7 +56,7 @@
     // 表示時のメッセージ
     function scrollAfterImage(e){
       $(".attachment img", e).bind("load", function(){
-        $(window).scrollTo( 'form', 0, { easing:'swing', queue:true, axis:'y' } );
+        $(window).scrollTo( 'form.inputarea', 0, { easing:'swing', queue:true, axis:'y' } );
       });
     }
 

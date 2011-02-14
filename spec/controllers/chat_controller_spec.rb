@@ -41,9 +41,12 @@ describe ChatController do
 
   describe "発言更新時は" do
     it "該当メッセージの内容が更新される" do
+      owner = User.new
+      owner.save
+      session[:current_user_id] = owner.id
       message = Message.new(:body => 'init')
       message.save
-      get :update_message_on_the_spot, {:id => message.id, :value => 'modified'}
+      post :update_message_on_the_spot, {:id => message.id, :value => 'modified'}
       Message.find(message.id).body.should == 'modified'
     end
   end
@@ -138,7 +141,7 @@ describe ChatController do
 
     it "空文字の時は更新しない" do
       session[:current_user_id] = @owner.id
-      get :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => ''
+      post :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => ''
       Room.find(@room.id).title.should == 'init'
     end
 

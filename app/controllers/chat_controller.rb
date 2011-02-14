@@ -78,6 +78,10 @@ class ChatController < ApplicationController
 
   def update_attribute_on_the_spot
     room = Room.find(params[:id].split('__')[-1].to_i)
+    unless request.post? and  logged?
+      render :text => room.title
+      return
+    end
     unless params[:value].blank?
       raise Error unless room.user == current_user
       room.title = params[:value]
@@ -88,6 +92,10 @@ class ChatController < ApplicationController
 
   def update_message_on_the_spot
     message = Message.find(params[:id])
+    unless request.post? and  logged?
+      render :text => message.body
+      return
+    end
     message.body = params[:value]
     message.save
     render :text => message.body 

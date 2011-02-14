@@ -29,7 +29,7 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
       lang,*body = item
       case lang
       when /\A(\w+)::/
-        CodeRay.scan(body.join("\n"), $1).div
+        CodeRay.scan(CGI.unescapeHTML(body.join("\n")), $1).div
       else
         item
       end

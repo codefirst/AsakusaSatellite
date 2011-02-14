@@ -1,6 +1,6 @@
 class RoomController < ApplicationController
   def delete
-    if request.post?
+    if request.post? and not current_user.nil?
       room = Room.find(params[:id])
       room.deleted = true
       room.save

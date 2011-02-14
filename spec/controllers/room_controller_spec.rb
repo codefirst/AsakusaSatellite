@@ -14,4 +14,10 @@ describe RoomController do
     @room = Room.find(@room.id)
     @room.deleted.should be_true
   end
+
+  it "ログインしていないユーザは部屋を削除できない" do
+    session[:current_user_id] = nil 
+    post :delete, :id => @room.id
+    Room.find(@room.id).deleted.should be_false
+  end
 end

@@ -30,7 +30,7 @@
  - if logged?
   .input
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
-    =text_area_tag :message, '', :class => :text
+    =text_area_tag :message, '', :class => :text, :autofocus=>true, :placeholder=>"ここに発言を入力してください。"
     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
 .chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))
 
@@ -118,7 +118,6 @@
     });
     autoScroll();
     scrollAfterImage($(".message-list"))
-    $("textarea.text")[0].focus();
 
     // 通知
     $(".message-list").bind('websocket::create', function(_, message){

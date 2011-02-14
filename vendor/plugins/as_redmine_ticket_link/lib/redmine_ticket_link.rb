@@ -25,7 +25,7 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
 
   def process(text)
     text.gsub(/#(\d+)/) do|id|
-      ticket $1, text
+      ticket $1, id
     end
   end
 end

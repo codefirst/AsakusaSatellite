@@ -7,6 +7,7 @@ describe AsakusaSatellite::Filter::RedmineTicketLink do
     config = OpenStruct.new({ :roots => 'http://redmine.example.com/a/'})
     @filter = AsakusaSatellite::Filter::RedmineTicketLink.new(config)
     @filter.process('#223').should == '<a target="_blank" href="http://redmine.example.com/a/issues/223">#223</a>'
+    @filter.process('foo #223').should == 'foo <a target="_blank" href="http://redmine.example.com/a/issues/223">#223</a>'
   end
 
   it 'API keylが指定されてる場合は、タイトルを取得する' do

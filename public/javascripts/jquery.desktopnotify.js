@@ -13,6 +13,7 @@
                 }
             }
         });
+        return this;
     };
     $.fn.desktopNotify = function(options) {
         var defaults = {

@@ -1,8 +1,31 @@
 require 'uri'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
+  def link_only(id, ref)
+  end
+
+  def ticket(id, ref)
+    url =  URI.join(config.roots,"./issues/#{id}")
+    if config.api_key then
+      api =  URI.join(config.roots,"./issues/#{id}.json?key=#{config.api_key}")
+      begin
+        open(api.to_s) do|io|
+          hash = JSON.parse(io.read)
+          subject = hash["issue"]["subject"]
+          return %[<a target="_blank" href="#{url}">#{ref} #{subject}</a>]
+        end
+      rescue => e
+        %[<a target="_blank" href="#{url}">#{ref}</a>]
+      end
+    else
+      %[<a target="_blank" href="#{url}">#{ref}</a>]
+    end
+  end
+
   def process(text)
-    text.gsub(/#(\d+)/) do|ref|
-      %[<a target="_blank" href="#{config.roots}issues/#{$1}">#{ref}</a>]
+    text.gsub(/#(\d+)/) do|id|
+      ticket $1, text
     end
   end
 end

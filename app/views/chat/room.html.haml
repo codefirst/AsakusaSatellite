@@ -44,6 +44,10 @@
  = javascript_include_tag "jquery.desktopnotify"
  :javascript
   $(function() {
+    function autoScroll(){
+      $(window).scrollTo( $(".message-list .message:last"), 500, { easing:'swing', queue:true, axis:'y' } );
+    }
+
     // on the spot
     $(".on-the-spot").each(function(_, e){
       var e = $(e);
@@ -56,7 +60,7 @@
     // 表示時のメッセージ
     function scrollAfterImage(e){
       $(".attachment img", e).bind("load", function(){
-        $(window).scrollTo( 'form.inputarea', 0, { easing:'swing', queue:true, axis:'y' } );
+        autoScroll();
       });
     }
 
@@ -110,9 +114,9 @@
 
     // 表示後スクロール
     $(".message-list").bind('websocket::create', function(){
-      $(window).scrollTo( 'form.inputarea', 500, { easing:'swing', queue:true, axis:'y' } );
+       autoScroll();
     });
-    $(window).scrollTo( 'form.inputarea', 500, { easing:'swing', queue:true, axis:'y' } );
+    autoScroll();
     scrollAfterImage($(".message-list"))
     $("textarea.text")[0].focus();
 

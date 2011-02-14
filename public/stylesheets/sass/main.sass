@@ -116,9 +116,25 @@ td
   p
     :padding 0
     :margin 0
-  span
-    :font-weight bold
+    img.profile
+      :float left
+    span.user-name
+      :float left
+      :font-weight bold
+      :margin-left 3px
+    span.update-time
+      :float right
+      :text-align right
+      :font-size 75%
+      :font-weight normal
+      :vertical-align bottom
+      a
+        :color #666
+        :text-decoration none
+      a:hover
+        :text-decoration underline
   .body
+    :clear both
     span
       :font-weight normal
   p.attachment
@@ -230,8 +246,6 @@ form.inputarea
   :margin-bottom 10px
   :background-color #eee
 
-.update_time
-  :font-size 70%
 
 // for iPhone 4
 @media only screen and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2)

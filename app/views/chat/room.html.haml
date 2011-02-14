@@ -10,6 +10,7 @@
      - else
       = @room.title
    .right
+    =image_tag("connection_fail.gif", :class => 'websocket-status')
     - if logged?
      = form_tag({:controller => :room, :action => :delete, :id => @room}, {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete)}');", :action => :post}) do
       = image_submit_tag "action_stop.gif"
@@ -31,7 +32,6 @@
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
     =text_area_tag :message, '', :class => :text
     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
-    =image_tag("connection_fail.gif", :class => 'websocket-status')
 .chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))
 
 = content_for :javascripts do

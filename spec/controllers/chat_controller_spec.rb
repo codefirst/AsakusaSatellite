@@ -62,12 +62,36 @@ describe ChatController do
   end
 
   describe "部屋作成時は" do
+    it "ログインしていない場合は作成しない" do
+      session[:current_user_id] = nil 
+      room_num = Room.all.records.size
+      post :room, {:room => {:title => 'test'}}
+      Room.all.records.size.should == room_num
+    end
+
+    it "ログインしていない場合はトップページへリダイレクトする" do
+      session[:current_user_id] = nil 
+      room_num = Room.all.records.size
+      post :room, {:room => {:title => 'test'}}
+      response.should redirect_to(:controller => 'chat', :action => 'index')
+    end
+
+    it "ログインしていないユーザが/chat/createへアクセスするとトップページにリダイレクトする" do
+      session[:current_user_id] = nil 
+      get :create
+      response.should redirect_to(:controller => 'chat', :action => 'index')
+    end
+
     it "一件roomが増える" do
+      owner = User.new
+      owner.save
+      session[:current_user_id] = owner.id
       title = 'テスト部屋'
       post :room, {:room => {:title => title}}
       assigns[:room].title.should == title
     end
   end
+
 
   it "index アクセス時は削除されていない部屋が表示される" do
     Room.all.each {|room| room.delete}

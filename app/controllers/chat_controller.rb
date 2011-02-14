@@ -27,6 +27,10 @@ class ChatController < ApplicationController
   end
 
   def room
+    if request.post? and current_user.nil? 
+      redirect_to :controller => 'chat'
+      return
+    end
     if request.post?
       @room = Room.new(:title => params[:room][:title], :user => current_user, :updated_at => Time.now)
       if @room.save
@@ -66,6 +70,10 @@ class ChatController < ApplicationController
       room.save
     end
     redirect_to :controller => 'chat'
+  end
+
+  def create
+    redirect_to :controller => 'chat' if current_user.nil?
   end
 
   def update_attribute_on_the_spot

@@ -44,11 +44,24 @@ describe ChatController do
       owner = User.new
       owner.save
       session[:current_user_id] = owner.id
-      message = Message.new(:body => 'init')
+      message = Message.new(:body => 'init', :user => owner)
       message.save
       post :update_message_on_the_spot, {:id => message.id, :value => 'modified'}
       Message.find(message.id).body.should == 'modified'
     end
+
+    it "該当メッセージを作成したユーザ以外は変更できない" do
+      owner = User.new
+      owner.save
+      other = User.new
+      other.save
+      session[:current_user_id] = other.id
+      message = Message.new(:body => 'init', :user => owner)
+      message.save
+      post :update_message_on_the_spot, {:id => message.id, :value => 'modified'}
+      Message.find(message.id).body.should == 'init'
+    end
+
   end
 
   describe "発言削除時は" do

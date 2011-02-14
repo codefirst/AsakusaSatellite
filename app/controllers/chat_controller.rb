@@ -92,7 +92,7 @@ class ChatController < ApplicationController
 
   def update_message_on_the_spot
     message = Message.find(params[:id])
-    unless request.post? and  logged?
+    unless request.post? and  logged? and current_user.id == message.user.id
       render :text => message.body
       return
     end

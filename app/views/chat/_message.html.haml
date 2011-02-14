@@ -4,7 +4,7 @@
    %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
   %span= message.user.name
   %span.update_time
-   %a{:href => message_url(:id => message.id) }= message.created_at
+   %a{:href => message_url(:id => message.id, :only_path=>true) }= message.created_at
  - if current_user and message.user.screen_name == current_user.screen_name
   %div.body.on-the-spot{ :original => message.body, :id => message.id }
    :plain

@@ -2,5 +2,5 @@
  =form_for :room, :url => {:action => :room} do |form|
   %fieldset
    %legend= t(:input_room_name)
-   =text_field :room, :title, :class => :text
+   =text_field :room, :title, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
    =submit_tag t(:create), :class => "submit red button large"

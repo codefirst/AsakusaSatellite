@@ -10,10 +10,10 @@
      - else
       = @room.title
    .right
-    =image_tag("connection_fail.gif", :class => 'websocket-status')
+    =image_tag("connection_fail.gif", :class => 'websocket-status', :alt => t(:websocket_status), :title => t(:websocket_status))
     - if logged?
-     = form_tag({:controller => :room, :action => :delete, :id => @room}, {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete)}');", :action => :post}) do
-      = image_submit_tag "action_stop.gif"
+     = form_tag({:controller => :room, :action => :delete, :id => @room}, {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete)}');", :action => :post, :class => 'delete-form'}) do
+      = image_submit_tag "action_stop.gif", :alt => t(:delete_this_room), :title => t(:delete_this_room)
    .clear
   - unless @room.user.nil?
    %div.room-owner

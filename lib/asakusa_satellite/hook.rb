@@ -7,10 +7,11 @@ module AsakusaSatellite::Hook
     end
 
     def call_hook(hook, context = {})
-      @@listeners.map do |listener|
+      @@listeners.inject '' do |html, listener|
         next unless listener.respond_to?(hook)
-        listener.send(hook, context)
-      end.join {|elem| elem.class == String ? elem : ''}
+        elem = listener.send(hook, context)
+        html + ((elem.class == String and not elem.nil?) ? elem : '')
+      end
     end
   end
 

@@ -64,19 +64,6 @@ describe ChatController do
 
   end
 
-  describe "発言削除時は" do
-    it "一件messageが減る" do
-      pending
-    end
-    it "部屋がない場合はエラー" do
-      room = Room.new
-      room.save
-      room.delete if room
-      pending
-      post :delete, {:room_id => 1, :message_id => 1}
-    end
-  end
-
   describe "部屋作成時は" do
     it "ログインしていない場合は作成しない" do
       session[:current_user_id] = nil 

@@ -22,7 +22,7 @@
     = @room.user.name
   %div.room-date
    = t(:created_at) + " " + l(@room.created_at)
- %div{:class => 'red button large', :id => 'read-more'}
+ %div{:id => 'read-more'}
   read more
  .message-list
   - @messages.reverse_each do |message|

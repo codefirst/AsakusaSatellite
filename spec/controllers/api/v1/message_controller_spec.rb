@@ -30,4 +30,74 @@ describe Api::V1::MessageController do
       response.body.should have_json("/profile_image_url[text() = '11']")
     end
   end
+
+  describe "メッセージ作成API" do
+    it "ログインユーザは作成可能" do
+      user = User.new
+      user.save
+      session[:current_user_id] = user.id
+      room = Room.new(:title => 'test')
+      room.save
+      post :create, :room_id => room.id, :message => 'message'
+      response.body.should have_json("/status[text() = 'ok']")
+    end
+    it "非ログインユーザは作成できない" do
+      session[:current_user_id] = nil 
+      room = Room.new(:title => 'test')
+      room.save
+      post :create, :room_id => room.id, :message => 'message'
+      response.body.should have_json("/status[text() = 'error']")
+    end
+  end
+
+  describe "メッセージ更新API" do
+    it "ログインユーザは更新可能" do
+      user = User.new
+      user.save
+      session[:current_user_id] = user.id
+      room = Room.new(:title => 'test')
+      room.save
+      message = Message.new(:user => user, :room => room)
+      message.save
+      post :update, :id => message.id, :message => 'message'
+      response.body.should have_json("/status[text() = 'ok']")
+    end
+    it "非ログインユーザは更新できない" do
+      user = User.new
+      user.save
+      session[:current_user_id] = nil 
+      room = Room.new(:title => 'test')
+      room.save
+      message = Message.new(:user => user, :room => room)
+      message.save
+      post :update, :id => message.id, :message => 'message'
+      response.body.should have_json("/status[text() = 'error']")
+    end
+  end
+
+  describe "メッセージ削除API" do
+    it "ログインユーザは削除可能" do
+      user = User.new
+      user.save
+      session[:current_user_id] = user.id
+      room = Room.new(:title => 'test')
+      room.save
+      message = Message.new(:user => user, :room => room)
+      message.save
+      post :destroy, :id => message.id
+      response.body.should have_json("/status[text() = 'ok']")
+    end
+    it "非ログインユーザは削除できない" do
+      user = User.new
+      user.save
+      session[:current_user_id] = nil 
+      room = Room.new(:title => 'test')
+      room.save
+      message = Message.new(:user => user, :room => room)
+      message.save
+      post :destroy, :id => message.id
+      response.body.should have_json("/status[text() = 'error']")
+    end
+  end
+
 end

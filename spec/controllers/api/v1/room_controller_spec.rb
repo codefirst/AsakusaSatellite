@@ -19,5 +19,21 @@ describe Api::V1::RoomController do
       get :show, :id => room.id, :format => 'json'
       response.body.should have_json("/view")
     end
+
+    it "since_dateパラメータを渡すと指定日以降のメッセージを返す" do
+      user = User.new(:name => 'test', :screen_name => 'test user', :profile_image_url => 'test')
+      user.save
+      room = Room.new(:title => 'title', :user => user)
+      room.save
+      message1 = Message.new(:user => user, :room => room,
+        :body => 'message1', :created_at => Date.new(2011, 1, 1).beginning_of_day.to_i)
+      message1.save
+      message2 = Message.new(:user => user, :room => room,
+        :body => 'message2', :created_at => Date.new(2011, 1, 2).beginning_of_day.to_i)
+      message2.save
+      get :show, :id => room.id, :since_date => Date.new(2011, 1, 2).strftime("%Y-%m-%d"), :format => 'json'
+      assigns[:messages].records.size.should == 2
+      response.body.should have_json("/view")
+    end
   end
 end

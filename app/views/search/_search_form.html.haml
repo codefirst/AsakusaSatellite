@@ -1,7 +1,7 @@
 =form_for :search, :url => {:controller => :search, :action => :search}, |
           :html => {:method => :get, :class => 'search-form'} do |form|
  %fieldset
-  %legend= t(:search_messages)
+  %legend{:align => :center}= t(:search_messages)
   .left
    =text_field :search, :message, {:class => :text, :autofocus => true, :value => @query}
    =select :room, :id, @rooms, {:selected => @room_id, :prompt => t('select_a_room')} if advanced

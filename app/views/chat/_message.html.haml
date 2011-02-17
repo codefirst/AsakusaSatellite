@@ -5,11 +5,10 @@
   .user-name= message.user.name
   .update-time
    %a{:href => message_url(:id => message.id, :only_path=>true) }= l(message.created_at)
-   - if current_user and message.user.screen_name == current_user.screen_name
-    %span.edit-icons
-     =link_to image_tag("page_edit.gif"), "TODO", {:onclick => "javascript:alert('edit!');return false;", :alt => t(:edit_this_message), :title => t(:edit_this_message)}
-     = form_tag("TODO", {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete_this_message)}');", :action => :post, :class => 'delete-form'}) do
-      = image_submit_tag "page_cross.gif", :alt => t(:delete_this_message), :title => t(:delete_this_message)
+   %span.edit-icons
+    =link_to image_tag("page_edit.gif"), "TODO", {:onclick => "javascript:alert('edit!');return false;", :alt => t(:edit_this_message), :title => t(:edit_this_message)}
+    = form_tag("TODO", {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete_this_message)}');", :action => :post, :class => 'delete-form'}) do
+     = image_submit_tag "page_cross.gif", :alt => t(:delete_this_message), :title => t(:delete_this_message)
  - if current_user and message.user.screen_name == current_user.screen_name
   %div.body.on-the-spot{ :original => message.body, :id => message.id }
    :plain

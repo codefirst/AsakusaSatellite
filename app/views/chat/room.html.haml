@@ -66,10 +66,14 @@
           url  : '#{url_for(:action => 'update_message_on_the_spot')}',
           data : message.body
         });
-        $(dom).bind('mouseover', function() {
-          $(this).find('.edit-icons').show();
+        dom.bind('mouseover', function() {
+          if ($(this).find('.user-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
+            $(this).find('.edit-icons').show();
+          }
         }).bind('mouseout', function() {
-          $(this).find('.edit-icons').hide();
+          if ($(this).find('.user-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
+            $(this).find('.edit-icons').hide();
+          }
         });
       }
       return dom;
@@ -153,9 +157,13 @@
 
     // edit-icons
     $('.message').live('mouseover', function() {
-      $(this).find('.edit-icons').show();
+      if ($(this).find('.user-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
+        $(this).find('.edit-icons').show();
+      }
     }).bind('mouseout', function() {
-      $(this).find('.edit-icons').hide();
+      if ($(this).find('.user-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
+        $(this).find('.edit-icons').hide();
+      }
     });
 
   });

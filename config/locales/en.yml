@@ -79,9 +79,12 @@ en:
   search: "Search"
   search_messages: "Search messages"
   created_at: "Created at: "
-  are_you_sure_you_want_to_delete: "Are you sure you want to delete this room?"
+  are_you_sure_you_want_to_delete_this_room: "Are you sure you want to delete this room?"
+  are_you_sure_you_want_to_delete_this_message: "Are you sure you want to delete this message?"
   select_a_room: "Select a room"
   delete_this_room: "Delete this room"
+  delete_this_message: "Delete this message"
+  edit_this_message: "Edit this message"
 
   error_room_cannot_create: "Error: cannot create any rooms"
   websocket_status: "WebSocket Status"

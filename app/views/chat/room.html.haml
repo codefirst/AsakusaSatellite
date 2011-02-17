@@ -30,7 +30,7 @@
  - if logged?
   .input
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
-    =text_area_tag :message, '', :class => :text, :autofocus=>true, :placeholder=>"ここに発言を入力してください。"
+    =text_area_tag :message, '', :class => :text, :autofocus=>true, :placeholder=> t('placeholder_message')
     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
 .chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))
 
@@ -57,17 +57,11 @@
       });
     });
 
-    // 表示時のメッセージ
-    function scrollAfterImage(e){
-      $(".attachment img", e).bind("load", function(){
-        autoScroll();
-      });
-    }
-
+    // make div.message from object
     function makeElement(message){
       var dom = $(message.view);
-      //自分の発言なら編集できるようにする
       if(message.screen_name == "#{current_user.nil? ? '' : current_user.screen_name}") {
+        // You could edit your own message.
         $(".body", dom).onTheSpot({
           url  : '#{url_for(:action => 'update_message_on_the_spot')}',
           data : message.body
@@ -77,7 +71,7 @@
     }
     $(".message-list").webSocket({ makeElement : makeElement });
 
-    // read more
+    // read more button
     $('#read-more').bind('click',function(){
       $.getJSON(
         '#{url_for(:controller=>'api/v1/room', :action=>:show, :id=> @room.id, :format=>'json' )}',
@@ -90,7 +84,7 @@
         })
     });
 
-    // メッセージの送信
+    // messages send
     $('textarea#message').multiline();
     $(".message-list").bind('websocket::connect', function(_, ws){
       $('form.inputarea').bind('submit', function(e){
@@ -104,7 +98,7 @@
       });
     });
 
-    // WebSocket接続状況の表示
+    // show status of websocket
     $(".message-list").bind('websocket::connect', function(){
       $("img.websocket-status").attr('src', '#{image_path('connection.gif')}');
     });
@@ -112,14 +106,19 @@
       $("img.websocket-status").attr('src', '#{image_path('connection_fail.gif')}');
     });
 
-    // 表示後スクロール
+    // scroll after loaded
     $(".message-list").bind('websocket::create', function(){
        autoScroll();
     });
+    function scrollAfterImage(e){
+      $(".attachment img", e).bind("load", function(){
+        autoScroll();
+      });
+    }
     autoScroll();
     scrollAfterImage($(".message-list"))
 
-    // 通知
+    // message notification
     $(".message-list").bind('websocket::create', function(_, message){
       if(message.screen_name != "#{current_user.nil? ? '' : current_user.screen_name}") {
         $.fn.desktopNotify({
@@ -131,6 +130,7 @@
     });
     $('#send').desktopNotifyAddPermission();
 
+    // File DnD
     uploadConfig = {
       action : "#{url_for(:controller => 'chat', :action => 'message')}",
       params : [{ room_id : '#{@room.id}'},

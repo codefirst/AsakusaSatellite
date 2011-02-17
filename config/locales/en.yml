@@ -86,3 +86,4 @@ en:
   error_room_cannot_create: "Error: cannot create any rooms"
   websocket_status: "WebSocket Status"
   input_new_room_name: "Input new room name"
+  placeholder_message: "Input message here"

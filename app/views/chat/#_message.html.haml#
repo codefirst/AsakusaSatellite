@@ -1,0 +1,20 @@
+.message{:target => message.id }
+ %p
+  - unless message.user.profile_image_url.empty?
+   %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
+  %span.toolbox
+   %span.edit{}
+    =image_tag("edit.gif", :alt => t(:edit), :title => t(:edit))
+  %span.user-name= message.user.name
+  %span.update-time
+   %a{:href => message_url(:id => message.id, :only_path=>true) }= l(message.created_at)
+ %div.body{ :id => message.id }
+  :plain
+    #{message.html_body}
+ - unless message.attachment.nil?
+  %p.attachment
+   %a{:target => "_blank", :href => root_path + "upload/" + File.basename(message.attachment.disk_filename) }
+    - if image_mimetype?(message.attachment.mimetype)
+     %img{:src => root_path + "upload/" + File.basename(message.attachment.disk_filename)}
+    - else
+     = message.filename

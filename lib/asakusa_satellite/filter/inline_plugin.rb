@@ -11,7 +11,9 @@ class AsakusaSatellite::Filter::InlinePlugin < AsakusaSatellite::Filter::Base
 
   def process(x)
     @@plugins.reduce(x) do|text, plugin|
-      text.gsub(/::#{plugin}((?::\w+)+)/) do
+      text.gsub(/::#{plugin}((?::[^ :]+)+)/) do
+        p plugin
+        p $1
         args = $1.split(":")[1..-1]
         send "__process_for_#{plugin}", *args
       end

@@ -41,7 +41,7 @@ class LoginController < ApplicationController
         :token => access_token.token,
         :secret => access_token.secret
       }
-      set_user_from(access_token)
+      return unless set_user_from(access_token)
     end
 
     session.delete :request_token
@@ -68,13 +68,13 @@ class LoginController < ApplicationController
       unless @user_info['screen_name']
         flash[:notice] = "Authentication failed"
         redirect_to :action => :index
-        return
+        return nil 
       end
     else
       RAILS_DEFAULT_LOGGER.error "Failed to get user info via OAuth"
       flash[:notice] = "Authentication failed"
       redirect_to :action => :index
-      return
+      return nil 
     end
     users = User.select do |record|
       record['screen_name'] == @user_info['screen_name']
@@ -85,5 +85,6 @@ class LoginController < ApplicationController
     user.profile_image_url = @user_info['profile_image_url']
     user.save
     set_current_user(user)
+    user.id
   end
 end

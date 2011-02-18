@@ -13,7 +13,7 @@ module Api
           render :json => {:status => 'error', :error => 'login failed'}
           return
         end
-        current_user = users.records.first
+        session[:current_user_id] = users.records.first.id
         render :json => {:status => 'ok', :message => 'login successful'}
       end
     end

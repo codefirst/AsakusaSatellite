@@ -41,7 +41,7 @@ class LoginController < ApplicationController
         :token => access_token.token,
         :secret => access_token.secret
       }
-      set_user_from(access_token)  
+      set_user_from(access_token)
     end
 
     session.delete :request_token

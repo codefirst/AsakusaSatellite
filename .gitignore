@@ -19,3 +19,4 @@ config/settings.yml
 .autotest
 spec/reports
 *.swp
+\#*\#

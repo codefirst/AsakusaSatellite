@@ -49,36 +49,32 @@
     }
 
     // on the spot
-    $(".message").each(function(_, e){
-      var dom = $(e);
-      if ($(dom).find('.screen-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
+    function onTheSpot(dom){
+      // You can edit your own message
+      if (dom.find('.screen-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
+        var body = dom.find(".body");
+        body.onTheSpot({
+          url  : '#{url_for(:action => 'update_message_on_the_spot')}',
+          data : body.attr("original")
+        });
+        dom.find(".edit").bind("click",function(){ body.trigger("onTheSpot::start"); });
+
+        // show edit button
         dom.hover(function(e) {
           $(this).find('.edit-icons').fadeIn();
         },function(e){
           $(this).find('.edit-icons').fadeOut();
         });
       }
+    }
+    $(".message").each(function(_, e){
+      onTheSpot( $(e) );
     });
 
     // make div.message from object
     function makeElement(message){
       var dom = $(message.view);
-      if(message.screen_name == "#{current_user.nil? ? '' : current_user.screen_name}") {
-        // You could edit your own message.
-        $(".body", dom).onTheSpot({
-          url  : '#{url_for(:action => 'update_message_on_the_spot')}',
-          data : message.body
-        });
-        dom.bind('mouseover', function() {
-          if ($(this).find('.user-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
-            $(this).find('.edit-icons').show();
-          }
-        }).bind('mouseout', function() {
-          if ($(this).find('.user-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
-            $(this).find('.edit-icons').hide();
-          }
-        });
-      }
+      onTheSpot(dom);
       return dom;
     }
     $(".message-list").webSocket({ makeElement : makeElement });

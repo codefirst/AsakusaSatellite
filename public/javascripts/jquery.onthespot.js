@@ -3,7 +3,7 @@
 	var defaults = {
 	    submit  : 'OK',
 	    cancel  : 'Cancel',
-	    tooltip : 'click here...',
+	    tooltip : '',
 	    onerror : function (settings, original, xhr) {
                 original.reset();
                 console.log(xhr);
@@ -17,17 +17,12 @@
 
 	var target = this;
 
-	target.mouseover(function() {
-            $(this).css('background-color', '#EEF2A0');
-	});
-	target.mouseout(function() {
-            $(this).css('background-color', 'inherit');
-	});
-
         var options = {
 	    tooltip: config.tooltip,
 	    cancel:  config.cancel,
-	    submit:  config.submit
+	    submit:  config.submit,
+	    event: "onTheSpot::start",
+	    style: ""
         };
 
         if (config.select) {

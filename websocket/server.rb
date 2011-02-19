@@ -7,6 +7,9 @@ require 'thin'
 require 'uri'
 require 'open-uri'
 require 'yaml'
+require 'logger'
+
+$log = Logger.new(STDOUT)
 
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
@@ -14,23 +17,29 @@ config_path = File.expand_path('../config/websocket.yml',
                                File.dirname(__FILE__))
 puts "load from: #{config_path}"
 WsConfig = YAML.load_file config_path
-p WsConfig
+$log.info WsConfig.inspect
 
 def rails_root
   "http#{WsConfig['use_rails_ssl'] ? 's' : ''}://#{WsConfig['roots']}"
 end
 
 EventMachine.run do
-  $clients = []
+  $clients = Hash.new {|hash, key|
+    hash[key] = []
+  }
 
   EventMachine::WebSocket.start(:host => '0.0.0.0',
                                 :port => WsConfig['websocketPort']) do |ws|
     ws.onopen do
-      $clients << ws
+      $log.info "on open: #{ws.request['Query'].inspect}"
+      room =  ws.request['Query']['room']
+      $clients[room] << ws
     end
 
     ws.onclose do
-      $clients.delete ws
+      $log.info "on close: #{ws.request['Query'].inspect}"
+      room =  ws.request['Query']['room']
+      $clients[room].delete ws
     end
   end
 
@@ -38,6 +47,7 @@ EventMachine.run do
     get '/message/:event/:id' do
       event = params[:event]
       id    = params[:id]
+      room  = params[:room]
       case event
       when 'create', 'update'
         open("#{rails_root}/api/v1/message/#{id}.json"){|io|
@@ -47,8 +57,13 @@ EventMachine.run do
             "content" : #{io.read}
           }
 JSON
-          $clients.each{|ws|
-            ws.send json }
+          $clients[room].each do|ws|
+            begin
+              ws.send json
+            rescue => e
+              $log.error e.inspect
+            end
+          end
         }
       end
       "ok"

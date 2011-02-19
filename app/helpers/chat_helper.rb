@@ -40,8 +40,10 @@ module ChatHelper
 
   private
   def publish_message(event, message)
+    url = "http://localhost:#{WebsocketConfig.httpPort}/message/#{event}/#{message.id}?room=#{message.room.id}"
+    logger.debug url
     Thread.new do
-      open("http://localhost:#{WebsocketConfig.httpPort}/message/#{event}/#{message.id}"){|_|}
+      open(url){|_|}
     end
   end
 end

@@ -77,7 +77,7 @@
       onTheSpot(dom);
       return dom;
     }
-    $(".message-list").webSocket({ makeElement : makeElement });
+    $(".message-list").webSocket({ makeElement : makeElement, room : #{@room.id} });
 
     // read more button
     $('#read-more').bind('click',function(){

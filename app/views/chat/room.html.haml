@@ -49,12 +49,15 @@
     }
 
     // on the spot
-    $(".on-the-spot").each(function(_, e){
-      var e = $(e);
-      e.onTheSpot({
-        url  : '#{url_for(:action => 'update_message_on_the_spot')}',
-        data : e.attr('original')
-      });
+    $(".message").each(function(_, e){
+      var dom = $(e);
+      if ($(dom).find('.screen-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
+        dom.hover(function(e) {
+          $(this).find('.edit-icons').fadeIn();
+        },function(e){
+          $(this).find('.edit-icons').fadeOut();
+        });
+      }
     });
 
     // make div.message from object

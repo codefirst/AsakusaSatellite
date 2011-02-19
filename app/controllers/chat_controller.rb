@@ -27,7 +27,7 @@ class ChatController < ApplicationController
   end
 
   def room
-    if request.post? and current_user.nil? 
+    if request.post? and current_user.nil?
       redirect_to :controller => 'chat'
       return
     end
@@ -57,7 +57,7 @@ class ChatController < ApplicationController
       if Room.find(params[:room_id]).nil?
         flash[:error] = t(:error_message_room_not_found)
         redirect_to :controller => 'chat'
-      end 
+      end
       if request[:fileupload]
         message = create_message(params[:room_id], "", :force => true)
         @attachment = Attachment.create_and_save_file(params[:filename], params[:file], params[:mimetype], message)
@@ -96,8 +96,7 @@ class ChatController < ApplicationController
       render :text => message.body
       return
     end
-    message.body = params[:value]
-    message.save
-    render :text => message.body 
+    update_message( message.id,  params[:value])
+    render :text => message.body
   end
 end

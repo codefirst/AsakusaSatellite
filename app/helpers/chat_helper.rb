@@ -18,11 +18,8 @@ module ChatHelper
     @message = Message.find(message_id)
     return false unless message
     @message.body = message
-    unless @message.save
-      return false
-    end
+    @message.save!
     publish_message(:update, @message)
-    true
   end
 
   def delete_message(message_id)

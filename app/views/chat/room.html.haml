@@ -22,7 +22,7 @@
     = @room.user.name
   %div.room-date
    = t(:created_at) + " " + l(@room.created_at)
- %div{:id => 'read-more'}
+ %div{:id => 'read-more', :class => 'read-more' }
   read more
  .message-list
   - @messages.reverse_each do |message|
@@ -37,6 +37,7 @@
 = content_for :javascripts do
  = javascript_include_tag :on_the_spot
  = javascript_include_tag 'jquery.dropUploader'
+ = javascript_include_tag 'jquery.readmore'
  = javascript_include_tag "jquery.websocket"
  = javascript_include_tag "jquery.multiline"
  = javascript_include_tag "jquery.onthespot"
@@ -86,27 +87,14 @@
       });
     }
 
-    activate($("#read-more"), function(elem, resume){
-      var original = elem.text();
-      var id = $(".message").first().attr("target");
-      elem.addClass("loading").empty().html(#{image_tag('ajax-loader.gif').inspect});
-      $.get("#{url_for(:action => :prev)}?id="+id, function(content){
-        var dom = $(content).find(".message");
-        elem.removeClass("loading");
-        if( dom.length == 0){
-          elem.empty().html("no more message");
-        } else {
-          // show loaded message
-          dom.hide();
-          $(".message-list").prepend(dom);
-          dom.fadeIn();
-
-          // restore buton status
-          elem.empty().html(original);
-          resume();
-        }
-      });
+    $("#read-more").readMore({
+      id : function(){ return $(".message").first().attr("target"); },
+      container : ".message-list",
+      content : ".message",
+      url : "#{url_for(:action => :prev)}",
+      indicator : #{image_tag('ajax-loader.gif').inspect}
     });
+
 
     // messages send
     $('textarea#message').multiline();

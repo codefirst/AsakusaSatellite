@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ChatController do
@@ -66,21 +67,21 @@ describe ChatController do
 
   describe "部屋作成時は" do
     it "ログインしていない場合は作成しない" do
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       room_num = Room.all.records.size
       post :room, {:room => {:title => 'test'}}
       Room.all.records.size.should == room_num
     end
 
     it "ログインしていない場合はトップページへリダイレクトする" do
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       room_num = Room.all.records.size
       post :room, {:room => {:title => 'test'}}
       response.should redirect_to(:controller => 'chat', :action => 'index')
     end
 
     it "ログインしていないユーザが/chat/createへアクセスするとトップページにリダイレクトする" do
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       get :create
       response.should redirect_to(:controller => 'chat', :action => 'index')
     end
@@ -113,7 +114,8 @@ describe ChatController do
     message.save
     10.times { Message.new(:room => room).save }
     get :show, :id => message.id, :c => 5
-    assigns[:messages].size.should == 11
+    assigns[:prev].size.should == 5
+    assigns[:next].size.should == 5
   end
 
   context "部屋の名前の変更" do

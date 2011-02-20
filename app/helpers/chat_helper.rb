@@ -18,8 +18,12 @@ module ChatHelper
     @message = Message.find(message_id)
     return false unless message
     @message.body = message
-    @message.save!
-    publish_message(:update, @message)
+    if @message.save then
+      publish_message(:update, @message)
+      true
+    else
+      false
+    end
   end
 
   def delete_message(message_id)
@@ -40,9 +44,8 @@ module ChatHelper
 
   private
   def publish_message(event, message)
-    url = "http://localhost:#{WebsocketConfig.httpPort}/message/#{event}/#{message.id}?room=#{message.room.id}"
-    logger.debug url
     Thread.new do
+      url = "http://localhost:#{WebsocketConfig.httpPort}/message/#{event}/#{message.id}?room=#{message.room.id}"
       open(url){|_|}
     end
   end

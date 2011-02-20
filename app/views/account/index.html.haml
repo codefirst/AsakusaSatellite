@@ -4,3 +4,19 @@
    %legend= t(:your_secret_key)
    =text_field :account, :secret_key, :class => :text, :disabled => true, :value => current_user.spell
    =submit_tag t(:generate), :class => "submit red button large"
+
+ %fieldset
+  %legend Desktop notification
+  =submit_tag "Desktop Notification On", {:id => 'dn-button', :class => "submit red button large"}
+
+= content_for :javascripts do
+ = javascript_include_tag "jquery.desktopnotify"
+ :javascript
+  $(function() {
+    if (window.webkitNotifications && window.webkitNotifications.checkPermission() == 0) {
+      $('#dn-button').attr("disabled", "disabled");
+      $('#dn-button').addClass("gray");
+    } else {
+      $('#dn-button').desktopNotifyAddPermission();
+    }
+  });

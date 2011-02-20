@@ -1,3 +1,4 @@
+# -*- coding: utf-8-emacs -*-
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Message do
@@ -35,5 +36,31 @@ describe Message do
         "screen_name" => @message.user.screen_name
     }
   end
-  
+end
+
+describe Message, "部屋のと関連" do
+  before do
+    @room_name = 'テストの部屋'
+    @room = Room.new(:title => @room_name)
+    @room.save!
+    @user = User.new(:name => 'test user', :screen_name => 'test')
+    @user.save!
+
+    @messages = (0..10).map do|i|
+      message = Message.new(:body => i.to_s, :user => @user, :room => @room)
+      message.save!
+      message
+    end
+    @target = @messages[5]
+  end
+
+  it "自分より前のメッセージを取得できる" do
+    @target.prev(1).should == [ @messages[4] ]
+    @target.prev(2).should == [ @messages[3], @messages[4] ]
+  end
+
+  it "自分より後のメッセージを取得できる" do
+    @target.next(1).should == [ @messages[6] ]
+    @target.next(2).should == [ @messages[6], @messages[7] ]
+  end
 end

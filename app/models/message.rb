@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Message < ActiveGroonga::Base
   def encode_json(_)
     self.to_hash.to_json
@@ -25,6 +26,20 @@ class Message < ActiveGroonga::Base
       record.message == self
     end
     attachments.nil? ? nil : attachments.first
+  end
+
+  def prev(offset)
+    # FIXME: もっと効率良く!
+    Message.select('id, room.id, user.id, body') do |record|
+      record.id < self.id
+    end.sort([{:key => "created_at", :order => :desc}], :limit => offset).to_a.reverse
+  end
+
+  def next(offset)
+    # FIXME: もっと効率良く!
+    next_ = Message.select('id, room.id, user.id, body') do |record|
+      record.id > self.id
+    end.sort([{:key => "created_at", :order => :asc}], :limit => offset).to_a
   end
 end
 

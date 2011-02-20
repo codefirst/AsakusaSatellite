@@ -80,16 +80,32 @@
     $(".message-list").webSocket({ makeElement : makeElement, room : #{@room.id} });
 
     // read more button
-    $('#read-more').bind('click',function(){
-      $.getJSON(
-        '#{url_for(:controller=>'api/v1/room', :action=>:show, :id=> @room.id, :format=>'json' )}',
-        { 'offset' : $('.message-list').children('.message').size() + 1 },
-        function(xs){
-          var ys = $(xs).map(function(){ return makeElement(this)[0]; });
-          ys.hide();
-          $('.message-list').prepend(ys);
-          ys.fadeIn();
-        })
+    function activate(elem, f){
+      elem.one('click',function(){
+        f($(this), function(){ activate(elem, f); });
+      });
+    }
+
+    activate($("#read-more"), function(elem, resume){
+      var original = elem.text();
+      var id = $(".message").first().attr("target");
+      elem.addClass("loading").empty().html(#{image_tag('ajax-loader.gif').inspect});
+      $.get("#{url_for(:action => :prev)}?id="+id, function(content){
+        var dom = $(content).find(".message");
+        elem.removeClass("loading");
+        if( dom.length == 0){
+          elem.empty().html("no more message");
+        } else {
+          // show loaded message
+          dom.hide();
+          $(".message-list").prepend(dom);
+          dom.fadeIn();
+
+          // restore buton status
+          elem.empty().html(original);
+          resume();
+        }
+      });
     });
 
     // messages send

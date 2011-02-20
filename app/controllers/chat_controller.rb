@@ -1,4 +1,4 @@
-# -*- coding: undecided -*-
+# -*- coding: utf-8 -*-
 class ChatController < ApplicationController
   include ChatHelper
   can_edit_on_the_spot
@@ -7,6 +7,13 @@ class ChatController < ApplicationController
 
   def index
     @rooms = Room.all_live
+  end
+
+  def prev
+    @message = Message.find params[:id]
+    @messages = @message.prev( params[:offset] || 20 )
+
+    render :action => :messages, :layout => false
   end
 
   def show

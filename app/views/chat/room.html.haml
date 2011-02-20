@@ -81,12 +81,6 @@
     $(".message-list").webSocket({ makeElement : makeElement, room : #{@room.id} });
 
     // read more button
-    function activate(elem, f){
-      elem.one('click',function(){
-        f($(this), function(){ activate(elem, f); });
-      });
-    }
-
     $("#read-more").readMore({
       id : function(){ return $(".message").first().attr("target"); },
       container : ".message-list",

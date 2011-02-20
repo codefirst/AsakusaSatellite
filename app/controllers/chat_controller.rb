@@ -16,21 +16,20 @@ class ChatController < ApplicationController
     render :action => :messages, :layout => false
   end
 
+  def next
+    @message = Message.find params[:id]
+    @messages = @message.next( params[:offset] || 20 )
+
+    render :action => :messages, :layout => false
+  end
+
   def show
     @id      = params[:id]
-    @window  = params[:c].to_i || 5
     @message = Message.find @id
-    @room    = @message.room
 
-    prev = Message.select('id, room.id, user.id, body') do |record|
-      record.id < @message.id
-    end.sort([{:key => "created_at", :order => :desc}], :limit => @window).to_a
-
-    next_ = Message.select('id, room.id, user.id, body') do |record|
-      record.id > @message.id
-    end.sort([{:key => "created_at", :order => :desc}], :limit => @window).to_a
-
-    @messages = next_ + [ @message ] + prev
+    @room = @message.room
+    @prev = @message.prev 5
+    @next = @message.next 5
   end
 
   def room

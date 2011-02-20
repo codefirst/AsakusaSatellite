@@ -1,4 +1,4 @@
-.message{:target => message.id }
+.message{:target => message.id , :class => defined?(cssclass) && cssclass }
  %div
   - unless message.user.profile_image_url.empty?
    %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}

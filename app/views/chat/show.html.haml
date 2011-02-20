@@ -18,6 +18,37 @@
     = @room.user.name
   %div.room-date
    = t(:created_at) + " " + l(@room.created_at)
+ %div{:id => 'read-prev', :class => 'read-more' }
+  read more
  .message-list
-  - @messages.reverse_each do |message|
+  - @prev.each do |message|
    = render :partial => 'message', :locals => { :message => message }
+  = render :partial => 'message', :locals => { :message => @message, :cssclass => 'target' }
+  - @next.each do |message|
+   = render :partial => 'message', :locals => { :message => message }
+ %div{:id => 'read-next', :class => 'read-more' }
+  read more
+
+= content_for :javascripts do
+ = javascript_include_tag 'jquery.readmore'
+ :javascript
+
+  $(function() {
+    $("#read-prev").readMore({
+      id : function(){
+        return $(".message").first().attr("target"); },
+      container : ".message-list",
+      content : ".message",
+      url : "#{url_for(:action => :prev)}",
+      indicator : #{image_tag('ajax-loader.gif').inspect}
+    });
+
+    $("#read-next").readMore({
+      id : function(){ return $(".message").last().attr("target"); },
+      container : ".message-list",
+      content : ".message",
+      url : "#{url_for(:action => :next)}",
+      append : true,
+      indicator : #{image_tag('ajax-loader.gif').inspect}
+    });
+  });

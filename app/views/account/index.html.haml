@@ -7,7 +7,7 @@
 
  %fieldset
   %legend Desktop notification
-  =submit_tag "Desktop Notification On", {:id => 'dn-button', :class => "submit red button large"}
+  =submit_tag t(:desktop_notification_on), {:id => 'dn-button', :class => "submit red button large"}
 
 = content_for :javascripts do
  = javascript_include_tag "jquery.desktopnotify"

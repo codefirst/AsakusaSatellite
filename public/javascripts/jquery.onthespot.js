@@ -22,6 +22,7 @@
 	    cancel:  config.cancel,
 	    submit:  config.submit,
 	    event: "onTheSpot::start",
+	    placeholder : '',
 	    style: ""
         };
 

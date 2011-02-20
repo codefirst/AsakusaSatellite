@@ -1,5 +1,7 @@
 -# -*- coding: utf-8 -*-
 .chat_room_top= raw(call_hook(:chat_room_top, :room => @room))
+.audio
+ %audio{:src => "#{root_path}audio/sound.mp3", :id => :audio}
 .yield
  %div.room-info
   %div
@@ -133,6 +135,8 @@
             text : (message.attachment != null ? message.attachment.filename : message.body)
         });
       }
+      document.getElementById("audio").load();
+      document.getElementById("audio").play();
     });
     $('#send').desktopNotifyAddPermission();
 

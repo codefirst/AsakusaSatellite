@@ -7,7 +7,8 @@ en:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%m/%d/%Y"
+      #default: "%m/%d/%Y"
+      default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
 
@@ -22,7 +23,8 @@ en:
 
   time:
     formats:
-      default: "%m/%d/%Y %I:%M %p"
+      #default: "%m/%d/%Y %I:%M %p"
+      default: "%Y-%m-%d %I:%M %p"
       time: "%I:%M %p"
       short: "%d %b %H:%M"
       long: "%B %d, %Y %H:%M"

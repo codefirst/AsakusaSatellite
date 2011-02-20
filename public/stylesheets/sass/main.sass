@@ -282,15 +282,20 @@ form.inputarea
 
 
 // for iPhone 4
-@media only screen and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2)
+@media only screen and (max-device-width: 480px)
+  .main
+    :width 300px
+    :margin 0
+    :-moz-box-shadow 0 0 0 #fff
+    :-webkit-box-shadow 0 0 0 #fff
   .header
+    :margin 0
     img
       :width 180px
-  .main
-    :width 310px
-    :margin 0
+  .footer
+    :margin-top 10px
   .yield
-    :width 310px
+    :width 300px
     :margin 0
   textarea.text
     :width 275px
@@ -305,5 +310,11 @@ form.inputarea
     :margin-left 0
     :margin-right 0
   .room-list
-    :width 310px
+    :width 300px
+  .room-info
+    :margin-top 0
+    .left
+      :width 70%
+    .right
+      :width 30%
 

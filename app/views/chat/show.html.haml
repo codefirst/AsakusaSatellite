@@ -8,7 +8,7 @@
      - unless @message.body.nil?
       \/ #{@message.user.name}: #{@message.body.each_char.to_a[0,10]}
    .right
-    =link_to image_tag("action_stop.gif"), {:controller => :room, :action => :delete, :id => @room}, |
+    =link_to image_tag("room_delete.gif"), {:controller => :room, :action => :delete, :id => @room}, |
         :onclick => "return confirm('Are you sure?');"
    .clear
   - unless @room.user.nil?

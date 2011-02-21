@@ -8,24 +8,18 @@ describe CodeHighlightFilter do
   end
 
   it '変換しない' do
-    @filter.process("test").should == "test"
-  end
-
-  it '空のやつでもOK' do
-    @filter.process("ruby::").should == ""
+    @filter.process_all(["test"]).should == ["test"]
   end
 
   it 'ハイライトできる' do
-    plain = <<END
-ruby::
-puts "hello"
-END
+    plain = [ "ruby::", "puts \"hello\"",""]
+
     result = <<END
 <div class="CodeRay">
   <div class="code"><pre>puts <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">hello</span><span style="color:#710">&quot;</span></span>
 </pre></div>
 </div>
 END
-    @filter.process(plain).should == result
+    @filter.process_all(plain).should == [ result ]
   end
 end

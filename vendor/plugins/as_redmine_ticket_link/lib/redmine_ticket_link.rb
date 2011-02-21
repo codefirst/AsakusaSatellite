@@ -1,4 +1,7 @@
+# -*- coding: undecided -*-
 require 'uri'
+require 'asakusa_satellite/hook'
+
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
@@ -29,3 +32,22 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
     end
   end
 end
+
+class AsakusaSatellite::Hook::RedmineTicketLink < AsakusaSatellite::Hook::Listener
+  include ActionController::UrlWriter
+
+
+  def message_buttons(context)
+    subject = CGI.escape(context[:message].body)
+
+    description = CGI.escape(<<"END")
+#{context[:message].user.name}: #{context[:message].body}
+
+#{context[:permlink]}
+END
+
+    url =  URI.join(config.roots,"./projects/#{config.project}/issues/new?issue[description]=#{description}&issue[subject]=#{subject}")
+    %(<a target="_blank" href="#{url}"><img src="#{root_path}images/redmine.png" /></a>)
+  end
+end
+

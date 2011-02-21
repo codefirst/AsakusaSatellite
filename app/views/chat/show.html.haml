@@ -4,7 +4,7 @@
   %div
    .left
     %h3.title
-     = on_the_spot_edit @room, :title
+     = link_to @room.title, :action => :room, :id =>@room.id
      - unless @message.body.nil?
       \/ #{@message.user.name}: #{@message.body.each_char.to_a[0,10]}
    .right

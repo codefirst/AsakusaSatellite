@@ -16,14 +16,15 @@
 	}
 	ws.onmessage = function(text){
 	    eval('var message = ' + text.data);
+	    var obj = message.content;
 	    switch(message.event){
 	    case 'create':
-		var obj = message.content;
 		fire('websocket::create', obj);
 		break;
 	    case 'update':
-		var obj = message.content;
 		fire('websocket::update', obj);
+	    case 'delete':
+		fire('websocket::delete', obj);
 		break;
 	    }
 	}
@@ -43,6 +44,11 @@
 		dom.hide();
 		$("[target=" + obj.id + "]").replaceWith(dom);
 		dom.fadeIn();
+	    });
+
+	    target.bind('websocket::delete', function(_, obj){
+		var dom = $("[target=" + obj.id + "]");
+		dom.fadeOut(function(){ dom.remove(); });
 	    });
 	}
     }

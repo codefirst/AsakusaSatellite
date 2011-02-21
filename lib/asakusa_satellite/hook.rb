@@ -23,8 +23,12 @@ module AsakusaSatellite::Hook
         unless listener.respond_to?(hook)
           html
         else
-          elem = listener.send(hook, context)
-          html + ((elem.class == String and not elem.nil?) ? elem : '')
+          begin
+            elem = listener.send(hook, context)
+            html + ((elem.class == String and not elem.nil?) ? elem : '')
+          rescue
+            html
+          end
         end
       end
     end

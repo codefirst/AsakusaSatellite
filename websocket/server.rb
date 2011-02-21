@@ -65,6 +65,22 @@ JSON
             end
           end
         }
+      when 'delete'
+        json = <<JSON
+          {
+            "event" : "#{event}",
+            "content" : { id : #{id} }
+          }
+JSON
+
+        puts json
+        $clients[room].each do|ws|
+          begin
+            ws.send json
+          rescue => e
+            $log.error e.inspect
+          end
+        end
       end
       "ok"
     end

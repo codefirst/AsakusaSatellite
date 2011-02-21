@@ -28,9 +28,9 @@ module ChatHelper
 
   def delete_message(message_id)
     @message = Message.find(message_id)
-    unless @message.destroy
-      return false
-    end
+    return false unless @message
+    return false unless @message.destroy
+
     publish_message(:delete, @message)
     true
   end

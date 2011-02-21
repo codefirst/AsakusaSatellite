@@ -20,4 +20,5 @@
     - if image_mimetype?(message.attachment.mimetype)
      %img{:src => root_path + "upload/" + File.basename(message.attachment.disk_filename)}
     - else
-     = message.filename
+     = image_tag("page_attachment.gif")
+     = message.attachment.filename

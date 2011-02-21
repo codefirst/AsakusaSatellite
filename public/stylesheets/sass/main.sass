@@ -122,13 +122,15 @@ td
   div
     :padding 0
     :margin 0
-    img.profile
-      :float left
-    .user-name
-      :font-weight bold
-      :margin-left 3px
-    .screen-name
-      :display none
+    .profile
+      :display inline-block
+      img.profile
+        :float left
+      .user-name
+        :font-weight bold
+        :margin-left 3px
+      .screen-name
+        :display none
     .update-time
       :float right
       :text-align right
@@ -140,10 +142,12 @@ td
         :text-decoration none
       a:hover
         :text-decoration underline
-      .edit-icons
-        :display none
-        :height 20px
-        :cursor pointer
+    .edit-icons
+      :float right
+      :margin-right 5px
+      :display none
+      :height 20px
+      :cursor pointer
   .body
     :clear both
     span

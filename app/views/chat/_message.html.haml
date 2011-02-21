@@ -1,14 +1,16 @@
 .message{:target => message.id , :class => defined?(cssclass) && cssclass }
  %div
-  - unless message.user.profile_image_url.empty?
-   %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
-  %span.screen-name= message.user.screen_name
-  %span.user-name= message.user.name
+  .profile
+   - unless message.user.profile_image_url.empty?
+    %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
+   %span.screen-name= message.user.screen_name
+   %span.user-name= message.user.name
   .update-time
-   %span.edit-icons
-    = image_tag("message_edit.gif", :class=>'edit', :alt => t(:edit_this_message), :title => t(:edit_this_message))
-    = image_tag("message_delete.gif", :class=>'delete', :alt => t(:delete_this_message), :title => t(:delete_this_message))
    %a{:href => message_url(:id => message.id, :only_path=>true) }= l(message.created_at)
+  .edit-icons
+   = image_tag("message_edit.gif", :class=>'edit', :alt => t(:edit_this_message), :title => t(:edit_this_message))
+   = image_tag("message_delete.gif", :class=>'delete', :alt => t(:delete_this_message), :title => t(:delete_this_message))
+
   %div.body{ :original => message.body, :id => message.id }
    :plain
     #{message.html_body}

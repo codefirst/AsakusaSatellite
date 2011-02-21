@@ -97,7 +97,8 @@
       container : ".message-list",
       content : ".message",
       url : "#{url_for(:action => :prev)}",
-      indicator : #{image_tag('ajax-loader.gif').inspect}
+      indicator : #{image_tag('ajax-loader.gif').inspect},
+      onLoad : function(messages){ messages.each(function(_, e){ onTheSpot($(e)); }); }
     });
 
 

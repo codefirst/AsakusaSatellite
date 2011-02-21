@@ -1,6 +1,7 @@
 (function($){
     $.fn.readMore = function(config) {
         var defaults = {
+	    onLoad : function(){}
         };
 	var config = jQuery.extend(defaults, config);
         var target = this;
@@ -17,6 +18,7 @@
 	    target.addClass("loading").empty().html(config.indicator);
 	    $.get( config.url + "?id="+id, function(content){
 		var dom = $(content).find( config.content );
+		config.onLoad(dom);
 		elem.removeClass("loading");
 		if( dom.length == 0){
 		    elem.empty().html("no more message");

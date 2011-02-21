@@ -18,6 +18,14 @@
     = @room.user.name
   %div.room-date
    = t(:created_at) + " " + l(@room.created_at)
+
+ = form_for :chat, :url => {:action => :show, :id => @message.id },:html => {:method=>"GET", :class => "show-form" }  do |f|
+  = t(:prev)
+  =select_tag(:prev, options_for_select(@prev_options, @prev_size ))
+  = t(:next)
+  =select_tag(:next, options_for_select(@next_options, @next_size))
+  =submit_tag t(:show), :class => 'submit red button large', :id => 'show'
+
  %div{:id => 'read-prev', :class => 'read-more' }
   read more
  .message-list

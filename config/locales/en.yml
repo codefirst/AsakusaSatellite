@@ -93,3 +93,6 @@ en:
   input_new_room_name: "Input new room name"
   placeholder_message: "Input message here"
   desktop_notification_on: "Desktop Notification On"
+  next: next
+  prev: prev
+  show: show

@@ -27,9 +27,15 @@ class ChatController < ApplicationController
     @id      = params[:id]
     @message = Message.find @id
 
+    @prev_size = int(params[:prev], 5)
+    @next_size = int(params[:next], 5)
+
+    @prev_options = [0,1,5,10,15,20,@prev_size].sort.uniq
+    @next_options = [0,1,5,10,15,20,@next_size].sort.uniq
+
     @room = @message.room
-    @prev = @message.prev 5
-    @next = @message.next 5
+    @prev = @message.prev(@prev_size)
+    @next = @message.next(@next_size)
   end
 
   def room
@@ -104,5 +110,14 @@ class ChatController < ApplicationController
     end
     update_message( message.id,  params[:value])
     render :text => message.body
+  end
+
+  private
+  def int(s, default)
+    if s == nil || s.empty? then
+      default
+    else
+      s.to_i
+    end
   end
 end

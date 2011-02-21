@@ -20,9 +20,12 @@ module AsakusaSatellite::Hook
 
     def call_hook(hook, context = {})
       @@listeners.inject '' do |html, listener|
-        next unless listener.respond_to?(hook)
-        elem = listener.send(hook, context)
-        html + ((elem.class == String and not elem.nil?) ? elem : '')
+        unless listener.respond_to?(hook)
+          html
+        else
+          elem = listener.send(hook, context)
+          html + ((elem.class == String and not elem.nil?) ? elem : '')
+        end
       end
     end
   end

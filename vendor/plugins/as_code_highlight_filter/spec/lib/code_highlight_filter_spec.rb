@@ -22,4 +22,23 @@ describe CodeHighlightFilter do
 END
     @filter.process_all(plain).should == [ result ]
   end
+
+  it "graphvizの可視化に対応" do
+    graph = <<END
+digraph sample {
+ alpha -> beta;
+ alpha -> gamma;
+ beta -> delta;
+}
+END
+
+    plain = <<"END"
+graphviz::
+#{graph}
+END
+
+    result = %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&chl=#{CGI.escape graph.strip}" />)
+
+    @filter.process_all(plain.split("\n")).should == [ result ]
+  end
 end

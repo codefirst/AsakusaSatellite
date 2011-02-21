@@ -3,7 +3,19 @@ module AsakusaSatellite::Hook
 
   class << self
     def add_listener(klass)
-      @@listeners << klass.new
+      config = AsakusaSatellite::Hook[klass.name.underscore.split('/')[-1]]
+      @@listeners << klass.new(OpenStruct.new(config))
+    end
+
+    def initialize!(config)
+      @config = config
+    end
+
+    def [](name)
+      @config.each do |c|
+        return c if c['name'] == name
+      end
+      nil
     end
 
     def call_hook(hook, context = {})
@@ -19,6 +31,15 @@ module AsakusaSatellite::Hook
     def self.inherited(klass)
       AsakusaSatellite::Hook.add_listener(klass)
       super
+    end
+
+    def initialize(config)
+      @config = config
+    end
+
+    private
+    def config
+      @config
     end
   end
 

@@ -47,7 +47,7 @@ class AsakusaSatellite::Hook::RedmineTicketLink < AsakusaSatellite::Hook::Listen
 END
 
     url =  URI.join(config.roots,"./projects/#{config.project}/issues/new?issue[description]=#{description}&issue[subject]=#{subject}")
-    %(<a target="_blank" href="#{url}"><img src="#{root_path}images/redmine.png" /></a>)
+    %(<a target="_blank" href="#{url}"><img src="https://codefirst.org/as/images/redmine.png" /></a>)
   end
 end
 

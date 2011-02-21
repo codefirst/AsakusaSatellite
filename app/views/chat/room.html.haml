@@ -61,6 +61,15 @@
           data : body.attr("original")
         });
         dom.find(".edit").bind("click",function(){ body.trigger("onTheSpot::start"); });
+        dom.find(".delete").bind("click",function(){
+          if(confirm(#{t(:are_you_sure_you_want_to_delete_this_message).inspect})){
+            // http://travisonrails.com/2009/05/20/rails-delete-requests-with-jquery
+            var id = dom.attr("target");
+            jQuery.post(
+              '#{url_for(:controller=>'api/v1/message', :action=>'destroy')}' + '/../' + id,
+              { 'id' : id, _method: 'delete' });
+          }
+        });
 
         // show edit button
         dom.hover(function(e) {

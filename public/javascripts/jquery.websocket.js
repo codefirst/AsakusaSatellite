@@ -23,6 +23,7 @@
 		break;
 	    case 'update':
 		fire('websocket::update', obj);
+		break;
 	    case 'delete':
 		fire('websocket::delete', obj);
 		break;

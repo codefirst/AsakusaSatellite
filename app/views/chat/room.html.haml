@@ -154,17 +154,5 @@
     };
     $('.message-list').dropUploader(uploadConfig);
     $('#message').dropUploader(uploadConfig);
-
-    // edit-icons
-    $('.message').live('mouseover', function() {
-      if ($(this).find('.user-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
-        $(this).find('.edit-icons').show();
-      }
-    }).bind('mouseout', function() {
-      if ($(this).find('.user-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
-        $(this).find('.edit-icons').hide();
-      }
-    });
-
   });
 

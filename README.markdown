@@ -12,16 +12,19 @@ Authors
 Requirement
 ----------------
  * Ruby 1.8.7
- * Rails 3.0.3 or later
+ * RubyGems 1.4.2 or later
+ * Bundler 1.0.7 or later
 
 Install
 ----------------
 
-    $ bundle install --path vendor/bundle
-    $ rake groonga:migrate
     $ cp config/filter.yml.example config/filter.yml
     $ cp config/websocket.yml.example config/websocket.yml
     $ cp config/settings.yml.example config/settings.yml
+    $ bundle install --path vendor/bundle
+    $ rake groonga:migrate
+
+If you got "unsupported column" error, please ignore it.
 
 ### Install for Developer
 
@@ -29,7 +32,7 @@ Install
 
 ### Access
 
-    $ rails server
+    $ bundle exec rails server
     $ ruby websocket/server
 
 access to http://localhost:3000/
@@ -81,3 +84,6 @@ edit config/filters.yml
 
  * Very cute icons: [mini icons - famfamfam.com](http://www.famfamfam.com/lab/icons/mini/)
 
+ * Cool sound: [On-Jin](http://yen-soft.com/ssse/)
+
+Do not redestribute the sound file.

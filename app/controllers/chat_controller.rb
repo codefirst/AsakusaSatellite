@@ -11,7 +11,11 @@ class ChatController < ApplicationController
 
   def prev
     @message = Message.find params[:id]
-    @messages = @message.prev( params[:offset] || 20 )
+    @messages = if @message then
+                  @message.prev( params[:offset] || 20 )
+                else
+                  []
+                end
 
     render :action => :messages, :layout => false
   end

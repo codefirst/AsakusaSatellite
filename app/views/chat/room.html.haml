@@ -48,14 +48,16 @@
  :javascript
   $(function() {
     function autoScroll(){
-      $(window).scrollTo( $(".message-list .message:last"), 500, { easing:'swing', queue:true, axis:'y' } );
+      var e = $(".message-list .message:last");
+      if(e.size >= 0){
+        $(window).scrollTo( e , 500, { easing:'swing', queue:true, axis:'y' } );
+      }
     }
 
     // on the spot
     function onTheSpot(dom){
       // You can edit your own message
       if (dom.find('.screen-name').text() == "#{current_user.nil? ? '' : current_user.screen_name}") {
-        console.log(dom);
         var body = dom.find(".body");
         body.onTheSpot({
           url  : '#{url_for(:action => 'update_message_on_the_spot')}',

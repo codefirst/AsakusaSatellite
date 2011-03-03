@@ -49,7 +49,7 @@
   $(function() {
     function autoScroll(){
       var e = $(".message-list .message:last");
-      if(e.size >= 0){
+      if(e.length > 0){
         $(window).scrollTo( e , 500, { easing:'swing', queue:true, axis:'y' } );
       }
     }

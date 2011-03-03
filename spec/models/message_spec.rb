@@ -46,7 +46,12 @@ describe Message, "部屋のと関連" do
     @user = User.new(:name => 'test user', :screen_name => 'test')
     @user.save!
 
+    @other_room = Room.new(:title => "dummy_room")
+    @other_room.save!
+
     @messages = (0..10).map do|i|
+      Message.new(:body => "dummy", :user => @user, :room => @other_room).save!
+
       message = Message.new(:body => i.to_s, :user => @user, :room => @room)
       message.save!
       message

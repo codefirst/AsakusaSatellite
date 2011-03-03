@@ -49,6 +49,7 @@ class ChatController < ApplicationController
     end
     if request.post?
       @room = Room.new(:title => params[:room][:title], :user => current_user, :updated_at => Time.now)
+
       if @room.save
         redirect_to :action => 'room', :id => @room.id
       else
@@ -58,9 +59,14 @@ class ChatController < ApplicationController
       end
     end
     @room ||= Room.find(params[:id])
-    @messages = Message.select('id, room.id, user.id, body') do |record|
-      record.created_at >= Time.now.beginning_of_day and record.room == @room
-    end.sort([{:key => "created_at", :order => :desc}], :limit => PageSize)
+
+    if @room then
+      @messages = Message.select('id, room.id, user.id, body') do |record|
+        record.created_at >= Time.now.beginning_of_day and record.room == @room
+      end.sort([{:key => "created_at", :order => :desc}], :limit => PageSize)
+    else
+      render :file=>"#{RAILS_ROOT}/public/404.html", :status=>'404 Not Found'
+    end
   end
 
   def message

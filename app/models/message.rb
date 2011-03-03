@@ -30,15 +30,15 @@ class Message < ActiveGroonga::Base
 
   def prev(offset)
     # FIXME: もっと効率良く!
-    Message.select('id, room.id, user.id, body') do |record|
-      record.id < self.id
+    Message.select do |record|
+      (record.id < self.id) & (record.room == self.room)
     end.sort([{:key => "created_at", :order => :desc}], :limit => offset).to_a.reverse
   end
 
   def next(offset)
     # FIXME: もっと効率良く!
-    next_ = Message.select('id, room.id, user.id, body') do |record|
-      record.id > self.id
+    Message.select do |record|
+      (record.id > self.id) & (record.room == self.room)
     end.sort([{:key => "created_at", :order => :asc}], :limit => offset).to_a
   end
 end

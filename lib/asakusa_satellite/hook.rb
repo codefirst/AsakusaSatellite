@@ -35,6 +35,19 @@ module AsakusaSatellite::Hook
   end
 
   class Listener
+    include ERB::Util
+    include ActionView::Helpers::TagHelper
+    include ActionView::Helpers::FormHelper
+    include ActionView::Helpers::FormTagHelper
+    include ActionView::Helpers::FormOptionsHelper
+    include ActionView::Helpers::JavaScriptHelper
+    include ActionView::Helpers::PrototypeHelper
+    include ActionView::Helpers::NumberHelper
+    include ActionView::Helpers::UrlHelper
+    include ActionView::Helpers::AssetTagHelper
+    include ActionView::Helpers::TextHelper
+    include ActionController::UrlWriter
+
     def self.inherited(klass)
       AsakusaSatellite::Hook.add_listener(klass)
       super

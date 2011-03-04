@@ -107,8 +107,10 @@ describe ChatController do
   end
 
   it "show アクセス時は前後n件が表示される" do
-    room = Room.new
-    room.save
+    owner = User.new
+    room = Room.new(:title => 'init', :user => owner)
+
+    room.save!
     10.times { Message.new(:room => room).save }
     message = Message.new(:room => room)
     message.save

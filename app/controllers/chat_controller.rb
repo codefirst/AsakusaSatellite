@@ -43,24 +43,29 @@ class ChatController < ApplicationController
   end
 
   def room
-    if request.post? and current_user.nil?
-      redirect_to :controller => 'chat'
-      return
-    end
     if request.post?
-      @room = Room.new(:title => params[:room][:title], :user => current_user, :updated_at => Time.now)
-
-      if @room.save
-        redirect_to :action => 'room', :id => @room.id
-      else
-        flash[:error] = t(:error_room_cannot_create)
-        redirect_to :action => 'create'
+      if current_user.nil?
+        redirect_to :controller => 'chat'
         return
+      else 
+        @room = Room.new(:title => params[:room][:title], :user => current_user, :updated_at => Time.now)
+        if @room.save
+          redirect_to :action => 'room', :id => @room.id
+        else
+          flash[:error] = t(:error_room_cannot_create)
+          redirect_to :action => 'create'
+          return
+        end
       end
     end
     @room ||= Room.find(params[:id])
 
     if @room then
+      if @room.deleted 
+        flash[:error] = t(:error_room_deleted)
+        redirect_to :action => 'index'
+        return
+      end
       @messages = Message.select('id, room.id, user.id, body') do |record|
         record.created_at >= Time.now.beginning_of_day and record.room == @room
       end.sort([{:key => "created_at", :order => :desc}], :limit => PageSize)

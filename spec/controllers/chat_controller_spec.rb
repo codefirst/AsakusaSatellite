@@ -28,7 +28,7 @@ describe ChatController do
     end
   end
 
-  describe "発言一覧時は" do
+  describe "入室時は" do
     it "デフォルトで該当する部屋のメッセージの20件を取得する" do
       room = Room.new(:title => 'test')
       room.save
@@ -38,6 +38,13 @@ describe ChatController do
       get :room, {:id => room.id}
       assigns[:messages].records.size.should == 20
     end
+
+    it "部屋が削除されている場合はトップページに戻る" do
+      room = Room.new(:title => 'test', :deleted => true)
+      room.save
+      get :room, {:id => room.id}
+      response.should redirect_to(:action => 'index')
+    end 
   end
 
   describe "発言更新時は" do

@@ -89,6 +89,7 @@ en:
   edit_this_message: "Edit this message"
 
   error_room_cannot_create: "Error: cannot create any rooms"
+  error_room_deleted: "Error: room does not exist or has been deleted"
   websocket_status: "WebSocket Status"
   input_new_room_name: "Input new room name"
   placeholder_message: "Input message here"

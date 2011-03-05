@@ -2,9 +2,12 @@ module Api
   module V1
     class MessageController < ApplicationController
       include ChatHelper
+      include Rails.application.routes.url_helpers
+
       respond_to :json
 
       def show
+        default_url_options[:host] = Setting[:host]
         @message = Message.find params[:id]
         respond_with(to_json(@message))
       end

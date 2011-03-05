@@ -7,7 +7,9 @@ module Api
       respond_to :json
 
       def show
-        default_url_options[:host] = Setting[:host]
+        if Setting[:host]
+          default_url_options[:host] = Setting[:host]
+        end
         @message = Message.find params[:id]
         respond_with(to_json(@message))
       end

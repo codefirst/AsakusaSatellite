@@ -34,9 +34,6 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
 end
 
 class AsakusaSatellite::Hook::RedmineTicketLink < AsakusaSatellite::Hook::Listener
-  include ActionController::UrlWriter
-
-
   def message_buttons(context)
     subject = CGI.escape(context[:message].body)
 
@@ -46,9 +43,13 @@ class AsakusaSatellite::Hook::RedmineTicketLink < AsakusaSatellite::Hook::Listen
 #{context[:permlink]}
 END
 
+    path = nil
+    context[:self].instance_eval do
+      path = image_path("redmine.png")
+    end
+
     url =  URI.join(config.roots,"./projects/#{config.project}/issues/new?issue[description]=#{description}&issue[subject]=#{subject}")
-    %(<a target="_blank" href="#{url}"><img src="#{ActionController::Base.asset_path}/images/redmine.png" /></a>)
-    %(<a target="_blank" href="#{url}"><img src="http://codefirst.org/as/images/redmine.png" /></a>)
+    %(<a target="_blank" href="#{url}"><img src="#{path}" /></a>)
   end
 end
 

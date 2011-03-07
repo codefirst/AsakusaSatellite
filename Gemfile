@@ -16,7 +16,7 @@ gem 'em-websocket'
 gem 'sinatra'
 gem 'thin'
 gem 'oauth'
-gem 'json'
+gem 'json', "= 1.4.6"
 gem "on_the_spot"
 gem "uuidtools"
 gem 'coderay'

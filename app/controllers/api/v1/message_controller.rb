@@ -4,6 +4,7 @@ module Api
       include ChatHelper
       include Rails.application.routes.url_helpers
 
+      before_filter :check_spell, :only => [:create, :update, :destroy]
       respond_to :json
 
       def show
@@ -43,6 +44,17 @@ module Api
         end
         delete_message(params[:id])
         render :json => {:status => 'ok'}
+      end
+
+      def check_spell
+        if params[:api_key]
+          users = User.select do |record|
+            record.spell == params[:api_key]
+          end
+          if users and users.first
+            session[:current_user_id] = users.first.id
+          end
+        end
       end
     end
   end

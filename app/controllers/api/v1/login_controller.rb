@@ -3,6 +3,7 @@ module Api
     class LoginController < ApplicationController
       respond_to :json
       def index
+        ActiveSupport::Deprecation.warn "Api::V1::LoginController is deprecated. Instead, please use api_key parameter"
         users = User.select do |record|
           [
             record['screen_name'] == params[:user],

@@ -28,7 +28,7 @@ EventMachine.run do
     hash[key] = []
   }
 
-  EventMachine::WebSocket.start(:host => 'localhost',
+  EventMachine::WebSocket.start(:host => '0.0.0.0',
                                 :port => WsConfig['websocketPort']) do |ws|
     ws.onopen do
       $log.info "on open: #{ws.request['Query'].inspect}"

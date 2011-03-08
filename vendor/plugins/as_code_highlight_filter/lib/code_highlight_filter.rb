@@ -30,7 +30,7 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
       content = CGI.unescapeHTML(body.join("\n"))
       case lang
       when "graphviz::","graph::"
-        %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&chl=#{CGI.escape contenttent}" />)
+        %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&chl=#{CGI.escape content}" />)
       when /\A(\w+)::\Z/
         CodeRay.scan(content, $1).div
       else

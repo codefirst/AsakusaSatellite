@@ -27,9 +27,12 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
   def process_all(lines)
     xs = group(lines){|x| x =~ /\A\w+::/ }.map{|item|
       lang,*body = item
+      content = CGI.unescapeHTML(body.join("\n"))
       case lang
+      when "graphviz::","graph::"
+        %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&chl=#{CGI.escape contenttent}" />)
       when /\A(\w+)::\Z/
-        CodeRay.scan(CGI.unescapeHTML(body.join("\n")), $1).div
+        CodeRay.scan(content, $1).div
       else
         item
       end

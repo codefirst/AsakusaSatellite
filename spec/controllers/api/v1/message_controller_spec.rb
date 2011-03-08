@@ -83,6 +83,19 @@ describe Api::V1::MessageController do
       post :update, :id => message.id, :message => 'message', :api_key => user.spell
       response.body.should have_json("/status[text() = 'ok']")
     end
+    it "他人が作成したメッセージ以外は更新できない" do
+      user = User.new(:name => 'user', :screen_name => 'user name', :spell => 'aaa')
+      user.save
+      other_user = User.new
+      other_user.save
+      session[:current_user_id] = nil 
+      room = Room.new(:title => 'test')
+      room.save
+      message = Message.new(:user => other_user, :room => room)
+      message.save
+      post :update, :id => message.id, :message => 'message', :api_key => user.spell
+      response.body.should have_json("/status[text() = 'error']")
+    end
     it "非ログインユーザは更新できない" do
       user = User.new
       user.save
@@ -120,6 +133,20 @@ describe Api::V1::MessageController do
       response.body.should have_json("/status[text() = 'ok']")
 
     end
+    it "他人が作成したメッセージ以外は削除できない" do
+      user = User.new(:name => 'user', :screen_name => 'user name', :spell => 'aaa')
+      user.save
+      other_user = User.new
+      other_user.save
+      session[:current_user_id] = nil 
+      room = Room.new(:title => 'test')
+      room.save
+      message = Message.new(:user => other_user, :room => room)
+      message.save
+      post :destroy, :id => message.id, :api_key => user.spell
+      response.body.should have_json("/status[text() = 'error']")
+    end
+
     it "非ログインユーザは削除できない" do
       user = User.new
       user.save

@@ -33,6 +33,11 @@ module Api
           render :json => {:status => 'error', :error => 'login not yet'}
           return
         end
+        message = Message.find(params[:id])
+        unless message and message.user and current_user and message.user.name == current_user.name
+          render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
+          return
+        end
         update_message(params[:id], params[:message])
         render :json => {:status => 'ok'}
       end
@@ -40,6 +45,11 @@ module Api
       def destroy
         unless logged?
           render :json => {:status => 'error', :error => 'login not yet'}
+          return
+        end
+        message = Message.find(params[:id])
+        unless message and message.user and current_user and message.user.name == current_user.name
+          render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
           return
         end
         delete_message(params[:id])

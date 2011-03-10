@@ -36,4 +36,20 @@ describe Api::V1::RoomController do
       response.body.should have_json("/view")
     end
   end
+
+  describe "部屋作成API" do
+    it "部屋を作成する" do
+      user = User.new(:spell => 'spell')
+      user.save
+      post :create, :name => 'room name', :api_key => user.spell, :format => 'json'
+      response.body.should have_json("/status[text() = 'ok']")
+    end
+
+    it "復活の呪文を間違えると作成できない" do
+      User.select.each { |r| r.delete }
+      post :create, :name => 'room name', :api_key => 'spell', :format => 'json'
+      response.body.should have_json("/status[text() = 'error']")
+    end
+  end
+
 end

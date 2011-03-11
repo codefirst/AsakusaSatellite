@@ -82,7 +82,8 @@ module Api
         if room.nil?
           render :json => {:status => 'error', :error => "room not found"}
         end
-        if room.delete
+        room.deleted = true
+        if room.save
           render :json => {:status => 'ok'}
         else
           render :json => {:status => 'error', :error => "room deletion failure"}

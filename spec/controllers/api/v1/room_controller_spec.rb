@@ -83,7 +83,7 @@ describe Api::V1::RoomController do
       room = Room.new(:title => 'title', :user => user)
       room.save
       post :destroy, :id => room.id, :api_key => user.spell, :format => 'json'
-      Room.find(room.id).should be_nil
+      Room.find(room.id).deleted.should be_true
       response.body.should have_json("/status[text() = 'ok']")
     end
 
@@ -94,7 +94,7 @@ describe Api::V1::RoomController do
       room = Room.new(:title => 'title', :user => user)
       room.save
       post :destroy, :id => room.id, :api_key => '', :format => 'json'
-      Room.find(room.id).should_not be_nil
+      Room.find(room.id).should_not be_false
       response.body.should have_json("/status[text() = 'error']")
     end
   end

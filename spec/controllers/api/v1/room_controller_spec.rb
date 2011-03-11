@@ -64,7 +64,7 @@ describe Api::V1::RoomController do
       response.body.should have_json("/status[text() = 'ok']")
     end
 
-    it "復活の呪文を間違えると作成できない" do
+    it "復活の呪文を間違えると更新できない" do
       User.select.each { |r| r.delete }
       user = User.new(:spell => 'spell')
       user.save
@@ -76,4 +76,26 @@ describe Api::V1::RoomController do
     end
   end
 
+  describe "部屋削除API" do
+    it "部屋名を更新する" do
+      user = User.new(:spell => 'spell')
+      user.save
+      room = Room.new(:title => 'title', :user => user)
+      room.save
+      post :destroy, :id => room.id, :api_key => user.spell, :format => 'json'
+      Room.find(room.id).should be_nil
+      response.body.should have_json("/status[text() = 'ok']")
+    end
+
+    it "復活の呪文を間違えると更新できない" do
+      User.select.each { |r| r.delete }
+      user = User.new(:spell => 'spell')
+      user.save
+      room = Room.new(:title => 'title', :user => user)
+      room.save
+      post :destroy, :id => room.id, :api_key => '', :format => 'json'
+      Room.find(room.id).should_not be_nil
+      response.body.should have_json("/status[text() = 'error']")
+    end
+  end
 end

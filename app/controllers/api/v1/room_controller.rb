@@ -61,8 +61,10 @@ module Api
           render :json => {:status => 'error', :error => 'login not yet'}
           return
         end
-        logger.info params[:id]
         room = Room.find(params[:id])
+        if room.nil?
+          render :json => {:status => 'error', :error => "room not found"}
+        end
         room.title = params[:name]
         if room.save
           render :json => {:status => 'ok'}
@@ -70,6 +72,22 @@ module Api
           render :json => {:status => 'error', :error => "room creation failure"}
         end
       end
+
+      def destroy
+        unless logged?
+          render :json => {:status => 'error', :error => 'login not yet'}
+          return
+        end
+        room = Room.find(params[:id])
+        if room.nil?
+          render :json => {:status => 'error', :error => "room not found"}
+        end
+        if room.delete
+          render :json => {:status => 'ok'}
+        else
+          render :json => {:status => 'error', :error => "room deletion failure"}
+        end
+       end
 
       private
       def check_spell

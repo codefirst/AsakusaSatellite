@@ -37,6 +37,19 @@ describe Api::V1::RoomController do
     end
   end
 
+  describe "部屋一覧取得API" do
+    it "取得する" do
+      user = User.new(:spell => 'spell')
+      user.save
+      Room.select.each { |r| r.delete }
+      room = Room.new(:title => 'title', :user => user)
+      room.save
+      get :list, :format => 'json'
+      response.body.should have_json("/name[1][text() = 'title']")
+    end
+
+  end
+
   describe "部屋作成API" do
     it "部屋を作成する" do
       user = User.new(:spell => 'spell')

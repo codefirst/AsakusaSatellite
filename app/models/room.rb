@@ -7,6 +7,15 @@ class Room < ActiveGroonga::Base
     end || []
   end
 
+  def to_json
+    {
+      :id => self.id,
+      :name => self.title,
+      :updated_at => self.updated_at,
+      user => (user ? self.user.to_json : nil)
+    }
+  end
+
   def validate(options = {})
     (not self.title.blank?) and super(options) 
   end

@@ -88,7 +88,16 @@ module Api
         else
           render :json => {:status => 'error', :error => "room deletion failure"}
         end
-       end
+      end
+
+      def list
+        rooms = Room.select do |record|
+          record.deleted == false 
+        end.to_a
+        #render :json => {:hoge => 'hoge'}
+        #respond_with(rooms.map{|r| to_json(r) })
+        render :json => rooms.map {|r| r.to_json }
+      end
 
       private
       def check_spell

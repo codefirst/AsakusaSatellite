@@ -56,6 +56,21 @@ module Api
         end
       end
 
+      def update
+        unless logged?
+          render :json => {:status => 'error', :error => 'login not yet'}
+          return
+        end
+        logger.info params[:id]
+        room = Room.find(params[:id])
+        room.title = params[:name]
+        if room.save
+          render :json => {:status => 'ok'}
+        else
+          render :json => {:status => 'error', :error => "room creation failure"}
+        end
+      end
+
       private
       def check_spell
         if params[:api_key]

@@ -7,7 +7,11 @@ module Api
 
       respond_to :json
       def show
-        count = params[:count].to_i || 20
+        count = if params[:count] then
+                  params[:count].to_i
+                else
+                  20
+                end
         if params[:until_id] then
           message = Message.find params[:until_id]
           @messages = message.prev(count-1)

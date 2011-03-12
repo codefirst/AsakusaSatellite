@@ -3,37 +3,36 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe Api::V1::RoomController do
   describe "部屋取得API" do
-    it "取得した発言には:viewが含まれる" do
-      user = mock_model(User)
-      user.stub!(:screen_name).and_return('user')
-      user.stub!(:name).and_return('name')
-      image_url = 'http://example.com/hoge.png'
-      user.stub!(:profile_image_url).and_return(image_url)
+    before do
+      user = User.new(:name => 'test', :screen_name => 'test user', :profile_image_url => 'test')
+      user.save!
 
-      m1 = Message.new(:body => 'm1', :user => user, :created_at => Time.now)
-      m2 = Message.new(:body => 'm2', :user => user, :created_at => Time.now)
-      m3 = Message.new(:body => 'm3', :user => user, :created_at => Time.now)
-      room = Room.new
-      Message.stub!(:select).and_return([m1, m2, m3])
-      Attachment.stub!(:select).and_return(nil)
-      get :show, :id => room.id, :format => 'json'
-      response.body.should have_json("/view")
+      @room = Room.new(:title=>"test room", :user => user)
+      @room.save!
+
+      @m1 = Message.new(:body => 'm1', :user => user, :created_at => Time.now, :room => @room)
+      @m2 = Message.new(:body => 'm2', :user => user, :created_at => Time.now, :room => @room)
+      @m3 = Message.new(:body => 'm3', :user => user, :created_at => Time.now, :room => @room)
+
+      @m1.save!
+      @m2.save!
+      @m3.save!
     end
 
-    it "since_dateパラメータを渡すと指定日以降のメッセージを返す" do
-      user = User.new(:name => 'test', :screen_name => 'test user', :profile_image_url => 'test')
-      user.save
-      room = Room.new(:title => 'title', :user => user)
-      room.save
-      message1 = Message.new(:user => user, :room => room,
-        :body => 'message1', :created_at => Date.new(2011, 1, 1).beginning_of_day.to_i)
-      message1.save
-      message2 = Message.new(:user => user, :room => room,
-        :body => 'message2', :created_at => Date.new(2011, 1, 2).beginning_of_day.to_i)
-      message2.save
-      get :show, :id => room.id, :since_date => Date.new(2011, 1, 2).strftime("%Y-%m-%d"), :format => 'json'
-      assigns[:messages].records.size.should == 2
+    it "取得した発言には:viewが含まれる" do
+      get :show, :id => @room.id, :format => 'json'
       response.body.should have_json("/view")
+      assigns[:messages].size.should == 3
+    end
+
+    it "until_idをわたせば、それ以前のメッセージが取得できる" do
+      get :show, :id => @room.id, :until_id => @m2.id , :format => 'json'
+      assigns[:messages].size.should == 2
+    end
+
+    it "countをわたせば、件数が指定できる" do
+      get :show, :id => @room.id, :until_id => @m2.id, :count => 1 , :format => 'json'
+      assigns[:messages].size.should == 1
     end
   end
 
@@ -84,7 +83,7 @@ describe Api::V1::RoomController do
       room = Room.new(:title => 'title', :user => user)
       room.save
       post :update, :id => room.id, :name => 'room name', :api_key => '', :format => 'json'
-      Room.find(room.id).title.should == 'title' 
+      Room.find(room.id).title.should == 'title'
       response.body.should have_json("/status[text() = 'error']")
     end
   end

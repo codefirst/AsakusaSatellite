@@ -7,6 +7,12 @@ class Room < ActiveGroonga::Base
     end || []
   end
 
+  def messages(offset)
+    Message.select do |record|
+      record.room == self.id
+    end.sort([{:key => "created_at", :order => :desc}],:limit => offset).to_a.reverse
+  end
+
   def to_json
     {
       :id => self.id,
@@ -17,6 +23,6 @@ class Room < ActiveGroonga::Base
   end
 
   def validate(options = {})
-    (not self.title.blank?) and super(options) 
+    (not self.title.blank?) and super(options)
   end
 end

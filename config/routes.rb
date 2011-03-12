@@ -15,6 +15,7 @@ AsakusaSatellite::Application.routes.draw do|map|
   namespace(:api) do
     namespace(:v1) do
       get 'room/list', :controller => 'room', :action => 'list'
+      get 'user', :controller => 'user', :action => 'show'
       resources :room
       resources :message
       get 'login', :controller => 'login', :action => 'index'

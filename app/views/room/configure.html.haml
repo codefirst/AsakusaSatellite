@@ -14,6 +14,9 @@
   %div.room-date
    = t(:created_at) + " " + l(@room.created_at)
  .configure
-  = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
-   =text_field_tag :message, '', :class => :text, :autofocus=>true, :placeholder=> t('placeholder_message')
-   =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
+  =form_for :room, :url => {:action => :configure } do |form|
+   =submit_tag t(:update_config), :class => "submit red button large"
+   %fieldset
+    %legend= t(:input_room_name)
+    =text_field :room, :title, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
+   =submit_tag t(:update_config), :class => "submit red button large"

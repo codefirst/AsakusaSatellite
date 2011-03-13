@@ -42,11 +42,6 @@ class ChatController < ApplicationController
     @next = @message.next(@next_size)
   end
 
-  def configure
-    @id     = params[:id]
-    @room ||= Room.find(params[:id])
-  end
-
   def room
     if request.post?
       if current_user.nil?

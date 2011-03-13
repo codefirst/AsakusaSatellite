@@ -7,4 +7,13 @@ class RoomController < ApplicationController
     end
     redirect_to :controller => 'chat', :action => 'index'
   end
+
+  def configure
+    @id     = params[:id]
+    @room ||= Room.find(params[:id])
+    unless @room.user == current_user
+      render :file=>"#{RAILS_ROOT}/public/403.html", :status=>'403 Forbidden'
+    end
+
+  end
 end

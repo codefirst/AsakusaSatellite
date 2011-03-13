@@ -9,7 +9,7 @@
     %h3.title
      - if @room.user == current_user
       = on_the_spot_edit @room, :title
-      = link_to '設定', :action=> :configure, :id=>@room.id
+      = link_to t(:config), :controller => :room, :action=> :configure, :id=>@room.id
      - else
       = @room.title
    .right

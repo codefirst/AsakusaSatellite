@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+require 'lib/asakusa_satellite/config'
 class RoomController < ApplicationController
   include RoomHelper
   def delete
@@ -13,6 +14,8 @@ class RoomController < ApplicationController
 
   def configure
     @id     = params[:id]
+    @plugins = AsakusaSatellite::Config.rooms
+    p @plugins
     find_room(@id) do
       if request.post? then
         @room.update_attributes! params[:room]

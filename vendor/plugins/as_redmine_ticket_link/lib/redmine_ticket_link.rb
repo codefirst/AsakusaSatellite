@@ -1,13 +1,14 @@
 # -*- coding: undecided -*-
 require 'uri'
 require 'asakusa_satellite/hook'
+require 'asakusa_satellite/config'
 
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
-class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
-  def link_only(id, ref)
-  end
+# add config panel
+AsakusaSatellite::Config.room "Redmine Ticket Link", :controller=>:as_redmine_ticket_link, :action=> :room
 
+class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
   def ticket(id, ref)
     url =  URI.join(config.roots,"./issues/#{id}")
     if config.api_key then

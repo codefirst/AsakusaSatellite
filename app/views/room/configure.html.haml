@@ -19,4 +19,11 @@
    %fieldset
     %legend= t(:input_room_name)
     =text_field :room, :title, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
+   %fieldset
+    %legend= t(:plugins)
+    %table
+    - @plugins.each do |message, params|
+     %tr
+      %td=message
+      %td=link_to t(:config),params.merge(:id=> @room.id)
    =submit_tag t(:update_config), :class => "submit red button large"

@@ -7,9 +7,11 @@ class RoomController < ApplicationController
       find_room(@id) do
         @room.deleted = true
         @room.save!
+        redirect_to :controller => 'chat', :action => 'index'
       end
+    else
+      redirect_to :controller => 'chat', :action => 'index'
     end
-    redirect_to :controller => 'chat', :action => 'index'
   end
 
   def configure

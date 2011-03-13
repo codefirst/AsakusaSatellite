@@ -8,7 +8,7 @@ module RoomHelper
     when @room.deleted
       flash[:error] = t(:error_room_deleted)
       redirect_to :controller => 'chat', :action => 'index'
-    when @room.user != current_user
+    when current_user == nil
       flash[:error] = t(:error_room_deleted)
       redirect_to :controller => 'chat', :action => 'index'
     else

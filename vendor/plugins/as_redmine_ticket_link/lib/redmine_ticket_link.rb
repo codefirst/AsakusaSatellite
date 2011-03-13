@@ -48,7 +48,8 @@ END
       path = image_path("redmine.png")
     end
 
-    url =  URI.join(config.roots,"./projects/#{config.project}/issues/new?issue[description]=#{description}&issue[subject]=#{subject}")
+    project_name = context[:message].room.yaml[:redmine_ticket]["project_name"] rescue "undefined"
+    url =  URI.join(config.roots,"./projects/#{project_name}/issues/new?issue[description]=#{description}&issue[subject]=#{subject}")
     %(<a target="_blank" href="#{url}"><img src="#{path}" /></a>)
   end
 end

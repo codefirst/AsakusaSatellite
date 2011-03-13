@@ -25,6 +25,8 @@
    .content
     - if flash[:error]
      .error_message= flash[:error]
+    - if flash[:notice]
+     .notice_message= flash[:notice]
     = yield
    .footer
     %p Copyright (C) 2011 codefirst.org. All rights reserved.

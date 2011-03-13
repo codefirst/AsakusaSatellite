@@ -46,7 +46,7 @@ module AsakusaSatellite::Hook
     include ActionView::Helpers::UrlHelper
     include ActionView::Helpers::AssetTagHelper
     include ActionView::Helpers::TextHelper
-    include ActionController::UrlWriter
+    include Rails.application.routes.url_helpers
 
     def self.inherited(klass)
       AsakusaSatellite::Hook.add_listener(klass)

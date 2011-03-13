@@ -22,6 +22,19 @@ class Room < ActiveGroonga::Base
     }
   end
 
+  def yaml
+    str =  self.read_attribute("yaml")
+    begin
+      YAML.load str
+    rescue
+      {}
+    end
+  end
+
+  def yaml=(value)
+    write_attribute "yaml", value.to_yaml
+  end
+
   def validate(options = {})
     (not self.title.blank?) and super(options)
   end

@@ -1,0 +1,23 @@
+-# -*- coding: utf-8 -*-
+.yield
+ %div.room-info
+  %div
+   .left
+    %h3.title
+     = @room.title
+   .clear
+  - unless @room.user.nil?
+   %div.room-owner
+    = t(:room_created_by) + " "
+    %img.profile{:src => @room.user.profile_image_url, :alt => @room.user.screen_name}
+    = @room.user.name
+  %div.room-date
+   = t(:created_at) + " " + l(@room.created_at)
+ .configure
+  =form_for :room_config, :url => {:action => :room } do |form|
+   =submit_tag t(:update_config), :class => "submit red button large"
+   %fieldset
+    %legend= t(:input_project_name)
+    =text_field :project, :project_name, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
+   =submit_tag t(:update_config), :class => "submit red button large"
+

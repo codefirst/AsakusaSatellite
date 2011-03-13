@@ -42,17 +42,12 @@ class ChatController < ApplicationController
     @next = @message.next(@next_size)
   end
 
-  def configure
-    @id     = params[:id]
-    @room ||= Room.find(params[:id])
-  end
-
   def room
     if request.post?
       if current_user.nil?
         redirect_to :controller => 'chat'
         return
-      else
+      else 
         @room = Room.new(:title => params[:room][:title], :user => current_user, :updated_at => Time.now)
         if @room.save
           redirect_to :action => 'room', :id => @room.id
@@ -66,7 +61,7 @@ class ChatController < ApplicationController
     @room ||= Room.find(params[:id])
 
     if @room then
-      if @room.deleted
+      if @room.deleted 
         flash[:error] = t(:error_room_deleted)
         redirect_to :action => 'index'
         return

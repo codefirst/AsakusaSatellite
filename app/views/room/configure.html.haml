@@ -1,19 +1,6 @@
 -# -*- coding: utf-8 -*-
 .yield
- %div.room-info
-  %div
-   .left
-    %h3.title
-     = @room.title
-   .clear
-  - unless @room.user.nil?
-   %div.room-owner
-    = t(:room_created_by) + " "
-    %img.profile{:src => @room.user.profile_image_url, :alt => @room.user.screen_name}
-    = @room.user.name
-  %div.room-date
-   = t(:created_at) + " " + l(@room.created_at)
-
+ = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => false }
  .configure
   =form_for :room, :url => {:action => :configure } do |form|
    =#submit_tag t(:update_config), :class => "submit red button large"

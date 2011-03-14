@@ -3,28 +3,7 @@
 .audio
  %audio{:src => "#{root_path}audio/sound.mp3", :id => :audio}
 .yield
- %div.room-info
-  %div
-   .left
-    %h3.title
-     - if @room.user == current_user
-      = on_the_spot_edit @room, :title
-     - else
-      = @room.title
-   .right
-    =image_tag("connection_fail.gif", :class => 'websocket-status', :alt => t(:websocket_status), :title => t(:websocket_status))
-    - if logged?
-     = link_to(image_tag("config.gif", :alt => t(:config), :title => t(:config)), :controller => :room, :action=> :configure, :id=>@room.id)
-     = form_tag({:controller => :room, :action => :delete, :id => @room}, {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete_this_room)}');", :action => :post, :class => 'delete-form'}) do
-      = image_submit_tag "room_delete.gif", :alt => t(:delete_this_room), :title => t(:delete_this_room)
-   .clear
-  - unless @room.user.nil?
-   %div.room-owner
-    = t(:room_created_by) + " "
-    %img.profile{:src => @room.user.profile_image_url, :alt => @room.user.screen_name}
-    = @room.user.name
-  %div.room-date
-   = t(:created_at) + " " + l(@room.created_at)
+ = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => true }
  %div{:id => 'read-more', :class => 'read-more' }
   read more
  .message-list

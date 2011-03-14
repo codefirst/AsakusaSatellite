@@ -1,24 +1,6 @@
 -# -*- coding: utf-8 -*-
 .yield
- %div.room-info
-  %div
-   .left
-    %h3.title
-     = link_to @room.title, :action => :room, :id =>@room.id
-     - unless @message.body.nil?
-      \/ #{@message.user.name}: #{@message.body.each_char.to_a[0,10]}
-   .right
-    =link_to image_tag("room_delete.gif"), {:controller => :room, :action => :delete, :id => @room}, |
-        :onclick => "return confirm('Are you sure?');"
-   .clear
-  - unless @room.user.nil?
-   %div.room-owner
-    = t(:room_created_by) + " "
-    %img.profile{:src => @room.user.profile_image_url, :alt => @room.user.screen_name}
-    = @room.user.name
-  %div.room-date
-   = t(:created_at) + " " + l(@room.created_at)
-
+ = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => false }
  = form_for :chat, :url => {:action => :show, :id => @message.id },:html => {:method=>"GET", :class => "show-form" }  do |f|
   = t(:prev)
   =select_tag(:prev, options_for_select(@prev_options, @prev_size ))

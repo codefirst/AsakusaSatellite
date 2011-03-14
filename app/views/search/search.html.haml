@@ -2,9 +2,7 @@
  = render :partial => 'search_form', :locals => {:advanced => true}
  - @results.each do |result|
   - next if result[:messages].count == 0
-  .room-info
-   %div
-    %h3.title= result[:room].title
+  = render :partial => "shared/room_info", :locals => { :room => result[:room], :has_button => false }
   .message-list
   - result[:messages].each do |message|
    = render :partial => 'chat/message', :locals => { :message => message }

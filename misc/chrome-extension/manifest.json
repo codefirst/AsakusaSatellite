@@ -1,0 +1,14 @@
+{
+  "name": "AsakusaSatellite Extension",
+  "version": "0.1",
+  "icons": {
+    "128": "icon.png"
+  },
+  "app": {
+    "urls": [ "*://localhost/chat/room" ],
+    "launch": {
+	"web_url": "http://localhost:3000/"
+    }
+  },
+  "permissions": ["background", "notifications"]
+}

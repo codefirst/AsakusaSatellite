@@ -5,7 +5,7 @@
     "128": "icon.png"
   },
   "app": {
-    "urls": [ "*://localhost/chat/room" ],
+    "urls": [ "*://localhost/" ],
     "launch": {
 	"web_url": "http://localhost:3000/"
     }

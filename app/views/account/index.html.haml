@@ -9,6 +9,9 @@
   %legend Desktop notification
   =submit_tag t(:desktop_notification_on), {:id => 'dn-button', :class => "submit red button large"}
 
+ %fieldset
+  %legend Background notification(Chrome only)
+  =submit_tag t(:background_notification_on), {:id => 'bn-button', :class => "submit red button large"}
 = content_for :javascripts do
  = javascript_include_tag "jquery.desktopnotify"
  :javascript
@@ -18,5 +21,13 @@
       $('#dn-button').addClass("gray");
     } else {
       $('#dn-button').desktopNotifyAddPermission();
+    }
+    if (window.chrome && window.chrome.app && window.chrome.app.isInstalled) {
+      $("#bn-button").bind("click",function(){
+        window.open("#{url_for(:action=>:background, :controller => :chrome)}",
+                    "background", "background");
+      });
+    } else {
+      $("#bn-button").addClass("gray");
     }
   });

@@ -1,0 +1,2 @@
+module ChromeHelper
+end

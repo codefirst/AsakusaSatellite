@@ -5,8 +5,10 @@
     "128": "icon.png"
   },
   "app": {
+     // domain name without port number
     "urls": [ "*://localhost/" ],
     "launch": {
+         // top page url
 	"web_url": "http://localhost:3000/"
     }
   },

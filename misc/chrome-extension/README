@@ -1,19 +1,22 @@
-This example demonstrates background window functionality in a hosted app.
-To run the app, you first need to edit it and install it:
+AsakusaSatellite Chrome Extension
+======================================
 
-1. Put index.html and background.html in a directory where the HTTP server
-   can find them.
+Features
+----------------
+ * Message notification on background. (joined room only)
 
-2. Edit manifest.json. Search for SOME_, replacing the text with URLs
-   pointing to the launch page (index.html) and to the directory where
-   index.html and background.html live.
+Requirement
+----------------
+ * Chrome 10 or latter
 
-3. Install the app from manifest.json. You can use the Load unpacked extension
-   button on the chrome://extensions page.
+Install
+----------------
 
-Once the app is installed, you can launch it by clicking its icon on the
-New Tab page.
+    $ vim manifest.json
 
-For more information, see the documentation:
+and packaged by Google Chrome and install it.
 
-   http://code.google.com/chrome/apps/docs/developers_guide.html
+### Enable
+
+access to http://localhost:3000/account
+

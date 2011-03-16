@@ -17,10 +17,23 @@ class RoomController < ApplicationController
   def configure
     @id     = params[:id]
     @plugins = AsakusaSatellite::Config.rooms
-    p @plugins
+
     find_room(@id) do
       if request.post? then
         @room.update_attributes! params[:room]
+      end
+    end
+  end
+
+  def join
+    @id     = params[:id]
+    find_room(@id) do
+      if @room.joined? current_user then
+        @room.leave current_user
+        render :json => { :member => false }
+      else
+        @room.join current_user
+        render :json => { :member => true }
       end
     end
   end

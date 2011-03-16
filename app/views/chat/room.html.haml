@@ -18,6 +18,7 @@
 
 = content_for :javascripts do
  = javascript_include_tag :on_the_spot
+ = javascript_include_tag 'jquery.member'
  = javascript_include_tag 'jquery.dropUploader'
  = javascript_include_tag 'jquery.readmore'
  = javascript_include_tag "jquery.websocket"
@@ -27,6 +28,15 @@
  = javascript_include_tag "jquery.desktopnotify"
  :javascript
   $(function() {
+    $(".member-status").member({ url : "#{url_for(:controller => :room, :action => :join, :id=>@room.id)}" });
+
+    $(".member-status").bind("member::join",function(){
+      $(".member-status").attr('src', '#{image_path('fav.gif')}');
+    });
+    $(".member-status").bind("member::leave",function(){
+      $(".member-status").attr('src', '#{image_path('unfav.gif')}');
+    });
+
     function autoScroll(){
       var e = $(".message-list .message:last");
       if(e.length > 0){

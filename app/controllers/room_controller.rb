@@ -3,6 +3,7 @@ require 'lib/asakusa_satellite/config'
 class RoomController < ApplicationController
   include RoomHelper
   def delete
+    @id     = params[:id]
     if request.post?
       find_room(@id) do
         @room.deleted = true

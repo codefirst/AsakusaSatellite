@@ -1,0 +1,9 @@
+testuser1:
+  screen_name: Test User1
+  password: b444ac06613fc8d63795be9ad0beaf55011936ac
+  profile_image_url: http://example.com/test1_user.png
+testuser2:
+  screen_name: Test User2
+  password: 109f4b3c50d7b0df729d299bc6f8e9ef9066971f
+  profile_image_url: http://example.com/test2_user.png
+

@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+require 'digest/sha1'
+
+
+
+unless ARGV.size == 1
+  puts 'USAGE: gen_sha1 <password>'
+  exit 1
+end
+
+puts Digest::SHA1.hexdigest(ARGV[0])

@@ -1,0 +1,9 @@
+.yield
+=form_for :localauth, :url => {:controller => :localauth, :action => :login}, |
+          :html => {:method => :post, :class => ''} do |form|
+ %fieldset
+  %legend{:align => :center}= t(:login)
+  =text_field :login, :username, {:class => :text, :placeholder => 'User Name'}
+  =password_field :login, :password, {:class => :text, :placeholder => 'Password'}
+  =submit_tag t(:login), :class => "submit red button large"
+

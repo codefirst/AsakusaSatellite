@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_login
 
   include ApplicationHelper
+  include LoginHelper
 
   def self.consumer
     OAuth::Consumer.new(

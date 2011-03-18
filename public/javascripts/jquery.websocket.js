@@ -52,6 +52,5 @@
 		dom.fadeOut(function(){ dom.remove(); });
 	    });
 	}
-	return this;
     }
 })(jQuery);

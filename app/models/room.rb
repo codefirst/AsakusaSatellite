@@ -7,34 +7,6 @@ class Room < ActiveGroonga::Base
     end || []
   end
 
-  def members
-    Member.select{|record|
-      record.room == self.id
-    }.map{|member|
-      member.user
-    }.to_a
-  end
-
-  def joined?(user)
-    Member.select{|record|
-      (record.room == self.id) & (record.user == user.id)
-    }.to_a != []
-  end
-
-  def join(user)
-    unless joined?(user)
-      Member.new(:room => self, :user => user).save!
-    end
-  end
-
-  def leave(user)
-    Member.select{|record|
-      (record.room == self.id) & (record.user == user.id)
-    }.each{|record|
-      record.delete
-    }
-  end
-
   def messages(offset)
     Message.select do |record|
       record.room == self.id

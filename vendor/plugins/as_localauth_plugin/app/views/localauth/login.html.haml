@@ -1,9 +1,19 @@
 .yield
-=form_for :localauth, :url => {:controller => :localauth, :action => :login}, |
-          :html => {:method => :post, :class => ''} do |form|
+=form_for :localauth, :url => {:controller => :localauth, :action => :login} do |form|
  %fieldset
   %legend{:align => :center}= t(:login)
-  =text_field :login, :username, {:class => :text, :placeholder => 'User Name'}
-  =password_field :login, :password, {:class => :text, :placeholder => 'Password'}
-  =submit_tag t(:login), :class => "submit red button large"
+  %div
+   %div{:style => "width:30%;float:left;text-align:right;"}
+    =label :login, :username, t(:username) + ":"
+   %div{:style => "width:70%;float:right;"}
+    =text_field :login, :username, {:class => :text, :placeholder => t(:input_your_name)}
+   .clear
+  %div
+   %div{:style => "width:30%;float:left;text-align:right;"}
+    =label :login, :username, t(:password) + ":"
+   %div{:style => "width:70%;float:right;"}
+    =password_field :login, :password, {:class => :text, :placeholder => t(:input_your_password)}
+   .clear
+  %div{:style => "text-align:center;margin:10px;"}
+   =submit_tag t(:login), :class => "submit red button large"
 

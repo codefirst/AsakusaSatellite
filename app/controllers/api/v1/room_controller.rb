@@ -6,23 +6,6 @@ module Api
       before_filter :check_spell, :only => [:create, :update, :destroy]
 
       respond_to :json
-      def show
-        count = if params[:count] then
-                  params[:count].to_i
-                else
-                  20
-                end
-        if params[:until_id] then
-          message = Message.find params[:until_id]
-          @messages = message.prev(count-1)
-          @messages << message
-        else
-          room = Room.find(params[:id])
-          @messages = room.messages(count)
-        end
-        respond_with(@messages.map{|m| to_json(m) })
-      end
-
       def create
         unless logged?
           render :json => {:status => 'error', :error => 'login not yet'}

@@ -42,14 +42,14 @@ describe Api::V1::MessageController do
       response.body.should have_json("/status[text() = 'ok']")
     end
     it "非ログインユーザは作成できない" do
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       room = Room.new(:title => 'test')
       room.save
       post :create, :room_id => room.id, :message => 'message'
       response.body.should have_json("/status[text() = 'error']")
     end
     it "復活の呪文付きの場合は該当ユーザとして作成可能" do
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       user = User.new(:name => 'user', :screen_name => 'user name', :spell => 'aaa')
       user.save
       room = Room.new(:title => 'test')
@@ -75,7 +75,7 @@ describe Api::V1::MessageController do
     it "復活の呪文付きであれば該当ユーザで更新可能" do
       user = User.new(:name => 'user', :screen_name => 'user name', :spell => 'aaa')
       user.save
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       room = Room.new(:title => 'test')
       room.save
       message = Message.new(:user => user, :room => room)
@@ -88,7 +88,7 @@ describe Api::V1::MessageController do
       user.save
       other_user = User.new
       other_user.save
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       room = Room.new(:title => 'test')
       room.save
       message = Message.new(:user => other_user, :room => room)
@@ -99,7 +99,7 @@ describe Api::V1::MessageController do
     it "非ログインユーザは更新できない" do
       user = User.new
       user.save
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       room = Room.new(:title => 'test')
       room.save
       message = Message.new(:user => user, :room => room)
@@ -138,7 +138,7 @@ describe Api::V1::MessageController do
       user.save
       other_user = User.new
       other_user.save
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       room = Room.new(:title => 'test')
       room.save
       message = Message.new(:user => other_user, :room => room)
@@ -150,7 +150,7 @@ describe Api::V1::MessageController do
     it "非ログインユーザは削除できない" do
       user = User.new
       user.save
-      session[:current_user_id] = nil 
+      session[:current_user_id] = nil
       room = Room.new(:title => 'test')
       room.save
       message = Message.new(:user => user, :room => room)
@@ -160,4 +160,37 @@ describe Api::V1::MessageController do
     end
   end
 
+  describe "メッセージ取得API" do
+    before do
+      user = User.new(:name => 'test', :screen_name => 'test user', :profile_image_url => 'test')
+      user.save!
+
+      @room = Room.new(:title=>"test room", :user => user)
+      @room.save!
+
+      @m1 = Message.new(:body => 'm1', :user => user, :created_at => Time.now, :room => @room)
+      @m2 = Message.new(:body => 'm2', :user => user, :created_at => Time.now, :room => @room)
+      @m3 = Message.new(:body => 'm3', :user => user, :created_at => Time.now, :room => @room)
+
+      @m1.save!
+      @m2.save!
+      @m3.save!
+    end
+
+    it "取得した発言には:viewが含まれる" do
+      get :list, :room_id => @room.id, :format => 'json'
+      response.body.should have_json("/view")
+      assigns[:messages].size.should == 3
+    end
+
+    it "until_idをわたせば、それ以前のメッセージが取得できる" do
+      get :list, :room_id => @room.id, :until_id => @m2.id , :format => 'json'
+      assigns[:messages].size.should == 2
+    end
+
+    it "countをわたせば、件数が指定できる" do
+      get :list, :room_id => @room.id, :until_id => @m2.id, :count => 1 , :format => 'json'
+      assigns[:messages].size.should == 1
+    end
+  end
 end

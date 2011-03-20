@@ -1,19 +1,33 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe Api::V1::UserController do
-  describe "ユーザ取得API" do
-    it "復活の呪文をキーにしてユーザ情報を取得する" do
-      user = User.new(:name => 'name',
-                      :screen_name => 'screen_name',
-                      :profile_image_url => 'url',
-                      :spell => 'spell')
-      user.save
-      get :show, :api_key => user.spell, :format => 'json'
-      response.body.should have_json("/id")
-      response.body.should have_json("/name")
-      response.body.should have_json("/screen_name")
-      response.body.should have_json("/profile_image_url")
-    end
-    
+  before do
+    User.all.each{|u| u.delete }
+    @user = User.new(:name => 'name',
+                     :screen_name => 'screen-name',
+                     :profile_image_url => 'url',
+                     :spell => 'spell')
+    @user.save!
+  end
+
+  context "api_keyが一致" do
+    before {
+      get :show, :api_key => @user.spell, :format => 'json'
+    }
+    subject { response.body }
+    it { should have_json("/id[text() = #{@user.id}]") }
+    it { should have_json("/name[text() = 'name']") }
+    it { should have_json("/screen_name[text() = 'screen-name']") }
+    it { should have_json("/profile_image_url[text() = 'url']") }
+  end
+
+  context "api_keyが不一致" do
+    before {
+      get :show, :api_key => "peropero", :format => 'json'
+    }
+    subject { response.body }
+    it { should have_json("/status[text() = 'error']") }
+    it { should have_json("/error[text() = 'user not found']") }
   end
 end

@@ -2,159 +2,127 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ChatController do
-  describe "発言投稿時は" do
-    before do
-      user = User.new
-      user.save
-      session[:current_user_id] = user.id
+  before do
+    @user = User.new.tap{|u| u.save! }
+    @other = User.new.tap{|u| u.save! }
+    @room = Room.new(:title => 'test').tap{|r| r.save! }
+    @messages = (0..50).map do
+      Message.new(:room => @room, :user => @user, :body => 'body').tap{|m| m.save! }
     end
+    @message = @messages.first
+    session[:current_user_id] = @user.id
+  end
 
-    it "一件messageが増える" do
-      lambda {
-        room = Room.new(:title => 'test')
-        room.save!
-        message = 'テストメッセージ'
-        post :message, {:room_id => room.id, :message => message}
-      }.should change(Message.all.records, :size).by(1)
-    end
+  describe "発言投稿" do
+    it { expect {
+        post :message, {:room_id => @room.id, :message => "メッセージ" }
+      }.to change(Message.all.records, :size).by(1)
+    }
 
-    it "部屋がない場合はエラーメッセージとなる" do
-      room = Room.new(:title => 'test')
-      room.save
-      room.delete
-      lambda {
-        post(:message, {:room_id => room.id, :message => 'テストメッセージ'})
-      }.should raise_error
+    describe "部屋" do
+      before {
+        @now = Time.now
+        Time.stub(:now) { @now }
+        post :message, {:room_id => @room.id, :message => "メッセージ" }
+      }
+      subject { Room.find @room.id }
+      its(:updated_at) { should == @now }
     end
   end
 
-  describe "入室時は" do
-    it "デフォルトで該当する部屋のメッセージの20件を取得する" do
-      room = Room.new(:title => 'test')
-      room.save
-      50.times do
-        Message.new(:room => room).save
+  describe "入室" do
+    before {
+      session[:current_user_id] = nil
+      get :room, {:id => @room.id}
+    }
+    subject { assigns }
+    its([:messages]) { should have(20).records }
+  end
+
+  describe "発言更新" do
+    context "発言者" do
+      subject { Message.find(@message.id) }
+      before {
+        post :update_message_on_the_spot, {:id => @message.id, :value => 'modified'}
+      }
+      its(:body) { should == 'modified' }
+    end
+
+    context "非発言者" do
+      before do
+        session[:current_user_id] = @other.id
+        post :update_message_on_the_spot, {:id => @message.id, :value => 'modified'}
       end
-      get :room, {:id => room.id}
-      assigns[:messages].records.size.should == 20
-    end
-
-    it "部屋が削除されている場合はトップページに戻る" do
-      room = Room.new(:title => 'test', :deleted => true)
-      room.save
-      get :room, {:id => room.id}
-      response.should redirect_to(:action => 'index')
-    end 
-  end
-
-  describe "発言更新時は" do
-    it "該当メッセージの内容が更新される" do
-      owner = User.new
-      owner.save
-      session[:current_user_id] = owner.id
-      message = Message.new(:body => 'init', :user => owner)
-      message.save
-      post :update_message_on_the_spot, {:id => message.id, :value => 'modified'}
-      Message.find(message.id).body.should == 'modified'
-    end
-
-    it "該当メッセージを作成したユーザ以外は変更できない" do
-      owner = User.new
-      owner.save
-      other = User.new
-      other.save
-      session[:current_user_id] = other.id
-      message = Message.new(:body => 'init', :user => owner)
-      message.save
-      post :update_message_on_the_spot, {:id => message.id, :value => 'modified'}
-      Message.find(message.id).body.should == 'init'
-    end
-
-  end
-
-  describe "部屋作成時は" do
-    it "ログインしていない場合は作成しない" do
-      session[:current_user_id] = nil
-      room_num = Room.all.records.size
-      post :room, {:room => {:title => 'test'}}
-      Room.all.records.size.should == room_num
-    end
-
-    it "ログインしていない場合はトップページへリダイレクトする" do
-      session[:current_user_id] = nil
-      room_num = Room.all.records.size
-      post :room, {:room => {:title => 'test'}}
-      response.should redirect_to(:controller => 'chat', :action => 'index')
-    end
-
-    it "ログインしていないユーザが/chat/createへアクセスするとトップページにリダイレクトする" do
-      session[:current_user_id] = nil
-      get :create
-      response.should redirect_to(:controller => 'chat', :action => 'index')
-    end
-
-    it "一件roomが増える" do
-      owner = User.new
-      owner.save
-      session[:current_user_id] = owner.id
-      title = 'テスト部屋'
-      post :room, {:room => {:title => title}}
-      assigns[:room].title.should == title
+      subject { Message.find(@message.id) }
+      its(:body) { should == @message.body }
     end
   end
 
-
-  it "index アクセス時は削除されていない部屋が表示される" do
-    Room.all.each {|room| room.delete}
-    Room.new(:title => 'test').save
-    Room.new(:title => 'test', :deleted => true).save
-    get :index
-    assigns[:rooms].each {|room| room.deleted.should be_false}
-    assigns[:rooms].records.size.should == 1
+  describe "部屋作成" do
+    it { expect {
+        post :room, {:room => {:title => 'foo' }}
+      }.to change(Room.all.records, :size).by(1)
+    }
   end
 
-  it "show アクセス時は前後n件が表示される" do
-    owner = User.new
-    room = Room.new(:title => 'init', :user => owner)
-
-    room.save!
-    10.times { Message.new(:room => room).save }
-    message = Message.new(:room => room)
-    message.save
-    10.times { Message.new(:room => room).save }
-    get :show, :id => message.id, :c => 5
-    assigns[:prev].size.should == 5
-    assigns[:next].size.should == 5
-  end
-
-  context "部屋の名前の変更" do
+  describe "トップページ" do
     before do
-      @owner = User.new
-      @owner.save
-      @room = Room.new(:title => 'init', :user => @owner)
-      @room.save
-
-    end
-    it "オーナーは部屋の名前を変更できる" do
-      session[:current_user_id] = @owner.id
-      post :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => 'modified'
-      Room.find(@room.id).title.should == 'modified'
+      Room.all.each {|room| room.delete}
+      Room.new(:title => 'test').save
+      get :index
     end
 
-    it "オーナー以外のユーザは部屋の名前を変更できない" do
-      user = User.new
-      user.save
-      session[:current_user_id] = user.id
-      lambda {
-        post :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => 'modified'
-      }.should raise_error
+    subject { assigns[:rooms] }
+    it { should have(1).records }
+    it { should be_all{|x| not x.deleted } }
+  end
+
+  describe "個別ページ" do
+    before {
+      get :show, :id => @messages[20], :c => 5
+    }
+    subject { assigns }
+    its([:prev]) { should have(5).items }
+    its([:next]) { should have(5).items }
+  end
+
+  context "非ログイン時" do
+    before { session[:current_user_id] = nil }
+
+    it { expect {
+        post :room, {:room => {:title => 'test'}}
+      }.to change(Room.all.records, :size).by(0) }
+
+    describe "部屋作成" do
+      before  { post :room, {:room => {:title => 'test'} } }
+      subject { response }
+      it {
+        should redirect_to(:controller => 'chat', :action => 'index')
+      }
     end
 
-    it "空文字の時は更新しない" do
-      session[:current_user_id] = @owner.id
-      post :update_attribute_on_the_spot, :id => "room__title__#{@room.id}", :value => ''
-      Room.find(@room.id).title.should == 'init'
+    describe "部屋作成ページ" do
+      before  { get :create }
+      subject { response }
+      it {
+        should redirect_to(:controller => 'chat', :action => 'index')
+      }
+    end
+  end
+
+  context "部屋が存在しない" do
+    before { @room.delete }
+    describe "発言投稿" do
+      it { expect {
+          post(:message, {:room_id => room.id, :message => 'テストメッセージ'})
+        }.to raise_error
+      }
     end
 
+    describe "入室" do
+      before { get :room, {:id => @room.id } }
+      subject { response }
+      it { should redirect_to(:action => 'index') }
+    end
   end
 end

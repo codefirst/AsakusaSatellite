@@ -2,15 +2,14 @@ class Room < ActiveGroonga::Base
 
   # get all rooms without deleted
   def self.all_live
-    Room.select do |record|
-      record.deleted == false
-    end || []
+    Room.select{|record| record.deleted == false } || []
   end
 
   def messages(offset)
-    Message.select do |record|
-      record.room == self.id
-    end.sort([{:key => "created_at", :order => :desc}],:limit => offset).to_a.reverse
+    Message.select {|record| record.room == self.id }.
+      sort([{:key => "created_at", :order => :desc}],:limit => offset).
+      to_a.
+      reverse
   end
 
   def to_json
@@ -23,12 +22,8 @@ class Room < ActiveGroonga::Base
   end
 
   def yaml
-    str =  self.read_attribute("yaml")
-    begin
-      YAML.load str
-    rescue
-      {}
-    end
+    str = self.read_attribute("yaml")
+    YAML.load(str) rescue {}
   end
 
   def yaml=(value)

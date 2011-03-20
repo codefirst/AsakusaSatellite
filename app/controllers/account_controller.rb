@@ -3,15 +3,19 @@ class AccountController < ApplicationController
     unless logged?
       redirect_to :controller => 'chat', :action => 'index'
       return
-    end 
+    end
 
     if request.post? or current_user.spell.blank?
-      length = (20..30).to_a.choice
-      chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
-      password = Array.new(length) { chars[rand(chars.size)] }.join
       user = current_user
-      user.spell = password
+      user.spell = generate_spell
       user.save
     end
+  end
+
+  private
+  def generate_spell
+    length = (20..30).to_a.choice
+    chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
+    Array.new(length) { chars[rand(chars.size)] }.join
   end
 end

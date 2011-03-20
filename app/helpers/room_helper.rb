@@ -1,6 +1,6 @@
 module RoomHelper
   def find_room(id, &f)
-    @room = Room.find(params[:id])
+    @room = Room.find(id)
     case
     when @room == nil
       flash[:error] = t(:error_room_deleted)

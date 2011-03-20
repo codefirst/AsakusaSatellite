@@ -1,23 +1,61 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../spec_helper'
 include ApplicationHelper
 describe RoomController do
   before do
-    user = User.new
-    user.save
-    session[:current_user_id] = user.id
-    @room = Room.new(:title => 'title', :user => user)
-    @room.save
-   end
-
-  it "deleteにアクセスすると指定した部屋に削除フラグが付く" do
-    post :delete, :id => @room.id
-    @room = Room.find(@room.id)
-    @room.deleted.should be_true
+    @user = User.new.tap{|x| x.save! }
+    @room = Room.new(:title => 'title', :user => @user).tap{|x| x.save! }
   end
 
-  it "ログインしていないユーザは部屋を削除できない" do
-    session[:current_user_id] = nil 
-    post :delete, :id => @room.id
-    Room.find(@room.id).deleted.should be_false
+  share_examples_for '部屋を消せる'  do
+    before { post :delete, :id => @room.id }
+    describe "room" do
+      subject { assigns[:room] }
+      its(:deleted) { should be_true }
+    end
+
+    describe "response" do
+      subject { response }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
+    end
+  end
+
+  context "ログイン時" do
+    before do
+      session[:current_user_id] =
+        User.new.tap{|x| x.save! }
+    end
+    it_should_behave_like '部屋を消せる'
+  end
+
+  context "owner以外でログイン時" do
+    before do
+      session[:current_user_id] = @user.id
+    end
+    it_should_behave_like '部屋を消せる'
+  end
+
+  context "未ログイン時" do
+    before { session[:current_user_id] = nil }
+
+    describe "/configure" do
+      before { post :configure, :id => @room.id }
+      subject { response }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
+    end
+
+    describe "/deleteにPOST後" do
+      before { post :delete, :id => @room.id }
+
+      describe "room" do
+        subject { assigns[:room] }
+        its(:deleted) { should be_false }
+      end
+
+      describe "response" do
+        subject { response }
+        it { should redirect_to(:controller => 'chat', :action => 'index') }
+      end
+    end
   end
 end

@@ -1,7 +1,6 @@
 require 'oauth'
 require 'json'
 class LoginController < ApplicationController
-
   def index
   end
 
@@ -61,20 +60,20 @@ class LoginController < ApplicationController
       :get,
         '/account/verify_credentials.json',
         access_token, { :scheme => :query_string }
-    ) 
+    )
     case response
     when Net::HTTPSuccess
       @user_info = JSON.parse(response.body)
       unless @user_info['screen_name']
         flash[:notice] = "Authentication failed"
         redirect_to :action => :index
-        return nil 
+        return nil
       end
     else
-      RAILS_DEFAULT_LOGGER.error "Failed to get user info via OAuth"
+      Rails.logger.error "Failed to get user info via OAuth"
       flash[:notice] = "Authentication failed"
       redirect_to :action => :index
-      return nil 
+      return nil
     end
     users = User.select do |record|
       record['screen_name'] == @user_info['screen_name']

@@ -25,9 +25,6 @@ class LocalauthController < ApplicationController
 
   private
   def valid_local_user?(user_name, password)
-    puts "+++++++++++++++++++++"
-    puts password
-    puts "+++++++++++++++++++++"
     LocalUser[user_name] and LocalUser[user_name]['password'] == Digest::SHA1.hexdigest(password.strip)
   end
 

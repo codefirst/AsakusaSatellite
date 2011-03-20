@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 require 'uuidtools'
 class Attachment < ActiveGroonga::Base
-  UPLOAD_DIR = "#{RAILS_ROOT}/public/upload"
+  UPLOAD_DIR = "#{Rails.root}/public/upload"
   def to_hash
     {
       :disk_filename => File.basename(self.disk_filename),
@@ -10,7 +11,7 @@ class Attachment < ActiveGroonga::Base
   end
 
   def self.create_and_save_file(filename, file, mimetype, message)
-    disk_filename = UUIDTools::UUID.random_create.to_s + "-" + filename
+    disk_filename = unique_id + "-" + filename
     open("#{UPLOAD_DIR}/#{disk_filename}", "wb") do |f|
       f.write(file.read)
     end
@@ -20,5 +21,9 @@ class Attachment < ActiveGroonga::Base
                                 :message => message)
     attachment.save
     attachment
+  end
+
+  def self.unique_id
+    UUIDTools::UUID.random_create.to_s
   end
 end

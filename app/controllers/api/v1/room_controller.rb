@@ -2,15 +2,10 @@ module Api
   module V1
     class RoomController < ApplicationController
       include ChatHelper
-
-      before_filter :check_spell, :only => [:create, :update, :destroy]
+      before_filter :check_spell, :except => [:list]
 
       respond_to :json
       def create
-        unless logged?
-          render :json => {:status => 'error', :error => 'login not yet'}
-          return
-        end
         room = Room.new(:title => params[:name], :user => current_user, :updated_at => Time.now)
         if room.save
           render :json => {:status => 'ok'}
@@ -20,16 +15,12 @@ module Api
       end
 
       def update
-        unless logged?
-          render :json => {:status => 'error', :error => 'login not yet'}
-          return
-        end
         room = Room.find(params[:id])
         if room.nil?
           render :json => {:status => 'error', :error => "room not found"}
+          return
         end
-        room.title = params[:name]
-        if room.save
+        if room.update_attributes(:title => params[:name])
           render :json => {:status => 'ok'}
         else
           render :json => {:status => 'error', :error => "room creation failure"}
@@ -37,16 +28,11 @@ module Api
       end
 
       def destroy
-        unless logged?
-          render :json => {:status => 'error', :error => 'login not yet'}
-          return
-        end
         room = Room.find(params[:id])
         if room.nil?
           render :json => {:status => 'error', :error => "room not found"}
         end
-        room.deleted = true
-        if room.save
+        if room.update_attributes(:deleted => true)
           render :json => {:status => 'ok'}
         else
           render :json => {:status => 'error', :error => "room deletion failure"}
@@ -57,8 +43,6 @@ module Api
         rooms = Room.select do |record|
           record.deleted == false
         end.to_a
-        #render :json => {:hoge => 'hoge'}
-        #respond_with(rooms.map{|r| to_json(r) })
         render :json => rooms.map {|r| r.to_json }
       end
 
@@ -72,9 +56,10 @@ module Api
             session[:current_user_id] = users.first.id
           end
         end
+        unless logged?
+          render :json => {:status => 'error', :error => 'login not yet'}
+        end
       end
-
-
     end
   end
 end

@@ -1,65 +1,84 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8-emacs -*-
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe Api::V1::MessageController do
-  describe "発言取得API" do
-    it "1件取得すると :name, :body, :profile_image_url, :view が取得できる" do
-      image_url = 'http://example.com/hoge.png'
-      user = mock_model(User)
-      user.stub!(:screen_name).and_return('user')
-      user.stub!(:name).and_return('name')
-      user.stub!(:profile_image_url).and_return(image_url)
-      message = Message.new(:body => 'hoge', :user => user, :created_at => Time.now)
-      Message.stub!(:find).with(message.id).and_return(message)
-      Attachment.stub!(:select).and_return(nil)
-      get :show, :id => message.id, :format => 'json'
-      response.body.should have_json("/screen_name[text() = 'user']")
-      response.body.should have_json("/body[text() = 'hoge']")
-      response.body.should have_json("/view")
-      response.body.should have_json("/profile_image_url[text() = '#{image_url}']")
+  before do
+    User.all{|u| u.delete }
+    session[:current_user_id] = nil
 
+    @image_url = 'http://example.com/hoge.png'
+    @user = User.new(:screen_name=>'user',
+                     :name =>'name',
+                     :spell => 'spell',
+                     :profile_image_url => @image_url)
+    @user.save!
+    @other_user = User.new(:screen_name=>'user',
+                           :name =>'name',
+                           :spell => 'x-spell',
+                           :profile_image_url => @image_url)
+    @other_user.save!
+    @message = Message.new(:body => 'hoge', :user => @user, :created_at => Time.now)
+    @message.save!
+    @room = Room.new(:title=>'hoge',:user=>@user)
+    @room.save!
+    Attachment.stub(:select){ nil }
+  end
+
+  describe "発言取得" do
+    before {
+      get :show, :id => @message.id, :format => 'json'
+    }
+    subject { response.body }
+    it { should have_json("/screen_name[text() = 'user']") }
+    it { should have_json("/body[text() = 'hoge']") }
+    it { should have_json("/view") }
+    it { should have_json("/profile_image_url[text() = '#{@image_url}']") }
+    it {
       # permlinkがAPIのほうを差していない
-      response.body.should have_json("/view[not(contains(text(), 'api'))]")
-    end
+      should have_json("/view[not(contains(text(), 'api'))]")
+    }
+  end
 
-    it "1件postする" do
-      session[:current_user_id] = 1
-      ChatHelper.stub!(:publish_message).and_return(true)
-      pending('websocketにつなぎに行くのを切る方法が分からない')
-      post :create, :room_id => 1, :message => 'message'
-      response.body.should have_json("/profile_image_url[text() = '11']")
+  share_examples_for '成功'  do
+    subject { response.body }
+    it { should have_json("/status[text() = 'ok']") }
+  end
+
+  share_examples_for '失敗'  do
+    subject { response.body }
+    it { should have_json("/status[text() = 'error']") }
+  end
+
+  describe "発言作成" do
+    before {
+      post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
+    }
+    it_should_behave_like '成功'
+    it { expect {
+        post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
+      }.to change(Message.all.records, :size).by(1)
+    }
+  end
+
+  describe "発言更新" do
+    before {
+      post :update, :id => @message.id, :message => 'modified', :api_key => @user.spell
+    }
+    it_should_behave_like '成功'
+    subject { Message.find @message.id }
+    its(:body) { should == 'modified' }
+  end
+
+  context "復活の呪文を間違えた" do
+    describe "発言" do
+      before {
+        post :create, :room_id => @room.id, :message => 'message', :api_key => '(puke)'
+      }
+      it_should_behave_like '失敗'
     end
   end
 
-  describe "メッセージ作成API" do
-    it "ログインユーザは作成可能" do
-      user = User.new
-      user.save
-      session[:current_user_id] = user.id
-      room = Room.new(:title => 'test')
-      room.save
-      post :create, :room_id => room.id, :message => 'message'
-      response.body.should have_json("/status[text() = 'ok']")
-    end
-    it "非ログインユーザは作成できない" do
-      session[:current_user_id] = nil
-      room = Room.new(:title => 'test')
-      room.save
-      post :create, :room_id => room.id, :message => 'message'
-      response.body.should have_json("/status[text() = 'error']")
-    end
-    it "復活の呪文付きの場合は該当ユーザとして作成可能" do
-      session[:current_user_id] = nil
-      user = User.new(:name => 'user', :screen_name => 'user name', :spell => 'aaa')
-      user.save
-      room = Room.new(:title => 'test')
-      room.save
-      post :create, :room_id => room.id, :message => 'message', :api_key => user.spell
-      response.body.should have_json("/status[text() = 'ok']")
-
-    end
-  end
-
+=begin
   describe "メッセージ更新API" do
     it "ログインユーザは更新可能" do
       user = User.new
@@ -193,4 +212,5 @@ describe Api::V1::MessageController do
       assigns[:messages].size.should == 1
     end
   end
+=end
 end

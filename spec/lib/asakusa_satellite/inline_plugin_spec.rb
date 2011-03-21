@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 require 'asakusa_satellite/filter/inline_plugin'
 
 class GesoFilter <  AsakusaSatellite::Filter::InlinePlugin
-  plugin :geso do|text|
-    "#{text}でゲソ"
+  plugin :geso do|a|
+    "#{a}でゲソ"
   end
 
   plugin :geso2 do|x, y|
@@ -17,18 +17,19 @@ class GesoFilter <  AsakusaSatellite::Filter::InlinePlugin
 end
 
 describe AsakusaSatellite::Filter::InlinePlugin do
-  it "プラグイン書式が使える" do
-    @filter = GesoFilter.new({})
-    @filter.process("::geso:hoge").should == "hogeでゲソ"
+  before { @filter = GesoFilter.new(OpenStruct.new({:hoge=>42})) }
+  describe "引数なし" do
+    subject { @filter.process("::geso:a") }
+    it { should == "aでゲソ" }
   end
 
-  it "複数の引数にも対応する" do
-    @filter = GesoFilter.new({})
-    @filter.process("::geso2:a:b").should == "aとbでゲソ"
+  describe "引数あり" do
+    subject { @filter.process("::geso2:a:b") }
+    it { should == "aとbでゲソ" }
   end
 
-  it "configもあつかえる" do
-    @filter = GesoFilter.new(OpenStruct.new({:hoge=>42}))
-    @filter.process("::conf:hoge").should == "42"
+  describe "設定あり" do
+    subject { @filter.process("::conf:hoge") }
+    it { should == "42" }
   end
 end

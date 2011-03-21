@@ -2,9 +2,10 @@ module Api
   module V1
     class MessageController < ApplicationController
       include ChatHelper
+      include ApiHelper
       include Rails.application.routes.url_helpers
 
-      before_filter :check_spell, :only => [:create, :update, :destroy ]
+      before_filter :check_spell, :except => [ :list, :show ]
       respond_to :json
 
       def list
@@ -33,14 +34,14 @@ module Api
           default_url_options[:host] = Setting[:host]
         end
         @message = Message.find params[:id]
-        respond_with(to_json(@message))
+        if @message then
+          respond_with(to_json(@message))
+        else
+          render :json => {:status => 'error', :error => "message #{params[:id]} is not exists"}
+        end
       end
 
       def create
-        unless logged?
-          render :json => {:status => 'error', :error => 'login not yet'}
-          return
-        end
         create_message(params[:room_id], params[:message])
         room = Room.find(params[:room_id])
         room.updated_at = Time.now
@@ -50,12 +51,8 @@ module Api
       end
 
       def update
-        unless logged?
-          render :json => {:status => 'error', :error => 'login not yet'}
-          return
-        end
         message = Message.find(params[:id])
-        unless message and message.user and current_user and message.user.name == current_user.name
+        unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
           render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
           return
         end
@@ -64,28 +61,13 @@ module Api
       end
 
       def destroy
-        unless logged?
-          render :json => {:status => 'error', :error => 'login not yet'}
-          return
-        end
         message = Message.find(params[:id])
-        unless message and message.user and current_user and message.user.name == current_user.name
+        unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
           render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
           return
         end
         delete_message(params[:id])
         render :json => {:status => 'ok'}
-      end
-
-      def check_spell
-        if params[:api_key]
-          users = User.select do |record|
-            record.spell == params[:api_key]
-          end
-          if users and users.first
-            session[:current_user_id] = users.first.id
-          end
-        end
       end
     end
   end

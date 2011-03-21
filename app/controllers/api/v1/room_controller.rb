@@ -2,6 +2,8 @@ module Api
   module V1
     class RoomController < ApplicationController
       include ChatHelper
+      include ApiHelper
+
       before_filter :check_spell, :except => [:list]
 
       respond_to :json
@@ -44,21 +46,6 @@ module Api
           record.deleted == false
         end.to_a
         render :json => rooms.map {|r| r.to_json }
-      end
-
-      private
-      def check_spell
-        if params[:api_key]
-          users = User.select do |record|
-            record.spell == params[:api_key]
-          end
-          if users and users.first
-            session[:current_user_id] = users.first.id
-          end
-        end
-        unless logged?
-          render :json => {:status => 'error', :error => 'login not yet'}
-        end
       end
     end
   end

@@ -25,3 +25,8 @@ RSpec.configure do |config|
   # instead of true.
   #config.use_transactional_fixtures = true
 end
+
+def cleanup_db
+  User.all.each{|u| u.delete }
+  Message.all.each{|m| m.delete }
+end

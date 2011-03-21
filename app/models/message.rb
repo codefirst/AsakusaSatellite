@@ -41,5 +41,17 @@ class Message < ActiveGroonga::Base
       (record.id > self.id) & (record.room == self.room)
     end.sort([{:key => "created_at", :order => :asc}], :limit => offset).to_a
   end
+
+  def self.find_by_text(params)
+    query = params[:text]
+    rooms = params[:rooms] || Room.all_live
+
+    rooms.map do |room|
+      messages = Message.select do |record|
+        [record.room == room, record["body"] =~ query]
+      end
+      { :room => room, :messages => messages }
+    end
+  end
 end
 

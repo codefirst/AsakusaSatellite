@@ -29,4 +29,5 @@ end
 def cleanup_db
   User.all.each{|u| u.delete }
   Message.all.each{|m| m.delete }
+  Room.all.each{|r| r.delete }
 end

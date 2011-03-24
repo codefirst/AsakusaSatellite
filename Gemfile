@@ -13,8 +13,8 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'rcov'
 gem 'em-websocket'
-gem 'sinatra'
-gem 'thin'
+gem 'msgpack'
+gem 'msgpack-rpc'
 gem 'oauth'
 gem 'json', "= 1.4.6"
 gem "on_the_spot"

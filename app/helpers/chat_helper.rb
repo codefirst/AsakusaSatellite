@@ -1,5 +1,5 @@
-require 'open-uri'
 require 'yaml'
+require 'msgpack-rpc'
 
 module ChatHelper
   def create_message(room_id, message, opt = {})
@@ -44,9 +44,19 @@ module ChatHelper
 
   private
   def publish_message(event, message)
-    Thread.new do
-      url = "http://localhost:#{WebsocketConfig.httpPort}/message/#{event}/#{message.id}?room=#{message.room.id}"
-      open(url){|_|}
+    @client = MessagePack::RPC::Client.new('127.0.0.1', WebsocketConfig.msgpackPort)
+
+
+    Thread.start do
+      begin
+        if event == :delete then
+          @client.call("message_#{event}".to_sym, message.room.id, message.id)
+        else
+          @client.call("message_#{event}".to_sym, message.room.id, to_json(message))
+        end
+      rescue => e
+        puts e
+      end
     end
   end
 end

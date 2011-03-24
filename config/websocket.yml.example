@@ -1,4 +1,3 @@
-roots: localhost:3000
 websocketPort: 18081
-httpPort: 18080
-use_rails_ssl: false
+msgpackPort: 18080
+

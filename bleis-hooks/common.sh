@@ -19,11 +19,11 @@ appendMsgTo1stLine()
 {
     mv $1 $1.$$
     if [ -s "$1.$$" ]; then
-	if head -1 "$1.$$" | grep "$2" > /dev/null; then
-	    cp "$1.$$" "$1"
-	else
+    if head -1 "$1.$$" | grep "$2" > /dev/null; then
+        cp "$1.$$" "$1"
+    else
             sed '1s/$/ '"$2"'/' "$1.$$" > $1
-	fi
+    fi
     else
         echo "$2" > "$1"
     fi
@@ -42,7 +42,7 @@ hasTicketId()
 {
     first="$(git cat-file -p $1 \
     | sed '1,/^$/d' | head -1 \
-    | sed '/.*refs [0-9][0-9]*.*/!d')"
+    | sed '/.*refs #[0-9][0-9]*.*/!d')"
 
     if [ -n "${first}" ]; then
         echo "true"

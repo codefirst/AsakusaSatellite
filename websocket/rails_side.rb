@@ -20,8 +20,8 @@ class RailsSide
   end
 
   def message_delete(room, id)
-    @logger.info [room, content].inspect
-    @routes.message_delet.fire room, id
+    @logger.info [room, id].inspect
+    @routes.message_delete.fire room, { 'id' => id }
   end
 
   def run

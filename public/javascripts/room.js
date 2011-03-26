@@ -96,10 +96,11 @@ $(function() {
 
     // message notification
     $(".message-list").bind('websocket::create', function(_, message){
+	console.log(message);
 	if(message.screen_name != AsakusaSatellite.current.user) {
 	    $.fn.desktopNotify({
 		picture: message.profile_image_url,
-		title: message.name,
+		title: message.name + " / " + message.room.name,
 		text : (message.attachment != null ? message.attachment.filename : message.body)
 	    });
 	}

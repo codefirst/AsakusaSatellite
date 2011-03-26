@@ -12,7 +12,7 @@
   = csrf_meta_tag
   %link{:rel=>"alternate", :type=>"application/rss+xml", :title=>"RSS", :href=>"?format=rss"}
   = favicon_link_tag
-  %title AsakusaSatellite
+  %title= "#{@title and "#{@title} - "}AsakusaSatellite"
  %body
   .main
    .header

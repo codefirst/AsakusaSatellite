@@ -62,6 +62,7 @@ class ChatController < ApplicationController
         @messages = Message.select('id, room.id, user.id, body') do |record|
           record.created_at >= Time.now.beginning_of_day and record.room == @room
         end.sort([{:key => "created_at", :order => :desc}], :limit => PageSize)
+        @title = @room.title
       end
     end
   end

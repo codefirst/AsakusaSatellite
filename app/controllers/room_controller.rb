@@ -2,6 +2,23 @@
 require 'lib/asakusa_satellite/config'
 class RoomController < ApplicationController
   include RoomHelper
+
+  def create
+    if current_user.nil?
+      redirect_to :controller => 'chat'
+    elsif request.post?
+      room = Room.new(:title => params[:room][:title],
+                      :user => current_user,
+                      :updated_at => Time.now)
+      if room.save
+        redirect_to :controller => :chat, :action => 'room', :id => room.id
+      else
+        flash[:error] = t(:error_room_cannot_create)
+        redirect_to :action => 'create'
+      end
+    end
+  end
+
   def delete
     @id = params[:id]
 

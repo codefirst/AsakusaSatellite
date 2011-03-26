@@ -26,6 +26,13 @@ describe RoomController do
         User.new.tap{|x| x.save! }
     end
     it_should_behave_like '部屋を消せる'
+
+    describe "部屋作成" do
+      it { expect {
+          post :create, {:room => {:title => 'foo' }}
+        }.to change(Room.all.records, :size).by(1)
+      }
+    end
   end
 
   context "owner以外でログイン時" do
@@ -37,6 +44,12 @@ describe RoomController do
 
   context "未ログイン時" do
     before { session[:current_user_id] = nil }
+
+    describe "部屋作成" do
+      before  { get :create }
+      subject { response }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
+    end
 
     describe "/configure" do
       before { post :configure, :id => @room.id }

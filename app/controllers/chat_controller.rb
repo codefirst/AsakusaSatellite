@@ -44,26 +44,11 @@ class ChatController < ApplicationController
   end
 
   def room
-    case
-    when request.post? && current_user.nil?
-      redirect_to :controller => 'chat'
-    when request.post? && !current_user.nil?
-      room = Room.new(:title => params[:room][:title],
-                      :user => current_user,
-                      :updated_at => Time.now)
-      if room.save
-        redirect_to :action => 'room', :id => room.id
-      else
-        flash[:error] = t(:error_room_cannot_create)
-        redirect_to :action => 'create'
-      end
-    else
-      find_room(params[:id],:not_auth=>true) do
-        @messages = Message.select('id, room.id, user.id, body') do |record|
-          record.created_at >= Time.now.beginning_of_day and record.room == @room
-        end.sort([{:key => "created_at", :order => :desc}], :limit => PageSize)
-        @title = @room.title
-      end
+    find_room(params[:id],:not_auth=>true) do
+      @messages = Message.select('id, room.id, user.id, body') do |record|
+        record.created_at >= Time.now.beginning_of_day and record.room == @room
+      end.sort([{:key => "created_at", :order => :desc}], :limit => PageSize)
+      @title = @room.title
     end
   end
 
@@ -88,10 +73,6 @@ class ChatController < ApplicationController
       end
     end
     redirect_to :controller => 'chat'
-  end
-
-  def create
-    redirect_to :controller => 'chat' if current_user.nil?
   end
 
   def update_message_on_the_spot

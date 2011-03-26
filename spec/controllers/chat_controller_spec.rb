@@ -33,7 +33,7 @@ describe ChatController do
   describe "入室" do
     before {
       session[:current_user_id] = nil
-      get :room, {:id => @room.id}
+      get :room, {:id => @room.id }
     }
     subject { assigns }
     its([:messages]) { should have(20).records }
@@ -56,13 +56,6 @@ describe ChatController do
       subject { Message.find(@message.id) }
       its(:body) { should == @message.body }
     end
-  end
-
-  describe "部屋作成" do
-    it { expect {
-        post :room, {:room => {:title => 'foo' }}
-      }.to change(Room.all.records, :size).by(1)
-    }
   end
 
   describe "トップページ" do
@@ -95,14 +88,6 @@ describe ChatController do
 
     describe "部屋作成" do
       before  { post :room, {:room => {:title => 'test'} } }
-      subject { response }
-      it {
-        should redirect_to(:controller => 'chat', :action => 'index')
-      }
-    end
-
-    describe "部屋作成ページ" do
-      before  { get :create }
       subject { response }
       it {
         should redirect_to(:controller => 'chat', :action => 'index')

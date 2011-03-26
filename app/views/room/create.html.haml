@@ -1,5 +1,5 @@
 .yield
- =form_for :room, :url => {:action => :room} do |form|
+ =form_for :room, :url => {:action => :create} do |form|
   %fieldset
    %legend= t(:input_room_name)
    =text_field :room, :title, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}

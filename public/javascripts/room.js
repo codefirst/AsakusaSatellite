@@ -32,19 +32,17 @@ $(function() {
     // ------------------------------
     // chat
     // ------------------------------
-    var chatArea = $(".message-list");
-    function makeElement(message){
-	var dom = $(message.view);
-	onTheSpot(dom);
-	return dom;
-    }
-
-    chatArea.webSocket({
-        entry : AsakusaSatellite.url.websocket
-    });
-    chatArea.chat({
-	make : makeElement
-    });
+    $(".message-list")
+	.webSocket({
+            entry : AsakusaSatellite.url.websocket
+	})
+	.chat({
+	    make : function (message){
+		var dom = $(message.view);
+		onTheSpot(dom);
+		return dom;
+	    }
+	});
 
     // ------------------------------
     // submit area

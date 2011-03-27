@@ -1,10 +1,3 @@
-$.fn.__append = $.fn.append;
-$.fn.append = function(){
-    var ret = this.__append.apply(this, arguments);
-    this.trigger("autoscroll::append", this);
-    return ret;
-};
-
 (function($){
     $.fn.autoscroll = function(selector, config) {
 	var config = jQuery.extend({
@@ -20,7 +13,7 @@ $.fn.append = function(){
 
 	config.scrollTo(target.find(selector).last());
 
-	target.bind('autoscroll::append', function(){
+	target.bind('as::append', function(){
 	    var last = target.find(selector).last();
 	    config.scrollTo(last);
 	});

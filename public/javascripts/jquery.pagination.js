@@ -1,9 +1,9 @@
 (function($){
-    $.fn.readMore = function(config) {
-        var defaults = {
-	    onLoad : function(){}
-        };
-	var config = jQuery.extend(defaults, config);
+    $.fn.pagination = function(config) {
+	var config = jQuery.extend({
+	    indicator : "",
+	    content : "div"
+	}, config);
         var target = this;
 
 	function activate(elem, f){
@@ -14,30 +14,26 @@
 
 	var original = target.text();
 	activate(target, function(elem, resume){
-  	    var id = config.id();
+	    console.log('c');
 	    target.addClass("loading").empty().html(config.indicator);
-	    $.get( config.url + "?id="+id, function(content){
-		var dom = $(content).find( config.content );
-		config.onLoad(dom);
+	    $.get( config.url + "?id=" + config.current(), function(content){
+		var dom = $(content).find(config.content);
 		elem.removeClass("loading");
-		if( dom.length == 0){
+		if(dom.length == 0){
 		    elem.empty().html("no more message");
 		} else {
-		    // show loaded message
+		    target.trigger('pagination::load', [ dom ]);
+
 		    dom.hide();
-		    if(config.append){
-			$(config.container).append(dom);
-		    }else{
-			$(config.container).prepend(dom);
-		    }
+		    config.append(dom);
 		    dom.fadeIn();
 
-		    // restore buton status
 		    elem.empty().html(original);
 		    resume();
 		}
 	    });
 	});
+
         return this;
-    };
+     };
 })(jQuery);

@@ -20,25 +20,23 @@
   read more
 
 = content_for :javascripts do
- = javascript_include_tag 'jquery.readmore'
+ = javascript_include_tag 'jquery.pagination'
  :javascript
 
   $(function() {
-    $("#read-prev").readMore({
-      id : function(){
-        return $(".message").first().attr("target"); },
-      container : ".message-list",
-      content : ".message",
-      url : "#{url_for(:action => :prev)}",
-      indicator : #{image_tag('ajax-loader.gif').inspect}
+    $("#read-prev").pagination({
+        current : function(){ return $(".message").first().attr("message-id"); },
+        content : "div.message",
+        append  : function(elem){ $(".message-list").prepend(elem); },
+        url : "#{url_for(:action => :prev)}",
+        indicator : #{image_tag('ajax-loader.gif').inspect}
     });
 
-    $("#read-next").readMore({
-      id : function(){ return $(".message").last().attr("target"); },
-      container : ".message-list",
-      content : ".message",
-      url : "#{url_for(:action => :next)}",
-      append : true,
-      indicator : #{image_tag('ajax-loader.gif').inspect}
+    $("#read-next").pagination({
+        current : function(){ return $(".message").last().attr("message-id"); },
+        content : "div.message",
+        append  : function(elem){ $(".message-list").append(elem); },
+        url : "#{url_for(:action => :next)}",
+        indicator : #{image_tag('ajax-loader.gif').inspect}
     });
   });

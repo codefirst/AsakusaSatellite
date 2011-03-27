@@ -1,4 +1,34 @@
 $(function() {
+    // on the spot
+    function onTheSpot(dom){
+	// You can edit your own message
+	if (dom.find('.screen-name').text() == AsakusaSatellite.current.user) {
+            var body = dom.find(".body");
+            body.onTheSpot({
+		url  : AsakusaSatellite.url.update,
+		data : body.attr("original")
+            });
+            dom.find(".edit").bind("click",function(){ body.trigger("onTheSpot::start"); });
+            dom.find(".delete").bind("click",function(){
+		if(confirm(AsakusaSatellite.t['are_you_sure_you_want_to_delete_this_message'])){
+		    // http://travisonrails.com/2009/05/20/rails-delete-requests-with-jquery
+		    var id = dom.attr("target");
+		    jQuery.post(AsakusaSatellite.url.destroy,
+				{ 'id' : id, _method: 'delete' });
+		}
+            });
+	}else{
+            dom.find(".own-message").hide();
+	}
+
+	// show edit button
+	dom.hover(function(e) {
+            $(this).find('.edit-icons').fadeIn();
+	},function(e){
+            $(this).find('.edit-icons').fadeOut();
+	});
+    }
+
     // ------------------------------
     // chat
     // ------------------------------
@@ -16,6 +46,21 @@ $(function() {
 	make : makeElement
     });
 
+    // ------------------------------
+    // pagination
+    // ------------------------------
+    $("#read-more").pagination({
+	current : function(){ return $(".message").first().attr("message-id"); },
+	content : "div.message",
+	append  : function(elem){ $(".message-list").prepend(elem); },
+	url : AsakusaSatellite.url.prev,
+	indicator : AsakusaSatellite.resouces.ajaxLoader
+    });
+    $("#read-more").bind("pagination::load",function(_, messages){
+	messages.each(function(_, e){ onTheSpot($(e)); });
+    });
+
+    // ------------------------------
     function autoScroll(){
 	var e = $(".message-list .message:last");
 	if(e.length > 0){
@@ -57,18 +102,6 @@ $(function() {
     });
 
     // make div.message from object
-
-
-    // read more button
-    $("#read-more").readMore({
-	id : function(){ return $(".message").first().attr("target"); },
-	container : ".message-list",
-	content : ".message",
-	url : AsakusaSatellite.url.prev,
-	indicator : AsakusaSatellite.resouces.ajaxLoader,
-	onLoad : function(messages){ messages.each(function(_, e){ onTheSpot($(e)); }); }
-    });
-
 
     // messages send
     $('textarea#message').multiline();

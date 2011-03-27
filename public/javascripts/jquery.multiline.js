@@ -1,8 +1,8 @@
 (function($) {
     jQuery.fn.multiline = function(config){
 	var defaults = {
-	    entry : 'ws://' + location.hostname + ':18081',
 	};
+
 	config = jQuery.extend(defaults, config);
 	var target = this;
 	target.keydown(function(e){
@@ -13,6 +13,7 @@
 		target.trigger('submit');
 	    }
 	});
+	return this;
     }
 })(jQuery);
 

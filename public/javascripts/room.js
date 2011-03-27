@@ -47,6 +47,12 @@ $(function() {
     });
 
     // ------------------------------
+    // submit area
+    // ------------------------------
+    $('textarea#message').multiline();
+
+
+    // ------------------------------
     // pagination
     // ------------------------------
     $("#read-more").pagination({
@@ -59,6 +65,7 @@ $(function() {
     $("#read-more").bind("pagination::load",function(_, messages){
 	messages.each(function(_, e){ onTheSpot($(e)); });
     });
+
 
     // ------------------------------
     function autoScroll(){
@@ -104,7 +111,6 @@ $(function() {
     // make div.message from object
 
     // messages send
-    $('textarea#message').multiline();
     $(".message-list").bind('websocket::connect', function(_, ws){
 	$('form.inputarea').bind('submit', function(e){
 	    e.stopPropagation();

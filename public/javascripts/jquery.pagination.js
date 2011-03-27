@@ -14,7 +14,6 @@
 
 	var original = target.text();
 	activate(target, function(elem, resume){
-	    console.log('c');
 	    target.addClass("loading").empty().html(config.indicator);
 	    $.get( config.url + "?id=" + config.current(), function(content){
 		var dom = $(content).find(config.content);

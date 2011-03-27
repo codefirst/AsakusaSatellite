@@ -10,6 +10,7 @@ class SearchController < ApplicationController
       redirect_to :action => :index
     else
       query = params[:search][:message]
+      @rooms = search_form
       @room_id = params[:room].blank? ? "" : params[:room][:id]
       if @room_id.blank?
         @results = Message.find_by_text :text => query

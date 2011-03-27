@@ -70,7 +70,7 @@ en:
   create_new_room: "Create New Room"
   create: "Create"
   update_config: "Update Config"
-  config: "config"
+  config: "Configuration"
   input_room_name: "Input room name"
   send: "Send"
   welcome_maessage: "welcome, "

@@ -17,10 +17,11 @@
 .chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))
 
 = content_for :javascripts do
+ = javascript_include_tag "jquery.websocket"
+ = javascript_include_tag "jquery.chat"
  = javascript_include_tag :on_the_spot
  = javascript_include_tag 'jquery.dropUploader'
  = javascript_include_tag 'jquery.readmore'
- = javascript_include_tag "jquery.websocket"
  = javascript_include_tag "jquery.multiline"
  = javascript_include_tag "jquery.onthespot"
  = javascript_include_tag "jquery.scrollTo-min"

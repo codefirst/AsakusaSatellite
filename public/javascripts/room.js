@@ -1,4 +1,21 @@
 $(function() {
+    // ------------------------------
+    // chat
+    // ------------------------------
+    var chatArea = $(".message-list");
+    function makeElement(message){
+	var dom = $(message.view);
+	onTheSpot(dom);
+	return dom;
+    }
+
+    chatArea.webSocket({
+        entry : AsakusaSatellite.url.websocket
+    });
+    chatArea.chat({
+	make : makeElement
+    });
+
     function autoScroll(){
 	var e = $(".message-list .message:last");
 	if(e.length > 0){
@@ -40,13 +57,7 @@ $(function() {
     });
 
     // make div.message from object
-    function makeElement(message){
-	var dom = $(message.view);
-	onTheSpot(dom);
-	return dom;
-    }
-    $(".message-list").webSocket({ makeElement : makeElement,
-                                   entry : AsakusaSatellite.url.websocket});
+
 
     // read more button
     $("#read-more").readMore({
@@ -59,20 +70,20 @@ $(function() {
     });
 
 
-// messages send
-  $('textarea#message').multiline();
-  $(".message-list").bind('websocket::connect', function(_, ws){
-      $('form.inputarea').bind('submit', function(e){
-	  e.stopPropagation();
-	  e.preventDefault();
-	  jQuery.post(AsakusaSatellite.url.create,
-		      {
-			  'room_id' : AsakusaSatellite.current.room,
-			  'message' : $('textarea#message').val()
-		      });
-	  $('textarea#message').val('');
-      });
-  });
+    // messages send
+    $('textarea#message').multiline();
+    $(".message-list").bind('websocket::connect', function(_, ws){
+	$('form.inputarea').bind('submit', function(e){
+	    e.stopPropagation();
+	    e.preventDefault();
+	    jQuery.post(AsakusaSatellite.url.create,
+			{
+			    'room_id' : AsakusaSatellite.current.room,
+			    'message' : $('textarea#message').val()
+			});
+	    $('textarea#message').val('');
+	});
+    });
 
     // show status of websocket
     $(".message-list").bind('websocket::connect', function(){

@@ -1,6 +1,7 @@
 (function($) {
     jQuery.fn.webSocket = function(config){
 	var defaults = {
+	    _class    : WebSocket,
 	    entry : 'ws://' + location.hostname + ':18081/room',
 	};
 	config = jQuery.extend(defaults, config);
@@ -10,47 +11,18 @@
 	    target.trigger(name, data);
 	}
 
-	var ws = new WebSocket(config.entry + "?id="+config.room);
+	var ws = new config._class(config.entry);
 	ws.onopen = function() {
 	    fire('websocket::connect', ws);
 	}
 	ws.onmessage = function(text){
-	    eval('var message = ' + text.data);
+	    var message = jQuery.parseJSON(text.data);
 	    var obj = message.content;
-	    switch(message.event){
-	    case 'create':
-		fire('websocket::create', obj);
-		break;
-	    case 'update':
-		fire('websocket::update', obj);
-		break;
-	    case 'delete':
-		fire('websocket::delete', obj);
-		break;
-	    }
+	    fire('websocket::' + message.event, obj);
 	}
 	ws.onerror = function(msg){
 	    fire('websocket::error', msg);
 	}
-	if(config.makeElement){
-	    target.bind('websocket::create', function(_, obj) {
-		var dom = $( config.makeElement(obj) );
-		dom.hide();
-		target.append(dom);
-		dom.fadeIn();
-	    });
-
-	    target.bind('websocket::update', function(_, obj) {
-		var dom = $( config.makeElement(obj) );
-		dom.hide();
-		$("[target=" + obj.id + "]").replaceWith(dom);
-		dom.fadeIn();
-	    });
-
-	    target.bind('websocket::delete', function(_, obj){
-		var dom = $("[target=" + obj.id + "]");
-		dom.fadeOut(function(){ dom.remove(); });
-	    });
-	}
+	return this;
     }
 })(jQuery);

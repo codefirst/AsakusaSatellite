@@ -3,12 +3,11 @@
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   <title>QUnit Test Suite</title>
-  <script type="text/javascript" src="./lib/math.js"></script>
-  <script type="text/javascript" src="./lib/incr.js"></script>
-
+  <script type="text/javascript" src="../public/javascripts/jquery.js"></script>
+  <script type="text/javascript" src="../public/javascripts/jquery.websocket.js"></script>
+  <!-- test lib -->
   <link rel="stylesheet" href="./lib/qunit/qunit.css" type="text/css" media="screen">
   <script type="text/javascript" src="./lib/qunit/qunit.js"></script>
-
   <script type="text/javascript" src="./lib/qunit-tap.js"></script>
   <script>
     if(typeof(console) !== "undefined" && typeof(console.log) === "function") {
@@ -21,10 +20,7 @@
       }
     }
   </script>
-
-  <script type="text/javascript" src="./test/math_test.js"></script>
-  <script type="text/javascript" src="./test/incr_test.js"></script>
-  <script type="text/javascript" src="./test/tap_compliance_test.js"></script>
+  <script type="text/javascript" src="./test/websocket_test.js"></script>
 </head>
 <body>
   <h1 id="qunit-header">QUnit Test Suite</h1>

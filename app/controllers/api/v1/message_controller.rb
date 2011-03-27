@@ -30,9 +30,6 @@ module Api
       end
 
       def show
-        if Setting[:host]
-          default_url_options[:host] = Setting[:host]
-        end
         @message = Message.find params[:id]
         if @message then
           respond_with(to_json(@message))

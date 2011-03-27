@@ -3,8 +3,8 @@
 	var target = this;
 	target.bind('websocket::create', function(_, obj) {
 	    var dom = $( config.make(obj) );
-	    dom.hide();
 	    target.append(dom);
+	    dom.hide();
 	    dom.fadeIn();
 	});
 

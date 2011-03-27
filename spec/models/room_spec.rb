@@ -61,7 +61,7 @@ describe Room do
     subject { @room.to_json }
     its([:name]) { should == "room1" }
     its([:user])  { should == @user.to_json }
-    its([:updated_at]) { should == @room.updated_at }
+    its([:updated_at]) { should == @room.updated_at.to_s }
   end
 
   describe "yaml field" do

@@ -110,7 +110,7 @@ $(function() {
 
     // File DnD
     uploadConfig = {
-	action : "#{url_for(:controller => 'chat', :action => 'message')}",
+	action : AsakusaSatellite.url.message,
 	params : [{ room_id : AsakusaSatellite.current.room},
 		  { authenticity_token: AsakusaSatellite.form_auth }],
 	onProgress : function(value){

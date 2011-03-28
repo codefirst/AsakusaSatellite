@@ -3,7 +3,7 @@
 	var config = jQuery.extend({
 	    scrollTo: function(e){
 		$(window).scrollTo( e , 500, { easing:'swing', queue:true, axis:'y' } );
-		$("img", e).bind("load", function(){
+		$("img.attachment", e).bind("load", function(){
 		    $(window).scrollTo( e , 500, { easing:'swing', queue:true, axis:'y' } );
 		});
 	    }
@@ -13,9 +13,11 @@
 
 	config.scrollTo(target.find(selector).last());
 
-	target.bind('as::append', function(){
-	    var last = target.find(selector).last();
-	    config.scrollTo(last);
+	target.bind('as::append', function(_, elems){
+	    if( $(elems).filter(selector).length != 0){
+		var last = target.find(selector).last();
+		config.scrollTo(last);
+	    }
 	});
 
         return { refresh : function(){

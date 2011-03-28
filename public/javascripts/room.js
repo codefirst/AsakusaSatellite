@@ -37,12 +37,25 @@ $(function() {
             entry : AsakusaSatellite.url.websocket
 	})
 	.chat({
-	    make : function (message){
-		return $(message.view);
-	    }
+	    make : function (message){ return $(message.view); }
 	})
 	.watch('div.message', function(elem){
 	    onTheSpot(elem);
+	})
+	.notify({
+	    current_user : AsakusaSatellite.current.user
+	})
+	.bind({
+	    'websokcet::create' : function(){
+		document.getElementById("audio").load();
+		document.getElementById("audio").play();
+	    },
+	    'websocket::connect' : function(){
+		$("img.websocket-status").attr('src', AsakusaSatellite.resouces.connect);
+	    },
+	    'websocket::error' : function(){
+		$("img.websocket-status").attr('src', AsakusaSatellite.resouces.disconnect);
+	    }
 	});
 
     // ------------------------------
@@ -76,39 +89,12 @@ $(function() {
     $(".message-list").autoscroll(".message");
 
     // ------------------------------
-    // show status of websocket
-    $(".message-list").bind('websocket::connect', function(){
-	$("img.websocket-status").attr('src', AsakusaSatellite.resouces.connect);
-    });
-    $(".message-list").bind('websocket::error', function(){
-	$("img.websocket-status").attr('src', AsakusaSatellite.resouces.disconnect);
-    });
-
-    // message notification
-    $(".message-list").bind('websocket::create', function(_, message){
-	if(message.screen_name != AsakusaSatellite.current.user) {
-	    $.fn.desktopNotify({
-		picture: message.profile_image_url,
-		title: message.name + " / " + message.room.name,
-		text : (message.attachment != null ? message.attachment.filename : message.body)
-	    });
-	}
-	document.getElementById("audio").load();
-	document.getElementById("audio").play();
-    });
-
     // File DnD
+    // ------------------------------
     uploadConfig = {
 	action : AsakusaSatellite.url.message,
 	params : [{ room_id : AsakusaSatellite.current.room},
-		  { authenticity_token: AsakusaSatellite.form_auth }],
-	onProgress : function(value){
-	    console.log(value);
-	},
-	onPartialError : function(){
-	},
-	onComplete : function(){
-	}
+		  { authenticity_token: AsakusaSatellite.form_auth }]
     };
     $('.message-list').dropUploader(uploadConfig);
     $('#message').dropUploader(uploadConfig);

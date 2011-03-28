@@ -38,16 +38,26 @@ $(function() {
 	})
 	.chat({
 	    make : function (message){
-		var dom = $(message.view);
-		onTheSpot(dom);
-		return dom;
+		return $(message.view);
 	    }
+	})
+	.watch('div.message', function(elem){
+	    onTheSpot(elem);
 	});
 
     // ------------------------------
     // submit area
     // ------------------------------
     $('textarea#message').multiline();
+
+    $('form.inputarea').bind('submit', function(e){
+	e.preventDefault();
+	jQuery.post(AsakusaSatellite.url.create, {
+	    'room_id' : AsakusaSatellite.current.room,
+	    'message' : $('textarea#message').val()
+	});
+	$('textarea#message').val('');
+    });
 
     // ------------------------------
     // pagination
@@ -59,9 +69,6 @@ $(function() {
 	url : AsakusaSatellite.url.prev,
 	indicator : AsakusaSatellite.resouces.ajaxLoader
     });
-    $("#read-more").bind("pagination::load",function(_, messages){
-	messages.each(function(_, e){ onTheSpot($(e)); });
-    });
 
     // ------------------------------
     // auto scroll
@@ -69,24 +76,6 @@ $(function() {
     $(".message-list").autoscroll(".message");
 
     // ------------------------------
-    $(".message").each(function(_, e){
-	onTheSpot( $(e) );
-    });
-
-    // messages send
-    $(".message-list").bind('websocket::connect', function(_, ws){
-	$('form.inputarea').bind('submit', function(e){
-	    e.stopPropagation();
-	    e.preventDefault();
-	    jQuery.post(AsakusaSatellite.url.create,
-			{
-			    'room_id' : AsakusaSatellite.current.room,
-			    'message' : $('textarea#message').val()
-			});
-	    $('textarea#message').val('');
-	});
-    });
-
     // show status of websocket
     $(".message-list").bind('websocket::connect', function(){
 	$("img.websocket-status").attr('src', AsakusaSatellite.resouces.connect);

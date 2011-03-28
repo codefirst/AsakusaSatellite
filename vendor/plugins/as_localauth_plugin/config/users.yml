@@ -1,10 +1,10 @@
 testuser1:
   screen_name: Test User1
-  password: b444ac06613fc8d63795be9ad0beaf55011936ac
+  password: b444ac06613fc8d63795be9ad0beaf55011936ac # test1
   profile_image_url: http://example.com/test1_user.png
 testuser2:
   screen_name: Test User2
-  password: 109f4b3c50d7b0df729d299bc6f8e9ef9066971f
+  password: 109f4b3c50d7b0df729d299bc6f8e9ef9066971f # test2
   profile_image_url: data:image/gif;base64,R0lGODlhEAAQAMQfAFWApnCexR4xU1SApaJ3SlB5oSg9ZrOVcy1HcURok/Lo3iM2XO/i1lJ8o2eVu011ncmbdSc8Zc6lg4212DZTgC5Hcmh3f8OUaDhWg7F2RYlhMunXxqrQ8n6s1f///////yH5BAEAAB8ALAAAAAAQABAAAAVz4CeOXumNKOpprHampAZltAt/q0Tvdrpmm+Am01MRGJpgkvBSXRSHYPTSJFkuws0FU8UBOJiLeAtuer6dDmaN6Uw4iNeZk653HIFORD7gFOhpARwGHQJ8foAdgoSGJA1/HJGRC40qHg8JGBQVe10kJiUpIQA7
 testuser3:
   screen_name: Test User3

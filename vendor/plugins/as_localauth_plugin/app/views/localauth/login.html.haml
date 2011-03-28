@@ -1,19 +1,28 @@
 .yield
-=form_for :localauth, :url => {:controller => :localauth, :action => :login} do |form|
- %fieldset
-  %legend{:align => :center}= t(:login)
-  %div
-   %div{:style => "width:30%;float:left;text-align:right;"}
-    =label :login, :username, t(:username) + ":"
-   %div{:style => "width:70%;float:right;"}
-    =text_field :login, :username, {:class => :text, :placeholder => t(:input_your_name)}
-   .clear
-  %div
-   %div{:style => "width:30%;float:left;text-align:right;"}
-    =label :login, :username, t(:password) + ":"
-   %div{:style => "width:70%;float:right;"}
-    =password_field :login, :password, {:class => :text, :placeholder => t(:input_your_password)}
-   .clear
-  %div{:style => "text-align:center;margin:10px;"}
-   =submit_tag t(:login), :class => "submit red button large"
+ %style{:type => 'text/css'}
+  :sass
+   .login-left
+    :width 30%
+    :float left
+    :text-align right
+   .login-right
+    :width 70%
+    :float right
+ =form_for :localauth, :url => {:controller => :localauth, :action => :login} do |form|
+  %fieldset
+   %legend{:align => :center}= t(:login)
+   %div
+    .login-left
+     =label :login, :username, t(:username) + ":"
+    .login-right
+     =text_field :login, :username, {:class => :text, :placeholder => t(:input_your_name)}
+    .clear
+   %div
+    .login-left
+     =label :login, :username, t(:password) + ":"
+    .login-right
+     =password_field :login, :password, {:class => :text, :placeholder => t(:input_your_password)}
+    .clear
+   %div{:style => "text-align:center;margin:10px;"}
+    =submit_tag t(:login), :class => "submit red button large"
 

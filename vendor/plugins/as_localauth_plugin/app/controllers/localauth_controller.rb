@@ -1,6 +1,10 @@
 require 'digest/sha1'
 class LocalauthController < ApplicationController
   before_filter :configured?
+  def index
+    redirect_to :action => 'login'
+  end
+
   def login
     if request.post?
       user_name = params[:login][:username]
@@ -17,7 +21,7 @@ class LocalauthController < ApplicationController
       user.name ||= LocalUser[user_name]['screen_name']
       user.profile_image_url = LocalUser[user_name]['profile_image_url']
       user.save
-      session[:current_user_id] =  user.id 
+      session[:current_user_id] =  user.id
       redirect_to :controller => 'chat', :action => 'index'
     end
 

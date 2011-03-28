@@ -18,7 +18,7 @@ Setup
             profile_image_url: http://example.com/test1_user.png
 
     'password' field is a SHA-1 string.
-    You can get the string by following command.
+    The following command will generate a SHA-1 string.
 
         $ ruby <PLUGIN_ROOT>/script/gen_sha1 <password>
 

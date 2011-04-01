@@ -12,3 +12,12 @@ RSpec::Matchers.define :have_json do |selector|
     doc.search(prefix + selector).size > 0
   end
 end
+
+
+RSpec::Matchers.define :have_xml do |selector|
+  match do |response_body|
+    selector.gsub!(/_/,'-')
+    doc = Nokogiri::XML(response_body)
+    doc.search(selector).size > 0
+  end
+end

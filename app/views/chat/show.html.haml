@@ -1,8 +1,9 @@
 -# -*- coding: utf-8 -*-
 .yield
  = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => false }
- = form_for :chat, :url => {:action => :show, :id => @message.id },:html => {:method=>"GET", :class => "show-form" }  do |f|
+ = form_for :chat, :url => {:action => :show },:html => {:method=>"GET", :class => "show-form" }  do |f|
   = t(:prev)
+  =hidden_field_tag("id", @message.id)
   =select_tag(:prev, options_for_select(@prev_options, @prev_size ))
   = t(:next)
   =select_tag(:next, options_for_select(@next_options, @next_size))

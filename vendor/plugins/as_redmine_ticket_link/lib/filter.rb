@@ -1,3 +1,5 @@
+require 'json'
+require 'open-uri'
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
   def process(text)
@@ -18,6 +20,7 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
           return %[<a target="_blank" href="#{url}">#{ref} #{subject}</a>]
         end
       rescue => e
+        p e
         %[<a target="_blank" href="#{url}">#{ref}</a>]
       end
     else

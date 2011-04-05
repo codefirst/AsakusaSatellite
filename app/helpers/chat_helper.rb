@@ -14,6 +14,21 @@ module ChatHelper
     @message
   end
 
+  def create_attach(room_id, params)
+    room = Room.find(room_id)
+    message = Message.new(:room => room, :body => message, :user => current_user)
+    unless message.save
+      return false
+    else
+      Attachment.create_and_save_file(params[:filename],
+                                      params[:file],
+                                      params[:mimetype],
+                                      message)
+      publish_message(:create, message)
+      message
+    end
+  end
+
   def update_message(message_id, message)
     @message = Message.find(message_id)
     return false unless message

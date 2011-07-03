@@ -1,0 +1,22 @@
+.yield
+ %style{:type => 'text/css'}
+  :sass
+   .login-left
+    :width 30%
+    :float left
+    :text-align right
+   .login-right
+    :width 70%
+    :float right
+ =form_for :redmineauth, :url => {:controller => :redmineauth, :action => :login} do |form|
+  %fieldset
+   %legend{:align => :center}= t(:login)
+   %div
+    .login-left
+     =label :login, :key, t(:key) + ":"
+    .login-right
+     =text_field :login, :key, {:class => :text, :placeholder => t(:input_your_key)}
+    .clear
+   %div{:style => "text-align:center;margin:10px;"}
+    =submit_tag t(:login), :class => "submit red button large"
+

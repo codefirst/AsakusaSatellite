@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
 require 'uuidtools'
-class Attachment < ActiveGroonga::Base
+class Attachment
   UPLOAD_DIR = "#{Rails.root}/public/upload"
+
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  field :disk_filename
+  field :filename
+  field :content_type
+  field :mimetype
+  embeds_one :message
+
   def to_hash
     {
       :disk_filename => File.basename(self.disk_filename),

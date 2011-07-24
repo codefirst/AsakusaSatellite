@@ -1,4 +1,13 @@
-class User < ActiveGroonga::Base
+# -*- coding: utf-8 -*-
+class User
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  field :name
+  field :screen_name
+  field :email
+  field :profile_image_url
+  field :spell
+  
   def to_json
     {
       :id => self.id,

@@ -1,7 +1,10 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
-gem 'activegroonga'
+gem 'mongoid'
+gem 'bson_ext'
+gem "rails3-generators"
+
 group :development, :test do
   gem "rspec-rails", ">= 2.3.0"
   gem 'nokogiri'

@@ -16,7 +16,9 @@ config/websocket.yml
 public/upload/*
 config/filter.yml
 config/settings.yml
+config/mongoid.yml
 .autotest
 spec/reports
+spec/fixtures
 *.swp
 \#*\#

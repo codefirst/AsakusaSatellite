@@ -1,8 +1,13 @@
-class Room < ActiveGroonga::Base
+class Room
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  field :title
+  field :deleted, :type => Boolean
+  field :yaml
 
   # get all rooms without deleted
   def self.all_live
-    Room.select{|record| record.deleted == false } || []
+    Room.all(:conditions => {:deleted => false}) || []
   end
 
   def messages(offset)

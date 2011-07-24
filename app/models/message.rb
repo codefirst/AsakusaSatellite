@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-class Message < ActiveGroonga::Base
+class Message
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  field :body
+  embeds_one :room
+  embeds_one :user
+
   def encode_json(_)
     self.to_hash.to_json
   end

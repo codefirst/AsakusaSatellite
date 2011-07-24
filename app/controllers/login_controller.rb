@@ -75,10 +75,8 @@ class LoginController < ApplicationController
       redirect_to :action => :index
       return nil
     end
-    users = User.select do |record|
-      record['screen_name'] == @user_info['screen_name']
-    end
-    user = (users.records.size > 0 ? users.first : User.new)
+    user = User.first(:conditions => {:screen_name => @user_info['screen_name']})
+    user ||= User.new
     user.screen_name ||= @user_info['screen_name']
     user.name = @user_info['name']
     user.profile_image_url = @user_info['profile_image_url']

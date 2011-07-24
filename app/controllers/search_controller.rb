@@ -16,8 +16,7 @@ class SearchController < ApplicationController
         @results = Message.find_by_text :text => query
       else
         find_room(@room_id, :not_auth => true) do
-          @results = Message.find_by_text(:text => query,
-                                          :rooms => [ @room ] )
+          @results = Message.find_by_text(:text => query, :rooms => [ @room ])
         end
       end
     end
@@ -25,8 +24,6 @@ class SearchController < ApplicationController
 
   private
   def search_form
-    Room.all_live.map do |room|
-       [room.title, room.id]
-    end
+    Room.all_live.map {|room| [room.title, room.id]}
   end
 end

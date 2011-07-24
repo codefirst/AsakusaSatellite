@@ -11,7 +11,7 @@ class ChatController < ApplicationController
   end
 
   def prev
-    @message = Message.find params[:id]
+    @message = Message.find(params[:id])
     @messages = if @message then
                   @message.prev( params[:offset] || 20 )
                 else
@@ -22,15 +22,15 @@ class ChatController < ApplicationController
   end
 
   def next
-    @message = Message.find params[:id]
-    @messages = @message.next( params[:offset] || 20 )
+    @message = Message.find(params[:id])
+    @messages = @message.next(params[:offset] || 20)
 
     render :action => :messages, :layout => false
   end
 
   def show
     @id      = params[:id]
-    @message = Message.find @id
+    @message = Message.find(@id)
 
     @prev_size = int(params[:prev], 5)
     @next_size = int(params[:next], 5)
@@ -44,10 +44,10 @@ class ChatController < ApplicationController
   end
 
   def room
+    logger.info "room "
     find_room(params[:id],:not_auth=>true) do
-      @messages = Message.select('id, room.id, user.id, body') do |record|
-        record.created_at >= Time.now.beginning_of_day and record.room == @room
-      end.sort([{:key => "created_at", :order => :desc}], :limit => PageSize)
+      logger.info @room.title
+      @messages = Message.where(:created_at.gte => Time.now.beginning_of_day, :room => @room).order_by(:created_at.desc).limit(PageSize)
       @title = @room.title
     end
   end

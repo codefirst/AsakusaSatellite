@@ -4,6 +4,7 @@ class Room
   field :title
   field :deleted, :type => Boolean
   field :yaml
+  embeds_one :user
 
   # get all rooms without deleted
   def self.all_live

@@ -9,7 +9,8 @@ class RoomController < ApplicationController
     elsif request.post?
       room = Room.new(:title => params[:room][:title],
                       :user => current_user,
-                      :updated_at => Time.now)
+                      :updated_at => Time.now,
+                      :deleted => false)
       if room.save
         redirect_to :controller => :chat, :action => 'room', :id => room.id
       else

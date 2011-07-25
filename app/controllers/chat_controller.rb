@@ -45,7 +45,7 @@ class ChatController < ApplicationController
 
   def room
     find_room(params[:id],:not_auth=>true) do
-      @messages = Message.all #where(:created_at.lte => Time.now.beginning_of_day, :room_id => @room.id).order_by(:created_at.desc).limit(PageSize)
+      @messages = Message.where("room._id" => @room.id).order_by(:created_at.desc).limit(PageSize)
       @title = @room.title
     end
   end

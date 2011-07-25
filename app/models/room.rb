@@ -5,6 +5,7 @@ class Room
   field :deleted, :type => Boolean
   field :yaml
   embeds_one :user
+  #embedded_in :message, :inverse_of => :room
 
   # get all rooms without deleted
   def self.all_live

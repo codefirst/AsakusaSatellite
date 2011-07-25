@@ -3,8 +3,9 @@ class Message
   include Mongoid::Document
   include Mongoid::Timestamps
   field :body
-  has_one :room
-  has_one :user
+  field :room_id
+  embeds_one :room
+  embeds_one :user
 
   def encode_json(_)
     self.to_hash.to_json
@@ -29,9 +30,7 @@ class Message
   end
 
   def attachment
-    attachments = Attachment.select do |record|
-      record.message == self
-    end
+    attachments = Attachment.where(:message_id => self.id)
     attachments.nil? ? nil : attachments.first
   end
 

@@ -6,7 +6,7 @@ module ChatHelper
     return if !opt[:force] and message.strip.empty?
 
     room = Room.find(room_id)
-    @message = Message.new(:room => room, :body => message, :user => current_user)
+    @message = Message.new(:room_id => room_id, :room => room, :body => message, :user => current_user)
     unless @message.save
       return false
     end

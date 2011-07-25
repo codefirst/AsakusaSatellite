@@ -9,6 +9,7 @@ class Attachment
   field :filename
   field :content_type
   field :mimetype
+  field :message_id
   embeds_one :message
 
   def to_hash

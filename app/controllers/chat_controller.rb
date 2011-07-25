@@ -44,10 +44,8 @@ class ChatController < ApplicationController
   end
 
   def room
-    logger.info "room "
     find_room(params[:id],:not_auth=>true) do
-      logger.info @room.title
-      @messages = Message.where(:created_at.gte => Time.now.beginning_of_day, :room => @room).order_by(:created_at.desc).limit(PageSize)
+      @messages = Message.all #where(:created_at.lte => Time.now.beginning_of_day, :room_id => @room.id).order_by(:created_at.desc).limit(PageSize)
       @title = @room.title
     end
   end
@@ -63,12 +61,12 @@ class ChatController < ApplicationController
         if request[:fileupload]
           create_attach(params[:room_id], params)
         else
-          create_message(params[:room_id], params[:message] )
+          create_message(params[:room_id], params[:message])
         end
         @room.update_attributes!(:updated_at => Time.now)
       end
     end
-    redirect_to :controller => 'chat'
+    redirect_to :controller => 'chat', :action => 'room', :id => params[:room_id]
   end
 
   def update_message_on_the_spot
@@ -81,7 +79,7 @@ class ChatController < ApplicationController
 
   private
   def int(s, default)
-    if s == nil || s.empty? then
+    if s.blank? then
       default
     else
       s.to_i

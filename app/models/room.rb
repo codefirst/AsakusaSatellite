@@ -5,18 +5,14 @@ class Room
   field :deleted, :type => Boolean
   field :yaml
   embeds_one :user
-  #embedded_in :message, :inverse_of => :room
 
   # get all rooms without deleted
   def self.all_live
-    Room.all(:conditions => {:deleted => false}) || []
+    Room.where(:deleted => false) || []
   end
 
   def messages(offset)
-    Message.select {|record| record.room == self.id }.
-      sort([{:key => "created_at", :order => :desc}],:limit => offset).
-      to_a.
-      reverse
+    Message.where("room.id" => id).order_by(:created_at.desc).limit(offset).to_a.reverse
   end
 
   def to_json
@@ -34,7 +30,7 @@ class Room
   end
 
   def yaml=(value)
-    write_attribute "yaml", value.to_yaml
+    write_attribute("yaml", value.to_yaml)
   end
 
   def validate(options = {})

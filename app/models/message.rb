@@ -36,26 +36,27 @@ class Message
 
   def prev(offset)
     # FIXME: もっと効率良く!
-    Message.select do |record|
-      (record.id < self.id) & (record.room == self.room)
-    end.sort([{:key => "created_at", :order => :desc}], :limit => offset).to_a.reverse
+    Message.where(:created_at.lt => created_at, "room._id" => room.id).order_by(:created_at.desc).limit(offset).to_a.reverse
+
+    # Message.select do |record|
+    #   (record.id < self.id) & (record.room == self.room)
+    # end.sort([{:key => "created_at", :order => :desc}], :limit => offset).to_a.reverse
   end
 
   def next(offset)
     # FIXME: もっと効率良く!
-    Message.select do |record|
-      (record.id > self.id) & (record.room == self.room)
-    end.sort([{:key => "created_at", :order => :asc}], :limit => offset).to_a
+    Message.where(:created_at.gt => created_at, "room._id" => room.id).order_by(:created_at.asc).limit(offset).to_a
+    # Message.select do |record|
+    #   (record.id > self.id) & (record.room == self.room)
+    # end.sort([{:key => "created_at", :order => :asc}], :limit => offset).to_a
   end
 
   def self.find_by_text(params)
     query = params[:text]
     rooms = params[:rooms] || Room.all_live
-
+    puts query
     rooms.map do |room|
-      messages = Message.select do |record|
-        [record.room == room, record["body"] =~ query]
-      end
+      messages = Message.where("room._id" => room.id, :body => /#{query}/i)
       { :room => room, :messages => messages }
     end
   end

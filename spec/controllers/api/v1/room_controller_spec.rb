@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe Api::V1::RoomController do
   before do
-    User.select.each { |r| r.delete }
+    User.delete_all
     @user = User.new(:spell => 'spell')
     @user.save
     @room = Room.new(:title => 'title', :user => @user)
@@ -21,7 +21,6 @@ describe Api::V1::RoomController do
     it { should have_json("/status[text() = 'error']") }
   end
 
-
   describe "部屋作成" do
     describe "response" do
       before {
@@ -33,7 +32,7 @@ describe Api::V1::RoomController do
     describe "DB" do
       it { expect {
           post :create, :name => 'room name', :api_key => @user.spell, :format => 'json'
-        }.to change(Room.all.records, :size).by(1)
+        }.to change(Room.all, :size).by(1)
       }
     end
   end
@@ -61,7 +60,8 @@ describe Api::V1::RoomController do
       post :list, :format => 'json'
     }
     subject { response.body }
-    it { should have_json("/name[text() = '#{@room.title}']") }
+
+    it { puts @room.title; should have_json("/name[text() = '#{@room.title}']") }
   end
 
   context "復活の呪文を間違えた" do

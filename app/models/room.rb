@@ -6,6 +6,9 @@ class Room
   field :yaml
   embeds_one :user
 
+  validates_presence_of :title
+
+  
   # get all rooms without deleted
   def self.all_live
     Room.where(:deleted => false) || []

@@ -12,7 +12,7 @@ describe Api::V1::LoginController do
     end
 
     it "ユーザを取得できない場合は error を返す" do
-      User.select.each {|r| r.delete}
+      User.delete_all
       get :index, :user => 'user', :password => 'password', :format => 'json'
       response.body.should have_json("/status[text() = 'error']")
       session[:current_user_id].should be_nil

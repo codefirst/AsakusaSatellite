@@ -42,10 +42,7 @@ module Api
       end
 
       def list
-        rooms = Room.select do |record|
-          record.deleted == false
-        end.to_a
-        render :json => rooms.map {|r| r.to_json }
+        render :json => Room.where(:deleted => false).map {|r| r.to_json }
       end
     end
   end

@@ -39,6 +39,6 @@ describe Attachment do
                                       StringIO.new(""),
                                       'text/plain',
                                       Message.new)
-    }.to change(Attachment.all.records, :size).by(1)
+    }.to change(Attachment.all, :size).by(1)
   end
 end

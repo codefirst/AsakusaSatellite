@@ -3,10 +3,8 @@
 module ApiHelper
   def check_spell
     if params[:api_key]
-      users = User.select do |record|
-        record.spell == params[:api_key]
-      end
-      if users and users.first
+      users = User.where(:spell => params[:api_key])
+      if users.first
         session[:current_user_id] = users.first.id
       end
     end

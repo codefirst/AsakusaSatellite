@@ -30,7 +30,7 @@ class ChatController < ApplicationController
 
   def show
     @id      = params[:id]
-    @message = Message.find(@id)
+    @message = Message.where(:_id => @id).first
 
     @prev_size = int(params[:prev], 5)
     @next_size = int(params[:next], 5)

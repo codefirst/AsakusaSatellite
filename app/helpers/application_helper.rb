@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def current_user
-    User.first(:conditions => {:id => session[:current_user_id]})
+    user = User.where(:_id => session[:current_user_id]).first
   end
 
   def set_current_user(user)

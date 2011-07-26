@@ -5,7 +5,7 @@ module ChatHelper
   def create_message(room_id, message, opt = {})
     return if !opt[:force] and message.strip.empty?
 
-    room = Room.find(room_id)
+    room = Room.where(:_id => room_id).first
     @message = Message.new(:room_id => room_id, :room => room, :body => message, :user => current_user)
     unless @message.save
       return false
@@ -15,7 +15,7 @@ module ChatHelper
   end
 
   def create_attach(room_id, params)
-    room = Room.find(room_id)
+    room = Room.where(:_id => room_id).first
     message = Message.new(:room => room, :body => message, :user => current_user)
     unless message.save
       return false
@@ -30,7 +30,7 @@ module ChatHelper
   end
 
   def update_message(message_id, message)
-    @message = Message.find(message_id)
+    @message = Message.where(:_id => message_id).first
     return false unless message
     @message.body = message
     if @message.save then
@@ -42,7 +42,7 @@ module ChatHelper
   end
 
   def delete_message(message_id)
-    @message = Message.find(message_id)
+    @message = Message.where(:_id => message_id).first
     return false unless @message
     return false unless @message.destroy
 

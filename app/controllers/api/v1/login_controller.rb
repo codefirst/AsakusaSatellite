@@ -4,13 +4,8 @@ module Api
       respond_to :json
       def index
         ActiveSupport::Deprecation.warn "Api::V1::LoginController is deprecated. Instead, please use api_key parameter"
-        users = User.select do |record|
-          [
-            record['screen_name'] == params[:user],
-            record['spell'] == params[:password]
-          ]
-        end
-        if users.records.size == 0
+        users = User.where(:screen_name => params[:user], :spell => params[:password])
+        if users.size == 0
           render :json => {:status => 'error', :error => 'login failed'}
           return
         end

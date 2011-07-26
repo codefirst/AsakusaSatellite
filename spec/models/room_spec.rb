@@ -22,7 +22,7 @@ describe Room do
 
   describe "all_live" do
     before(:each) do
-      Room.select.each { |r| r.delete }
+      Room.delete_all
     end
 
     context "rooms が空" do
@@ -32,8 +32,11 @@ describe Room do
 
     context "rooms が2個" do
       before do
+        puts Room.all.size
         Room.new(:title => 'room1', :user => nil, :updated_at => Time.now).save
         Room.new(:title => 'room2', :user => nil, :updated_at => Time.now).save
+        puts Room.all.size
+        puts Room.all_live.size
       end
 
       subject { Room.all_live }

@@ -16,7 +16,7 @@ describe ChatController do
   describe "発言投稿" do
     it { expect {
         post :message, {:room_id => @room.id, :message => "メッセージ" }
-      }.to change(Message.all.records, :size).by(1)
+      }.to change(Message.all, :size).by(1)
     }
 
     describe "部屋" do
@@ -72,7 +72,7 @@ describe ChatController do
 
   describe "個別ページ" do
     before {
-      get :show, :id => @messages[20], :c => 5
+      get :show, :id => @messages[20].id, :c => 5
     }
     subject { assigns }
     its([:prev]) { should have(5).items }
@@ -84,7 +84,7 @@ describe ChatController do
 
     it { expect {
         post :room, {:room => {:title => 'test'}}
-      }.to change(Room.all.records, :size).by(0) }
+      }.to change(Room.all, :size).by(0) }
 
     describe "部屋作成" do
       before  { post :room, {:room => {:title => 'test'} } }

@@ -22,15 +22,15 @@ describe RoomController do
 
   context "ログイン時" do
     before do
-      session[:current_user_id] =
-        User.new.tap{|x| x.save! }
+      user = User.new.tap{|x| x.save! }
+      session[:current_user_id] = user.id
     end
     it_should_behave_like '部屋を消せる'
 
     describe "部屋作成" do
       it { expect {
           post :create, {:room => {:title => 'foo' }}
-        }.to change(Room.all.records, :size).by(1)
+        }.to change(Room.all, :size).by(1)
       }
     end
   end

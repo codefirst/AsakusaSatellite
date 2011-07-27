@@ -9,21 +9,17 @@ module Api
       respond_to :json
 
       def list
-        count = if params[:count] then
-                  params[:count].to_i
-                else
-                  20
-                end
+        count = params[:count] ? params[:count].to_i : 20
         case
         when params[:until_id]
-          message = Message.find params[:until_id]
+          message = Message.where(:_id => params[:until_id]).first
           @messages = message.prev(count-1)
           @messages << message
         when params[:since_id]
-          message = Message.find params[:since_id]
+          message = Message.where(:_id => params[:since_id]).first
           @messages = message.next(count)
         else
-          room = Room.find(params[:room_id])
+          room = Room.where(:_id => params[:room_id]).first
           @messages = room.messages(count)
         end
         respond_with(@messages.map{|m| to_json(m) })

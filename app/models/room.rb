@@ -15,7 +15,7 @@ class Room
   end
 
   def messages(offset)
-    Message.where("room.id" => id).order_by(:created_at.desc).limit(offset).to_a.reverse
+    Message.where("room._id" => id).order_by(:created_at.desc).limit(offset).to_a.reverse
   end
 
   def to_json

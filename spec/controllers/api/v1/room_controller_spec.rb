@@ -9,6 +9,7 @@ describe Api::V1::RoomController do
     @user.save
     @room = Room.new(:title => 'title', :user => @user)
     @room.save
+    puts @room.title
   end
 
   share_examples_for '成功する'  do
@@ -61,7 +62,7 @@ describe Api::V1::RoomController do
     }
     subject { response.body }
 
-    it { puts @room.title; should have_json("/name[text() = '#{@room.title}']") }
+    it { should have_json("/name[text() = '#{@room.title}']") }
   end
 
   context "復活の呪文を間違えた" do

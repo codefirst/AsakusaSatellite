@@ -48,9 +48,9 @@ describe Api::V1::MessageController do
       describe "response" do
         subject { response.body }
         it { should have_json('/view') }
-        it { should have_json("/id[text() = #{@messages[-1].id}]") }
-        it { should have_json("/id[text() = #{@messages[-20].id}]") }
-        it { should_not have_json("/id[text() = #{@messages[-21].id}]") }
+        it { should have_json("/id[text() = '#{@messages[-1].id}']") }
+        it { should have_json("/id[text() = '#{@messages[-20].id}']") }
+        it { should_not have_json("/id[text() = '#{@messages[-21].id}']") }
       end
       describe "messages" do
         subject { assigns[:messages] }
@@ -115,7 +115,7 @@ describe Api::V1::MessageController do
       post :update, :id => @message.id, :message => 'modified', :api_key => @user.spell
     }
     it_should_behave_like '成功'
-    subject { Message.find @message.id }
+    subject { Message.where(:_id => @message.id).first }
     its(:body) { should == 'modified' }
   end
 
@@ -124,7 +124,7 @@ describe Api::V1::MessageController do
       post :destroy, :id => @message.id, :api_key => @user.spell
     }
     it_should_behave_like '成功'
-    subject { Message.find @message.id }
+    subject { Message.where(:_id => @message.id).first }
     it { should be_nil }
   end
 

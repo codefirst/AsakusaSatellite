@@ -6,6 +6,7 @@ class Message
   field :room_id
   embeds_one :room
   embeds_one :user
+  index :updated_at
 
   def encode_json(_)
     self.to_hash.to_json
@@ -35,11 +36,11 @@ class Message
   end
 
   def prev(offset)
-    Message.where(:created_at.lt => created_at, "room._id" => room.id).order_by(:created_at.desc).limit(offset).to_a.reverse
+    Message.where(:_id.lt => self._id, "room._id" => room.id).order_by(:created_at.desc).limit(offset).to_a.reverse
   end
 
   def next(offset)
-    Message.where(:created_at.gt => created_at, "room._id" => room.id).order_by(:created_at.asc).limit(offset).to_a
+    Message.where(:_id.gt => self._id, "room._id" => room.id).order_by(:created_at.asc).limit(offset).to_a
   end
 
   def self.find_by_text(params)

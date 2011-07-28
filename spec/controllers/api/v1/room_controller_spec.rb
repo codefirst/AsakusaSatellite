@@ -9,7 +9,6 @@ describe Api::V1::RoomController do
     @user.save
     @room = Room.new(:title => 'title', :user => @user)
     @room.save
-    puts @room.title
   end
 
   share_examples_for '成功する'  do

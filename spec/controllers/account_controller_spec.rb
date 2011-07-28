@@ -5,7 +5,7 @@ describe AccountController do
   context "ログイン時" do
     before do
       @user = mock_model(User)
-      @user.stub(:id){ 42 }
+      @user.stub(:id){ '42' }
       @user.stub(:spell){ @spell }
       @user.stub(:spell=){|s| @spell = s }
       @user.stub(:save)

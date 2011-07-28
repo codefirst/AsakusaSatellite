@@ -16,7 +16,7 @@ describe Api::V1::UserController do
       get :show, :api_key => @user.spell, :format => 'json'
     }
     subject { response.body }
-    it { should have_json("/id[text() = #{@user.id}]") }
+    it { should have_json("/id[text() = '#{@user.id}']") }
     it { should have_json("/name[text() = 'name']") }
     it { should have_json("/screen_name[text() = 'screen-name']") }
     it { should have_json("/profile_image_url[text() = 'url']") }

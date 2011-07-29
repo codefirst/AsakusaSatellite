@@ -9,7 +9,7 @@ describe ChatHelper do
     @message = mock "message"
     @message.stub(:body=)
     Message.stub(:new => @message)
-    Message.stub(:find => @message)
+    Message.stub(:where => [ @message ])
   }
 
   context "成功時" do

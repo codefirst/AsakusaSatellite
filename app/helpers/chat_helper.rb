@@ -48,7 +48,10 @@ module ChatHelper
   end
 
   def delete_message(message_id)
+    require 'pp'
+    pp message_id
     @message = Message.where(:_id => message_id).first
+    pp @message
     return false unless @message
     return false unless @message.destroy
 

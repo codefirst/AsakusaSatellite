@@ -54,7 +54,10 @@ module Api
       end
 
       def destroy
-        message = Message.find(params[:id])
+        require 'pp'
+        pp params[:id]
+        message = Message.where(:_id => params[:id]).first
+        pp  message
         unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
           render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
           return

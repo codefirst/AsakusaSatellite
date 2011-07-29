@@ -12,9 +12,12 @@ $(function() {
             dom.find(".delete").bind("click",function(){
 		if(confirm(AsakusaSatellite.t['are_you_sure_you_want_to_delete_this_message'])){
 		    // http://travisonrails.com/2009/05/20/rails-delete-requests-with-jquery
-		    var id = dom.attr("target");
-		    jQuery.post(AsakusaSatellite.url.destroy,
-				{ 'id' : id, _method: 'delete' });
+		    var id = dom.attr("message-id");
+            jQuery.ajax({
+                url: AsakusaSatellite.url.destroy + '/' + id,
+                type: 'delete',
+                success: function() { dom.remove(); },
+            });
 		}
             });
 	}else{

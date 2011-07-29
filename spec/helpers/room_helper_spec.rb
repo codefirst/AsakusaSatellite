@@ -40,7 +40,7 @@ describe RoomHelper do
 
     @user = mock 'user'
     helper.stub(:current_user => @user)
-    Room.stub(:find => @room)
+    Room.stub(:where => [ @room ])
   end
 
   context "部屋がない" do

@@ -13,6 +13,7 @@ group :development, :test do
   gem 'ci_reporter'
 end
 gem 'haml-rails'
+gem 'sass'
 gem 'jquery-rails'
 gem 'rcov'
 gem 'em-websocket'

@@ -1,6 +1,12 @@
 require 'yaml'
 require 'msgpack-rpc'
 
+class BSON::ObjectId
+  def to_msgpack(*args)
+    self.to_s.to_msgpack(*args)
+  end
+end
+
 module ChatHelper
   def create_message(room_id, message, opt = {})
     return if !opt[:force] and message.strip.empty?
@@ -60,8 +66,6 @@ module ChatHelper
   private
   def publish_message(event, message)
     @client = MessagePack::RPC::Client.new('127.0.0.1', WebsocketConfig.msgpackPort)
-
-
     Thread.start do
       begin
         if event == :delete then

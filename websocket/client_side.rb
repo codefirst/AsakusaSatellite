@@ -42,7 +42,7 @@ class ClientSide
   end
 
   private
-  def dispatch(path,&f)
+  def dispatch(path, &f)
     result = AsakusaSatellite::UrlUtil.parse path
     begin
       f[@routes.send(result[:name], result[:query])]

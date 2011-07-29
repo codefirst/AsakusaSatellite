@@ -18,7 +18,7 @@ class MyRoutes < AsakusaSatellite::Routes
     message_create.merge(:create,
                          :update => message_update,
                          :delete => message_delete).filter{|_,room,content|
-      params[:id].to_i == room
+      params[:id] == room
     }.map{|event, _, content|
       { 'event' => event.to_s, 'content' => content }
     }

@@ -45,7 +45,11 @@ describe SearchController do
       before do
         @room = mock
         @room.stub(:deleted){ false }
-        @find_room    = Room.should_receive(:find).with('1'){ @room }
+        @room.stub(:title){ "foo" }
+        @room.stub(:id){ 42 }
+
+        Room.stub(:all_live){ [ @room] }
+        @find_room    = Room.should_receive(:where).with(:_id => '1'){ [ @room ] }
         @find_by_text = Message.
           should_receive(:find_by_text).
           with(:text => 'foo',:rooms => [ @room ]){ [] }

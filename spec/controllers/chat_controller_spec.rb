@@ -21,12 +21,14 @@ describe ChatController do
 
     describe "部屋" do
       before {
-        @now = Time.now
-        Time.stub(:now) { @now }
+        @now = Time.at(Time.now.to_i)
+        Time.stub(:now) { @now.dup }
         post :message, {:room_id => @room.id, :message => "メッセージ" }
       }
-      subject { Room.find @room.id }
-      its(:updated_at) { should == @now }
+      subject {
+        Room.find @room.id
+      }
+      its(:updated_at) { should == @now  }
     end
   end
 

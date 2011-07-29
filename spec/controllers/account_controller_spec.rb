@@ -4,12 +4,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe AccountController do
   context "ログイン時" do
     before do
+      users = []
       @user = mock_model(User)
       @user.stub(:id){ '42' }
       @user.stub(:spell){ @spell }
       @user.stub(:spell=){|s| @spell = s }
       @user.stub(:save)
-      User.stub(:find){ @user.id }
+      users << @user
+      User.stub(:where){ users }
 
       session[:current_user_id] = @user.id
 

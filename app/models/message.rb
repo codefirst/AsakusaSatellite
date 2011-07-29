@@ -36,11 +36,12 @@ class Message
   end
 
   def prev(offset)
-    Message.where(:_id.lt => self._id, "room._id" => room.id).order_by(:created_at.desc).limit(offset).to_a.reverse
+    p self.room.id
+    Message.where("room._id" => self.room.id, :_id.lt => self._id).order_by(:_id.desc).limit(offset).to_a.reverse
   end
 
   def next(offset)
-    Message.where(:_id.gt => self._id, "room._id" => room.id).order_by(:created_at.asc).limit(offset).to_a
+    Message.where("room._id" => self.room.id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
   def self.find_by_text(params)

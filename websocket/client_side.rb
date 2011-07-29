@@ -23,8 +23,8 @@ class ClientSide
                                   :port => @port) do |ws|
       ws.onopen do
         @logger.info "on open: #{ws.request.inspect}"
-        dispatch(ws.request['Path'])do|event|
-          @clients[ws] = event.listen do|hash|
+        dispatch(ws.request['path'] || ws.request['Path']) do |event|
+          @clients[ws] = event.listen do |hash|
             @logger.info "send #{hash.inspect}"
             ws.send hash.to_json
           end
@@ -33,7 +33,7 @@ class ClientSide
 
       ws.onclose do
         @logger.info "on close: #{ws.request.inspect}"
-        dispatch(ws.request['Path'])do|event, query|
+        dispatch(ws.request['path'] || ws.request['Path']) do |event, query|
           event.remove @clients[ws]
         end
         @clients.delete ws

@@ -5,7 +5,7 @@ describe Message do
   before do
     cleanup_db
 
-    @room = Room.new(:title => 'test room').Tap{|x| x.save! }
+    @room = Room.new(:title => 'test room').tap{|x| x.save! }
     @user = User.new(:name => 'test user', :screen_name => 'test').tap{|x| x.save! }
 
     @other_room = Room.new(:title => "dummy_room")

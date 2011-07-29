@@ -2,7 +2,7 @@ class Room
   include Mongoid::Document
   include Mongoid::Timestamps
   field :title
-  field :deleted, :type => Boolean
+  field :deleted, :type => Boolean, :default => false
   field :yaml
   embeds_one :user
 

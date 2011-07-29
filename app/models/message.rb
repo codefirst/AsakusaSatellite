@@ -36,7 +36,7 @@ class Message
   end
 
   def prev(offset)
-    Message.where(:_id.lte => self._id, "room._id" => room.id).order_by(:created_at.desc).limit(offset).to_a.reverse
+    Message.where(:_id.lt => self._id, "room._id" => room.id).order_by(:created_at.desc).limit(offset).to_a.reverse
   end
 
   def next(offset)

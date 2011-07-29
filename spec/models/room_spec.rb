@@ -73,4 +73,17 @@ describe Room do
     its(['foo']) { should == 'baz' }
     it{ should have(1).items }
   end
+
+  describe "messages" do
+    before do
+      @messages = (0..10).map do|i|
+        Message.new(:body => "body of message #{i}",
+                    :room => @room).tap{|m| m.save! }
+      end
+    end
+
+    subject { @room.messages(5) }
+    it { should have(5).items }
+    it { should == @messages[6..-1] }
+  end
 end

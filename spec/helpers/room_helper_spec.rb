@@ -44,7 +44,7 @@ describe RoomHelper do
   end
 
   context "部屋がない" do
-    before { Room.stub(:find => nil) }
+    before { Room.stub(:where => []) }
     it_should_behave_like 'not found room'
   end
 

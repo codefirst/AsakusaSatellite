@@ -9,7 +9,7 @@ describe AccountController do
       @user.stub(:spell){ @spell }
       @user.stub(:spell=){|s| @spell = s }
       @user.stub(:save)
-      User.stub(:find){ @user }
+      User.stub(:find){ @user.id }
 
       session[:current_user_id] = @user.id
 

@@ -8,14 +8,14 @@ class Room
 
   validates_presence_of :title
 
-  
+
   # get all rooms without deleted
   def self.all_live
     Room.where(:deleted => false) || []
   end
 
   def messages(offset)
-    Message.where("room._id" => id).order_by(:created_at.desc).limit(offset).to_a.reverse
+    Message.where("room._id" => id).order_by(:_id.desc).limit(offset).to_a.reverse
   end
 
   def to_json

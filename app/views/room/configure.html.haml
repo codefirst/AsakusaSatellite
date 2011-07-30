@@ -14,21 +14,15 @@
      %table{:style => 'width:100%'}
       %tr
        %td{:style => 'width:80%'}
-        =text_field :room, :title, {:class => :text, :id => 'add-member-name', :placeholder => t(:member_name), :style => 'width:270px'}
+        =text_field_tag '', '', {:class => :text, :id => 'add-member-name', :placeholder => t(:member_name), :style => 'width:270px'}
        %td{:style => 'width:20%'}
         =button_to "Add", nil, {:id => 'add-member-button'}
-      %tr
-       %td
-        mallowlabs
-        =hidden_field :room, 'members[0]', {:class => 'member-hidden', :value => 'mallowlabs'}
-       %td
-        =button_to 'Remove', nil, {:class => 'delete-member-room'}
-      %tr
-       %td
-        suer
-        =hidden_field :room, 'members[1]', {:class => 'member-hidden', :value => 'suer'}
-       %td
-        =button_to 'Remove', nil, {:class => 'delete-member-room'}
+       - @room.members.each_with_index do |member, i|
+        %td
+         = member.name
+         =hidden_field :room, "members[#{i}]", {:class => 'member-hidden', :value => member.name}
+        %td
+         =button_to 'Remove', nil, {:class => 'delete-member-room'}
    %fieldset
     %legend= t(:plugins)
     %table.plugin-configure

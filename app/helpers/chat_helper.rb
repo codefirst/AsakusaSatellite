@@ -1,6 +1,12 @@
 require 'yaml'
 require 'msgpack-rpc'
 
+require 'pusher'
+
+Pusher.app_id = '7241'
+Pusher.key    = 'f36e789c57a0fc0ef70b'
+Pusher.secret = '1c66d57d4868ff817d5d'
+
 class BSON::ObjectId
   def to_msgpack(*args)
     self.to_s.to_msgpack(*args)
@@ -49,9 +55,7 @@ module ChatHelper
 
   def delete_message(message_id)
     require 'pp'
-    pp message_id
     @message = Message.where(:_id => message_id).first
-    pp @message
     return false unless @message
     return false unless @message.destroy
 
@@ -68,17 +72,18 @@ module ChatHelper
 
   private
   def publish_message(event, message)
-    @client = MessagePack::RPC::Client.new('127.0.0.1', WebsocketConfig.msgpackPort)
-    Thread.start do
-      begin
-        if event == :delete then
-          @client.call("message_#{event}".to_sym, message.room.id, message.id)
-        else
-          @client.call("message_#{event}".to_sym, message.room.id, to_json(message))
-        end
-      rescue => e
-        puts e
-      end
+    if event == :delete then
+      Pusher['asakusa-satellite'].trigger("message_#{event}",
+                                          {
+                                            :room => message.room.id,
+                                            :content => message.id
+                                          }.to_json)
+    else
+      Pusher['asakusa-satellite'].trigger("message_#{event}",
+                                          {
+                                            :room => message.room.id,
+                                            :content => to_json(message)
+                                          }.to_json)
     end
   end
 end

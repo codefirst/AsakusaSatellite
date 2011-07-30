@@ -24,6 +24,7 @@ gem 'json', "= 1.4.6"
 gem "on_the_spot"
 gem "uuidtools"
 gem 'coderay'
+gem 'pusher'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

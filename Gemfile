@@ -25,8 +25,9 @@ gem "on_the_spot"
 gem "uuidtools"
 gem 'coderay'
 gem 'pusher'
-
 gem 'hassle', :git => 'git://github.com/koppen/hassle.git'
+gem 'apns'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

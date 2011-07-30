@@ -3,9 +3,9 @@
   .left
    %h3.title
     = link_to room.title, :controller=>:chat, :action=>:room,:id=>room.id
-    = image_tag('private.gif', :alt => t(:private_room), :title => t(:private_room)) unless room.is_public
   - if has_button
    .right
+    =image_tag('private.gif', :alt => t(:private_room), :title => t(:private_room)) unless room.is_public
     =image_tag("connection_fail.gif", :class => 'websocket-status', :alt => t(:websocket_status), :title => t(:websocket_status))
     - if logged?
      = link_to(image_tag("config.gif", :alt => t(:config), :title => t(:config)), :controller =>:room, :action=> :configure, :id=>room.id)

@@ -23,7 +23,7 @@
          = member.name
          =hidden_field :room, "members[#{i}]", {:class => 'member-hidden', :value => member.name}
         %td
-         =button_to 'Remove', nil, {:class => 'delete-member-room'}
+         =button_to 'Remove', nil, {:class => 'delete-member-button'}
    %fieldset
     %legend= t(:plugins)
     %table.plugin-configure
@@ -45,8 +45,9 @@
         $('<tr><td>'
           + name
           + '<input type="hidden" name="room[members[0]]", class = "member-hidden", value="' + name + '">'
-          + '</td><td>'
-          + '<input class="delete-member-button" type="submit" value="Remove"></td></tr>').insertAfter(firstTr);
+          + '</td><td><form><div>'
+          + '<input class="delete-member-button" type="submit" value="Remove">'
+          + '</div></form></td></tr>').insertAfter(firstTr);
         var i = 0;
         $('.member-hidden').each(function() {
           $(this).attr("name", "room[members[" + i++ + "]]");
@@ -55,7 +56,7 @@
         return false;
       });
       $('.delete-member-button').live('click', function(e) {
-        $(this).parent().parent().remove();
+        $(this).parent().parent().parent().parent().remove();
         return false;
       });
     });

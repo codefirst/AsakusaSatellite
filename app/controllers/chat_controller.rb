@@ -11,8 +11,11 @@ class ChatController < ApplicationController
     private_rooms = Room.where(:is_public => false, :deleted => false).select do |room|
       room.members.any? {|user| user.id == session[:current_user_id]}
     end
-    #@rooms = Room.all_live
+    own_rooms = Room.where('user.id' => session[:current_user_id]).to_a
     @rooms = public_rooms + private_rooms
+    own_rooms.each do |room|
+      @rooms << room if @rooms.all? {|r| r.id != room.id}
+    end
   end
 
   def prev

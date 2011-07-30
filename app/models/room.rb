@@ -3,6 +3,7 @@ class Room
   include Mongoid::Timestamps
   field :title
   field :deleted, :type => Boolean, :default => false
+  field :is_public, :type => Boolean, :default => true
   field :yaml
   belongs_to :user, :polymorphic => true
   has_and_belongs_to_many :members, :class_name => 'User'

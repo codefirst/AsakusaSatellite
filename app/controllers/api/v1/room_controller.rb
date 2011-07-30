@@ -40,7 +40,7 @@ module Api
           render :json => {:status => 'error', :error => "room deletion failure"}
         end
       end
-
+      
       def list
         render :json => Room.where(:deleted => false).map {|r| r.to_json }
       end

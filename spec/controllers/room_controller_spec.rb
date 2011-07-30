@@ -33,6 +33,23 @@ describe RoomController do
         }.to change(Room.all, :size).by(1)
       }
     end
+
+    describe "privateな部屋作成" do
+      before {
+          post :create, {:room => {:title => 'foo', :is_public => false }}
+      }
+      subject { Room.last }
+      its(:is_public) { should be_false }
+    end
+
+    describe "publicな部屋作成" do
+      before {
+          post :create, {:room => {:title => 'foo', :is_public => true }}
+      }
+      subject { Room.last }
+      its(:is_public) { should be_true }
+    end
+
   end
 
   context "owner以外でログイン時" do

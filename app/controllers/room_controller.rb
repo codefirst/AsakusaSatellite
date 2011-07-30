@@ -10,7 +10,8 @@ class RoomController < ApplicationController
       room = Room.new(:title => params[:room][:title],
                       :user => current_user,
                       :updated_at => Time.now,
-                      :deleted => false)
+                      :deleted => false,
+                      :is_public => (params[:room][:is_public] != false)) # falseのとき以外はtrue
       if room.save
         redirect_to :controller => :chat, :action => 'room', :id => room.id
       else

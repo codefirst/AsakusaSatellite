@@ -1,0 +1,25 @@
+development:
+  host: staff.mongohq.com
+  port: 10083
+  username: suer
+  password: mongodbpuke
+  database: app659998
+test:
+  host: staff.mongohq.com
+  port: 10083
+  username: suer
+  password: mongodbpuke
+  database: app659998
+# set these environment variables on your prod server
+production:
+  host: staff.mongohq.com
+  port: 10083
+  username: suer
+  password: mongodbpuke
+  database: app659998
+  # slaves:
+  #   - host: slave1.local
+  #     port: 27018
+  #   - host: slave2.local
+  #     port: 27019
+

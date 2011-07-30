@@ -4,7 +4,6 @@
    %h3.title
     = link_to room.title, :controller=>:chat, :action=>:room,:id=>room.id
     = image_tag('private.gif', :alt => t(:private_room), :title => t(:private_room)) unless room.is_public
- - unless room.is_public
   - if has_button
    .right
     =image_tag("connection_fail.gif", :class => 'websocket-status', :alt => t(:websocket_status), :title => t(:websocket_status))

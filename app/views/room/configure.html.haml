@@ -17,7 +17,8 @@
         =text_field_tag '', '', {:class => :text, :id => 'add-member-name', :placeholder => t(:member_name), :style => 'width:270px'}
        %td{:style => 'width:20%'}
         =button_to "Add", nil, {:id => 'add-member-button'}
-       - @room.members.each_with_index do |member, i|
+      - @room.members.each_with_index do |member, i|
+       %tr
         %td
          = member.name
          =hidden_field :room, "members[#{i}]", {:class => 'member-hidden', :value => member.name}

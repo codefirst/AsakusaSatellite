@@ -30,4 +30,14 @@ describe Api::V1::UserController do
     it { should have_json("/status[text() = 'error']") }
     it { should have_json("/error[text() = 'user not found']") }
   end
+
+  context "device追加" do
+    before {
+      post :add_device, :api_key => @user.spell, :format => 'json', :device => 'device_id'
+      @user = User.where(:_id => @user.id).first
+    }
+    subject { @user.devices[0].name }
+    it { should == 'device_id' }
+  end
+
 end

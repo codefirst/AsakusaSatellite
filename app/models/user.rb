@@ -7,6 +7,7 @@ class User
   field :email
   field :profile_image_url
   field :spell
+  embeds_many :devices
   
   def to_json
     {

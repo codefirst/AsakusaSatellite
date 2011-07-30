@@ -18,7 +18,7 @@ describe User do
   it { should be_respond_to :email }
   it { should be_respond_to :profile_image_url }
   it { should be_respond_to :spell }
-
+  it { should be_respond_to :devices }
   describe "to_json" do
     subject { @user.to_json }
     its([:name]) { should == "test user" }

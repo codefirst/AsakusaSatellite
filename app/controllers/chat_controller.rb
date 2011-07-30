@@ -7,7 +7,12 @@ class ChatController < ApplicationController
   PageSize = 20
 
   def index
-    @rooms = Room.all_live
+    public_rooms = Room.where(:is_public => true).to_a
+    private_rooms = Room.where(:is_public => false).select do |room|
+      room.members.any? {|user| user.id == session[:current_user_id]}
+    end
+    #@rooms = Room.all_live
+    @rooms = public_rooms + private_rooms
   end
 
   def prev

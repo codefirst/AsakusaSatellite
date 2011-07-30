@@ -17,7 +17,9 @@ module Api
         end
 
         user.devices ||= []
-        user.devices << Device.new(:name => params[:device])
+        if user.devices.where(:name => params[:device]).empty?
+          user.devices << Device.new(:name => params[:device])
+        end
 
         unless user.save
           render :json => {:status => 'error', :error => 'cannot save device data'}

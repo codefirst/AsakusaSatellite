@@ -102,3 +102,6 @@ en:
   prev: prev
   show: show
   plugins: "Plugins"
+
+  member: "Members"
+  member_name: "member name"

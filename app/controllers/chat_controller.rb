@@ -18,7 +18,7 @@ class ChatController < ApplicationController
         @rooms << room if @rooms.all? {|r| r.id != room.id}
       end
     end
-  end
+ end
 
   def prev
     @message = Message.find(params[:id])

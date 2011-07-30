@@ -12,7 +12,7 @@ db/groonga/schema.rb
 .DS_Store
 public/stylesheets/*.css
 coverage/
-config/websocket.yml
+#config/websocket.yml
 public/upload/*
 #config/filter.yml
 #config/settings.yml

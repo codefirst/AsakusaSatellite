@@ -8,11 +8,11 @@ test:
 
 # set these environment variables on your prod server
 production:
-  host: localhost
-  port: <%= ENV['MONGOID_PORT'] %>
-  username: <%= ENV['MONGOID_USERNAME'] %>
-  password: <%= ENV['MONGOID_PASSWORD'] %>
-  database: asakusasatellite
+  host: staff.mongohq.com
+  port: 10083
+  username: suer
+  password: mongodbpuke
+  database: app659998
   # slaves:
   #   - host: slave1.local
   #     port: 27018

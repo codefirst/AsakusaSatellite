@@ -8,8 +8,12 @@ class ChatController < ApplicationController
 
   def index
     public_rooms = Room.where(:is_public => true, :deleted => false).to_a
-    private_rooms = Room.where(:is_public => false, :deleted => false).select do |room|
-      room.members.any? {|user| user.id == session[:current_user_id]}
+    if session[:current_user_id].blank?
+      private_rooms = []
+    else 
+      private_rooms = Room.where(:is_public => false, :deleted => false).select do |room|
+        room.members.any? {|user| user.id == session[:current_user_id]}
+      end
     end
     own_rooms = Room.where('user.id' => session[:current_user_id]).to_a
     @rooms = public_rooms + private_rooms

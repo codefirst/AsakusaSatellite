@@ -1,5 +1,12 @@
 (function($) {
     jQuery.fn.webSocket = function(config){
+        /*
+        Pusher.log = function(message) {
+            if (window.console && window.console.log) window.console.log(message);
+        };y
+        WEB_SOCKET_DEBUG = true;
+        */
+
         var pusher = new Pusher('f36e789c57a0fc0ef70b');
 	var target = this;
 	function fire(name, data){
@@ -15,26 +22,20 @@
 	                 fire('websocket::error', e);
 	             });
 
-        var channel = pusher.subscribe('asakusa-satellite');
+        var channel = pusher.subscribe('as:' + AsakusaSatellite.current.room );
         channel.bind('message_create',
                      function(obj){
-                         if(AsakusaSatellite.current.room == obj.room){
-                             fire('websocket::create', obj.content);
-                         }
+                         fire('websocket::create', obj.content);
                      });
 
         channel.bind('message_update',
                      function(obj){
-                         if(AsakusaSatellite.current.room == obj.room){
-                             fire('websocket::update', obj.content);
-                         }
+                         fire('websocket::update', obj.content);
                      });
 
         channel.bind('message_delete',
                      function(obj){
-                         if(AsakusaSatellite.current.room == obj.room){
-                             fire('websocket::delete', obj.content);
-                         }
+                         fire('websocket::delete', obj.content);
                      });
 	return this;
     }

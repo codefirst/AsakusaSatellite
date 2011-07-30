@@ -72,18 +72,18 @@ module ChatHelper
 
   private
   def publish_message(event, message)
+    channel = Pusher["as:#{message.room.id}"]
+
     if event == :delete then
-      Pusher['asakusa-satellite'].trigger("message_#{event}",
-                                          {
-                                            :room => message.room.id,
-                                            :content => message.id
-                                          }.to_json)
+      channel.trigger("message_#{event}",
+                      {
+                        :content => message.id
+                      }.to_json)
     else
-      Pusher['asakusa-satellite'].trigger("message_#{event}",
-                                          {
-                                            :room => message.room.id,
-                                            :content => to_json(message)
-                                          }.to_json)
+      channel.trigger("message_#{event}",
+                      {
+                        :content => to_json(message)
+                      }.to_json)
     end
   end
 end

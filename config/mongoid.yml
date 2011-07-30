@@ -1,22 +1,10 @@
 development:
-  host: staff.mongohq.com
-  port: 10083
-  username: suer
-  password: mongodbpuke
-  database: app659998
+  url: <%= ENV['MONGOHQ_URL'] %>
 test:
-  host: staff.mongohq.com
-  port: 10083
-  username: suer
-  password: mongodbpuke
-  database: app659998
+  url: <%= ENV['MONGOHQ_URL'] %>
 # set these environment variables on your prod server
 production:
-  host: staff.mongohq.com
-  port: 10083
-  username: suer
-  password: mongodbpuke
-  database: app659998
+  url: <%= ENV['MONGOHQ_URL'] %>
   # slaves:
   #   - host: slave1.local
   #     port: 27018

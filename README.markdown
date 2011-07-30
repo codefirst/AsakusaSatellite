@@ -14,7 +14,7 @@ Requirement
  * Ruby 1.8.7
  * RubyGems 1.4.2 or later
  * Bundler 1.0.7 or later
- * MongoDB 1.8.1
+ * MongoDB 1.8.1 or later
 
 Install
 ----------------
@@ -27,7 +27,7 @@ Settings
     $ cp config/filter.yml.example config/filter.yml
     $ cp config/websocket.yml.example config/websocket.yml
     $ cp config/settings.yml.example config/settings.yml
-    $ cp config/settings.yml.example config/mongoid.yml
+    $ cp config/mongoid.yml.example config/mongoid.yml
     $ bundle install --path vendor/bundle
 
 ### Install for Developer

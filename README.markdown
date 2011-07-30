@@ -14,17 +14,21 @@ Requirement
  * Ruby 1.8.7
  * RubyGems 1.4.2 or later
  * Bundler 1.0.7 or later
+ * MongoDB 1.8.1
 
 Install
 ----------------
+AsakusaSatellite needs mongod.
+
+    $ mongod --dbpath <dir_name>
+
+Settings
 
     $ cp config/filter.yml.example config/filter.yml
     $ cp config/websocket.yml.example config/websocket.yml
     $ cp config/settings.yml.example config/settings.yml
+    $ cp config/settings.yml.example config/mongoid.yml
     $ bundle install --path vendor/bundle
-    $ rake groonga:migrate
-
-If you got "unsupported column" error, please ignore it.
 
 ### Install for Developer
 
@@ -33,7 +37,6 @@ If you got "unsupported column" error, please ignore it.
 ### Access
 
     $ bundle exec rails server
-    $ ruby websocket/server
 
 access to http://localhost:3000/
 

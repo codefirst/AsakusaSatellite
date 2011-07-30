@@ -39,9 +39,33 @@ class RoomController < ApplicationController
     @id      = params[:id]
     @plugins = AsakusaSatellite::Config.rooms
     find_room(@id) do
+      puts 1
       if request.post? then
-        @room.update_attributes! params[:room]
+        @room.title = params[:room][:title] unless params[:room][:title].blank?
+        unless params[:room][:members].blank?
+          params[:room][:members].each do |_, user_name|
+            puts user_name
+            user = User.where(:screen_name => user_name).first
+            next if user.nil?
+            next if include_member(@room, user)
+            puts user.screen_name
+            puts user.name
+            @room.members << user
+          end
+        end
+        @room.save
       end
     end
   end
+
+  private
+  def include_member(room, user)
+    return false if room.nil?
+    return false if room.members.nil?
+    room.members.each do |member|
+      return true if member.id.to_s == user.id.to_s
+    end
+    false
+  end
+
 end

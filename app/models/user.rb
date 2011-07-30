@@ -8,6 +8,9 @@ class User
   field :profile_image_url
   field :spell
   embeds_many :devices
+  has_many :rooms, :as => :own_rooms
+  has_and_belongs_to_many :rooms, :as => :joined_rooms
+  
   
   def to_json
     {

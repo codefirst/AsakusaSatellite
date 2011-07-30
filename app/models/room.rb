@@ -4,10 +4,10 @@ class Room
   field :title
   field :deleted, :type => Boolean, :default => false
   field :yaml
-  embeds_one :user
+  belongs_to :user, :polymorphic => true
+  has_and_belongs_to_many :members, :class_name => 'User'
 
   validates_presence_of :title
-
 
   # get all rooms without deleted
   def self.all_live

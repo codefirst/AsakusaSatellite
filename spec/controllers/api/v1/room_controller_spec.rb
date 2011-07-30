@@ -7,7 +7,8 @@ describe Api::V1::RoomController do
     User.delete_all
     @user = User.new(:spell => 'spell')
     @user.save
-    @room = Room.new(:title => 'title', :user => @user)
+    @room = Room.new(:title => 'title')
+    @room.user = @user
     @room.save
   end
 
@@ -63,6 +64,18 @@ describe Api::V1::RoomController do
 
     it { should have_json("/name[text() = '#{@room.title}']") }
   end
+
+  describe "メンバの追加" do
+    before {
+      @another_user = User.new
+      @another_user.save
+      post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+      @room = Room.where(:_id =>@room.id).first
+    }
+    subject { @room.members[0] }
+    its(:id) { should  == @another_user.id }
+  end
+
 
   context "復活の呪文を間違えた" do
     describe "部屋の作成" do

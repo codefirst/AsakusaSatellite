@@ -7,23 +7,25 @@
    %fieldset
     %legend= t(:input_room_name)
     =text_field :room, :title, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
-   %fieldset
 
-    %legend= t(:member)
-    .members{:style => 'margin-left:20%;margin-right:20%;width:60%;float:left'}
-     %table{:style => 'width:100%'}
-      %tr
-       %td{:style => 'width:80%'}
-        =text_field_tag '', '', {:class => :text, :id => 'add-member-name', :placeholder => t(:member_name), :style => 'width:270px'}
-       %td{:style => 'width:20%'}
-        =button_to "Add", nil, {:id => 'add-member-button'}
-      - @room.members.each_with_index do |member, i|
+   - unless @room.is_public
+    %fieldset
+     %legend= t(:member)
+     .members{:style => 'margin-left:20%;margin-right:20%;width:60%;float:left'}
+      %table{:style => 'width:100%'}
        %tr
-        %td
-         = member.name
-         =hidden_field :room, "members[#{i}]", {:class => 'member-hidden', :value => member.name}
-        %td
-         =button_to 'Remove', nil, {:class => 'delete-member-button'}
+        %td{:style => 'width:80%'}
+         =text_field_tag '', '', {:class => :text, :id => 'add-member-name', :placeholder => t(:member_name), :style => 'width:270px'}
+        %td{:style => 'width:20%'}
+         =button_to t(:add), nil, {:id => 'add-member-button'}
+       - @room.members.each_with_index do |member, i|
+        %tr
+         %td
+          = member.name
+          =hidden_field :room, "members[#{i}]", {:class => 'member-hidden', :value => member.name}
+         %td
+          =button_to t(:remove), nil, {:class => 'delete-member-button'}
+
    %fieldset
     %legend= t(:plugins)
     %table.plugin-configure

@@ -103,6 +103,8 @@ en:
   show: show
   plugins: "Plugins"
 
+  add: "Add"
+  remove: "Remove"
   member: "Members"
   member_name: "member name"
   private_room: "Private room"

@@ -1,11 +1,15 @@
 development:
-  host: localhost
-  database: asakusa_satellite_development
-
+  host: staff.mongohq.com
+  port: 10083
+  username: suer
+  password: mongodbpuke
+  database: app659998
 test:
-  host: localhost
-  database: asakusa_satellite_test
-
+  host: staff.mongohq.com
+  port: 10083
+  username: suer
+  password: mongodbpuke
+  database: app659998
 # set these environment variables on your prod server
 production:
   host: staff.mongohq.com

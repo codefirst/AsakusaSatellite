@@ -15,13 +15,13 @@
  - unless room.user.nil?
   %div.room-owner
    = t(:room_created_by) + " "
-   %img.profile{:src => room.user.profile_image_url, :alt => room.user.screen_name}
+   %img.profile{:src => room.user.profile_image_url, :alt => room.user.screen_name, :alt => room.user.screen_name}
    = room.user.name
  %div.room-date
   = t(:created_at) + " " + l(room.created_at)
  - unless room.is_public
   %div.room-members
    - room.members.each do |member|
-    %img.profile{:src => member.profile_image_url, :alt => member.screen_name}
+    %img.profile{:src => member.profile_image_url, :alt => member.screen_name, :title => member.screen_name}
 
 

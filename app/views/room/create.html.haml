@@ -1,9 +1,9 @@
 .yield
- =form_for :room, :url => {:action => :create} do |form|
+ =form_for :room, Room.new, :url => {:action => :create} do |form|
   %fieldset
    %legend= t(:input_room_name)
-   =text_field :room, :title, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
+   =form.text_field :title, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
    =submit_tag t(:create), :class => "submit red button large"
    %br
-   =check_box :room, :is_public
+   =form.check_box :is_public
    =t(:public_room)

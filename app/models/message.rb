@@ -48,7 +48,7 @@ class Message
     query = params[:text]
     rooms = params[:rooms] || Room.all_live
     rooms.map do |room|
-      messages = Message.where("room._id" => room.id, :body => /#{query}/i)
+      messages = Message.where('room._id' => room.id, 'room.deleted' => false, :body => /#{query}/i)
       { :room => room, :messages => messages }
     end
   end

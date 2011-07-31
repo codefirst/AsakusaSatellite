@@ -19,6 +19,12 @@ describe Message do
     end
 
     @message = @messages[5]
+
+    @private_room = Room.new(:title => "dummy_room", :is_public => false)
+    @private_room.save!
+
+    @private_message = Message.new(:body => "private message", :user => @user, :room => @private_room)
+    @private_message.save!
   end
 
   subject { @message }
@@ -92,6 +98,13 @@ describe Message do
 
         it_should_behave_like 'メッセージ無'
       end
+
+      context "private で所属していない部屋" do
+        before { @result = Message.find_by_text(:text => "private message") }
+        subject { @result }
+        it { should be_nil }
+      end
+
     end
 
     context "部屋指定あり" do

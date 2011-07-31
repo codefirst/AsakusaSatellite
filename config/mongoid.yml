@@ -1,7 +1,11 @@
 development:
-  uri: <%= ENV['MONGOHQ_URL'] %>
+  host: localhost
+  database: asakusa_satellite_development
+
 test:
-  uri: <%= ENV['MONGOHQ_URL'] %>
+  host: localhost
+  database: asakusa_satellite_test
+
 # set these environment variables on your prod server
 production:
   uri: <%= ENV['MONGOHQ_URL'] %>

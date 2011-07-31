@@ -87,7 +87,8 @@ module ChatHelper
     end
 
     if event == :create then
-      ns = message.room.members.map {|user| user.devices }.flatten.map do|device|
+      members = message.room.members - [ message.user ]
+      ns = members.map {|user| user.devices }.flatten.map do|device|
         APNS::Notification.new(device.name,
                                :alert => "#{message.user.name} / #{message.body}"[0,150],
                                :id    => message.room.id,

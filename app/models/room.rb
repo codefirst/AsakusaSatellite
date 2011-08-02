@@ -10,9 +10,28 @@ class Room
 
   validates_presence_of :title
 
+  def self.public_rooms
+    Room.where(:is_public => true, :deleted => false).to_a
+  end
+
+  def self.member_rooms(user)
+    Room.where(:is_public => false, :deleted => false).select do |room|
+      room.members.any? {|u| u.id == user.id}
+    end.to_a
+  end
+
+  def self.owner_rooms(user)
+    Room.where(:deleted => false, 'user_id' => user.id).to_a
+  end
+
   # get all rooms without deleted
-  def self.all_live
-    Room.where(:deleted => false) || []
+  def self.all_live(user = nil)
+    xs = if user then
+           public_rooms + member_rooms(user) + owner_rooms(user)
+         else
+           public_rooms
+         end
+    xs.uniq
   end
 
   def messages(offset)

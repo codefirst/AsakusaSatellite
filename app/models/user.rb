@@ -9,9 +9,8 @@ class User
   field :spell
   embeds_many :devices
   has_many :rooms, :as => :own_rooms
-  has_and_belongs_to_many :rooms, :as => :joined_rooms
-  
-  
+  has_and_belongs_to_many :rooms, :class_name => 'Room'
+
   def to_json
     {
       :id => self.id,

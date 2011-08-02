@@ -81,7 +81,6 @@ describe Message do
   end
 
   describe "find_by_text" do
-
     context "部屋指定なし" do
       context "一致する場合" do
         before { @result = Message.find_by_text(:text => "body of message") }
@@ -102,7 +101,8 @@ describe Message do
       context "private で所属していない部屋" do
         before { @result = Message.find_by_text(:text => "private message") }
         subject { @result }
-        it { should be_nil }
+        it { should have(2).item }
+        it_should_behave_like 'メッセージ無'
       end
 
     end

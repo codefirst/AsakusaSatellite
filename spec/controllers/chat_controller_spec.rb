@@ -3,7 +3,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ChatController do
   before do
-    @user = User.new.tap{|u| u.save! }
+    Room.delete_all
+    @user = User.new(:profile_image_url => "http://example.com/profile.png").tap{|u| u.save! }
     @other = User.new.tap{|u| u.save! }
     @room = Room.new(:title => 'test').tap{|r| r.save! }
     @messages = (0..50).map do
@@ -16,7 +17,7 @@ describe ChatController do
   describe "発言投稿" do
     it { expect {
         post :message, {:room_id => @room.id, :message => "メッセージ" }
-      }.to change(Message.all, :size).by(1)
+      }.to change { Message.all.size }.by(1)
     }
 
     describe "部屋" do
@@ -37,8 +38,10 @@ describe ChatController do
       session[:current_user_id] = nil
       get :room, {:id => @room.id }
     }
-    subject { assigns }
-    its([:messages]) { should have(20).records }
+    subject {
+      assigns[:messages].to_a
+    }
+    it { should have(20).records }
   end
 
   describe "発言更新" do
@@ -98,10 +101,12 @@ describe ChatController do
   end
 
   context "部屋が存在しない" do
-    before { @room.delete }
+    before {
+      Room.delete_all
+    }
     describe "発言投稿" do
       it { expect {
-          post(:message, {:room_id => room.id, :message => 'テストメッセージ'})
+          post(:message, {:room_id => @room.id, :message => 'テストメッセージ'})
         }.to raise_error
       }
     end

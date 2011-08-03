@@ -1,5 +1,6 @@
 module RoomHelper
   def find_room(id, params={}, &f)
+    p id
     @room = Room.where(:_id => id).first
     case
     when @room == nil

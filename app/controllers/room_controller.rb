@@ -3,15 +3,21 @@ require 'lib/asakusa_satellite/config'
 class RoomController < ApplicationController
   include RoomHelper
 
+  # falseにするリスト
+  def true?(x)
+    not ['0', false, nil].include?(x)
+  end
+
   def create
     if current_user.nil?
       redirect_to :controller => 'chat'
     elsif request.post?
+
       room = Room.new(:title => params[:room][:title],
                       :user => current_user,
                       :updated_at => Time.now,
                       :deleted => false,
-                      :is_public => (params[:room][:is_public] != '0')) # "0" のとき以外はtrue
+                      :is_public => true?(params[:room][:is_public]))
       if room.save
         redirect_to :controller => :chat, :action => 'room', :id => room.id
       else

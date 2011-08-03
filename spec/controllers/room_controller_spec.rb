@@ -30,13 +30,13 @@ describe RoomController do
     describe "部屋作成" do
       it { expect {
           post :create, {:room => {:title => 'foo' }}
-        }.to change(Room.all, :size).by(1)
+        }.to change { Room.all.size }.by(1)
       }
     end
 
     describe "privateな部屋作成" do
       before {
-          post :create, {:room => {:title => 'foo', :is_public => false }}
+          post :create, {:room => {:title => 'foo private', :is_public => false }}
       }
       subject { Room.last }
       its(:is_public) { should be_false }

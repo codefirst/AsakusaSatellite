@@ -33,7 +33,7 @@ describe Api::V1::RoomController do
     describe "DB" do
       it { expect {
           post :create, :name => 'room name', :api_key => @user.spell, :format => 'json'
-        }.to change(Room.all, :size).by(1)
+        }.to change { Room.all.size }.by(1)
       }
     end
   end

@@ -106,7 +106,7 @@ describe Api::V1::MessageController do
     it_should_behave_like '成功'
     it { expect {
         post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
-      }.to change(Message.all, :size).by(1)
+      }.to change { Message.all.size }.by(1)
     }
   end
 

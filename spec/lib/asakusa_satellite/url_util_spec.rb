@@ -1,4 +1,5 @@
 # -*- mode:ruby; coding:utf-8 -*-
+require File.dirname(__FILE__) + '/../../spec_helper'
 require 'asakusa_satellite/url_util'
 
 describe AsakusaSatellite::UrlUtil do

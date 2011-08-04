@@ -4,6 +4,7 @@ def require(path)
   path = File.expand_path(path) if path =~ %r{^[./]}
   super path
 end
+require 'rspec'
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'

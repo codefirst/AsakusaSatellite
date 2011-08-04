@@ -25,7 +25,6 @@
         var channel = pusher.subscribe('as:' + AsakusaSatellite.current.room );
         channel.bind('message_create',
                      function(obj){
-                         console.log("create");
                          fire('websocket::create', obj.content);
                      });
 

@@ -6,7 +6,7 @@
    %span.screen-name= message.user.screen_name
    %span.user-name= message.user.name
   .update-time
-   %a{:href => message_url(:id => message.id, :only_path => true) }= l(message.created_at)
+   %a{:href => message_url(:id => message.id, :only_path => true) }= l(message.created_at.utc + 9*60*60)
   .edit-icons
    %span.message-buttons= raw(call_hook(:message_buttons, :self => self, :message => message, :permlink => message_url(:id => message.id)))
    %span.own-message

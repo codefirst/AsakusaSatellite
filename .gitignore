@@ -2,12 +2,7 @@ vendor/bundle
 db/*.sqlite3
 log/*.log
 tmp/**/*
-Gemfile.lock
 .bundle
-db/groonga/development
-db/groonga/production
-db/groonga/test
-db/groonga/schema.rb
 *~
 .DS_Store
 public/stylesheets/*.css

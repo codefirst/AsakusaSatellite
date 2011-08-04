@@ -10,6 +10,8 @@ AsakusaSatellite::Application.routes.draw do
   get '/' => 'chat#index', :as => :index
   get "chat/update_attribute_on_the_spot"
 
+  get '/about' => 'application#about'
+
   root :to => 'chat#index'
 
   namespace(:api) do

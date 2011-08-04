@@ -14,6 +14,9 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  def about
+  end
+
 
   private
   def check_login

@@ -49,6 +49,5 @@
   %p!="<a href='http://www.pledgie.com/campaigns/15758'><img alt='Click here to lend your support to: AsakusaSatellite and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15758.png?skin_name=chrome' border='0' /></a>"
   %h3 Donator(Alphabet order)
   %ul
-   %li Atsumin
-   %li John Doe
-   %li and more
+   - ['atsumin', 'rednes'].sort.each do|name|
+    %li=name

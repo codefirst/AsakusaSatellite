@@ -35,6 +35,10 @@ gem "on_the_spot"
 # push notification
 gem 'apns'
 
+gem "uuidtools"
+gem 'coderay'
+gem 'pusher'
+gem 'hassle', :git => 'git://github.com/koppen/hassle.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

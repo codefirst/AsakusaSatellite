@@ -11,7 +11,7 @@ module AsakusaSatellite
         @config = config
       end
 
-      def process(text)
+      def process(text, opts={})
         text
       end
 
@@ -37,15 +37,11 @@ module AsakusaSatellite
       lines = CGI.escapeHTML(text).split("\n")
       @process.reduce(lines) do|lines, obj|
         if obj.respond_to? :process
-          lines = lines.map{|line| obj.process(line) }
+          lines = lines.map{|line| obj.process(line, :message => message) }
         end
 
         if obj.respond_to? :process_all
-          lines = obj.process_all lines
-        end
-
-        if obj.respond_to? :process_message
-          lines = obj.process_message message
+          lines = obj.process_all lines, :message => message
         end
 
         lines

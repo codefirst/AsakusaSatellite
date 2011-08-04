@@ -13,7 +13,7 @@ class AsakusaSatellite::Filter::AutoLink < AsakusaSatellite::Filter::Base
     return nil
   end
 
-  def process(text)
+  def process(text, opts={})
     text.gsub URI.regexp(%w[http https]) do|url|
       link,image = any(@@picture) do| regexp, handle |
         if (m = regexp.match(url)) then

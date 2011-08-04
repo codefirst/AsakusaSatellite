@@ -24,7 +24,7 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
     end
   end
 
-  def process_all(lines)
+  def process_all(lines, opts={})
     xs = group(lines){|x| x =~ /\A\w+::/ }.map{|item|
       lang,*body = item
       content = CGI.unescapeHTML(body.join("\n"))

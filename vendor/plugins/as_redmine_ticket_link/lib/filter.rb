@@ -3,18 +3,16 @@ require 'json'
 require 'open-uri'
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
-  def process_message(message)
+  def process(line, opts={})
     # FIX ME OR DIE
-    room = Room.where(:_id => message.room_id).first
+    room = Room.where(:_id => opts[:message].room_id).first
 
     info = room.yaml[:redmine_ticket]
-    message.body.map do|line|
-      line.gsub(/#(\d+)/) {|id|
-        ticket $1, id, info
-      }
-    end
-  rescue => e
-    message.body.each.to_a
+    line.gsub(/#(\d+)/) {|id|
+      ticket $1, id, info
+    }
+  rescue
+    line
   end
 
   private

@@ -49,7 +49,7 @@ $(function() {
 	    current_user : AsakusaSatellite.current.user
 	})
 	.bind({
-	    'websokcet::create' : function(){
+	    'websocket::create' : function(){
 		document.getElementById("audio").load();
 		document.getElementById("audio").play();
 	    },

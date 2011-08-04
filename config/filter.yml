@@ -1,3 +1,5 @@
 - name: auto_link
 - name: redmine_ticket_link
   roots: http://www.redmine.org/
+- name: code_highlight_filter
+- name: twitter_link

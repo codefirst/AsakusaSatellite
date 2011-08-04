@@ -66,4 +66,16 @@ class AsakusaSatellite::Filter::AutoLink < AsakusaSatellite::Filter::Base
   picture /plixi.com\/p\/([\d]+)/i do|r1|
     ['http://plixi.com/p/'+r1, 'http://api.plixi.com/api/tpapi.svc/json/imagefromurl?size=thumbnail&url=http://plixi.com/p/'+r1]
   end
+
+  picture %r!dl\.dropbox\.com/u/(.*(?:jpg|png|gif|jpeg))! do|r1|
+    ['http://dl.dropbox.com/u/'+r1, 'http://dl.dropbox.com/u/'+r1]
+  end
+
+  picture %r!gyazo\.com/(.+)(?:\.png)?! do|r1|
+    ['http://gyazo.com/'+r1, 'http://gyazo.com/'+ File.basename(r1,'.png') + '.png']
+  end
+
+  picture /instagr\.am\/p\/([\w\-]+)/ do|r1|
+    ['http://instagr.am/p/' + r1, 'http://instagr.am/p/' + r1 + '/media/?size=t']
+  end
 end

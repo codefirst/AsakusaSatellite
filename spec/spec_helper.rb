@@ -1,3 +1,10 @@
+# see also http://blog.s21g.com/articles/1932
+$LOADED_FEATURES.push File.expand_path(__FILE__)
+def require(path)
+  path = File.expand_path(path) if path =~ %r{^[./]}
+  super path
+end
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)

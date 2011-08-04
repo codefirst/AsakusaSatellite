@@ -18,6 +18,7 @@ group :development, :test do
   gem 'ci_reporter'
 end
 
+gem 'SystemTimer'
 gem 'pusher'
 
 # html
@@ -30,7 +31,6 @@ gem 'jquery-rails'
 gem 'oauth'
 gem 'json', "= 1.4.6"
 gem "on_the_spot"
-
 
 # push notification
 gem 'apns'

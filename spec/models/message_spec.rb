@@ -39,7 +39,7 @@ describe Message do
   describe "hash" do
     before do
       I18n.stub(:l){|s| "i18n:#{s}" }
-      AsakusaSatellite::Filter.stub(:process){|s| "filtered:#{s}" }
+      AsakusaSatellite::Filter.stub(:process){|s| "filtered:#{s.body}" }
     end
 
     subject { @message.to_hash }

@@ -26,13 +26,14 @@ module AsakusaSatellite
       @config = config
     end
 
-    def process(text)
+    def process(message)
       @process ||= @config.map{|c|
         @plugins.find{|p|
           p.class.name.underscore.split('/')[-1] == c['name']
         }
       }
 
+      text = message.body.to_s
       lines = CGI.escapeHTML(text).split("\n")
       @process.reduce(lines) do|lines, obj|
         if obj.respond_to? :process
@@ -41,6 +42,10 @@ module AsakusaSatellite
 
         if obj.respond_to? :process_all
           lines = obj.process_all lines
+        end
+
+        if obj.respond_to? :process_message
+          lines = obj.process_message message
         end
 
         lines

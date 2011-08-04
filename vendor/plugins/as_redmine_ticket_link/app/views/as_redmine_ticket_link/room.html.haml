@@ -1,22 +1,16 @@
 -# -*- coding: utf-8 -*-
 .yield
- %div.room-info
-  %div
-   .left
-    %h3.title
-     = @room.title
-   .clear
-  - unless @room.user.nil?
-   %div.room-owner
-    = t(:room_created_by) + " "
-    %img.profile{:src => @room.user.profile_image_url, :alt => @room.user.screen_name}
-    = @room.user.name
-  %div.room-date
-   = t(:created_at) + " " + l(@room.created_at)
+ = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => false }
  .configure
   =form_for :config, :url => {:action => :room } do |form|
    %fieldset
+    %legend= t(:input_redmine_root)
+    =text_field :config, :root, {:class => :text, :autofocus => true, :placeholder => t(:placeholder_redmine_root)}
+   %fieldset
+    %legend= t(:input_api_key)
+    =text_field :config, :api_key, {:class => :text, :autofocus => true, :placeholder => t(:placeholder_api_key)}
+   %fieldset
     %legend= t(:input_project_name)
-    =text_field :config, :project_name, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
+    =text_field :config, :project_name, {:class => :text, :autofocus => true, :placeholder => t(:placeholder_project_name)}
    =submit_tag t(:update_config), :class => "submit red button large"
 

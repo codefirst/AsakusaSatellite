@@ -27,7 +27,7 @@ class Message
   end
 
   def html_body
-    AsakusaSatellite::Filter.process self.body.to_s
+    AsakusaSatellite::Filter.process self
   end
 
   def attachment

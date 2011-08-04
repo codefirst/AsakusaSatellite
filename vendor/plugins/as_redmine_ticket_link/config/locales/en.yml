@@ -1,2 +1,7 @@
 en:
+  input_redmine_root: Redmien root
+  placeholder_redmine_root: http://example.com/redmine/
   input_project_name: Project Name
+  placeholder_project_name: some-project
+  input_api_key: API Key
+  placeholder_api_key: <api key>

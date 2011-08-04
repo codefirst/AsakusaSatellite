@@ -1,17 +1,9 @@
 require 'yaml'
-require 'msgpack-rpc'
-
 require 'pusher'
 
 Pusher.app_id = '7241'
 Pusher.key    = 'f36e789c57a0fc0ef70b'
 Pusher.secret = '1c66d57d4868ff817d5d'
-
-class BSON::ObjectId
-  def to_msgpack(*args)
-    self.to_s.to_msgpack(*args)
-  end
-end
 
 module ChatHelper
   def create_message(room_id, message, opt = {})

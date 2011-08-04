@@ -43,8 +43,7 @@
         update  : "#{url_for(:action => 'update_message_on_the_spot')}",
         destroy : "#{url_for(:controller=>'api/v1/message', :action=>'destroy', :id => nil)}",
         message : "#{url_for(:controller => 'chat', :action => 'message')}",
-        prev    : "#{url_for(:action => :prev)}",
-        websocket : 'ws://' + location.hostname + ":#{WebsocketConfig.websocketPort}/room?id=#{@room.id}"
+        prev    : "#{url_for(:action => :prev)}"
     },
     t : {
         are_you_sure_you_want_to_delete_this_message : '#{t(:are_you_sure_you_want_to_delete_this_message)}'

@@ -1,31 +1,38 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
+
+# mongoid
 gem 'mongoid'
 gem 'bson_ext'
+
+
 gem "rails3-generators"
 
 group :development, :test do
   gem "rspec-rails", ">= 2.3.0"
+  gem 'rcov'
   gem 'nokogiri'
   gem 'autotest'
   gem 'autotest-growl'
   gem 'ci_reporter'
 end
+
+gem 'pusher'
+
+# html
+gem "uuidtools"
+gem 'hassle', :git => 'git://github.com/koppen/hassle.git'
+gem 'coderay'
 gem 'haml-rails'
 gem 'sass'
 gem 'jquery-rails'
-gem 'rcov'
-gem 'em-websocket'
-gem 'msgpack'
-gem 'msgpack-rpc'
 gem 'oauth'
 gem 'json', "= 1.4.6"
 gem "on_the_spot"
-gem "uuidtools"
-gem 'coderay'
-gem 'pusher'
-gem 'hassle', :git => 'git://github.com/koppen/hassle.git'
+
+
+# push notification
 gem 'apns'
 
 

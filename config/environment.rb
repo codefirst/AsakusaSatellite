@@ -9,7 +9,6 @@ config = lambda do|name|
   YAML.load_file File.expand_path("../#{name}.yml", __FILE__)
 end
 
-WebsocketConfig = OpenStruct.new config['websocket']
 AsakusaSatellite::Filter.initialize! config['filter']
 AsakusaSatellite::Hook.initialize! config['filter']
 

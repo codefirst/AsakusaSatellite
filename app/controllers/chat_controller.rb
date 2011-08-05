@@ -32,6 +32,12 @@ class ChatController < ApplicationController
     @id      = params[:id]
     @message = Message.where(:_id => @id).first
 
+    unless @message.room.accessible?(current_user)
+      flash[:error] = t(:error_room_deleted)
+      redirect_to :controller => 'chat'
+      return
+    end
+
     @prev_size = int(params[:prev], 5)
     @next_size = int(params[:next], 5)
 

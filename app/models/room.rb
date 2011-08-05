@@ -59,4 +59,8 @@ class Room
   def validate(options = {})
     (not self.title.blank?) and super(options)
   end
+
+  def accessible?(user)
+    self.is_public || (self.user == user) || (self.members.include? user)
+  end
 end

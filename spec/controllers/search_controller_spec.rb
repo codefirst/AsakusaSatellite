@@ -45,11 +45,13 @@ describe SearchController do
     context "部屋指定あり" do
       before do
         @room = mock
-        @room.stub(:deleted){ false }
-        @room.stub(:title){ "foo" }
-        @room.stub(:id){ 42 }
+        @room.stub(:deleted => false,
+                   :title   => "foo",
+                   :id => 42,
+                   :accessible? => true)
 
-        Room.stub(:all_live){ [ @room] }
+        Room.stub(:all_live => [ @room ])
+
         @find_room    = Room.should_receive(:where).with(:_id => '1'){ [ @room ] }
         @find_by_text = Message.
           should_receive(:find_by_text).

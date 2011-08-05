@@ -36,7 +36,7 @@ describe RoomHelper do
 
   before do
     @room = mock "room"
-    @room.stub(:deleted => false)
+    @room.stub(:deleted => false, :is_public=>true, :accessible? => true)
 
     @user = mock 'user'
     helper.stub(:current_user => @user)

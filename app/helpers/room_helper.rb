@@ -1,15 +1,10 @@
 module RoomHelper
   def find_room(id, params={}, &f)
-    p id
     @room = Room.where(:_id => id).first
-    case
-    when @room == nil
-      flash[:error] = t(:error_room_deleted)
-      redirect_to :action => 'index'
-    when @room.deleted
-      flash[:error] = t(:error_room_deleted)
-      redirect_to :controller => 'chat', :action => 'index'
-    when params[:not_auth] != true && current_user == nil
+    if (@room == nil) or
+        @room.deleted or
+        (not @room.accessible?(current_user)) or
+        (params[:not_auth] != true && current_user == nil) then
       flash[:error] = t(:error_room_deleted)
       redirect_to :controller => 'chat', :action => 'index'
     else

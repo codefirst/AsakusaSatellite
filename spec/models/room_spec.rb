@@ -86,4 +86,39 @@ describe Room do
     it { should have(5).items }
     it { should == @messages[6..-1] }
   end
+
+  describe "accessible?" do
+    context "publicな部屋" do
+      before {
+        @room = Room.create(:title => 'room public', :user => @user, :is_public => true)
+      }
+
+      subject { @room.accessible?(@user) }
+      it { should be_true }
+    end
+
+    context "privateな部屋" do
+      before do
+        @member = User.create
+        @other = User.create
+        @room = Room.create(:title => 'room public', :user => @user, :is_public => false)
+        @room.members << @member
+      end
+
+      context "owner" do
+        subject { @room.accessible? @user }
+        it { should be_true }
+      end
+
+      context "member" do
+        subject { @room.accessible? @member }
+        it { should be_true }
+      end
+
+      context "その他" do
+        subject { @room.accessible? @other }
+        it { should be_false }
+      end
+    end
+  end
 end

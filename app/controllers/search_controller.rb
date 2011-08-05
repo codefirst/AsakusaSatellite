@@ -13,7 +13,7 @@ class SearchController < ApplicationController
       @rooms = search_form
       @room_id = params[:room].blank? ? "" : params[:room][:id]
       if @room_id.blank?
-        @results = Message.find_by_text :text => @query
+        @results = Message.find_by_text :text => @query, :rooms => Room.all_live(current_user)
       else
         find_room(@room_id, :not_auth => true) do
           @results = Message.find_by_text(:text => @query, :rooms => [ @room ])
@@ -24,6 +24,6 @@ class SearchController < ApplicationController
 
   private
   def search_form
-    Room.all_live.map {|room| [room.title, room.id]}
+    Room.all_live(current_user).map {|room| [room.title, room.id]}
   end
 end

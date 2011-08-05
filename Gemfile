@@ -6,7 +6,6 @@ gem 'rails', '3.0.3'
 gem 'mongoid'
 gem 'bson_ext'
 
-
 gem "rails3-generators"
 
 group :development, :test do

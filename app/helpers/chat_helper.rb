@@ -69,7 +69,7 @@ module ChatHelper
     if event == :delete then
       channel.trigger("message_#{event}",
                       {
-                        :content => message.id
+                        :content => { :id => message.id }
                       }.to_json)
     else
       channel.trigger("message_#{event}",

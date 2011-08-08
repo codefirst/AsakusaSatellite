@@ -16,7 +16,11 @@
 	target.bind('as::append', function(_, elems){
 	    if( $(elems).filter(selector).length != 0){
 		var last = target.find(selector).last();
-		config.scrollTo(last);
+
+		var newNodeTop = last[0].getBoundingClientRect().top; 
+		if( (newNodeTop - window.innerHeight) < 0 ){
+		    config.scrollTo(last);
+		}
 	    }
 	});
 

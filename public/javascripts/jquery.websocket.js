@@ -14,13 +14,17 @@
         }
 
         pusher.connection.bind('connected',
-                 function(e) {
-	                 fire('websocket::connect', e);
-	             });
-        pusher.bind('failed',
-	             function(e){
-	                 fire('websocket::error', e);
-	             });
+                     function(e) {
+                         fire('websocket::connect', e);
+                     });
+        pusher.connection.bind('failed',
+                     function(e){
+                         fire('websocket::error', e);
+                     });
+        pusher.connection.bind('disconnected',
+                     function(e){
+                         fire('websocket::disconnect', e);
+                     });
 
         var channel = pusher.subscribe('as:' + AsakusaSatellite.current.room );
         channel.bind('message_create',

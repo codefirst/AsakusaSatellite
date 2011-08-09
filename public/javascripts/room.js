@@ -2,34 +2,34 @@ $(function() {
     // on the spot
     function onTheSpot(dom){
 	// You can edit your own message
-	if (dom.find('.screen-name').text() == AsakusaSatellite.current.user) {
+        if (dom.find('.screen-name').text() == AsakusaSatellite.current.user) {
             var body = dom.find(".body");
             body.onTheSpot({
-		url  : AsakusaSatellite.url.update,
-		data : body.attr("original")
+                url  : AsakusaSatellite.url.update,
+                data : body.attr("original")
             });
             dom.find(".edit").bind("click",function(){ body.trigger("onTheSpot::start"); });
             dom.find(".delete").bind("click",function(){
-		if(confirm(AsakusaSatellite.t['are_you_sure_you_want_to_delete_this_message'])){
-		    // http://travisonrails.com/2009/05/20/rails-delete-requests-with-jquery
-		    var id = dom.attr("message-id");
-            jQuery.ajax({
-                url: AsakusaSatellite.url.destroy + '/' + id,
-                type: 'delete',
-                success: function() { dom.remove(); },
+                if(confirm(AsakusaSatellite.t['are_you_sure_you_want_to_delete_this_message'])){
+                // http://travisonrails.com/2009/05/20/rails-delete-requests-with-jquery
+                var id = dom.attr("message-id");
+                    jQuery.ajax({
+                        url: AsakusaSatellite.url.destroy + '/' + id,
+                        type: 'delete',
+                        success: function() { dom.remove(); },
+                    });
+                }
             });
-		}
-            });
-	}else{
+        }else{
             dom.find(".own-message").hide();
-	}
+        }
 
-	// show edit button
-	dom.hover(function(e) {
+        // show edit button
+        dom.hover(function(e) {
             $(this).find('.edit-icons').fadeIn();
-	},function(e){
+        },function(e){
             $(this).find('.edit-icons').fadeOut();
-	});
+        });
     }
 
     // ------------------------------
@@ -48,18 +48,21 @@ $(function() {
 	.notify({
 	    current_user : AsakusaSatellite.current.user
 	})
-	.bind({
-	    'websocket::create' : function(){
-		document.getElementById("audio").load();
-		document.getElementById("audio").play();
-	    },
-	    'websocket::connect' : function(){
-		$("img.websocket-status").attr('src', AsakusaSatellite.resouces.connect);
-	    },
-	    'websocket::error' : function(){
-		$("img.websocket-status").attr('src', AsakusaSatellite.resouces.disconnect);
-	    }
-	});
+    .bind({
+        'websocket::create' : function(){
+            document.getElementById("audio").load();
+            document.getElementById("audio").play();
+        },
+        'websocket::connect' : function(){
+            $("img.websocket-status").attr('src', AsakusaSatellite.resouces.connect);
+        },
+        'websocket::error' : function(){
+            $("img.websocket-status").attr('src', AsakusaSatellite.resouces.disconnect);
+        },
+        'websocket::disconnect' : function(){
+            $("img.websocket-status").attr('src', AsakusaSatellite.resouces.disconnect);
+        }
+    });
 
     // ------------------------------
     // submit area

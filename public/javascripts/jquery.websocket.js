@@ -8,16 +8,16 @@
         */
 
         var pusher = new Pusher('f36e789c57a0fc0ef70b');
-	var target = this;
-	function fire(name, data){
-	    target.trigger(name, data);
-	}
+        var target = this;
+        function fire(name, data){
+            target.trigger(name, data);
+        }
 
-        pusher.bind('pusher:connection_established',
-	             function(e) {
+        pusher.connection.bind('connected',
+                 function(e) {
 	                 fire('websocket::connect', e);
 	             });
-        pusher.bind('pusher:connection_failed',
+        pusher.bind('failed',
 	             function(e){
 	                 fire('websocket::error', e);
 	             });
@@ -37,6 +37,6 @@
                      function(obj){
                          fire('websocket::delete', obj.content);
                      });
-	return this;
+        return this;
     }
 })(jQuery);

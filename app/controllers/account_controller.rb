@@ -30,8 +30,6 @@ class AccountController < ApplicationController
 
   def delete_device
     device_name = params["device_deleted"].keys[0]
-    current_user.devices.each do |device|
-      device.destroy if device.name == device_name
-    end
+    current_user.devices.where(:name => device_name).destroy
   end
 end

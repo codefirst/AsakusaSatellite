@@ -24,7 +24,7 @@ module Api
 
       def delete_device
         manage_device do |user|
-          if not user.devices.where(:name => params[:device]).empty?
+          unless user.devices.where(:name => params[:device]).empty?
             device = user.devices.where(:name => params[:device])
             device.destroy
           end

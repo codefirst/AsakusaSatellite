@@ -9,6 +9,7 @@ describe AccountController do
       @user.stub(:id){ '42' }
       @user.stub(:spell){ @spell }
       @user.stub(:spell=){|s| @spell = s }
+      @user.stub(:devices => [])
       @user.stub(:save)
       users << @user
       User.stub(:where){ users }

@@ -9,6 +9,17 @@
   %legend Desktop notification
   =submit_tag t(:desktop_notification_on), {:id => 'dn-button', :class => "submit red button large"}
 
+ %fieldset
+  %legend Registered Devices
+  .devices{:style => 'margin-left:20%;margin-right:20%;width:60%;float:left'}
+   %table{:style => 'width:100%'}
+    - @devices.each_with_index do |device, i|
+     %tr
+      %td
+       %span= device.name
+      %td
+       =button_to t(:remove), nil, {:class => 'delete-device-button', :name => "device_deleted[#{device.name}]"}
+
 = content_for :javascripts do
  = javascript_include_tag "jquery.desktopnotify"
  :javascript

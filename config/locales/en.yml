@@ -108,3 +108,5 @@ en:
   member: "Members"
   member_name: "member name"
   private_room: "Private room"
+
+  delete_device: "Delete"

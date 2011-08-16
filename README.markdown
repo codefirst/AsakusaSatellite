@@ -41,21 +41,17 @@ Settings
 access to http://localhost:3000/
 
 ### Test
-#### setup
-
-    $ rake groonga:migrate RAILS_ENV=test
-
 #### indivisual testing
 
-    $ ruby spec/{controller,model}/$(name)_spec.rb
+    $ bundle exec ruby spec/{controller,model}/$(name)_spec.rb
 
 #### test all
 
-    $ rake spec
+    $ bundle exec rake spec
 
 #### run with rcov
 
-    $ rake spec:rcov
+    $ bundle exec rake spec:rcov
 
 #### autotest
 

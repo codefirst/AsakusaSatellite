@@ -9,7 +9,8 @@ class AccountController < ApplicationController
 
     if request.post?
       register_spell if params.has_key? "account"
-      delete_device if params.has_key? "device_deleted"
+      delete_device  if params.has_key? "device_deleted"
+      redirect_to :controller => 'account'
     end
 
     @devices = current_user.devices

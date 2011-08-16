@@ -16,7 +16,7 @@
     - @devices.each do |device|
      %tr
       %td
-       %span= device.device_name
+       %span= device.device_name rescue ""
       %td
        %span= device.name.slice(1,6)+"..."
       %td

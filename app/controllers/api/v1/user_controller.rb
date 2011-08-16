@@ -13,7 +13,7 @@ module Api
       def add_device
         manage_device do |user|
           if user.devices.where(:name => params[:device]).empty?
-            user.devices << Device.new(:name => params[:device])
+            user.devices << Device.new(:name => params[:device], :device_name => params[:name])
           end
           
           unless user.save

@@ -175,6 +175,10 @@ td
     img
       :max-width 500px
       :max-height 500px
+      :-moz-border-radius 5px 5px 5px 5px
+      :-webkit-border-radius 5px 5px 5px 5px
+      :-moz-box-shadow 1px 1px 2px #999
+      :-webkit-box-shadow 1px 1px 2px #999
 
 .message.target
   :border 3px solid #ccc
@@ -352,9 +356,15 @@ form.inputarea
     :width 275px
     :margin 0
   .message
-    p.attachment
+    .expand-image
       img
         :max-width 270px
+        :max-height 270px
+        :-moz-border-radius 5px 5px 5px 5px
+        :-webkit-border-radius 5px 5px 5px 5px
+        :-moz-box-shadow 1px 1px 2px #999
+        :-webkit-box-shadow 1px 1px 2px #999
+
   .text
     :font-size 18px
     :width 170px

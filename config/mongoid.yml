@@ -9,6 +9,7 @@ test:
 # set these environment variables on your prod server
 production:
   uri: <%= ENV['MONGODB_URL'] %>
+
   #uri: <%= ENV['MONGOHQ_URL'] %>
   # slaves:
   #   - host: slave1.local

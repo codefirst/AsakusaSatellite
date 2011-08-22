@@ -109,6 +109,7 @@ module ChatHelper
                                 xs,
                                 ENV[:android_application_name])
       }
+
     end
   end
 end

@@ -18,7 +18,7 @@
       %td
        %span= device.device_name rescue ""
       %td
-       %span= device.name.slice(1,6)+"..."
+       %span= device.name.slice(1,6)+"..." rescue ""
       %td
        =button_to t(:remove), nil, {:class => 'delete-device-button', :name => "device_deleted[#{device.name}]"}
 

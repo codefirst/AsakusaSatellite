@@ -82,11 +82,14 @@ module ChatHelper
       text = "#{message.user.name} / #{message.body}"[0,150]
 
       members = message.room.members - [ message.user ]
-      android,iphone = members.map {|user| user.devices }.flatten.map {|device|
+      devices = members.map {|user|
+        user.devices
+      }.flatten
+      android,iphone = devices.partition {|device|
         device.device_type == 'android'
       }
 
-      iphone.map{|device|
+      iphone.to_a.map{|device|
         APNS::Notification.new(device.name,
                                :alert => text,
                                :sound => 'default',
@@ -97,7 +100,7 @@ module ChatHelper
         APNS.send_notifications xs
       }
 
-      android.map{|device|
+      android.to_a.map{|device|
         { :registration_id => device.name,
           :data => {
             :message => text

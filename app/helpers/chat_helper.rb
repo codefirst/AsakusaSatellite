@@ -103,7 +103,8 @@ module ChatHelper
       android.to_a.map{|device|
         { :registration_id => device.name,
           :data => {
-            :message => text
+            :message => text,
+            :id => message.room.id
           }
         }
       }.tap{|xs|

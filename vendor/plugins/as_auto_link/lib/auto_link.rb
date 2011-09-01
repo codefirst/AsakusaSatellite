@@ -78,4 +78,8 @@ class AsakusaSatellite::Filter::AutoLink < AsakusaSatellite::Filter::Base
   picture /instagr\.am\/p\/([\w\-]+)/ do|r1|
     ['http://instagr.am/p/' + r1, 'http://instagr.am/p/' + r1 + '/media/?size=t']
   end
+
+  picture /(.*\.(?:jpg|jpeg|png|gif)\z)/i do|r1|
+    [r1, r1]
+  end
 end

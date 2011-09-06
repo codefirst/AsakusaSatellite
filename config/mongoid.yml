@@ -1,10 +1,12 @@
 development:
-  host: localhost
-  database: asakusa_satellite_development
+  host: <%= ENV['MONGODB_HOST'] %>
+  database: <%= ENV['MONGODB_DATABASE'] %>
+  username: <%= ENV['MONGODB_USERNAME'] %>
+  password: <%= ENV['MONGODB_PASSWORD'] %>
 
 test:
   host: localhost
-  database: asakusa_satellite_test
+  database: asakusa_satellite_development
 
 # set these environment variables on your prod server
 production:

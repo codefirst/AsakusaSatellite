@@ -35,8 +35,8 @@ module Api
       end
 
       def create
-        create_message(params[:room_id], params[:message])
         room = Room.find(params[:room_id])
+        create_message(room, params[:message])
         room.updated_at = Time.now
         room.save
 

@@ -15,12 +15,13 @@
 
   %div.body{ :original => message.body, :id => message.id }
    :plain
-    #{message.html_body}
- - unless message.attachment.nil?
-  %p.attachment
-   %a{:target => "_blank", :href => root_path + "upload/" + File.basename(message.attachment.disk_filename) }
-    - if image_mimetype?(message.attachment.mimetype)
-     %img{:src => root_path + "upload/" + File.basename(message.attachment.disk_filename)}
-    - else
-     = image_tag("page_attachment.gif")
-     = message.attachment.filename
+    #{message.html_body(room)}
+ - unless message.attachments.nil?
+  - message.attachments.each do |attachment|
+   %p.attachment
+    %a{:target => "_blank", :href => root_path + "upload/" + File.basename(attachment.disk_filename) }
+     - if image_mimetype?(attachment.mimetype)
+      %img{:src => root_path + "upload/" + File.basename(attachment.disk_filename)}
+     - else
+      = image_tag("page_attachment.gif")
+      = attachment.filename

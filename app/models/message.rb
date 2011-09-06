@@ -6,6 +6,7 @@ class Message
   field :room_id
   embeds_one :room
   embeds_one :user
+  embeds_many :attachments
   index :updated_at
 
   def encode_json(_)
@@ -16,27 +17,21 @@ class Message
     {
       'id'   => self.id,
       'body' => self.body,
-      'html_body' => self.html_body,
+      'html_body' => self.html_body(self.room),
       'name' => (self.user ? self.user.name : 'Anonymous User'),
       'screen_name' => (self.user ? self.user.screen_name : 'Anonymous User'),
       'profile_image_url' => (self.user ? self.user.profile_image_url : ''),
       'created_at' => I18n.l(self.created_at),
       'room'       => self.room.to_json,
-      'attachment' => self.attachment && self.attachment.to_hash
+      'attachment' => self.attachments && self.attachments.map {|a| a.to_hash}
     }
   end
 
-  def html_body
-    AsakusaSatellite::Filter.process self
-  end
-
-  def attachment
-    attachments = Attachment.where(:message_id => self.id)
-    attachments.nil? ? nil : attachments.first
+  def html_body(room)
+    AsakusaSatellite::Filter.process self, room
   end
 
   def prev(offset)
-    p self.room.id
     Message.where("room._id" => self.room.id, :_id.lt => self._id).order_by(:_id.desc).limit(offset).to_a.reverse
   end
 

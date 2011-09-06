@@ -6,15 +6,14 @@ Pusher.key    = 'f36e789c57a0fc0ef70b'
 Pusher.secret = '1c66d57d4868ff817d5d'
 
 module ChatHelper
-  def create_message(room_id, message, opt = {})
+  def create_message(room, message, opt = {})
     return if !opt[:force] and message.strip.empty?
 
-    room = Room.where(:_id => room_id).first
-    @message = Message.new(:room_id => room_id, :room => room, :body => message, :user => current_user)
+    @message = Message.new(:room_id => room._id, :room => room, :body => message, :user => current_user)
     unless @message.save
       return false
     end
-    publish_message(:create, @message)
+    publish_message(:create, @message, room)
     @message
   end
 
@@ -55,16 +54,16 @@ module ChatHelper
     true
   end
 
-  def to_json(message)
+  def to_json(message, room)
     view = render_to_string(:file   => "app/views/chat/_message.html.haml",
-                            :locals => { :message => message },
+                            :locals => { :message => message, :room => room },
                             :layout => false)
     message.to_hash.merge( :view => view )
   end
 
   private
-  def publish_message(event, message)
-    channel = Pusher["as:#{message.room.id}"]
+  def publish_message(event, message, room)
+    channel = Pusher["as:#{room.id}"]
 
     if event == :delete then
       channel.trigger("message_#{event}",
@@ -74,14 +73,14 @@ module ChatHelper
     else
       channel.trigger("message_#{event}",
                       {
-                        :content => to_json(message)
+                        :content => to_json(message, room)
                       }.to_json)
     end
 
     if event == :create then
       text = "#{message.user.name} / #{message.body}"[0,150]
 
-      members = message.room.members - [ message.user ]
+      members = room.members - [ message.user ]
       devices = members.map {|user|
         user.devices
       }.flatten
@@ -94,7 +93,7 @@ module ChatHelper
                                :alert => text,
                                :sound => 'default',
                                :other => {
-                                 :id => message.room.id
+                                 :id => room.id
                                })
       }.tap{|xs|
         APNS.send_notifications xs
@@ -104,7 +103,7 @@ module ChatHelper
         { :registration_id => device.name,
           :data => {
             :message => text,
-            :id => message.room.id
+            :id => room.id
           }
         }
       }.tap{|xs|

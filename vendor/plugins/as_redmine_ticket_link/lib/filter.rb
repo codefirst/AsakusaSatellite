@@ -4,8 +4,7 @@ require 'open-uri'
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
   def process(line, opts={})
-    # FIX ME OR DIE
-    room = Room.where(:_id => opts[:message].room_id).first
+    room = opts[:room]
 
     info = room.yaml[:redmine_ticket]
     line.gsub(/#(\d+)/) {|id|

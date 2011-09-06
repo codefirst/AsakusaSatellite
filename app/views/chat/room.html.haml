@@ -8,7 +8,7 @@
   read more
  .message-list
   - @messages.reverse_each do |message|
-   = render :partial => 'message', :locals => { :message => message }
+   = render :partial => 'message', :locals => { :message => message, :room => @room }
  - if logged?
   .input
    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|

@@ -5,11 +5,13 @@
 	    _notify : jQuery.fn.desktopNotify
 	}, config);
 	target.bind('websocket::create',function(_, message){
+            var attached =
+                (message.attachment != null) && (message.attachment.length > 0);
 	    if(message.screen_name != config.current_user) {
 		config._notify({
 		    picture: message.profile_image_url,
 		    title: message.name + " / " + message.room.name,
-		    text : (message.attachment != null ? message.attachment.filename : message.body)
+		    text : attached ? message.attachment.filename : message.body
 		});
 	    }
 	});

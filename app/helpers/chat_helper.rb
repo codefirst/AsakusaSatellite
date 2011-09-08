@@ -27,7 +27,7 @@ module ChatHelper
                                       params[:file],
                                       params[:mimetype],
                                       message)
-      publish_message(:create, message)
+      publish_message(:create, message, room)
       message
     end
   end
@@ -37,7 +37,7 @@ module ChatHelper
     return false unless message
     @message.body = message
     if @message.save then
-      publish_message(:update, @message)
+      publish_message(:update, @message, @message.room)
       true
     else
       false
@@ -50,7 +50,7 @@ module ChatHelper
     return false unless @message
     return false unless @message.destroy
 
-    publish_message(:delete, @message)
+    publish_message(:delete, @message, @message.room)
     true
   end
 

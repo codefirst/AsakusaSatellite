@@ -54,7 +54,7 @@ module ChatHelper
     true
   end
 
-  def to_json(message, room)
+  def to_json(message, room = message.room)
     view = render_to_string(:file   => "app/views/chat/_message.html.haml",
                             :locals => { :message => message, :room => room },
                             :layout => false)

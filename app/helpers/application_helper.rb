@@ -7,7 +7,8 @@ module ApplicationHelper
   end
 
   def current_user
-    user = User.where(:_id => session[:current_user_id]).first
+    @cached_current_user =
+      @cached_current_user || User.where(:_id => session[:current_user_id]).first
   end
 
   def set_current_user(user)

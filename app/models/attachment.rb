@@ -11,7 +11,6 @@ class Attachment
   field :mimetype
   field :message_id
   embedded_in :message, :inverse_of => :attachments
-  
 
   def to_hash
     {

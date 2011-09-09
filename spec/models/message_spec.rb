@@ -39,14 +39,14 @@ describe Message do
   describe "hash" do
     before do
       I18n.stub(:l){|s| "i18n:#{s}" }
-      AsakusaSatellite::Filter.stub(:process){|s| "filtered:#{s.body}" }
+      AsakusaSatellite::Filter.stub(:process){|message, room| "filtered:#{message.body}" }
     end
 
     subject { @message.to_hash }
     its(['name']) { should == @message.user.name }
     its(['profile_image_url']) { should == @message.user.profile_image_url }
     its(['body']) { should == @message.body }
-    its(['attachment']) { should == nil }
+    its(['attachment']) { should be_empty }
     it { subject['id'].should == @message.id }
     its(['screen_name']) { should == @message.user.screen_name }
     its(['created_at']) { should == "i18n:#{@message.created_at}" }

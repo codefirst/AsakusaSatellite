@@ -6,7 +6,10 @@ describe Attachment do
     @attachment = Attachment.new(:disk_filename => '/tmp/file.png',
                                  :filename => 'file.png',
                                  :mimetype => 'image/png')
-    @attachment.save!
+
+    @message = Message.new
+    @message.attachments = [ @attachment ]
+    @message.save!
   end
 
   describe "to_hash" do
@@ -34,11 +37,12 @@ describe Attachment do
   end
 
   it do
+    message = Message.new
     expect {
       Attachment.create_and_save_file(File.basename(__FILE__),
                                       StringIO.new(""),
                                       'text/plain',
-                                      Message.new)
-    }.to change { Attachment.all.size }.by(1)
+                                      message)
+    }.to change { message.attachments.size }.by(1)
   end
 end

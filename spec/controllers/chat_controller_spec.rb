@@ -22,7 +22,7 @@ describe ChatController do
 
     describe "部屋" do
       before {
-        @now = Time.at(Time.now.to_i)
+        @now = Time.at(Time.now.to_i+100)
         Time.stub(:now) { @now.dup }
         post :message, {:room_id => @room.id, :message => "メッセージ" }
       }

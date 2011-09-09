@@ -3,13 +3,14 @@
 
 describe ChatHelper do
   before {
-    @room = Room.new
-    @room.save
+    @room = mock "room"
+    @room.stub(:_id => 'xx')
 
     @message = mock "message"
-    @message.stub(:body=)
-    Message.stub(:new => @message)
-    Message.stub(:where => [ @message ])
+    @message.stub(:body= => '',
+                  :room  => @room)
+    Message.stub(:new => @message,
+                 :where => [ @message ])
   }
 
   context "成功時" do
@@ -29,7 +30,7 @@ describe ChatHelper do
     end
 
     describe "作成" do
-      before { helper.create_message(@room.id, 'message') }
+      before { helper.create_message(@room, 'message') }
       it_should_behave_like 'publish message'
     end
 
@@ -51,7 +52,7 @@ describe ChatHelper do
     end
 
     describe "作成" do
-      before { helper.create_message(@room.id, 'message') }
+      before { helper.create_message(@room, 'message') }
       it_should_behave_like 'not publish message'
     end
 

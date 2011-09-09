@@ -64,12 +64,12 @@ class ChatController < ApplicationController
     end
     if request.post? then
       find_room(params[:room_id]) do
+        @room.update_attributes!(:updated_at => Time.now)
         if request[:fileupload]
           create_attach(params[:room_id], params)
         else
-          create_message(params[:room_id], params[:message])
+          create_message(@room, params[:message])
         end
-        @room.update_attributes!(:updated_at => Time.now)
       end
     end
     redirect_to :controller => 'chat', :action => 'room', :id => params[:room_id]

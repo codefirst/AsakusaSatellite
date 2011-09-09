@@ -1,6 +1,7 @@
 class Room
   include Mongoid::Document
   include Mongoid::Timestamps
+#  field :updated_at, :type => Time
   field :title
   field :deleted, :type => Boolean, :default => false
   field :is_public, :type => Boolean, :default => true

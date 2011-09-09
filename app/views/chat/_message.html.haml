@@ -1,27 +1,28 @@
 .message{'message-id' => message.id , :class => defined?(cssclass) && cssclass }
- %div
-  .profile
-   - unless message.user.profile_image_url.empty?
-    %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
-   %span.screen-name= message.user.screen_name
-   %span.user-name= message.user.name
-  .update-time
-   %a{:href => message_url(:id => message.id, :only_path => true) }= l(message.created_at.utc + 9*60*60)
-  .edit-icons
-   %span.message-buttons= raw(call_hook(:message_buttons, :self => self, :message => message, :permlink => message_url(:id => message.id)))
-   %span.own-message
-    = image_tag("message_edit.gif", :class=>'edit', :alt => t(:edit_this_message), :title => t(:edit_this_message))
-    = image_tag("message_delete.gif", :class=>'delete', :alt => t(:delete_this_message), :title => t(:delete_this_message))
+ -cache message do
+  %div
+   .profile
+    - unless message.user.profile_image_url.empty?
+     %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
+    %span.screen-name= message.user.screen_name
+    %span.user-name= message.user.name
+   .update-time
+    %a{:href => message_url(:id => message.id, :only_path => true) }= l(message.created_at.utc + 9*60*60)
+   .edit-icons
+    %span.message-buttons= raw(call_hook(:message_buttons, :self => self, :message => message, :permlink => message_url(:id => message.id)))
+    %span.own-message
+     = image_tag("message_edit.gif", :class=>'edit', :alt => t(:edit_this_message), :title => t(:edit_this_message))
+     = image_tag("message_delete.gif", :class=>'delete', :alt => t(:delete_this_message), :title => t(:delete_this_message))
 
-  %div.body{ :original => message.body, :id => message.id }
-   :plain
-    #{message.html_body(message.room)}
- - unless message.attachments.nil?
-  - message.attachments.each do |attachment|
-   %p.attachment
-    %a{:target => "_blank", :href => root_path + "upload/" + File.basename(attachment.disk_filename) }
-     - if image_mimetype?(attachment.mimetype)
-      %img{:src => root_path + "upload/" + File.basename(attachment.disk_filename)}
-     - else
-      = image_tag("page_attachment.gif")
-      = attachment.filename
+   %div.body{ :original => message.body, :id => message.id }
+    :plain
+     #{message.html_body(message.room)}
+  - unless message.attachments.nil?
+   - message.attachments.each do |attachment|
+    %p.attachment
+     %a{:target => "_blank", :href => root_path + "upload/" + File.basename(attachment.disk_filename) }
+      - if image_mimetype?(attachment.mimetype)
+       %img{:src => root_path + "upload/" + File.basename(attachment.disk_filename)}
+      - else
+       = image_tag("page_attachment.gif")
+       = attachment.filename

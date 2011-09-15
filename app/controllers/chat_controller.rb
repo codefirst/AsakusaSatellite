@@ -11,7 +11,7 @@ class ChatController < ApplicationController
   end
 
   def prev
-    @message = Message.find(params[:id])
+    @message = params[:id]!="undefined" && Message.find(params[:id])
     @messages = if @message then
                   @message.prev( params[:offset] || 20 )
                 else

@@ -1,7 +1,7 @@
 .message{'message-id' => message.id , :class => defined?(cssclass) && cssclass }
  %div
   .profile
-   - unless message.user.profile_image_url.empty?
+   - unless message.user.profile_image_url && message.user.profile_image_url.empty?
     %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
    %span.screen-name= message.user.screen_name
    %span.user-name= message.user.name

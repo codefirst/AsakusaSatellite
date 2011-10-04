@@ -62,3 +62,7 @@ gem 'apns'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+Dir.glob(File.join(File.dirname(__FILE__), 'vendor', 'plugins', '**', "Gemfile")) do |gemfile|
+  self.send(:eval, File.open(gemfile, 'r').read)
+end

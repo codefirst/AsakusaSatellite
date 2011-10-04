@@ -1,6 +1,6 @@
 class <%= class_name %>Filter < AsakusaSatellite::Filter::Base
 
-  def process(text)
+  def process(text, opts={})
     # generated method
     # modify hear
     text

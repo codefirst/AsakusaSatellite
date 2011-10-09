@@ -4,9 +4,9 @@ require 'nokogiri'
 class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
 
   def process(text, opts={})
-    ast = Nokogiri::HTML::parse text
+    ast = Nokogiri::HTML::parse "<div>#{text}</div>"
     ast.xpath('//text()').each do |textnode|
-      linkRegex = /http:\/\/twitter\.com\/(?:#!\/)?([a-zA-Z0-9]+)\/status\/([0-9]+)/
+      linkRegex = /https?:\/\/twitter\.com\/(?:#!\/)?([a-zA-Z0-9]+)\/status\/([0-9]+)/
       result = textnode.to_s.match linkRegex
       
       if result
@@ -14,7 +14,7 @@ class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
         textnode.parent.replace fragment
       end
     end
-    return ast.xpath('/html/body')[0].to_s
+    return ast.xpath('/html/body/div')[0].to_s
   end
 
   def createTweetFragment(userid, tweetid)

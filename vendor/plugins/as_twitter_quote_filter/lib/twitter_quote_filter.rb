@@ -1,4 +1,3 @@
-require 'rexml/document'
 require 'open-uri'
 require 'nokogiri'
 

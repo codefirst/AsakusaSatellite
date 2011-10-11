@@ -7,7 +7,7 @@ class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
     text = lines.join '<br/>'
     ast = Nokogiri::HTML::parse "<div>#{text}</div>"
     ast.xpath('//text()').each do |textnode|
-      linkRegex = /https?:\/\/twitter\.com\/(?:#!\/)?([a-zA-Z0-9]+)\/status(?:es)?\/([0-9]+)/
+      linkRegex = /https?:\/\/twitter\.com\/(?:#!\/)?([a-zA-Z0-9_]+)\/status(?:es)?\/([0-9]+)/
       result = textnode.to_s.match linkRegex
       
       if result

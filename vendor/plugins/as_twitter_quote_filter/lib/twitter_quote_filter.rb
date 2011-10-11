@@ -37,6 +37,7 @@ class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
       <div>#{tweet.xpath('//span[@class="entry-content"]')[0]}</div>
       <div>#{tweet.xpath('//span[@class="meta entry-meta"]')[0]}</div>
     </div>
+    <div class='clear' />
   </div>
 </div>
 <style>
@@ -58,6 +59,9 @@ div.twq-left div img {
 div.twq-right {
     margin-left: 12%;
     width: 88%;
+}
+div.twq-right-bottom {
+    margin-top: 0.5em;
 }
 </style>
 EOS

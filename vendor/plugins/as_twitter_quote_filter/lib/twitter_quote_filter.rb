@@ -4,7 +4,8 @@ require 'nokogiri'
 class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
 
   def process_all(lines, opts={})
-    text = lines.join '<br/>'
+    text = (lines.join '<br/>')
+    puts text
     ast = Nokogiri::HTML::parse "<div>#{text}</div>"
     ast.xpath('//text()').each do |textnode|
       linkRegex = /https?:\/\/twitter\.com\/(?:#!\/)?([a-zA-Z0-9_]+)\/status(?:es)?\/([0-9]+)/
@@ -22,19 +23,24 @@ class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
     tweet =
       Nokogiri::HTML(open "http://twitter.com/#{userid}/status/#{tweetid}").
       xpath('//div[@id="permalink"]')[0]
+    username = tweet.xpath('//div[@class="full-name"]/text()')[0] ||
+               tweet.xpath('//a[@class="tweet-url screen-name"]/text()')[0]
+    iconpath = tweet.xpath('//div[@class="thumb"]//img/@src')
+    content  = tweet.xpath('//span[@class="entry-content"]')[0]
+    updated  = tweet.xpath('//span[@class="meta entry-meta"]')[0]
 
     fragment = Nokogiri::HTML::fragment <<-EOS
 <div class='twq-body'>
   <div class='twq-left'>
-    <div><img src='#{tweet.xpath('//div[@class="thumb"]//img/@src')}'/></div>
+    <div><img src='#{iconpath}'/></div>
   </div>
   <div class='twq-right'>
     <div class='twq-right-top'>
-      <span class='user-name'>#{tweet.xpath('//div[@class="full-name"]/text()')[0] || tweet.xpath('//a[@class="tweet-url screen-name"]/text()')[0]}</span>
+      <span class='user-name'>#{CGI::unescapeHTML username.to_s}</span>
     </div>
     <div class='twq-right-bottom'>
-      <div>#{tweet.xpath('//span[@class="entry-content"]')[0]}</div>
-      <div class='update-time'>#{tweet.xpath('//span[@class="meta entry-meta"]')[0]}</div>
+      <div>#{CGI::unescapeHTML content.to_s}</div>
+      <div class='update-time'>#{updated}</div>
     </div>
     <div class='clear' />
   </div>

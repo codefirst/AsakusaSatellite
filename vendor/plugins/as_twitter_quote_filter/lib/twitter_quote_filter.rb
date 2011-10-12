@@ -32,7 +32,7 @@ class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
     fragment = Nokogiri::HTML::fragment <<-EOS
 <div class='twq-body'>
   <div class='twq-top'>
-    <a href='#{url}'><img src='#{iconpath}'/></a>
+    <a class='twq-icon' href='#{url}'><img src='#{iconpath}'/></a>
     <span class='user-name'>#{CGI::unescapeHTML username.to_s}</span>
     <div class='update-time'>#{updated}</div>
   </div>
@@ -53,7 +53,7 @@ div.twq-body div {
     margin-top: 3px;
     margin-bottom: 3px;
 }
-div.twq-top a {
+a.twq-icon {
     float: left;
 }
 div.twq-top img {

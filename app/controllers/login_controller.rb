@@ -50,7 +50,7 @@ class LoginController < ApplicationController
   end
 
   def logout
-    session.delete :cached_current_user_id
+    session.delete :cached_current_user
     session.delete :current_user_id
     redirect_to request.referer
   end

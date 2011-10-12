@@ -21,7 +21,7 @@
     .contextual
      = t(:welcome_maessage) if current_user
      = link_to current_user.name, :controller => :account, :action => :index if logged?
-     = link_to t(:logout), :controller => 'login', :action => 'logout' if logged?
+     = button_to t(:logout),url_for(:controller => 'login', :action => 'logout'),:method=>:post,:class=>:logout if logged?
      = login_link unless logged?
    .content
     - if flash[:error]

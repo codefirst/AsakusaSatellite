@@ -1,6 +1,8 @@
 require 'oauth'
 require 'json'
 class LoginController < ApplicationController
+  protect_from_forgery :only => ["logout"]
+
   def index
   end
 
@@ -50,8 +52,10 @@ class LoginController < ApplicationController
   end
 
   def logout
-    session.delete :cached_current_user
-    session.delete :current_user_id
+    if request.post?
+      session.delete :cached_current_user
+      session.delete :current_user_id
+    end
     redirect_to request.referer
   end
 

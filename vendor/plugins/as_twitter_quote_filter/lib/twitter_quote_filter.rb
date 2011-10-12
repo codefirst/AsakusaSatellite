@@ -30,12 +30,11 @@ class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
   </div>
   <div class='twq-right'>
     <div class='twq-right-top'>
-      <a>#{tweet.xpath('//div[@class="full-name"]/text()')[0]}</a>
-      #{tweet.xpath('//a[@class="tweet-url screen-name"]')[0]}
+      <span class='user-name'>#{tweet.xpath('//div[@class="full-name"]/text()')[0] || tweet.xpath('//a[@class="tweet-url screen-name"]/text()')[0]}</span>
     </div>
     <div class='twq-right-bottom'>
       <div>#{tweet.xpath('//span[@class="entry-content"]')[0]}</div>
-      <div>#{tweet.xpath('//span[@class="meta entry-meta"]')[0]}</div>
+      <div class='update-time'>#{tweet.xpath('//span[@class="meta entry-meta"]')[0]}</div>
     </div>
     <div class='clear' />
   </div>
@@ -60,8 +59,8 @@ div.twq-right {
     margin-left: 12%;
     width: 88%;
 }
-div.twq-right-bottom {
-    margin-top: 0.5em;
+div.twq-right-top .user-name {
+    font-weight: bold;
 }
 </style>
 EOS

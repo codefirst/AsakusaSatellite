@@ -4,8 +4,7 @@ require 'nokogiri'
 class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
 
   def process_all(lines, opts={})
-    text = (lines.join '<br/>')
-    puts text
+    text = lines.join '<br/>'
     ast = Nokogiri::HTML::parse "<div>#{text}</div>"
     ast.xpath('//text()').each do |textnode|
       linkRegex = /https?:\/\/twitter\.com\/(?:#!\/)?([a-zA-Z0-9_]+)\/status(?:es)?\/([0-9]+)/
@@ -25,48 +24,55 @@ class TwitterQuoteFilter < AsakusaSatellite::Filter::Base
       xpath('//div[@id="permalink"]')[0]
     username = tweet.xpath('//div[@class="full-name"]/text()')[0] ||
                tweet.xpath('//a[@class="tweet-url screen-name"]/text()')[0]
+    url      = tweet.xpath('//a[@class="tweet-url screen-name"]/@href')[0]
     iconpath = tweet.xpath('//div[@class="thumb"]//img/@src')
     content  = tweet.xpath('//span[@class="entry-content"]')[0]
     updated  = tweet.xpath('//span[@class="meta entry-meta"]')[0]
 
     fragment = Nokogiri::HTML::fragment <<-EOS
 <div class='twq-body'>
-  <div class='twq-left'>
-    <div><img src='#{iconpath}'/></div>
+  <div class='twq-top'>
+    <a href='#{url}'><img src='#{iconpath}'/></a>
+    <span class='user-name'>#{CGI::unescapeHTML username.to_s}</span>
+    <div class='update-time'>#{updated}</div>
   </div>
-  <div class='twq-right'>
-    <div class='twq-right-top'>
-      <span class='user-name'>#{CGI::unescapeHTML username.to_s}</span>
-    </div>
-    <div class='twq-right-bottom'>
-      <div>#{CGI::unescapeHTML content.to_s}</div>
-      <div class='update-time'>#{updated}</div>
-    </div>
-    <div class='clear' />
-  </div>
+  <div class='twq-content clear'>#{CGI::unescapeHTML content.to_s}</div>
 </div>
 <style>
 div.twq-body {
     background-color: white;
-    -webkit-border-radius: 5px;
-    border: 2px silver solid;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-box-shadow: 1px 1px 2px #999;
+    -webkit-box-shadow: 1px 1px 2px #999;
+    border: 1px #EEE solid;
     padding: 10px 10px 10px 10px;
     margin: 5px 5px 5px 5px;
 }
-div.twq-left div {
-    width: 10%;
+div.twq-body div {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+div.twq-top a {
     float: left;
 }
-div.twq-left div img {
-    width: 100%;
-    -webkit-border-radius: 5px;
+div.twq-top img {
+    -moz-box-shadow: 1px 1px 2px #999;
+    -webkit-box-shadow: 1px 1px 2px #999;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -webkit-border-radius: 2px 2px 2px 2px;
+    height: 2.5em;
+    margin-right: 5px;
 }
-div.twq-right {
-    margin-left: 12%;
-    width: 88%;
-}
-div.twq-right-top .user-name {
+div.twq-top .user-name {
     font-weight: bold;
+}
+div.twq-top .update-time {
+    margin-top: 0px;
+}
+div.twq-content {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 </style>
 EOS

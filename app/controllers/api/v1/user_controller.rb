@@ -13,9 +13,11 @@ module Api
       def add_device
         manage_device do |user|
           if user.devices.where(:name => params[:device]).empty?
-            user.devices << Device.new(:name => params[:device], :device_name => params[:name])
+            user.devices << Device.new(:name => params[:device],
+                                       :device_name => params[:name],
+                                       :device_type => params[:type] || 'iphone')
           end
-          
+
           unless user.save
             render :json => {:status => 'error', :error => 'cannot save device data'}
           end

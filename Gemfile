@@ -19,6 +19,7 @@ end
 
 gem 'SystemTimer'
 gem 'pusher'
+gem 'c2dm'
 
 # html
 gem "uuidtools"

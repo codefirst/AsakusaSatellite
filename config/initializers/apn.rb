@@ -6,8 +6,9 @@ require 'base64'
 PEM_FILE = File.dirname(__FILE__) + '/../../tmp/apns-sandbox-cert.pem'
 
 pem = ENV['PEM']
+
 if pem
-   content = Base64.decode64(pem)
+   content = Base64.decode64(pem.gsub('\n', "\n"))
 else
    warn "Set ENV['PEM'] for Notification"
    content = ''

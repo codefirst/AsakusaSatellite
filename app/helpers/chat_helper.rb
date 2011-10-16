@@ -78,41 +78,7 @@ module ChatHelper
     end
 
     if event == :create then
-      text = "#{message.user.name} / #{message.body}"[0,150]
-
-      members = room.members - [ message.user ]
-      devices = members.map {|user|
-        user.devices
-      }.flatten
-      android,iphone = devices.partition {|device|
-        device.device_type == 'android'
-      }
-
-      iphone.to_a.map{|device|
-        APNS::Notification.new(device.name,
-                               :alert => text,
-                               :sound => 'default',
-                               :other => {
-                                 :id => room.id
-                               })
-      }.tap{|xs|
-        APNS.send_notifications xs
-      }
-
-      android.to_a.map{|device|
-        { :registration_id => device.name,
-          :data => {
-            :message => text,
-            :id => room.id
-          }
-        }
-      }.tap{|xs|
-        C2DM.send_notifications(ENV[:android_mail_address],
-                                ENV[:android_password],
-                                xs,
-                                ENV[:android_application_name])
-      }
-
+      call_hook(:after_create_message, :message => message, :room => room)
     end
   end
 end

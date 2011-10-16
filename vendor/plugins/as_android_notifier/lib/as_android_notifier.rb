@@ -24,10 +24,10 @@ class AsakusaSatellite::Hook::ASAndroidNotifier < AsakusaSatellite::Hook::Listen
         }
       }
     }.tap{|xs|
-      C2DM.send_notifications(ENV[:android_mail_address],
-        ENV[:android_password],
+      C2DM.send_notifications(ENV[:ANDROID_MAIL_ADDRESS],
+        ENV[:ANDROID_PASSWORD],
         xs,
-        ENV[:android_application_name])
+        ENV[:ANDROID_APPLICATION_NAME])
     }
 
   end

@@ -1,43 +1,17 @@
 # -*- coding: undecided -*-
 class CodeHighlightFilter < AsakusaSatellite::Filter::Base
 
-  def group(xs,&p)
-    yss = []
-    ys = []
-    xs.each do|x|
-      if p[x] then
-        yss << ys
-        ys = [ x ]
-      else
-        ys << x
-      end
-    end
-    yss << ys
-  end
-
-  def strip(xs)
-    return [] if xs.empty?
-    if xs.first.empty? then
-      strip xs[1..-1]
-    else
-      xs
-    end
-  end
-
   def process_all(lines, opts={})
-    xs = group(lines){|x| x =~ /\A\w+::/ }.map{|item|
-      lang,*body = item
-      content = CGI.unescapeHTML(body.join("\n"))
-      case lang
-      when "graphviz::","graph::"
-        %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&chl=#{CGI.escape content}" />)
-      when /\A(\w+)::\Z/
-        CodeRay.scan(content, $1).div
-      else
-        item
-      end
-    }
-    strip xs.flatten
+    lang,*body = lines
+    content = CGI.unescapeHTML(body.join("\n"))
+    case lang
+    when "graphviz::","graph::"
+      %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&chl=#{CGI.escape content}" />)
+    when /\A(\w+)::\Z/
+      CodeRay.scan(content, $1).div.split '\n'
+    else
+      lines
+    end
   end
 end
 

@@ -39,7 +39,6 @@ module Api
         create_message(room, params[:message])
         room.updated_at = Time.now
         room.save
-
         render :json => {:status => 'ok'}
       end
 

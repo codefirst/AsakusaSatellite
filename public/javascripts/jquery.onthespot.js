@@ -23,7 +23,10 @@
 	    submit:  config.submit,
 	    event: "onTheSpot::start",
 	    placeholder : '',
-	    style: ""
+	    style: "",
+	    onsubmit: function (settings, td) {
+                $(td).find('button').attr('disabled', 'disabled');
+            }
         };
 
         if (config.select) {

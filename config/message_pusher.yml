@@ -1,0 +1,7 @@
+default: pusher
+
+engines:
+  pusher:
+    app_id: 7241
+    key:    f36e789c57a0fc0ef70b
+    secret: 1c66d57d4868ff817d5d

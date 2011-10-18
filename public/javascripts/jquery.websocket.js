@@ -7,7 +7,7 @@
         WEB_SOCKET_DEBUG = true;
         */
 
-        var pusher = new Pusher('f36e789c57a0fc0ef70b');
+        var pusher = AsakusaSatellite.pusher;
         var target = this;
         function fire(name, data){
             target.trigger(name, data);

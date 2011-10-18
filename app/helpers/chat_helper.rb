@@ -1,9 +1,5 @@
 require 'yaml'
-require 'pusher'
-
-Pusher.app_id = '7241'
-Pusher.key    = 'f36e789c57a0fc0ef70b'
-Pusher.secret = '1c66d57d4868ff817d5d'
+require 'lib/asakusa_satellite/message_pusher'
 
 module ChatHelper
   def create_message(room, message, opt = {})
@@ -63,19 +59,14 @@ module ChatHelper
 
   private
   def publish_message(event, message, room)
-    channel = Pusher["as:#{room.id}"]
-
-    if event == :delete then
-      channel.trigger("message_#{event}",
-                      {
-                        :content => { :id => message.id }
-                      }.to_json)
-    else
-      channel.trigger("message_#{event}",
-                      {
-                        :content => to_json(message, room)
-                      }.to_json)
-    end
+    data = if event == :delete then
+             { :content => { :id => message.id } }
+           else
+             { :content => to_json(message, room) }
+           end
+    AsakusaSatellite::MessagePusher.trigger("as:#{room.id}",
+                                            "message_#{event}",
+                                            data.to_json)
 
     if event == :create then
       call_hook(:after_create_message, :message => message, :room => room)

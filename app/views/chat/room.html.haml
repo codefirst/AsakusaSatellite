@@ -18,6 +18,7 @@
 .chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))
 
 = content_for :javascripts do
+ = javascript_include_tag AsakusaSatellite::MessagePusher.jsFile
  = javascript_include_tag "jquery.websocket"
  = javascript_include_tag "jquery.chat"
  = javascript_include_tag "jquery.pagination"
@@ -38,6 +39,7 @@
         user : "#{current_user && current_user.screen_name}",
         room : "#{@room.id}"
     },
+    pusher    : #{AsakusaSatellite::MessagePusher.jsClass},
     form_auth : "#{form_authenticity_token}",
     url : {
         create  : "#{url_for(:controller=>'api/v1/message', :action=>'create')}",

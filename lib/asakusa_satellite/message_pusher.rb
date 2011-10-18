@@ -20,6 +20,7 @@ module AsakusaSatellite
     class Pusher < Engine
       require 'pusher'
       def initialize(opt)
+        @opt = opt
         ::Pusher.app_id = opt['app_id']
         ::Pusher.key    = opt['key']
         ::Pusher.secret = opt['secret']
@@ -29,12 +30,48 @@ module AsakusaSatellite
         ::Pusher[channel].trigger(event, data)
       end
 
-      def jsFile
-        "http://js.pusherapp.com/1.9/pusher.min.js"
+      def jsFiles
+        [ "http://js.pusherapp.com/1.9/pusher.min.js" ]
       end
 
       def jsClass
-        "new Pusher('f36e789c57a0fc0ef70b')"
+        key = @opt['key']
+        "new Pusher('#{key}')"
+      end
+    end
+
+    class Keima < Engine
+      require 'net/http'
+      require 'uri'
+      def initialize(opt)
+        @key = opt['key']
+        @url = opt['url']
+      end
+
+      def trigger(channel, event, data)
+        post("#{@url}/publish/#{@key}",{
+               :channel => channel,
+               :name    => event,
+               :data    => data
+             })
+      end
+
+      def jsFiles
+        [ @url + '/socket.io/socket.io.js',
+          @url + '/javascripts/keima.js' ]
+      end
+
+      def jsClass
+        "new Keima('#{@key}')"
+      end
+
+      private
+      def post(url,params)
+        uri = URI.parse(url)
+        body = params.map{|key,value| "#{URI.escape(key.to_s)}=#{URI.escape(value)}" }.join('&')
+        Net::HTTP.start(uri.host, uri.port) do |http|
+          http.post(uri.path, body)
+        end
       end
     end
 
@@ -42,7 +79,7 @@ module AsakusaSatellite
       require 'forwardable'
       extend  Forwardable
 
-      def_delegators :@default, :trigger, :jsFile, :jsClass
+      def_delegators :@default, :trigger, :jsFiles, :jsClass
 
       def engines=(params)
         @params = params

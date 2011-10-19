@@ -19,6 +19,7 @@ end
 
 gem 'SystemTimer'
 gem 'pusher'
+gem 'socky-client', '0.5.0.beta1'
 gem 'c2dm'
 
 # html

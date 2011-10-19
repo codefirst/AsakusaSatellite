@@ -75,6 +75,46 @@ module AsakusaSatellite
       end
     end
 
+    class Socky < Engine
+      require 'socky/client'
+      def initialize(opt)
+        @webSocket = opt['web_socket']
+        @http      = opt['http']
+        @app       = opt['app']
+        @secret    = opt['secret']
+        @client = ::Socky::Client.new(@http + '/' + @app, @secret)
+      end
+
+      def trigger(channel, event, data)
+        @client.trigger!(event,
+                         :channel => channel,
+                         :data    => data)
+      end
+
+      def jsFiles
+        ['http://js.socky.org/v0.5.0-beta1/socky.min.js']
+      end
+
+      def jsClass
+        <<END
+(function() {
+ var map = {
+  'connected' : 'socky:connection:established',
+  'disconnected' : 'socky:connection:closed',
+  'failed'    : 'socky:connection:error',
+ }
+ var obj = new Socky.Client('#{@webSocket + '/' + @app}');
+ obj.connection = {
+   bind : function(name, f) {
+    obj.bind(map[name], f);
+   }
+ };
+ return obj;
+})()
+END
+      end
+    end
+
     class << self
       require 'forwardable'
       extend  Forwardable

@@ -13,6 +13,14 @@
             target.trigger(name, data);
         }
 
+        function parse(obj) {
+            if(typeof(obj) == 'string') {
+                return jQuery.parseJSON(obj);
+            } else {
+                return obj;
+            }
+        }
+
         pusher.connection.bind('connected',
                      function(e) {
                          fire('websocket::connect', e);
@@ -29,16 +37,19 @@
         var channel = pusher.subscribe('as:' + AsakusaSatellite.current.room );
         channel.bind('message_create',
                      function(obj){
+                         var obj = parse(obj);
                          fire('websocket::create', obj.content);
                      });
 
         channel.bind('message_update',
                      function(obj){
+                         var obj = parse(obj);
                          fire('websocket::update', obj.content);
                      });
 
         channel.bind('message_delete',
                      function(obj){
+                         var obj = parse(obj);
                          fire('websocket::delete', obj.content);
                      });
         return this;

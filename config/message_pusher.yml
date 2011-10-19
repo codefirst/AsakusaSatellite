@@ -8,3 +8,8 @@ engines:
  keima:
   url: http://localhost:3001
   key: 4e7c45a1a2cb660517000001
+ socky:
+  http: http://localhost:3002/http
+  web_socket: ws://localhost:3002/websocket
+  app: as
+  secret: my_secret

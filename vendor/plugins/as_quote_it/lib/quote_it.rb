@@ -9,7 +9,7 @@ class AsakusaSatellite::Filter::QuoteIt < AsakusaSatellite::Filter::Base
       begin
         open("#{root}/clip.html?u=#{CGI.escape url}").read
       rescue
-        "<a href='#{url}'>#{url}</a>"
+        "<a target='_blank' href='#{url}'>#{url}</a>"
       end
     end
  end

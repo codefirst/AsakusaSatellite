@@ -1,5 +1,5 @@
 require 'yaml'
-require 'lib/asakusa_satellite/message_pusher'
+require 'asakusa_satellite/message_pusher'
 
 module ChatHelper
   def create_message(room, message, opt = {})

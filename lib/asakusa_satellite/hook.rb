@@ -41,7 +41,6 @@ module AsakusaSatellite::Hook
     include ActionView::Helpers::FormTagHelper
     include ActionView::Helpers::FormOptionsHelper
     include ActionView::Helpers::JavaScriptHelper
-    include ActionView::Helpers::PrototypeHelper
     include ActionView::Helpers::NumberHelper
     include ActionView::Helpers::UrlHelper
     include ActionView::Helpers::AssetTagHelper

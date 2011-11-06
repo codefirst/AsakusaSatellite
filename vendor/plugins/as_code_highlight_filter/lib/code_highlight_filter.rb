@@ -1,4 +1,4 @@
-# -*- coding: undecided -*-
+# -*- coding: UTF-8 -*-
 class CodeHighlightFilter < AsakusaSatellite::Filter::Base
 
   def process_all(lines, opts={})

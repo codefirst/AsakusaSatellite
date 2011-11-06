@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
+gem 'rails', '3.1.1'
 
 # mongoid
-gem 'mongoid'
+gem 'mongoid', '2.3.0'
 gem 'bson_ext'
 
 gem "rails3-generators"
@@ -17,7 +17,7 @@ group :development, :test do
   gem 'ci_reporter'
 end
 
-gem 'SystemTimer'
+#gem 'SystemTimer'
 gem 'pusher'
 gem 'socky-client', '0.5.0.beta1'
 gem 'c2dm'
@@ -30,7 +30,7 @@ gem 'haml-rails'
 gem 'sass'
 gem 'jquery-rails'
 gem 'oauth'
-gem 'json', "= 1.4.6"
+gem 'json', "= 1.5.3"
 gem "on_the_spot"
 
 # push notification

@@ -3,7 +3,7 @@ require 'yaml'
 
 describe Setting do
   before do 
-    @settings = YAML.load(File.open("#{RAILS_ROOT}/config/settings.yml"))
+    @settings = YAML.load(File.open("#{Rails.root}/config/settings.yml"))
   end
 
   it "各設定を読める" do

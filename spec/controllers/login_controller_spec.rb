@@ -6,6 +6,7 @@ describe LoginController do
     before do
       @user = User.new.tap{|user| user.save! }
       session[:current_user_id] = @user.id
+      request.stub(:referer) { 'http://localhost' }
       post :logout
     end
     subject { session }

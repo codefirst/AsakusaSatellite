@@ -3,7 +3,7 @@
 require 'base64'
 
 #APNS.host = 'gateway.push.apple.com'
-PEM_FILE = File.dirname(__FILE__) + '/../../tmp/apns-sandbox-cert.pem'
+PEM_FILE = File.dirname(__FILE__) + '/../../../../../tmp/apns-sandbox-cert.pem'
 
 pem = ENV['PEM']
 

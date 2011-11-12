@@ -4,7 +4,7 @@ module Api
       include ChatHelper
       include ApiHelper
 
-      before_filter :check_spell, :except => [:list]
+      before_filter :check_spell
 
       respond_to :json
       def create
@@ -42,7 +42,7 @@ module Api
       end
       
       def list
-        render :json => Room.where(:deleted => false).map {|r| r.to_json }
+        render :json => Room.all_live(current_user).map {|r| r.to_json }
       end
 
       def add_member

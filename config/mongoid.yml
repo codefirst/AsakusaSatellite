@@ -12,8 +12,6 @@ production:
   database: <%= ENV['MONGODB_DATABASE'] %>
   username: <%= ENV['MONGODB_USERNAME'] %>
   password: <%= ENV['MONGODB_PASSWORD'] %>
-  #uri: <%= ENV['MONGODB_URL'] %>
-  #uri: <%= ENV['MONGOHQ_URL'] %>
   # slaves:
   #   - host: slave1.local
   #     port: 27018

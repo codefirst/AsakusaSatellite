@@ -57,12 +57,33 @@ describe Api::V1::RoomController do
   end
 
   describe "部屋の一覧" do
-    before {
-      post :list, :format => 'json'
-    }
-    subject { response.body }
+    context "public な部屋" do
+      before {
+        post :list, :api_key => @user.spell, :format => 'json'
+      }
+      subject { response.body }
 
-    it { should have_json("/name[text() = '#{@room.title}']") }
+      it { should have_json("/id[text() = '#{@room._id}']") }
+    end
+
+    context "private な所属していない部屋" do
+      before {
+        other_user = User.new(:spell => 'spell__')
+        other_user.save
+        @room.is_public = false
+        @room.save
+        get :list, :api_key => other_user.spell, :format => 'json'
+      }
+      subject { response.body }
+
+      it { should_not have_json("/id[text() = '#{@room._id}']") }
+      
+      after {
+        @room.is_public = true
+        @room.save
+      }
+    end
+
   end
 
   describe "メンバの追加" do

@@ -9,7 +9,7 @@
    %a{:href => message_url(:id => message.id, :only_path => true) }= l(message.created_at.utc + 9*60*60)
   .edit-icons
    %span.message-buttons= raw(call_hook(:message_buttons, :self => self, :message => message, :permlink => message_url(:id => message.id)))
-   %span.own-message
+   %span.own-message{:style=>'display:none'}
     = image_tag("message_edit.gif", :class=>'edit', :alt => t(:edit_this_message), :title => t(:edit_this_message))
     = image_tag("message_delete.gif", :class=>'delete', :alt => t(:delete_this_message), :title => t(:delete_this_message))
 

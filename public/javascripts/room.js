@@ -3,6 +3,7 @@ $(function() {
     function onTheSpot(dom){
 	// You can edit your own message
         if (dom.find('.screen-name').text() == AsakusaSatellite.current.user) {
+            dom.find(".own-message").show();
             var body = dom.find(".body");
             body.onTheSpot({
                 url  : AsakusaSatellite.url.update,
@@ -24,12 +25,7 @@ $(function() {
             dom.find(".own-message").hide();
         }
 
-        // show edit button
-        dom.hover(function(e) {
-            $(this).find('.edit-icons').fadeIn();
-        },function(e){
-            $(this).find('.edit-icons').fadeOut();
-        });
+        AsakusaSatelliteUtil.onMessageHover(dom);
     }
 
     // ------------------------------

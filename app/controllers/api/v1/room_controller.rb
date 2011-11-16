@@ -17,12 +17,10 @@ module Api
       end
 
       def update
-        room = Room.find(params[:id])
+        room = Room.get(params[:id], @current_user)
         if room.nil?
           render :json => {:status => 'error', :error => "room not found"}
-          return
-        end
-        if room.update_attributes(:title => params[:name])
+        elsif room.update_attributes(:title => params[:name])
           render :json => {:status => 'ok'}
         else
           render :json => {:status => 'error', :error => "room creation failure"}
@@ -30,36 +28,36 @@ module Api
       end
 
       def destroy
-        room = Room.find(params[:id])
+        room = Room.get(params[:id], @current_user)
         if room.nil?
           render :json => {:status => 'error', :error => "room not found"}
-        end
-        if room.update_attributes(:deleted => true)
+        elsif room.update_attributes(:deleted => true)
           render :json => {:status => 'ok'}
         else
           render :json => {:status => 'error', :error => "room deletion failure"}
         end
       end
-      
+
       def list
         render :json => Room.all_live(current_user).map {|r| r.to_json }
       end
 
       def add_member
-        room = Room.find(params[:id])
+        room = Room.get(params[:id], @current_user)
+        user = User.find(params[:user_id])
+
         if room.nil?
           render :json => {:status => 'error', :error => "room not found"}
-        end
-        user = User.find(params[:user_id])
-        if user.nil?
+        elsif user.nil?
           render :json => {:status => 'error', :error => "user not found"}
-        end
-        room.members ||= []
-        room.members << user
-        if room.save
-          render :json => {:status => 'ok'}
         else
-          render :json => {:status => 'error', :error => "add user"}
+          room.members ||= []
+          room.members << user
+          if room.save
+            render :json => {:status => 'ok'}
+          else
+            render :json => {:status => 'error', :error => "add user"}
+          end
         end
       end
     end

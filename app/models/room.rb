@@ -35,6 +35,11 @@ class Room
     xs.uniq
   end
 
+  def self.get(id, user = nil)
+    room = Room.find(id)
+    room if room.accessible?(user)
+  end
+
   def messages(offset)
     Message.where("room._id" => id).order_by(:_id.desc).limit(offset).to_a.reverse
   end

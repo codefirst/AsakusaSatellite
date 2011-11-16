@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe Api::V1::RoomController do
   before do
-    User.delete_all
+    cleanup_db
     @user = User.new(:spell => 'spell')
     @user.save
     @room = Room.new(:title => 'title')
@@ -57,33 +57,12 @@ describe Api::V1::RoomController do
   end
 
   describe "部屋の一覧" do
-    context "public な部屋" do
-      before {
-        post :list, :api_key => @user.spell, :format => 'json'
-      }
-      subject { response.body }
+    before {
+      post :list, :api_key => @user.spell, :format => 'json'
+    }
+    subject { response.body }
 
-      it { should have_json("/id[text() = '#{@room._id}']") }
-    end
-
-    context "private な所属していない部屋" do
-      before {
-        other_user = User.new(:spell => 'spell__')
-        other_user.save
-        @room.is_public = false
-        @room.save
-        get :list, :api_key => other_user.spell, :format => 'json'
-      }
-      subject { response.body }
-
-      it { should_not have_json("/id[text() = '#{@room._id}']") }
-      
-      after {
-        @room.is_public = true
-        @room.save
-      }
-    end
-
+    it { should have_json("/id[text() = '#{@room._id}']") }
   end
 
   describe "メンバの追加" do
@@ -122,6 +101,58 @@ describe Api::V1::RoomController do
       it_should_behave_like '失敗する'
       subject { Room.find @room.id }
       its(:deleted) { should be_false }
+    end
+  end
+
+  context "非メンバによる操作" do
+    before do
+      @other_user = User.new(:spell => 'spell__')
+      @other_user.save
+
+      @room.is_public = false
+      @room.save
+    end
+
+    after do
+      @room.is_public = true
+      @room.save
+    end
+
+    describe "メンバの追加" do
+      before do
+        @another_user = User.new
+        @another_user.save
+        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+      end
+
+      it_should_behave_like '失敗する'
+    end
+
+    describe "部屋名の変更" do
+      before {
+        post :update, :id => @room.id, :name => 'new_name', :api_key => @other_user.spell, :format => 'json'
+      }
+      it_should_behave_like '失敗する'
+      subject { Room.find @room.id }
+      its(:title) { should == @room.title }
+    end
+
+    describe "部屋の削除" do
+      before {
+        post :destroy, :id => @room.id, :api_key => @other_user.spell, :format => 'json'
+      }
+      it_should_behave_like '失敗する'
+      subject { Room.find @room.id }
+      its(:deleted) { should be_false }
+    end
+
+    describe "部屋の一覧" do
+      before {
+        get :list, :api_key => @other_user.spell, :format => 'json'
+      }
+      subject { response.body }
+
+      it { should_not have_json("/id[text() = '#{@room._id}']") }
     end
   end
 end

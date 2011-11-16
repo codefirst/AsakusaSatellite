@@ -1,5 +1,6 @@
-- name: redmine_ticket_link
-  roots: http://www.redmine.org/
 - name: code_highlight_filter
 - name: quote_it
 - name: twitter_link
+- name: redmine_ticket_link
+  roots: http://www.redmine.org/
+

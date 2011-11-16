@@ -14,6 +14,11 @@
 		f($(e));
 	    });
 	});
+	target.bind("as::before",function(_,elems){
+	    $(elems).filter(selector).each(function(_, e){
+		f($(e));
+	    });
+	});
 	return this;
     }
 })(jQuery);

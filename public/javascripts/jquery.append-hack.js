@@ -11,3 +11,10 @@ $.fn.prepend = function(){
     this.trigger("as::prepend", Array.prototype.slice.call(arguments));
     return ret;
 };
+
+$.fn.__before = $.fn.before;
+$.fn.before = function(value){
+    var ret = this.__before.apply(this, arguments);
+    value.trigger("as::before", Array.prototype.slice.call(arguments));
+    return ret;
+};

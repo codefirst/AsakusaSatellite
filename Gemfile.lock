@@ -38,6 +38,7 @@ GEM
       activesupport (= 3.1.1)
     activesupport (3.1.1)
       multi_json (~> 1.0)
+    addressable (2.2.6)
     apns (0.9.0)
     arel (2.2.1)
     autotest (4.4.6)
@@ -52,8 +53,13 @@ GEM
       builder (>= 2.1.2)
     coderay (1.0.4)
     crack (0.1.8)
+    daemons (1.1.4)
     diff-lcs (1.1.3)
+    em-websocket (0.3.5)
+      addressable (>= 2.1.1)
+      eventmachine (>= 0.12.9)
     erubis (2.7.0)
+    eventmachine (0.12.10)
     haml (3.1.3)
     haml-rails (0.3.4)
       actionpack (~> 3.0)
@@ -149,10 +155,18 @@ GEM
       crack (~> 0.1.0)
       multi_json (~> 1.0)
       socky-authenticator (~> 0.5.0.beta5)
+    socky-server (0.5.0.beta1)
+      json
+      socky-authenticator (~> 0.5.0.beta5)
+      websocket-rack (>= 0.2.1)
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    thin (1.3.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     thor (0.14.6)
     tilt (1.3.3)
     treetop (1.4.10)
@@ -160,6 +174,10 @@ GEM
       polyglot (>= 0.3.1)
     tzinfo (0.3.30)
     uuidtools (2.1.2)
+    websocket-rack (0.3.1)
+      em-websocket (~> 0.3.1)
+      rack
+      thin
 
 PLATFORMS
   ruby
@@ -187,5 +205,7 @@ DEPENDENCIES
   rest-client
   rspec-rails (>= 2.3.0)
   sass
-  socky-client (= 0.5.0.beta1)
+  socky-client (>= 0.5.0.beta1)
+  socky-server (>= 0.5.0.beta1)
+  thin
   uuidtools

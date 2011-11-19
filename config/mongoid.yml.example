@@ -6,13 +6,12 @@ test:
   host: localhost
   database: asakusa_satellite_test
 
-# set these environment variables on your prod server
 production:
   host: localhost
-  port: <%= ENV['MONGOID_PORT'] %>
-  username: <%= ENV['MONGOID_USERNAME'] %>
-  password: <%= ENV['MONGOID_PASSWORD'] %>
-  database: <%= ENV['MONGOID_DATABASE'] %>
+  port: 27017
+  username: root
+  password: pass
+  database: asakusa_satellite
   # slaves:
   #   - host: slave1.local
   #     port: 27018

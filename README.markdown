@@ -30,6 +30,7 @@ Settings
     $ cp config/websocket.yml.example config/websocket.yml
     $ cp config/settings.yml.example config/settings.yml
     $ cp config/mongoid.yml.example config/mongoid.yml
+    $ cp config/message_pusher.yml.example config/message_pusher.yml
     $ bundle install --path vendor/bundle
 
 ### Install for Developer

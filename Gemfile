@@ -40,7 +40,6 @@ gem "uuidtools"
 gem 'coderay'
 gem 'pusher'
 gem 'hassle', :git => 'git://github.com/koppen/hassle.git'
-gem 'rest-client'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

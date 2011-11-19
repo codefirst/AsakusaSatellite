@@ -12,10 +12,8 @@ class RedmineauthController < ApplicationController
         return
       end
       
-      users = User.select do |record|
-        record['screen_name'] == redmine_user.screen_name
-      end
-      user = (users.records.size > 0 ? users.first : User.new)
+      user = User.first(:conditions => {:screen_name => redmine_user.screen_name})
+      user ||= User.new
       user.screen_name ||= redmine_user.name
       user.name ||= redmine_user.screen_name
       user.profile_image_url = 'data:image/gif;base64,R0lGODlhEAAQAMQfAFWApnCexR4xU1SApaJ3SlB5oSg9ZrOVcy1HcURok/Lo3iM2XO/i1lJ8o2eVu011ncmbdSc8Zc6lg4212DZTgC5Hcmh3f8OUaDhWg7F2RYlhMunXxqrQ8n6s1f///////yH5BAEAAB8ALAAAAAAQABAAAAVz4CeOXumNKOpprHampAZltAt/q0Tvdrpmm+Am01MRGJpgkvBSXRSHYPTSJFkuws0FU8UBOJiLeAtuer6dDmaN6Uw4iNeZk653HIFORD7gFOhpARwGHQJ8foAdgoSGJA1/HJGRC40qHg8JGBQVe10kJiUpIQA7'

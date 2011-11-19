@@ -55,11 +55,12 @@ class RoomController < ApplicationController
             else
               user
             end
-          end.flatten.uniq
+          end.flatten
         end
         @room.save
         redirect_to :action => 'configure'
       end
+      @members = @room.members.uniq
     end
   end
 

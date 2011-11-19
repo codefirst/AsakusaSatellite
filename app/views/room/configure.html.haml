@@ -12,7 +12,7 @@
      %legend= t(:member)
      .members
       %ul
-       - @room.members.each_with_index do |member, i|
+       - @members.each_with_index do |member, i|
         %li
          =hidden_field :room, "members[#{i}]", {:class => 'member-hidden', :value => member.screen_name}
          %img.profile-image{:src=>member.profile_image_url}

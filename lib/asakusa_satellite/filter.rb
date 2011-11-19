@@ -42,22 +42,23 @@ module AsakusaSatellite
       text = CGI.escapeHTML(message.body).gsub("\n", "<br />")
 
       @process.reduce(text) do|text, process|
-        if process.respond_to? :process
+        if process.respond_to? :process_all
+          process.process_all(message.body.split("\n"), :message => message, :room => room)
+        else
           doc = REXML::Document.new "<as>#{text}</as>"
 
-          doc.each_element('/as/text()').each do|node|
-            s = process.process(node.to_s, :message => message, :room => room)
+          if process.respond_to? :process
+            doc.each_element('/as/text()').each do|node|
+              s = process.process(node.to_s, :message => message, :room => room)
 
-            children(REXML::Document.new("<as>#{s}</as>")).each do|x|
-              node.parent.insert_before node, x
+              children(REXML::Document.new("<as>#{s}</as>")).each do|x|
+                node.parent.insert_before node, x
+              end
+              node.remove
             end
 
-            node.remove
+            children(doc).join
           end
-
-          children(doc).join
-        elsif process.respond_to? :process_all
-          process.process_all text, :message => message, :room => room
         end
       end
     end

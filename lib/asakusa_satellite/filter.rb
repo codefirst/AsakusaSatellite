@@ -1,5 +1,6 @@
 require 'pathname'
 require 'cgi'
+require 'rexml/document'
 
 module AsakusaSatellite
   module Filter
@@ -26,6 +27,11 @@ module AsakusaSatellite
       @config = config
     end
 
+    def children(doc, &f)
+      doc.root.elements['/as'].to_a
+    end
+    private :children
+
     def process(message, room)
       @process ||= @config.map{|c|
         @plugins.find{|p|
@@ -33,19 +39,27 @@ module AsakusaSatellite
         }
       }
 
-      text = message.body.to_s
-      lines = CGI.escapeHTML(text).split("\n")
-      @process.reduce(lines) do|lines, obj|
-        if obj.respond_to? :process
-          lines = lines.map{|line| obj.process(line, :message => message, :room => room) }
-        end
+      text = CGI.escapeHTML(message.body).gsub("\n", "<br />")
 
-        if obj.respond_to? :process_all
-          lines = obj.process_all lines, :message => message, :room => room
-        end
+      @process.reduce(text) do|text, process|
+        if process.respond_to? :process
+          doc = REXML::Document.new "<as>#{text}</as>"
 
-        lines
-      end.join("<br />")
+          doc.each_element('/as/text()').each do|node|
+            s = process.process(node.to_s, :message => message, :room => room)
+
+            children(REXML::Document.new("<as>#{s}</as>")).each do|x|
+              node.parent.insert_before node, x
+            end
+
+            node.remove
+          end
+
+          children(doc).join
+        elsif process.respond_to? :process_all
+          process.process_all text, :message => message, :room => room
+        end
+      end
     end
 
     def add_filter(klass, config)
@@ -59,6 +73,6 @@ module AsakusaSatellite
       nil
     end
 
-    module_function :initialize!, :process, :add_filter, :[]
+    module_function :initialize!, :process, :add_filter, :[], :children
   end
 end

@@ -2,6 +2,13 @@
 $link-color: #e2041b
 $link-visited-color: #e597b2
 
+@mixin rounded($radius: 10px)
+  :border-radius $radius
+  :-moz-border-radius $radius
+  :-webkit-border-radius $radius
+
+
+
 // layout
 body
   :background-color #fafafa
@@ -220,6 +227,37 @@ img.profile
       :border none
   .submit
     :margin-top 20px
+  .members
+    :text-align left
+    :width 420px
+    :margin auto
+    ul
+      :padding 0
+    li
+      img.profile-image
+        :float left
+        :width 28px
+        :padding-right 5px
+      :border 1px solid #DDD
+      @include rounded(3px)
+      :list-style-type none
+      :padding 5px
+      :position relative
+      :margin-top 3px
+      a.action
+        :position absolute
+        :right 10px
+        :top 7px
+    .new
+      :border-color #8D8
+      :background   #9E9
+    .add-member
+      input.text
+        :width 360px
+      #add-member-button
+        :width 40px
+
+
 
 // link
 a

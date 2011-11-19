@@ -45,21 +45,20 @@ class RoomController < ApplicationController
     @id      = params[:id]
     @plugins = AsakusaSatellite::Config.rooms
     find_room(@id) do
-      puts 1
       if request.post? then
         @room.title = params[:room][:title] unless params[:room][:title].blank?
         unless params[:room][:members].blank?
-          params[:room][:members].each do |_, user_name|
-            puts user_name
+          @room.members = params[:room][:members].map do |_, user_name|
             user = User.where(:screen_name => user_name).first
-            next if user.nil?
-            next if include_member(@room, user)
-            puts user.screen_name
-            puts user.name
-            @room.members << user
-          end
+            if user.nil? then
+              []
+            else
+              user
+            end
+          end.flatten.unique
         end
         @room.save
+        redirect_to :action => 'configure'
       end
     end
   end

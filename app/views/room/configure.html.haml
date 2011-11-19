@@ -1,4 +1,3 @@
--# -*- coding: utf-8 -*-
 .yield
  = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => false }
  .configure
@@ -11,20 +10,18 @@
    - unless @room.is_public
     %fieldset
      %legend= t(:member)
-     .members{:style => 'margin-left:20%;margin-right:20%;width:60%;float:left'}
-      %table{:style => 'width:100%'}
-       %tr
-        %td{:style => 'width:80%'}
-         =text_field_tag '', '', {:class => :text, :id => 'add-member-name', :placeholder => t(:member_name), :style => 'width:270px'}
-        %td{:style => 'width:20%'}
-         =button_to t(:add), nil, {:id => 'add-member-button'}
+     .members
+      %ul
        - @room.members.each_with_index do |member, i|
-        %tr
-         %td
-          = member.name
-          =hidden_field :room, "members[#{i}]", {:class => 'member-hidden', :value => member.name}
-         %td
-          =button_to t(:remove), nil, {:class => 'delete-member-button'}
+        %li
+         =hidden_field :room, "members[#{i}]", {:class => 'member-hidden', :value => member.screen_name}
+         %img.profile-image{:src=>member.profile_image_url}
+         %span.screen-name= member.screen_name
+         %a.action.delete-member-button
+          = image_tag "room_delete.gif"
+      .add-member
+       =text_field_tag '', '', {:class => :text, :id => 'add-member-name', :placeholder => t(:member_name)}
+       %input{:type=>'submit', :id => 'add-member-button', :value=> t(:add) }
 
    %fieldset
     %legend= t(:plugins)
@@ -40,25 +37,25 @@
     $(function() {
       $('#add-member-button').bind('click', function(e) {
         var name = $('#add-member-name').val();
+        $('#add-member-name').val('');
         if (name.length == 0) {
           return false;
         }
-        var firstTr = $('#add-member-button').parent().parent().parent();
-        $('<tr><td>'
-          + name
-          + '<input type="hidden" name="room[members[0]]", class = "member-hidden", value="' + name + '">'
-          + '</td><td><form><div>'
-          + '<input class="delete-member-button" type="submit" value="Remove">'
-          + '</div></form></td></tr>').insertAfter(firstTr);
-        var i = 0;
-        $('.member-hidden').each(function() {
-          $(this).attr("name", "room[members[" + i++ + "]]");
-        });
-        $('#add-member-name').val('');
+        if( $(".screen-name").contents().filter(function(_,x){ return x.textContent == name }).length != 0) {
+          return false;
+        }
+        var length = $('.members li').length;
+
+        var html = '<li class="new">' +
+                      '<input type="hidden" name="room[members[' + length + ']]" class="member-hidden" value="' + name + '">' +
+                      '<span class="screen-name">' + name + '</span>' +
+                      '<a class="action delete-member-button">#{image_tag "room_delete.gif"}</a>' +
+                   '</li>';
+        $('.members ul').append($(html));
         return false;
       });
       $('.delete-member-button').live('click', function(e) {
-        $(this).parent().parent().parent().parent().remove();
+        $(this).parent().remove();
         return false;
       });
     });

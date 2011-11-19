@@ -39,11 +39,13 @@ module AsakusaSatellite
         }
       }
 
-      text = CGI.escapeHTML(message.body).gsub("\n", "<br />")
+      body = CGI.escapeHTML(message.body)
 
-      @process.reduce(text) do|text, process|
+      @process.reduce(body.gsub("\n", "<br />")) do|text, process|
+        p process
+        p text
         if process.respond_to? :process_all
-          process.process_all(message.body.split("\n"), :message => message, :room => room)
+          process.process_all(body.split("\n"), :message => message, :room => room)
         else
           doc = REXML::Document.new "<as>#{text}</as>"
 

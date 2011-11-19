@@ -2,5 +2,4 @@
 - name: quote_it
 - name: twitter_link
 - name: redmine_ticket_link
-  roots: http://www.redmine.org/
 

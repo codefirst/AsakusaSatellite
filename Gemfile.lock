@@ -123,6 +123,8 @@ GEM
     rcov (0.9.11)
     rdoc (3.11)
       json (~> 1.4)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.7.0)
       rspec-core (~> 2.7.0)
       rspec-expectations (~> 2.7.0)
@@ -182,6 +184,7 @@ DEPENDENCIES
   rails (= 3.1.1)
   rails3-generators
   rcov
+  rest-client
   rspec-rails (>= 2.3.0)
   sass
   socky-client (= 0.5.0.beta1)

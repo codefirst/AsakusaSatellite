@@ -3,4 +3,7 @@
 DEPLOY=deploy/${1:-"heroku"}
 BRANCH=$(git branch -l | grep "*" | cut -d " " -f 2)
 git branch --track deploy/heroku origin/deploy/heroku 2> /dev/null
-git rebase --onto master $DEPLOY^ $DEPLOY
+
+ROOT=$(git log --pretty=oneline $BRANCH..$DEPLOY | tail -n 1 | cut -d " " -f 1)
+git rebase --onto $BRANCH $ROOT^ $DEPLOY
+

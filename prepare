@@ -2,7 +2,7 @@
 # seealso: http://d.hatena.ne.jp/bleis-tift/20100305/1267760000
 DEPLOY=deploy/${1:-"heroku"}
 BRANCH=$(git branch -l | grep "*" | cut -d " " -f 2)
-git branch --track deploy/heroku origin/deploy/heroku 2> /dev/null
+git branch --track $DEPLOY origin/$DEPLOY 2> /dev/null
 
 ROOT=$(git log --pretty=oneline $BRANCH..$DEPLOY | tail -n 1 | cut -d " " -f 1)
 git rebase --onto $BRANCH $ROOT^ $DEPLOY

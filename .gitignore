@@ -8,10 +8,6 @@ tmp/**/*
 public/stylesheets/*.css
 coverage/
 public/upload/*
-config/websocket.yml
-config/filter.yml
-config/settings.yml
-config/mongoid.yml
 .autotest
 spec/reports
 spec/fixtures

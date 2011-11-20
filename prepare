@@ -1,0 +1,5 @@
+#!/bin/sh -x
+# seealso: http://d.hatena.ne.jp/bleis-tift/20100305/1267760000
+DEPLOY=deploy/${1:-"heroku"}
+BRANCH=$(git branch -l | grep "*" | cut -d " " -f 2)
+git rebase --onto master $DEPLOY^ $DEPLOY

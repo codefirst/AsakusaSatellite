@@ -1,0 +1,3 @@
+#!/bin/sh
+git checkout master
+git rebase --onto master deploy/heroku^ deploy/heroku

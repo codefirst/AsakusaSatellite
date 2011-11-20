@@ -128,6 +128,10 @@ END
       def default=(name)
         @default = Engine[name].new(@params[name])
       end
+
+      def trigger(*args)
+        @default.trigger(*args) unless Rails.env == 'test'
+      end
     end
   end
 end

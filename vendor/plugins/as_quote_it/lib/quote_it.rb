@@ -1,5 +1,4 @@
 require 'open-uri'
-require 'nokogiri'
 require 'cgi'
 
 class AsakusaSatellite::Filter::QuoteIt < AsakusaSatellite::Filter::Base

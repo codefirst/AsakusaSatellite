@@ -39,28 +39,32 @@ module AsakusaSatellite
         }
       }
 
-      body = CGI.escapeHTML(message.body)
-
-      @process.reduce(body.gsub("\n", "<br />")) do|text, process|
+      # process order
+      # 1. process_all for all lines
+      lines = @process.reduce(CGI.escapeHTML(message.body).split("\n")) do| lines, process|
         if process.respond_to? :process_all
-          process.process_all(body.split("\n"), :message => message, :room => room)
+          process.process_all(lines, :message => message, :room => room)
         else
-          doc = REXML::Document.new "<as>#{text}</as>"
-
-          if process.respond_to? :process
-            doc.each_element('/as/text()').each do|node|
-              s = process.process(node.to_s, :message => message, :room => room)
-
-              children(REXML::Document.new("<as>#{s}</as>")).each do|x|
-                node.parent.insert_before node, x
-              end
-              node.remove
-            end
-
-            children(doc).join
-          end
+          lines
         end
       end
+
+      # 2. process for each text node
+      body = lines.join("<br />")
+      doc  = @process.reduce(REXML::Document.new "<as>#{body}</as>") do|doc, process|
+        if process.respond_to? :process
+          doc.each_element('/as/text()').each do|node|
+            s = process.process(node.to_s, :message => message, :room => room)
+            children(REXML::Document.new("<as>#{s}</as>")).each do|x|
+              node.parent.insert_before node, x
+            end
+            node.remove
+          end
+        end
+        doc
+      end
+
+      children(doc).join
     end
 
     def add_filter(klass, config)

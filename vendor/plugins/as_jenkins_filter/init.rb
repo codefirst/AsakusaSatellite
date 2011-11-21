@@ -1,1 +1,0 @@
-require 'jenkins_filter'

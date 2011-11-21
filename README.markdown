@@ -20,9 +20,10 @@ Requirement
 
 Install
 ----------------
-AsakusaSatellite needs mongod.
+AsakusaSatellite needs mongod and socky.
 
     $ mongod --dbpath <dir_name>
+    $ bundle exec thin -R socky/config.ru -p3002 start
 
 Settings
 

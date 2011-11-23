@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 require 'pathname'
 require 'cgi'
 require 'rexml/document'
@@ -62,6 +63,12 @@ module AsakusaSatellite
           end
         end
         doc
+      end
+
+      # hack for some browser.
+      # Convert <iframe /> to <iframe></iframe>
+      doc.each_element('//iframe') do|node|
+        node << REXML::Text.new('')
       end
 
       children(doc).join

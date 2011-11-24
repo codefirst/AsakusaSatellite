@@ -32,11 +32,8 @@ describe Room do
 
     context "rooms が2個" do
       before do
-        puts Room.all.size
         Room.new(:title => 'room1', :user => nil, :updated_at => Time.now).save
         Room.new(:title => 'room2', :user => nil, :updated_at => Time.now).save
-        puts Room.all.size
-        puts Room.all_live.size
       end
 
       subject { Room.all_live }

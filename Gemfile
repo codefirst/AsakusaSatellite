@@ -12,9 +12,11 @@ group :development, :test do
   gem "rspec-rails", ">= 2.3.0"
   gem 'rcov'
   gem 'nokogiri'
-  gem 'autotest'
-  gem 'autotest-growl'
   gem 'ci_reporter'
+  gem 'spork'
+  gem 'rb-fsevent'
+  gem 'guard-spork'
+  gem 'guard-rspec'
 end
 
 #gem 'SystemTimer'

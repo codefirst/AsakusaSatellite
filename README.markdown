@@ -57,16 +57,9 @@ access to http://localhost:3000/
 
     $ bundle exec rake spec:rcov
 
-#### autotest
+#### auto testing
 
-create .autotest file
-
-    require 'autotest/timestamp'
-    require 'autotest/growl'
-
-run autotest task
-
-    $ bundle exec autotest
+    $ bundle exec guard start
 
 ### Generate Filter Plugin
 

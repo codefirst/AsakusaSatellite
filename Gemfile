@@ -73,6 +73,12 @@ gem 'rest-client'
 #   gem 'webrat'
 # end
 
+group :assets do
+  gem 'sass-rails', "  ~> 3.1.0"
+  gem 'coffee-rails', "~> 3.1.0"
+  gem 'uglifier'
+end
+
 Dir.glob(File.join(File.dirname(__FILE__), 'vendor', 'plugins', '**', "Gemfile")) do |gemfile|
   self.send(:eval, File.open(gemfile, 'r').read)
 end

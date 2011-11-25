@@ -8,7 +8,7 @@
   %meta{:name => "content-script-type", :content => "text/javascript"}
   = javascript_include_tag "jquery.min"
   = javascript_include_tag "rails"
-  = javascript_include_tag :application
+  = javascript_include_tag "application"
   = yield :javascripts
   = csrf_meta_tag
   %link{:rel=>"alternate", :type=>"application/rss+xml", :title=>"RSS", :href=>"?format=rss"}

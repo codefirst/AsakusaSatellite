@@ -1,4 +1,4 @@
-# -*- coding: undecided -*-
+# -*- coding: UTF-8 -*-
 require 'pathname'
 require 'cgi'
 require 'rexml/document'

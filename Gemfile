@@ -79,6 +79,9 @@ group :assets do
   gem 'uglifier'
 end
 
+gem 'execjs'
+gem 'therubyracer'
+
 Dir.glob(File.join(File.dirname(__FILE__), 'vendor', 'plugins', '**', "Gemfile")) do |gemfile|
   self.send(:eval, File.open(gemfile, 'r').read)
 end

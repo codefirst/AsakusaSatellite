@@ -1,3 +1,17 @@
+//= require "jquery.websocket"
+//= require "jquery.chat"
+//= require "jquery.pagination"
+//= require "jquery.append-hack"
+//= require "jquery.autoscroll"
+//= require "jquery.watch"
+//= require 'jquery.dropUploader'
+//= require "jquery.multiline"
+//= require "jquery.notify"
+//= require "jquery.jeditable.mini"
+//= require "jquery.onthespot"
+//= require "jquery.scrollTo-min"
+//= require "jquery.desktopnotify"
+
 $(function() {
     // on the spot
     function onTheSpot(dom){

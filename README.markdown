@@ -20,29 +20,26 @@ Requirement
 
 Install
 ----------------
-AsakusaSatellite needs mongod and socky.
+
+Install dependencies:
+
+    $ bundle install --path vendor/bundle
+
+Excecute mongodb and socky:
 
     $ mongod --dbpath <dir_name>
     $ bundle exec thin -R socky/config.ru -p3002 start
 
-Settings
+Run AsakusaSatellite:
 
-    $ cp config/filter.yml.example config/filter.yml
-    $ cp config/websocket.yml.example config/websocket.yml
-    $ cp config/settings.yml.example config/settings.yml
-    $ cp config/mongoid.yml.example config/mongoid.yml
-    $ cp config/message_pusher.yml.example config/message_pusher.yml
-    $ bundle install --path vendor/bundle
+    $ bundle exec rails server
+
+and access to http://localhost:3000/
 
 ### Install for Developer
 
     $ cp bleis-hooks/* .git/hooks
 
-### Access
-
-    $ bundle exec rails server
-
-access to http://localhost:3000/
 
 ### Test
 #### indivisual testing

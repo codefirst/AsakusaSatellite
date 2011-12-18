@@ -33,7 +33,7 @@ module AsakusaSatellite
     private :children
 
     def process(message, room)
-      @process ||= @config.map{|c|
+      all_process ||= @config.map{|c|
         @plugins.find{|p|
           p.class.name.underscore.split('/')[-1] == c['name']
         }
@@ -41,7 +41,7 @@ module AsakusaSatellite
 
       # process order
       # 1. process_all for all lines
-      lines = @process.reduce(CGI.escapeHTML(message.body).split("\n")) do| lines, process|
+      lines = all_process.reduce(CGI.escapeHTML(message.body).split("\n")) do| lines, process|
         if process.respond_to? :process_all
           process.process_all(lines, :message => message, :room => room)
         else
@@ -51,7 +51,7 @@ module AsakusaSatellite
 
       # 2. process for each text node
       body = lines.join("<br />")
-      doc  = @process.reduce(REXML::Document.new "<as>#{body}</as>") do|doc, process|
+      doc  = all_process.reduce(REXML::Document.new "<as>#{body}</as>") do|doc, process|
         if process.respond_to? :process
           doc.each_element('/as/text()').each do|node|
             s = process.process(node.to_s, :message => message, :room => room)

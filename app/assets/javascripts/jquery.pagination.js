@@ -16,18 +16,24 @@
 	activate(target, function(elem, resume){
 	    target.addClass("loading").empty().html(config.indicator);
 	    $.get( config.url + "?id=" + config.current(), function(content){
-		var dom = $(content).find(config.content);
+		var dom = $(content);
+		var messages = dom.find(config.content);
 		elem.removeClass("loading");
-		if(dom.length == 0){
+		if(messages.length == 0){
 		    elem.empty().html("no more message");
 		} else {
-		    target.trigger('pagination::load', [ dom ]);
+		    target.trigger('pagination::load', [ messages ]);
 
-		    dom.hide();
-		    config.append(dom);
-		    dom.fadeIn();
+		    messages.hide();
+		    config.append(messages);
+		    messages.fadeIn();
+
+                    // scriptタグの挿入
+                    config.append(dom.slice(1));
 
 		    elem.empty().html(original);
+
+
 		    resume();
 		}
 	    });

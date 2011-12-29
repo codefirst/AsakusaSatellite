@@ -73,11 +73,13 @@ gem 'rest-client'
 #   gem 'webrat'
 # end
 
-group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
-  gem 'uglifier'
-end
+
+# enable asset pipeline in future...
+# group :assets do
+#   gem 'sass-rails', "  ~> 3.1.0"
+#   gem 'coffee-rails', "~> 3.1.0"
+#   gem 'uglifier'
+# end
 
 gem 'execjs'
 gem 'therubyracer'

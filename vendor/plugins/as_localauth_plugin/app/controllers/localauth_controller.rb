@@ -13,10 +13,7 @@ class LocalauthController < ApplicationController
         return
       end
 
-      users = User.select do |record|
-        record['screen_name'] == user_name
-      end
-      user = (users.records.size > 0 ? users.first : User.new)
+      user = User.where(:screen_name => user_name).first || User.new
       user.screen_name ||= user_name
       user.name ||= LocalUser[user_name]['screen_name']
       user.profile_image_url = LocalUser[user_name]['profile_image_url']

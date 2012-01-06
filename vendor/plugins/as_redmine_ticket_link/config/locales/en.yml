@@ -1,5 +1,5 @@
 en:
-  input_redmine_root: Redmien root
+  input_redmine_root: Redmine root
   placeholder_redmine_root: http://example.com/redmine/
   input_project_name: Project Name
   placeholder_project_name: some-project

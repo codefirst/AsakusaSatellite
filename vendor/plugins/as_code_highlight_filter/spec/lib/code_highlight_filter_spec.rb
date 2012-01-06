@@ -20,7 +20,7 @@ describe CodeHighlightFilter do
 </pre></div>
 </div>
 END
-    @filter.process_all(plain).should == [ result ]
+    @filter.process_all(plain).join.should have_xml("//div[@class='CodeRay']")
   end
 
   it "graphvizの可視化に対応" do
@@ -39,6 +39,6 @@ END
 
     result = %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&chl=#{CGI.escape graph.strip}" />)
 
-    @filter.process_all(plain.split("\n")).should == [ result ]
+    @filter.process_all(plain.split("\n")).should == result
   end
 end

@@ -1,6 +1,5 @@
 AsakusaSatellite
 ===================
-uethutohueonu
 AsakusaSatellite is a realtime chat application for Developers.
 
 Authors

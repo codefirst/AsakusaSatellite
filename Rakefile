@@ -7,3 +7,9 @@ require 'ci/reporter/rake/rspec'
 
 include Rake::DSL
 AsakusaSatellite::Application.load_tasks
+
+namespace :plugins do
+  RSpec::Core::RakeTask.new(:spec) do|t|
+    t.pattern = "./vendor/plugins/as_*/spec/**/*_spec.rb"
+  end
+end

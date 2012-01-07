@@ -41,6 +41,11 @@ and access to http://localhost:3000/
 
 
 ### Test
+
+You need test db to run tests.
+
+    $ mongod --dbpath <test_dir_name>
+
 #### indivisual testing
 
     $ bundle exec ruby spec/{controller,model}/$(name)_spec.rb

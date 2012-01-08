@@ -37,7 +37,7 @@ and access to http://localhost:3000/
 
 ### Install for Developer
 
-    $ cp bleis-hooks/* .git/hooks
+    $ cp misc/bleis-hooks/* .git/hooks
 
 
 ### Test

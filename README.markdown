@@ -77,10 +77,19 @@ edit config/filters.yml
 
     - name: test_filter
 
-### Thanks
+Thanks
+----------------
 
- * Very cute icons: [mini icons - famfamfam.com](http://www.famfamfam.com/lab/icons/mini/)
+### Very cute icons
 
- * Cool sound: [On-Jin](http://yen-soft.com/ssse/)
+Several icons is created by Mark James and distributed at [mini icons - famfamfam.com](http://www.famfamfam.com/lab/icons/mini/).
 
-Do not redestribute the sound file.
+### Cool sound
+
+Cool sound is created by [On-Jin](http://yen-soft.com/ssse/). Do not redestribute the sound file.
+
+### Redmine logo
+
+Redmine Logo is Copyright (C) 2009 Martin Herr and is licensed under ThereCreative Commons Attribution-Share Alike 2.5 Generic license.
+
+See http://creativecommons.org/licenses/by-sa/2.5/ for more details.

@@ -47,7 +47,8 @@ $(function() {
     // ------------------------------
     $(".message-list")
 	.webSocket({
-            entry : AsakusaSatellite.url.websocket
+            pusher : AsakusaSatellite.pusher,
+            room   : AsakusaSatellite.current.room
 	})
 	.chat({
 	    make : function (message){ return $(message.view); }

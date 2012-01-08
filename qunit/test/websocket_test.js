@@ -2,21 +2,29 @@ module("websocket module");
 
 (function(){
     var target = $('<div />');
-    var mock = null;
-    function MockWs(url) {
-	this.url = url;
-	mock = this;
-	return this;
-    }
-    MockWs.prototype.fire = function(name, arg){
-	this[name](arg);
-    };
-    target.webSocket({ _class : MockWs,
-		       entry : 'ws://example.com' });
 
-    test('entryでURLにアクセスする', function() {
-	equal(mock.url, 'ws://example.com');
-    });
+    var table = {};
+    var MockPusher = {
+        connection : {
+            bind : function(name, f) {
+                table[name] = f;
+            }
+        },
+        subscribe : function(name){
+            return {
+                bind : function(name, f) {
+                    table[name] = f;
+                }
+            }
+        }
+    };
+
+    function fire(name, obj) {
+        table[name](obj);
+    }
+
+    target.webSocket({ pusher  : MockPusher,
+		       room    : 'test-room' });
 
     test('接続時にwebsocket::connectイベントが発生する' , function() {
 	stop(500);
@@ -24,7 +32,7 @@ module("websocket module");
 	    start();
 	    ok(true);
 	});
-	mock.onopen();
+        fire('connected');
     });
 
     test('接続時にwebsocket::errorイベントが発生する' , function() {
@@ -33,7 +41,16 @@ module("websocket module");
 	    start();
 	    equal('msg', msg)
 	});
-	mock.onerror('msg');
+        fire('failed', 'msg');
+    });
+
+    test('切断時にwebsocket::disconnectイベントが発生する' , function() {
+	stop(500);
+	target.bind('websocket::disconnect',function(){
+	    start();
+            ok(true);
+	});
+        fire('disconnected');
     });
 
     test('createメッセージ受信時にwebsokect::createイベントが発生する',function(){
@@ -42,9 +59,9 @@ module("websocket module");
 	    start();
 	    equal('msg', msg)
 	});
-	mock.onmessage({
-	    data : '{ "event" : "create", "content" : "msg" }'
-	});
+        fire('message_create',{
+            'content' : 'msg'
+        });
     });
 
     test('updateメッセージ受信時にwebsokect::updateイベントが発生する',function(){
@@ -53,9 +70,9 @@ module("websocket module");
 	    start();
 	    equal('msg', msg)
 	});
-	mock.onmessage({
-	    data : '{ "event" : "update", "content" : "msg" }'
-	});
+        fire('message_update',{
+            'content' : 'msg'
+        });
     });
 
     test('deleteメッセージ受信時にwebsokect::deleteイベントが発生する',function(){
@@ -64,8 +81,9 @@ module("websocket module");
 	    start();
 	    equal('msg', msg)
 	});
-	mock.onmessage({
-	    data : '{ "event" : "delete", "content" : "msg" }'
+        fire('message_delete', {
+	    'content' : 'msg'
 	});
     });
 })();
+

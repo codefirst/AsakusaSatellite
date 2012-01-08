@@ -2,16 +2,17 @@ module("pagination module");
 
 (function(){
     var target = $('<div />');
-    var append = null;
+    var append = [];
     target.pagination({
 	url     : 'http://example.com/page',
 	content : 'p',
-	append  : function(elem){ append = elem; },
+	append  : function(elem){ append.push(elem); },
 	current : function(){ return 10; }
     });
 
     var url = null;
     $.get = function(_url, f){
+        append = [];
 	ok(true);
 	url = _url;
 	f("<div><p>hello</p><p>world</p></div>");
@@ -24,6 +25,7 @@ module("pagination module");
 
     test("ロードが完了", function(){
 	target.trigger('click');
+                console.log(append);
 	equal(append.length, 2);
     });
 

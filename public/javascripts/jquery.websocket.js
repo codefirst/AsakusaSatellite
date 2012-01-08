@@ -7,7 +7,7 @@
         WEB_SOCKET_DEBUG = true;
         */
 
-        var pusher = AsakusaSatellite.pusher;
+        var pusher = config.pusher;
         var target = this;
         function fire(name, data){
             target.trigger(name, data);
@@ -34,7 +34,7 @@
                          fire('websocket::disconnect', e);
                      });
 
-        var channel = pusher.subscribe('as:' + AsakusaSatellite.current.room );
+        var channel = pusher.subscribe('as:' + config.room );
         channel.bind('message_create',
                      function(obj){
                          var obj = parse(obj);

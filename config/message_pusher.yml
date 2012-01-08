@@ -2,9 +2,9 @@ default: socky
 
 engines:
  pusher:
-  app_id: 7241
-  key:    f36e789c57a0fc0ef70b
-  secret: 1c66d57d4868ff817d5d
+  app_id: your_app_id
+  key:    your_key
+  secret: your_secret
  keima:
   url: http://localhost:3001
   key: 4e7c45a1a2cb660517000001

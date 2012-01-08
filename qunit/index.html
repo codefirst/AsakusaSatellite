@@ -17,16 +17,8 @@
   <script type="text/javascript" src="./lib/qunit/qunit.js"></script>
   <script type="text/javascript" src="./lib/qunit-tap.js"></script>
   <script>
-    if(typeof(console) !== "undefined" && typeof(console.log) === "function") {
-      if(navigator.userAgent.indexOf('AppleWebKit/') > -1) {
-        //can't assign console.log to another variable in webkit. suggestion by willmoffat.
-        //see http://github.com/twada/qunit-tap/commit/6dd544eeb5b60330acf42793c8a197e195703161#commitcomment-169131
-        QUnit.tap.puts = function() { console.log.apply(console,arguments); };
-      } else {
-        QUnit.tap.puts = console.log;
-      }
-    }
-  </script>
+   qunitTap(QUnit, function() { console.log.apply(console, arguments); }, {noPlan: true});
+   </script>
   <script type="text/javascript" src="./test/websocket_test.js"></script>
   <script type="text/javascript" src="./test/chat_test.js"></script>
   <script type="text/javascript" src="./test/pagination_test.js"></script>

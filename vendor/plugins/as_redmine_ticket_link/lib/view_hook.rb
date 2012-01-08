@@ -18,7 +18,6 @@ END
                     "./projects/#{project_name}/issues/new?issue[description]=#{description}&issue[subject]=#{subject}")
     %(<a target="_blank" href="#{url}"><img src="#{path}" /></a>)
   rescue => e
-    p e
     ""
   end
 end

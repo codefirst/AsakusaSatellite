@@ -27,7 +27,7 @@ Install dependencies:
 Excecute mongodb and socky:
 
     $ mongod --dbpath <dir_name>
-    $ bundle exec thin -R socky/config.ru -p3002 start
+    $ bundle exec thin -R socky/config.ru -p3002 -t0 start
 
 Run AsakusaSatellite:
 

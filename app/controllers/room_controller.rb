@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-require 'lib/asakusa_satellite/config'
 class RoomController < ApplicationController
   include RoomHelper
 

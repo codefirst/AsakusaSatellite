@@ -64,7 +64,7 @@ module ChatHelper
            else
              { :content => to_json(message, room) }
            end
-    AsakusaSatellite::MessagePusher.trigger("as:#{room.id}",
+    AsakusaSatellite::MessagePusher.trigger("as-#{room.id}",
                                             "message_#{event}",
                                             data.to_json)
 

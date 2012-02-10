@@ -34,7 +34,7 @@
                          fire('websocket::disconnect', e);
                      });
 
-        var channel = pusher.subscribe('as:' + config.room );
+        var channel = pusher.subscribe('as-' + config.room );
         channel.bind('message_create',
                      function(obj){
                          var obj = parse(obj);

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'pathname'
 require 'cgi'
 require 'rexml/document'
@@ -50,7 +51,7 @@ module AsakusaSatellite
       end
 
       # 2. process for each text node
-      body = lines.join("<br />")
+      body = lines.to_a.join("<br />")
       doc  = all_process.reduce(REXML::Document.new "<as>#{body}</as>") do|doc, process|
         if process.respond_to? :process
           doc.each_element('/as/text()').each do|node|

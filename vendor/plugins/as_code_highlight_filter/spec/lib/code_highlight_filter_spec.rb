@@ -37,7 +37,7 @@ graphviz::
 #{graph}
 END
 
-    result = %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&chl=#{CGI.escape graph.strip}" />)
+    result = %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&amp;chl=#{CGI.escape graph.strip}" />)
 
     @filter.process_all(plain.split("\n")).should == result
   end

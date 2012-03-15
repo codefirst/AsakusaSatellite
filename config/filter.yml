@@ -2,3 +2,4 @@
 - name: auto_link
 - name: redmine_ticket_link
 - name: twitter_link
+- name: emoticon_filter

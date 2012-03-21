@@ -78,6 +78,7 @@ class ChatController < ApplicationController
   def update_message_on_the_spot
     message = Message.find(params[:id])
     if request.post? and  logged? and current_user.id == message.user.id
+      expire_fragment message
       update_message( message.id,  params[:value])
     end
     render :text => message.body

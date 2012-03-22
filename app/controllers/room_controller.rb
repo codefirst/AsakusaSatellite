@@ -57,6 +57,7 @@ class RoomController < ApplicationController
           end.flatten
         end
         @room.save
+        expire_fragment :controller => 'chat', :action => 'room', :id => @room.id
         redirect_to :action => 'configure'
       end
       @members = @room.members.uniq

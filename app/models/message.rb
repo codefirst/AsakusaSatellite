@@ -2,12 +2,13 @@
 class Message
   include Mongoid::Document
   include Mongoid::Timestamps
+  field :created_at
   field :body
   field :room_id
   embeds_one :room
   embeds_one :user
   embeds_many :attachments
-  index :updated_at
+  index :created_at
 
   def encode_json(_)
     self.to_hash.to_json

@@ -3,7 +3,7 @@
 .audio
  %audio{:src => "#{root_path}audio/sound.mp3", :id => :audio}
 .yield
- - cache do
+ - cache :roominfo do
   = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => true }
   = render :partial => "search/search_form", :locals => {:advanced => false, :room => @room}
  %div{:id => 'read-more', :class => 'read-more' }
@@ -13,29 +13,31 @@
    - cache message do
     = render :partial => 'message', :locals => { :message => message, :room => @room }
  - if logged?
-  .input
-   = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
-    =text_area_tag :message, '', :class => :text, :autofocus=>true, :placeholder=> t('placeholder_message')
-    =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
+  - cache :inputfield do
+   .input
+    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
+     =text_area_tag :message, '', :class => :text, :autofocus=>true, :placeholder=> t('placeholder_message')
+     =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
 .chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))
 
 = content_for :javascripts do
- - AsakusaSatellite::MessagePusher.jsFiles.each do|file|
-  = javascript_include_tag file
- = javascript_include_tag "room"
- = javascript_include_tag "jquery.websocket"
- = javascript_include_tag "jquery.chat"
- = javascript_include_tag "jquery.pagination"
- = javascript_include_tag "jquery.append-hack"
- = javascript_include_tag "jquery.autoscroll"
- = javascript_include_tag "jquery.watch"
- = javascript_include_tag "jquery.dropUploader"
- = javascript_include_tag "jquery.multiline"
- = javascript_include_tag "jquery.notify"
- = javascript_include_tag "jquery.jeditable.mini"
- = javascript_include_tag "jquery.onthespot"
- = javascript_include_tag "jquery.scrollTo-min"
- = javascript_include_tag "jquery.desktopnotify"
+ - cache :javascript do
+  - AsakusaSatellite::MessagePusher.jsFiles.each do|file|
+   = javascript_include_tag file
+  = javascript_include_tag "room"
+  = javascript_include_tag "jquery.websocket"
+  = javascript_include_tag "jquery.chat"
+  = javascript_include_tag "jquery.pagination"
+  = javascript_include_tag "jquery.append-hack"
+  = javascript_include_tag "jquery.autoscroll"
+  = javascript_include_tag "jquery.watch"
+  = javascript_include_tag "jquery.dropUploader"
+  = javascript_include_tag "jquery.multiline"
+  = javascript_include_tag "jquery.notify"
+  = javascript_include_tag "jquery.jeditable.mini"
+  = javascript_include_tag "jquery.onthespot"
+  = javascript_include_tag "jquery.scrollTo-min"
+  = javascript_include_tag "jquery.desktopnotify"
  :javascript
   var AsakusaSatellite = {
     current : {

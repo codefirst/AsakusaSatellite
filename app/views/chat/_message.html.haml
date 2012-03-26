@@ -15,7 +15,7 @@
 
   %div.body{ :original => message.body, :id => message.id }
    :plain
-    #{message.html_body(message.room)}
+    #{message.html_body(@room)}
   - unless message.attachments.nil?
    - message.attachments.each do |attachment|
     %div.attachment

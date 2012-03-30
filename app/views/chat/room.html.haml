@@ -10,8 +10,7 @@
   read more
  .message-list
   - @messages.reverse_each do |message|
-   - cache message do
-    = render :partial => 'message', :locals => { :message => message, :room => @room }
+   = render :partial => 'message', :locals => { :message => message, :room => @room }
  - if logged?
   - cache [:inputfield, @room_id] do
    .input

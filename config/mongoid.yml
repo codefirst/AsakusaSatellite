@@ -7,11 +7,11 @@ test:
   database: asakusa_satellite_test
 
 production:
-  host: localhost
-  port: 27017
-  username: root
-  password: pass
-  database: asakusa_satellite
+  host: <%= ENV['MONGODB_HOST'] %>
+  port: <%= ENV['MONGODB_PORT'] %>
+  database: <%= ENV['MONGODB_DATABASE'] %>
+  username: <%= ENV['MONGODB_USERNAME'] %>
+  password: <%= ENV['MONGODB_PASSWORD'] %>
   # slaves:
   #   - host: slave1.local
   #     port: 27018

@@ -23,7 +23,6 @@
 = content_for :javascripts do
  = javascript_include_tag 'jquery.pagination'
  :javascript
-
   $(function() {
     $("#read-prev").pagination({
         current : function(){ return $(".message").first().attr("message-id"); },

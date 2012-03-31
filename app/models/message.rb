@@ -32,18 +32,18 @@ class Message
   end
 
   def prev(offset)
-    Message.where(:room_id => self.room.id, :_id.lt => self._id).order_by(:_id.desc).limit(offset).to_a.reverse
+    Message.where(:room_id => self.room_id, :_id.lt => self._id).order_by(:_id.desc).limit(offset).to_a.reverse
   end
 
   def next(offset)
-    Message.where(:room_id => self.room.id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
+    Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
   def self.find_by_text(params)
     query = params[:text]
-    rooms = params[:rooms] || Room.all_live
+    rooms = (params[:rooms] || Room.all_live).select {|room| not room.deleted}
     rooms.map do |room|
-      messages = Message.where(:room_id => room.id, 'room.deleted' => false, :body => /#{query}/i)
+      messages = Message.where(:room_id => room._id, :body => /#{query}/i)
       { :room => room, :messages => messages }
     end
   end

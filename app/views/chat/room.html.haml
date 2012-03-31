@@ -3,7 +3,7 @@
 .audio
  %audio{:src => "#{root_path}audio/sound.mp3", :id => :audio}
 .yield
- - cache :roominfo do
+ - cache [:roominfo, @room._id] do
   = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => true }
   = render :partial => "search/search_form", :locals => {:advanced => false, :room => @room}
  %div{:id => 'read-more', :class => 'read-more' }

@@ -2,10 +2,10 @@
  .message{'message-id' => message.id , :class => defined?(cssclass) && cssclass }
   %div
    .profile
-    - unless message.user.profile_image_url && message.user.profile_image_url.empty?
+    - unless begin message.user.profile_image_url.empty? rescue true end
      %img.profile{:src => message.user.profile_image_url, :alt => message.user.screen_name}
-    %span.screen-name= message.user.screen_name
-    %span.user-name= message.user.name
+    %span.screen-name= message.user.screen_name rescue "** Unknown user **"
+    %span.user-name= message.user.name rescue "** Unknown user **"
    .update-time
     %a{:href => message_url(:id => message.id, :only_path => true) }= l(message.created_at.utc + 9*60*60)
    .edit-icons

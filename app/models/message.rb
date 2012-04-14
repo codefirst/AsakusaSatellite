@@ -28,7 +28,7 @@ class Message
   end
 
   def html_body(room)
-    AsakusaSatellite::Filter.process self, room
+    AsakusaSatellite::Filter.process self, room || self.room
   end
 
   def prev(offset)

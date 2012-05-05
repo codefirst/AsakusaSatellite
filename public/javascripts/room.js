@@ -61,8 +61,11 @@ $(function() {
 	})
     .bind({
         'websocket::create' : function(){
-            document.getElementById("audio").load();
-            document.getElementById("audio").play();
+            var audio = document.getElementById("audio");
+            if(audio) {
+                document.getElementById("audio").load();
+                document.getElementById("audio").play();
+            }
         },
         'websocket::connect' : function(){
             $("img.websocket-status").attr('src', AsakusaSatellite.resouces.connect);

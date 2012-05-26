@@ -24,6 +24,10 @@ Install dependencies:
 
     $ bundle install --path vendor/bundle
 
+If you upgrade AS from 0.7.0 or older, execute following:
+
+    $ curl https://raw.github.com/gist/2792357/asakusasatellite_migration_for_v0.7.0 | mongo <db_name>
+
 Excecute mongodb and socky:
 
     $ mongod --dbpath <dir_name>

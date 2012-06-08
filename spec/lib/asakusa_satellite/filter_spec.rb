@@ -19,7 +19,7 @@ describe AsakusaSatellite::Filter do
   end
 
   before  do
-    CGI.stub(:escapeHTML){|x| x }
+    REXML::Text.stub(:normalize){|x| x }
   end
 
   describe 'filter text' do

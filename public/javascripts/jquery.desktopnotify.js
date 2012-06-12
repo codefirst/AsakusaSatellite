@@ -9,7 +9,7 @@
         this.click(function(e) {
             if (window.webkitNotifications) {
                 if (window.webkitNotifications.checkPermission()) {
-                    window.webkitNotifications.requestPermission();
+                    window.webkitNotifications.requestPermission(function(){});
                 }
             }
         });

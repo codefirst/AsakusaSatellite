@@ -4,7 +4,6 @@ $link-visited-color: #e597b2
 
 @mixin rounded($radius: 10px)
   :border-radius $radius
-  :-moz-border-radius $radius
   :-webkit-border-radius $radius
 
 
@@ -25,7 +24,7 @@ body
   :margin auto
   :border 1px solid #ccc
   :background-color #fff
-  :-moz-box-shadow 1px 1px 2px #999
+  :box-shadow 1px 1px 2px #999
   :-webkit-box-shadow 1px 1px 2px #999
 
 .footer
@@ -134,13 +133,13 @@ a img
   :padding-left 10px
   :padding-right 10px
   :margin-bottom 3px
-  :-moz-border-radius 5px 5px 5px 5px
+  :border-radius 5px 5px 5px 5px
   :-webkit-border-radius 5px 5px 5px 5px
   :background-color #fcfcfc
   :background -moz-linear-gradient(top, #fcfcfc 40%,#efefef 100%)
   :background -o-linear-gradient(top, #fcfcfc 40%, #efefef 100%)
   :background -webkit-gradient(linear, left top, left bottom, color-stop(0.4, #fcfcfc),color-stop(1, #efefef))
-  :-moz-box-shadow 0 1px 1px #ccc
+  :box-shadow 0 1px 1px #ccc
   :-webkit-box-shadow 0 1px 1px #ccc
   :font-size 90%
   div
@@ -186,9 +185,9 @@ a img
     img
       :max-width 500px
       :max-height 500px
-      :-moz-border-radius 5px 5px 5px 5px
+      :border-radius 5px 5px 5px 5px
       :-webkit-border-radius 5px 5px 5px 5px
-      :-moz-box-shadow 1px 1px 2px #999
+      :box-shadow 1px 1px 2px #999
       :-webkit-box-shadow 1px 1px 2px #999
 
 .message.target
@@ -202,7 +201,7 @@ a img
   :cursor pointer
   :margin-bottom 5px
   :padding 3px
-  :-moz-border-radius 4px
+  :border-radius 4px
   :-webkit-border-radius 4px
   :text-decoration underline
 .read-more:hover
@@ -325,9 +324,9 @@ form.inputarea
   :padding 5px 10px 6px
   :color #fff
   :text-decoration none
-  :-moz-border-radius 6px
+  :border-radius 6px
   :-webkit-border-radius 6px
-  :-moz-box-shadow 0 1px 3px rgba(0,0,0,0.6)
+  :box-shadow 0 1px 3px rgba(0,0,0,0.6)
   :-webkit-box-shadow 0 1px 3px rgba(0,0,0,0.6)
   :text-shadow 0 -1px 1px rgba(0,0,0,0.25)
   :border-bottom 1px solid rgba(0,0,0,0.25)
@@ -395,7 +394,7 @@ form.inputarea
   .main
     :width 300px
     :margin 0
-    :-moz-box-shadow 0 0 0 #fff
+    :box-shadow 0 0 0 #fff
     :-webkit-box-shadow 0 0 0 #fff
   .header
     :margin 0
@@ -414,9 +413,9 @@ form.inputarea
       img
         :max-width 270px
         :max-height 270px
-        :-moz-border-radius 5px 5px 5px 5px
+        :border-radius 5px 5px 5px 5px
         :-webkit-border-radius 5px 5px 5px 5px
-        :-moz-box-shadow 1px 1px 2px #999
+        :box-shadow 1px 1px 2px #999
         :-webkit-box-shadow 1px 1px 2px #999
 
   .text

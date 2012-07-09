@@ -20,6 +20,10 @@ module Api
           @messages = message.next(count)
         else
           room = Room.where(:_id => params[:room_id]).first
+          if room.nil? or (not room.accessible?(current_user))
+            render :json => {:status => 'error', :error => "room #{params[:room_id]} is not exists"}
+            return
+          end
           @messages = room.messages(count)
         end
         respond_with(@messages.map{|m| to_json(m) })
@@ -27,7 +31,7 @@ module Api
 
       def show
         @message = Message.find params[:id]
-        if @message then
+        if @message and @message.room.accessible?(current_user) then
           respond_with(to_json(@message))
         else
           render :json => {:status => 'error', :error => "message #{params[:id]} is not exists"}

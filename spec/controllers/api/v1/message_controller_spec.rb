@@ -22,6 +22,13 @@ describe Api::V1::MessageController do
     end
     @message = @messages.first
 
+    @other_user = User.new(:spell => 'other')
+    @other_user.save
+    @private_room = Room.new(:title => 'private', :is_public => false)
+    @private_room.user = @other_user
+    @private_room.save
+    @secret_message = Message.new(:room => @private_room, :user => @other_user, :body => 'secret message').tap{|m| m.save! }
+
     Attachment.stub(:where){ nil }
   end
 
@@ -88,6 +95,24 @@ describe Api::V1::MessageController do
       it { should have(1).items }
     end
   end
+
+  describe "プライベートルーム" do
+    describe "一覧" do
+      before {
+        get :list, :room_id => @private_room.id, :format => 'json'
+      }
+      subject { response.body }
+      it { should have_json("/status[text() = 'error']") }
+    end
+
+    describe "個別取得" do
+      before {
+        get :show, :id => @secret_message.id, :format => 'json'
+      }
+      subject { response.body }
+      it { should have_json("/status[text() = 'error']") }
+    end
+   end
 
   share_examples_for '成功'  do
     subject { response.body }

@@ -10,6 +10,12 @@ describe Api::V1::RoomController do
     @room = Room.new(:title => 'title')
     @room.user = @user
     @room.save
+
+    @other_user = User.new(:spell => 'other')
+    @other_user.save
+    @private_room = Room.new(:title => 'private', :is_public => false)
+    @private_room.user = @other_user
+    @private_room.save
   end
 
   share_examples_for '成功する'  do
@@ -57,12 +63,32 @@ describe Api::V1::RoomController do
   end
 
   describe "部屋の一覧" do
-    before {
-      post :list, :api_key => @user.spell, :format => 'json'
-    }
-    subject { response.body }
+    context "パブリックな部屋" do
+      before {
+        post :list, :api_key => @user.spell, :format => 'json'
+      }
+      subject { response.body }
 
-    it { should have_json("/id[text() = '#{@room._id}']") }
+      it { should have_json("/id[text() = '#{@room._id}']") }
+    end
+    context "プライベートな部屋は見えない" do
+      before {
+        post :list, :api_key => @user.spell, :format => 'json'
+      }
+      subject { response.body }
+
+      it { should have_json("/id[text() = '#{@room._id}']") }
+      it { should_not have_json("/id[text() = '#{@private_room._id}']") }
+    end
+    context "作った人にはプライベートな部屋が見える" do
+      before {
+        post :list, :api_key => @other_user.spell, :format => 'json'
+      }
+      subject { response.body }
+
+      it { should have_json("/id[text() = '#{@room._id}']") }
+      it { should have_json("/id[text() = '#{@private_room._id}']") }
+    end
   end
 
   describe "メンバの追加" do

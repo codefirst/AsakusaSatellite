@@ -2,11 +2,6 @@
 class RoomController < ApplicationController
   include RoomHelper
 
-  # falseにするリスト
-  def true?(x)
-    not ['0', false, nil].include?(x)
-  end
-
   def create
     if current_user.nil?
       redirect_to :controller => 'chat'
@@ -72,6 +67,10 @@ class RoomController < ApplicationController
       return true if member.id.to_s == user.id.to_s
     end
     false
+  end
+
+  def true?(x)
+    not ['0', false, nil].include?(x)
   end
 
 end

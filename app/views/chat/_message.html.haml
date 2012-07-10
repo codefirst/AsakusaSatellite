@@ -1,5 +1,6 @@
-- cache message do
- .message{'message-id' => message.id , :class => defined?(cssclass) && cssclass }
+- cssclass = nil unless defined?(cssclass)
+- cache [message, cssclass] do
+ .message{'message-id' => message.id , :class => cssclass }
   %div
    .profile
     - unless begin message.user.profile_image_url.empty? rescue true end

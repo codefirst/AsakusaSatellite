@@ -14,7 +14,7 @@
  .message-list
   - @prev.each do |message|
    = render :partial => 'message', :locals => { :message => message, :room => @room }
-  = render :partial => 'message', :locals => { :message => @message, :cssclass => 'target' }
+  = render :partial => 'message', :locals => { :message => @message, :room => @room, :cssclass => 'target' }
   - @next.each do |message|
    = render :partial => 'message', :locals => { :message => message, :room => @room }
  %div{:id => 'read-next', :class => 'read-more' }

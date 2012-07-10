@@ -5,5 +5,5 @@
   = render :partial => "shared/room_info", :locals => { :room => result[:room], :has_button => false }
   .message-list
   - result[:messages].each do |message|
-   = render :partial => 'chat/message', :locals => { :message => message }
+   = render :partial => 'chat/message', :locals => { :message => message, :room => message.room }
 

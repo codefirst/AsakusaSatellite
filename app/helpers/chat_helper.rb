@@ -57,6 +57,14 @@ module ChatHelper
     message.to_hash.merge( :view => view )
   end
 
+  def cache_message(message, has_class, &block)
+    if has_class
+      block.call
+    else
+      cache(message, &block)
+    end
+  end
+
   private
   def publish_message(event, message, room)
     data = if event == :delete then

@@ -68,6 +68,11 @@ describe Message do
     it { should == [ @messages[6], @messages[7] ] }
   end
 
+  describe "between" do
+    subject { between = Message.between(@message.room_id, @messages[3].id, @messages[5].id, 2) }
+    it { should == [@messages[4], @messages[5]] }
+  end
+
   share_examples_for 'メッセージ有'  do
     subject { @result.first }
     its([:room]) { should == @room }

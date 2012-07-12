@@ -11,6 +11,8 @@ module ApiHelper
 
     unless logged?
       render :json => {:status => 'error', :error => 'login not yet'}
+      return false
     end
+    true
   end
 end

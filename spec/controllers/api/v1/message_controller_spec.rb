@@ -65,6 +65,17 @@ describe Api::V1::MessageController do
       end
     end
 
+    describe "since_id と until_id を指定" do
+      before {
+        get :list, :room_id => @room.id, :since_id => @messages[24].id, :until_id => @messages[26].id , :count => 2, :format => 'json'
+      }
+
+      subject { assigns[:messages] }
+      it { should be_include(@messages[25]) }
+      it { should be_include(@messages[26]) }
+      it { should_not be_include(@messages[24]) }
+    end
+
     describe "until_idを指定" do
       before {
         get :list, :room_id => @room.id, :until_id => @messages[25].id , :format => 'json'

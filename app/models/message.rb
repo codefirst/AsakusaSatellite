@@ -39,6 +39,10 @@ class Message
     Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
+  def self.between(room_id, from_id, to_id, count)
+    Message.where(:room_id => room_id).where(:_id.gte => from_id).where(:_id.lte => to_id).order_by(:_id.desc).limit(count).to_a.reverse
+  end
+
   def self.find_by_text(params)
     query = params[:text]
     rooms = (params[:rooms] || Room.all_live).select {|room| not room.deleted}

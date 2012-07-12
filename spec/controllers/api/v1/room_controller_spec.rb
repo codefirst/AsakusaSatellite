@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# -*- codi6ng: utf-8 -*-
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe Api::V1::RoomController do

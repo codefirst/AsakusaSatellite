@@ -56,6 +56,7 @@ class RoomController < ApplicationController
         redirect_to :action => 'configure'
       end
       @members = @room.members.uniq
+      @room.members = @members
     end
   end
 

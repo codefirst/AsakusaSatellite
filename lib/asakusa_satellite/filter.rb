@@ -42,7 +42,8 @@ module AsakusaSatellite
 
       # process order
       # 1. process_all for all lines
-      lines = all_process.reduce(REXML::Text.normalize(message.body || "").split("\n")) do| lines, process|
+      raw_lines = CGI.escapeHTML(message.body || "").split("\n")
+      lines = all_process.reduce(raw_lines) do| lines, process|
         if process.respond_to? :process_all
           process.process_all(lines, :message => message, :room => room)
         else

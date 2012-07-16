@@ -14,7 +14,7 @@ module Api
         return unless accessible?(room)
         count = params[:count] ? params[:count].to_i : 20
         if params[:until_id] or params[:since_id]
-          @messages = room.messages_between(params[:since_id], params[:until_id], count) 
+          @messages = room.messages_between(params[:since_id], params[:until_id], count)
         else
           @messages = room.messages(count)
         end
@@ -26,7 +26,7 @@ module Api
         if @message and @message.room.accessible?(current_user) then
           respond_with(to_json(@message))
         else
-          render :json => {:status => 'error', :error => "message #{params[:id]} does not exists"}
+          render :json => {:status => 'error', :error => "message #{params[:id]} does not exist"}
         end
       end
 
@@ -61,14 +61,14 @@ module Api
       private
       def accessible?(room)
         if room.nil?
-          render :json => {:status => 'error', :error => "room #{room_id} does not exists"}
+          render :json => {:status => 'error', :error => "room #{room_id} does not exist"}
           return false
         end
         unless room.is_public
           return false unless check_spell
         end
         unless room.accessible?(current_user)
-          render :json => {:status => 'error', :error => "room #{room_id} does not exists"}
+          render :json => {:status => 'error', :error => "room #{room_id} does not exist"}
           return false
         end
         true

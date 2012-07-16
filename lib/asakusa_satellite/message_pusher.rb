@@ -31,7 +31,7 @@ module AsakusaSatellite
       end
 
       def jsFiles
-        [ "http://js.pusherapp.com/1.9/pusher.min.js" ]
+        [ "https://d3dy5gmtp8yhk7.cloudfront.net/1.9/pusher.min.js" ]
       end
 
       def jsClass

@@ -78,10 +78,16 @@ describe Room do
                     :room => @room).tap{|m| m.save! }
       end
     end
+    describe "messages" do
+      subject { @room.messages(5) }
+      it { should have(5).items }
+      it { should == @messages[6..-1] }
+    end
 
-    subject { @room.messages(5) }
-    it { should have(5).items }
-    it { should == @messages[6..-1] }
+    describe "messages_between" do
+      subject { between = @room.messages_between(@messages[3].id, @messages[5].id, 2) }
+      it { should == [@messages[3], @messages[4]] }
+    end
   end
 
   describe "accessible?" do

@@ -11,24 +11,10 @@ module Api
       def list
         room_id = params[:room_id]
         room = Room.where(:_id => room_id).first
-        unless room.is_public
-          return unless check_spell
-        end
-        if room.nil? or (not room.accessible?(current_user))
-          render :json => {:status => 'error', :error => "room #{room_id} is not exists"}
-          return
-        end
+        return unless accessible?(room)
         count = params[:count] ? params[:count].to_i : 20
-        case
-        when (params[:until_id] and params[:since_id])
-          @messages = Message.between(room_id, params[:since_id], params[:until_id], count)
-        when params[:until_id]
-          message = Message.where(:room_id => room_id).where(:_id => params[:until_id]).first
-          @messages = message.prev(count-1)
-          @messages << message
-        when params[:since_id]
-          message = Message.where(:room_id => room_id).where(:_id => params[:since_id]).first
-          @messages = message.next(count)
+        if params[:until_id] or params[:since_id]
+          @messages = room.messages_between(params[:since_id], params[:until_id], count) 
         else
           @messages = room.messages(count)
         end
@@ -70,6 +56,22 @@ module Api
         end
         delete_message(params[:id])
         render :json => {:status => 'ok'}
+      end
+
+      private
+      def accessible?(room)
+        if room.nil?
+          render :json => {:status => 'error', :error => "room #{room_id} is not exists"}
+          return false
+        end
+        unless room.is_public
+          return false unless check_spell
+        end
+        unless room.accessible?(current_user)
+          render :json => {:status => 'error', :error => "room #{room_id} is not exists"}
+          return false
+        end
+        true
       end
     end
   end

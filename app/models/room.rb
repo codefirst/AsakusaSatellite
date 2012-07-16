@@ -44,6 +44,18 @@ class Room
     Message.where("room_id" => id).order_by(:_id.desc).limit(offset).to_a.reverse
   end
 
+  def messages_between(from_id, to_id, count)
+    rel = Message.where(:room_id => self.id)
+    rel = rel.where(:_id.gte => from_id) if from_id
+    rel = rel.where(:_id.lte => to_id) if to_id
+    if (not from_id and to_id)
+      rel = rel.order_by(:_id.desc)
+    else
+      rel = rel.order_by(:_id.asc)
+    end
+    rel.limit(count).to_a
+  end
+
   def to_json
     {
       :id => self.id,

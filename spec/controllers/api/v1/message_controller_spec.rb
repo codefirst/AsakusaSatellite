@@ -71,9 +71,9 @@ describe Api::V1::MessageController do
       }
 
       subject { assigns[:messages] }
+      it { should be_include(@messages[24]) }
       it { should be_include(@messages[25]) }
-      it { should be_include(@messages[26]) }
-      it { should_not be_include(@messages[24]) }
+      it { should_not be_include(@messages[26]) }
     end
 
     describe "until_idを指定" do
@@ -94,7 +94,7 @@ describe Api::V1::MessageController do
 
       subject { assigns[:messages] }
       it { should_not be_include(@messages[24]) }
-      it { should_not be_include(@messages[25]) }
+      it { should be_include(@messages[25]) }
       it { should be_include(@messages[26]) }
     end
 

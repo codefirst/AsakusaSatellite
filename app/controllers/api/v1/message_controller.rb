@@ -26,7 +26,7 @@ module Api
         if @message and @message.room.accessible?(current_user) then
           respond_with(to_json(@message))
         else
-          render :json => {:status => 'error', :error => "message #{params[:id]} is not exists"}
+          render :json => {:status => 'error', :error => "message #{params[:id]} does not exists"}
         end
       end
 
@@ -61,14 +61,14 @@ module Api
       private
       def accessible?(room)
         if room.nil?
-          render :json => {:status => 'error', :error => "room #{room_id} is not exists"}
+          render :json => {:status => 'error', :error => "room #{room_id} does not exists"}
           return false
         end
         unless room.is_public
           return false unless check_spell
         end
         unless room.accessible?(current_user)
-          render :json => {:status => 'error', :error => "room #{room_id} is not exists"}
+          render :json => {:status => 'error', :error => "room #{room_id} does not exists"}
           return false
         end
         true

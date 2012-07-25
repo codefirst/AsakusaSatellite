@@ -1,5 +1,10 @@
 AsakusaSatellite
 ===================
+
+[![Build Status](https://secure.travis-ci.org/codefirst/AsakusaSatellite.png?branch=master)](http://travis-ci.org/codefirst/AsakusaSatellite)
+
+Overview
+----------------
 AsakusaSatellite is a realtime chat application for Developers.
 
 Authors

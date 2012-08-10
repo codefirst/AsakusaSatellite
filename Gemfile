@@ -21,10 +21,6 @@ gem 'oauth'
 gem 'json', "= 1.5.3"
 gem 'on_the_spot'
 
-# push notification
-gem 'apns'
-gem 'c2dm'
-
 # for heroku
 gem 'hassle', :git => 'git://github.com/koppen/hassle.git'
 

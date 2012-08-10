@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'yaml'
 
 describe Setting do
-  before do 
+  before do
     @settings = YAML.load(File.open("#{Rails.root}/config/settings.yml"))
   end
 

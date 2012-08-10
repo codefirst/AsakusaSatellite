@@ -1,4 +1,4 @@
-(function($){
+(function($, document, undefined){
     $.fn.dropUploader = function(options){
         var self       = this;
         var options    = options;
@@ -189,4 +189,4 @@
         });
         return result;
     }
-})(jQuery);
+})(jQuery, document);

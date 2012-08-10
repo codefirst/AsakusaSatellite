@@ -1,3 +1,5 @@
+(function($, document, undefined) {
+
 $.fn.__append = $.fn.append;
 $.fn.append = function(){
     var ret = this.__append.apply(this, arguments);
@@ -18,3 +20,5 @@ $.fn.before = function(value){
     value.trigger("as::before", Array.prototype.slice.call(arguments));
     return ret;
 };
+
+})(jQuery, document);

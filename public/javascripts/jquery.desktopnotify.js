@@ -1,10 +1,10 @@
 /**
  * jQuery plugin to use webkit Notifications
- * @author RAISIN
+ * @author codefirst
  * @lisence MIT Lisence
- * @version 0.0.1
+ * @version 0.0.2
  */
-(function($){
+(function($, document, undefined){
     $.fn.desktopNotifyAddPermission = function(options) {
         this.click(function(e) {
             if (window.webkitNotifications) {
@@ -46,4 +46,4 @@
 
         return this;
     };
-})(jQuery);
+})(jQuery, document);

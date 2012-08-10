@@ -1,4 +1,4 @@
-(function($) {
+(function($, document, undefined) {
     jQuery.fn.webSocket = function(config){
         /*
         Pusher.log = function(message) {
@@ -54,4 +54,4 @@
                      });
         return this;
     }
-})(jQuery);
+})(jQuery, document);

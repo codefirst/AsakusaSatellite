@@ -15,7 +15,7 @@
 $(function() {
     // on the spot
     function onTheSpot(dom){
-	// You can edit your own message
+        // You can edit your own message
         if (dom.find('.screen-name').text() == AsakusaSatellite.current.user) {
             dom.find(".own-message").show();
             var body = dom.find(".body");
@@ -46,19 +46,19 @@ $(function() {
     // chat
     // ------------------------------
     $(".message-list")
-	.webSocket({
-            pusher : AsakusaSatellite.pusher,
-            room   : AsakusaSatellite.current.room
-	})
-	.chat({
-	    make : function (message){ return $(message.view); }
-	})
-	.watch('div.message', function(elem){
-	    onTheSpot(elem);
-	})
-	.notify({
-	    current_user : AsakusaSatellite.current.user
-	})
+    .webSocket({
+        pusher : AsakusaSatellite.pusher,
+        room   : AsakusaSatellite.current.room
+    })
+    .chat({
+        make : function (message){ return $(message.view); }
+    })
+    .watch('div.message', function(elem){
+        onTheSpot(elem);
+    })
+    .notify({
+        current_user : AsakusaSatellite.current.user
+    })
     .bind({
         'websocket::create' : function(){
             var audio = document.getElementById("audio");
@@ -84,23 +84,23 @@ $(function() {
     $('textarea#message').multiline();
 
     $('form.inputarea').bind('submit', function(e){
-	e.preventDefault();
-	jQuery.post(AsakusaSatellite.url.create, {
-	    'room_id' : AsakusaSatellite.current.room,
-	    'message' : $('textarea#message').val()
-	});
-	$('textarea#message').val('');
+        e.preventDefault();
+        jQuery.post(AsakusaSatellite.url.create, {
+            'room_id' : AsakusaSatellite.current.room,
+            'message' : $('textarea#message').val()
+        });
+        $('textarea#message').val('');
     });
 
     // ------------------------------
     // pagination
     // ------------------------------
     $("#read-more").pagination({
-	current : function(){ return $(".message").first().attr("message-id"); },
-	content : "div.message",
-	append  : function(elem){ $(".message-list").prepend(elem); },
-	url : AsakusaSatellite.url.prev,
-	indicator : AsakusaSatellite.resouces.ajaxLoader
+        current : function(){ return $(".message").first().attr("message-id"); },
+        content : "div.message",
+        append  : function(elem){ $(".message-list").prepend(elem); },
+        url : AsakusaSatellite.url.prev,
+        indicator : AsakusaSatellite.resouces.ajaxLoader
     });
 
     // ------------------------------
@@ -112,12 +112,11 @@ $(function() {
     // File DnD
     // ------------------------------
     uploadConfig = {
-	action : AsakusaSatellite.url.message,
-	params : [{ room_id : AsakusaSatellite.current.room},
-		  { authenticity_token: AsakusaSatellite.form_auth }]
+        action : AsakusaSatellite.url.message,
+        params : [{ room_id : AsakusaSatellite.current.room},
+            { authenticity_token: AsakusaSatellite.form_auth }]
     };
     $('.message-list').dropUploader(uploadConfig);
     $('#message').dropUploader(uploadConfig);
 });
-
 

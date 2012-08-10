@@ -92,7 +92,6 @@ GEM
       tzinfo (~> 0.3.22)
     multi_json (1.0.3)
     multi_xml (0.4.1)
-    nokogiri (1.5.0)
     oauth (0.4.5)
     on_the_spot (0.0.16)
       json_pure (>= 1.4.6)
@@ -200,7 +199,6 @@ DEPENDENCIES
   jquery-rails
   json (= 1.5.3)
   mongoid (= 2.3.0)
-  nokogiri
   oauth
   on_the_spot
   pusher

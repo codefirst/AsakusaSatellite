@@ -32,7 +32,6 @@ group :development, :test do
   gem "rails3-generators"
   gem "rspec-rails", ">= 2.3.0"
   gem 'rcov'
-  gem 'nokogiri'
   gem 'ci_reporter'
   gem 'spork'
   gem 'rb-fsevent'

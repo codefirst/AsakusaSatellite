@@ -151,7 +151,8 @@
                                 }
                             }
                             var filename = files[i].name;
-                            var action = _getAction(options['action'], files[i].fileName);
+                            var action = _getAction(options['action'],
+                                                    (files[i].fileName || files[i].name));
                             xhr.open('post', action);
                             xhr.onreadystatechange = function(e){
                                 if(this instanceof XMLHttpRequest && this.readyState === 4){

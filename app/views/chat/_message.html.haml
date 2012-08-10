@@ -21,10 +21,11 @@
     - message.attachments.each do |attachment|
      %div.attachment
       %p
-       %a{:target => "_blank", :href => root_path + "upload/" + File.basename(attachment.disk_filename) }
+       - filepath = Setting[:use_attachment_alias] ? "watage/show/" : (Setting[:attachment_path] + "/")
+       %a{:target => "_blank", :href => root_path + filepath + File.basename(attachment.disk_filename) }
         - if image_mimetype?(attachment.mimetype)
-         %img{:src => root_path + "upload/" + File.basename(attachment.disk_filename)}
+         %img{:src => root_path + filepath + File.basename(attachment.disk_filename)}
       %p
-       %a{:target => "_blank", :href => root_path + "upload/" + File.basename(attachment.disk_filename) }
+       %a{:target => "_blank", :href => root_path + filepath + File.basename(attachment.disk_filename) }
         = image_tag("page_attachment.gif")
         = attachment.filename

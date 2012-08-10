@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'uuidtools'
 class Attachment
-  UPLOAD_DIR = "#{Rails.root}/public/upload"
+  UPLOAD_DIR = "#{Rails.root}/#{Setting[:attachment_path]}"
 
   include Mongoid::Document
   include Mongoid::Timestamps

@@ -4,3 +4,5 @@ oauth_request_site: "http://twitter.com"
 #login_link : "redmineauth"
 #login_link_redmine: Redmine URL
 
+attachment_path: "upload"
+use_attachment_alias: false

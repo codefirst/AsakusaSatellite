@@ -1,5 +1,4 @@
-require 'oauth'
-require 'json'
+# -*- encoding: utf-8 -*-
 class LoginController < ApplicationController
   protect_from_forgery :only => ["logout"]
 

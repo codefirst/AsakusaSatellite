@@ -6,7 +6,7 @@ module AsakusaSatellite
     end
 
     def self.rooms
-      @rooms
+      @rooms || []
     end
   end
 end

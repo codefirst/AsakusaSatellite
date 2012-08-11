@@ -75,7 +75,7 @@ module AsakusaSatellite
       end
 
       def escape(str)
-        URI.escape(URI.escape(str), "&")
+        URI.escape(URI.escape(str), /[&+]/)
       end
     end
 
@@ -139,4 +139,3 @@ END
     end
   end
 end
-

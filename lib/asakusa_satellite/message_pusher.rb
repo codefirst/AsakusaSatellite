@@ -68,10 +68,14 @@ module AsakusaSatellite
       private
       def post(url,params)
         uri = URI.parse(url)
-        body = params.map{|key,value| "#{URI.escape(key.to_s)}=#{URI.escape(value)}" }.join('&')
+        body = params.map{|key,value| "#{escape(key.to_s)}=#{escape(value)}" }.join('&')
         Net::HTTP.start(uri.host, uri.port) do |http|
           http.post(uri.path, body)
         end
+      end
+
+      def escape(str)
+        URI.escape(URI.escape(str), "&")
       end
     end
 

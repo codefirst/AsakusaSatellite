@@ -143,11 +143,11 @@ GEM
       railties (~> 3.0)
       rspec (~> 2.7.0)
     ruby-hmac (0.4.0)
-    sass (3.2.0)
-    sass-rails (3.1.6)
+    sass (3.1.21)
+    sass-rails (3.1.5)
       actionpack (~> 3.1.0)
       railties (~> 3.1.0)
-      sass (>= 3.1.10)
+      sass (~> 3.1.10)
       tilt (~> 1.3.2)
     signature (0.1.2)
       ruby-hmac
@@ -210,7 +210,7 @@ DEPENDENCIES
   rcov
   rest-client
   rspec-rails (>= 2.3.0)
-  sass-rails
+  sass-rails (= 3.1.5)
   socky-client (>= 0.5.0.beta1)
   socky-server (>= 0.5.0.beta1)
   spork

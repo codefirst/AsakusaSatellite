@@ -15,7 +15,7 @@ gem 'thin'
 # html
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'sass-rails'
+gem 'sass-rails', '= 3.1.5'
 
 # util
 gem 'on_the_spot'

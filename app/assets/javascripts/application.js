@@ -1,3 +1,7 @@
+//= require jquery.min
+//= require rails
+//= require_self
+
 var AsakusaSatelliteUtil = {
     onMessageHover : function(dom) {
         dom.hover(function(e) {

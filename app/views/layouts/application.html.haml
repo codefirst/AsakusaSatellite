@@ -3,11 +3,9 @@
  %head
   %meta{'http-equiv'=>'content', :content=>'text/thml; charset=utf-8'}
   %meta{:name => "content-style-type", :content => "text/css"}
-  = stylesheet_link_tag 'main'
+  = stylesheet_link_tag 'application'
   %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"}
   %meta{:name => "content-script-type", :content => "text/javascript"}
-  = javascript_include_tag "jquery.min"
-  = javascript_include_tag "rails"
   = javascript_include_tag "application"
   = yield :javascripts
   = csrf_meta_tag

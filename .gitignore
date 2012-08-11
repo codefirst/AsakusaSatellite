@@ -6,7 +6,6 @@ tmp/**/*
 .rvmrc
 *~
 .DS_Store
-public/stylesheets/*.css
 coverage/
 public/upload/*
 .autotest

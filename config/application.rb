@@ -5,6 +5,7 @@ require File.expand_path('../boot', __FILE__)
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
+require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
 # If you have a Gemfile, require the gems listed there, including any gems
@@ -54,12 +55,11 @@ module AsakusaSatellite
 
     config.generators do |g|
       g.orm :mongo_mapper
-      g.template_engine :haml
       g.test_framework  :rspec, :fixture => true
     end
 
     # Enable the asset pipeline
-    # config.assets.enabled = true
+    config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

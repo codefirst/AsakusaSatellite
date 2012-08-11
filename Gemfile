@@ -13,22 +13,25 @@ gem 'socky-server', '>= 0.5.0.beta1'
 gem 'thin'
 
 # html
-gem "uuidtools"
-gem 'haml-rails'
-gem 'sass'
 gem 'jquery-rails'
+gem 'haml-rails'
+gem 'sass-rails'
+
+# util
+gem 'on_the_spot'
+gem "uuidtools"
 gem 'oauth'
 gem 'json', "= 1.5.3"
-gem 'on_the_spot'
-
-# for heroku
-gem 'hassle', :git => 'git://github.com/koppen/hassle.git'
 
 group :development, :test do
+  gem "execjs"
+  gem "therubyracer"
   gem "rails3-generators"
+
   gem "rspec-rails", ">= 2.3.0"
   gem 'rcov', :platforms => :ruby_18
   gem 'ci_reporter'
+
   gem 'spork'
   gem 'rb-fsevent'
   gem 'guard-spork'

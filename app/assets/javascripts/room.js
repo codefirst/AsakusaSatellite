@@ -2,13 +2,11 @@
 //= require "jquery.chat"
 //= require "jquery.pagination"
 //= require "jquery.append-hack"
-//= require "jquery.scrollTo-min"
 //= require "jquery.autoscroll"
 //= require "jquery.watch"
 //= require 'jquery.dropUploader'
 //= require "jquery.multiline"
 //= require "jquery.notify"
-//= require "jquery.jeditable.mini"
 //= require "jquery.onthespot"
 //= require "jquery.desktopnotify"
 

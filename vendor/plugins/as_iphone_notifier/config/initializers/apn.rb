@@ -9,6 +9,7 @@ pem = ENV['PEM']
 
 if pem
    content = Base64.decode64(pem.gsub('\n', "\n"))
+   content.force_encoding('utf-8') rescue content # TODO remove me
 else
    warn "Set ENV['PEM'] for Notification"
    content = ''

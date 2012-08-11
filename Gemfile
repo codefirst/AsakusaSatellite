@@ -27,7 +27,7 @@ gem 'hassle', :git => 'git://github.com/koppen/hassle.git'
 group :development, :test do
   gem "rails3-generators"
   gem "rspec-rails", ">= 2.3.0"
-  gem 'rcov'
+  gem 'rcov', :platforms => :ruby_18
   gem 'ci_reporter'
   gem 'spork'
   gem 'rb-fsevent'

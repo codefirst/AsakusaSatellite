@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'asakusa_satellite/hook'
 class AsakusaSatellite::Hook::ASAndroidNotifier < AsakusaSatellite::Hook::Listener
 

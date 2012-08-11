@@ -1,5 +1,5 @@
 #! /opt/local/bin/ruby -w
-# -*- mode:ruby; coding:utf-8 -*-
+# -*- mode:ruby; encoding:utf-8 -*-
 require 'base64'
 
 #APNS.host = 'gateway.push.apple.com'

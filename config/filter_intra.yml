@@ -1,5 +1,5 @@
 - name: code_highlight_filter
-- name: quote_it
+- name: auto_link
 - name: redmine_ticket_link
 - name: twitter_link
 - name: emoticon_filter

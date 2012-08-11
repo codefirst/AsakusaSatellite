@@ -10,8 +10,10 @@ config = lambda do|name|
   YAML::load(ERB.new(File.read(File.expand_path("../#{name}.yml", __FILE__))).result)
 end
 
-AsakusaSatellite::Filter.initialize! config['filter']
-AsakusaSatellite::Hook.initialize! config['filter']
+filter = ENV['FILTER_NAME'] || 'filter_intra'
+
+AsakusaSatellite::Filter.initialize! config[filter]
+AsakusaSatellite::Hook.initialize! config[filter]
 AsakusaSatellite::MessagePusher.engines = config['message_pusher']['engines']
 AsakusaSatellite::MessagePusher.default = config['message_pusher']['default']
 

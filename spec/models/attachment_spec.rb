@@ -25,10 +25,10 @@ describe Attachment do
     }
 
     subject {
-     Attachment.create_and_save_file(File.basename(__FILE__),
-                                     StringIO.new(""),
-                                     'text/plain',
-                                     Message.new)
+      Attachment.create_and_save_file(File.basename(__FILE__),
+                                      StringIO.new(""),
+                                      'text/plain',
+                                      Message.new)
     }
     its(:filename) { should == File.basename(__FILE__) }
     it { File.should be_exists(subject.disk_filename) }

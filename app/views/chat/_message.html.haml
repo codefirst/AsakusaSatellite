@@ -21,7 +21,7 @@
     - message.attachments.each do |attachment|
      %div.attachment
       %p
-       - filepath = Setting[:use_attachment_alias] ? "watage/show/" : (Setting[:attachment_path] + "/")
+       - filepath = Setting[:use_attachment_alias] ? "watage/show/" : (Setting[:attachment_path].sub("public/","") + "/")
        %a{:target => "_blank", :href => root_path + filepath + File.basename(attachment.disk_filename) }
         - if image_mimetype?(attachment.mimetype)
          %img{:src => root_path + filepath + File.basename(attachment.disk_filename)}

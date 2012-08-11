@@ -4,5 +4,9 @@ oauth_request_site: "http://twitter.com"
 #login_link : "redmineauth"
 #login_link_redmine: Redmine URL
 
+# file attachment setting for local storage
 attachment_path: "upload"
 use_attachment_alias: false
+# file attachment setting for heroku temporary directory
+# attachment_path: "tmp"
+# use_attachment_alias: true

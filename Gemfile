@@ -15,7 +15,10 @@ gem 'thin'
 # html
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'sass-rails', '= 3.1.5'
+gem 'sass-rails', '= 3.1.5' # for Rails 3.1
+gem "execjs"
+gem "therubyracer"
+gem 'uglifier', '>= 1.0.3'
 
 # util
 gem 'on_the_spot'
@@ -24,8 +27,6 @@ gem 'oauth'
 gem 'json', "= 1.5.3"
 
 group :development, :test do
-  gem "execjs"
-  gem "therubyracer"
   gem "rails3-generators"
 
   gem "rspec-rails", ">= 2.3.0"

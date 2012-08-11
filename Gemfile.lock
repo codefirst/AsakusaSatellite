@@ -179,6 +179,9 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.30)
+    uglifier (1.2.4)
+      execjs (>= 0.3.0)
+      multi_json (>= 1.0.2)
     uuidtools (2.1.2)
     websocket-rack (0.3.1)
       em-websocket (~> 0.3.1)
@@ -216,4 +219,5 @@ DEPENDENCIES
   spork
   therubyracer
   thin
+  uglifier (>= 1.0.3)
   uuidtools

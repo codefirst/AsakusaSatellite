@@ -4,6 +4,7 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 require 'ci/reporter/rake/rspec'
+require 'rspec/core/rake_task'
 
 include Rake::DSL
 AsakusaSatellite::Application.load_tasks

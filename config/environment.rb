@@ -7,7 +7,7 @@ require 'asakusa_satellite/hook'
 require 'asakusa_satellite/message_pusher'
 
 config = lambda do|name|
-  YAML.load_file File.expand_path("../#{name}.yml", __FILE__)
+  YAML::load(ERB.new(File.read(File.expand_path("../#{name}.yml", __FILE__))).result)
 end
 
 AsakusaSatellite::Filter.initialize! config['filter']

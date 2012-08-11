@@ -1,13 +1,13 @@
-default: socky
+default: <%= ENV['MESSAGE_PUSHER_ENGINE'] || 'socky' %>
 
 engines:
  pusher:
-  app_id: your_app_id
-  key:    your_key
-  secret: your_secret
+  app_id: <%= ENV['MESSAGE_PUSHER_PUSHER_APP_ID'] || 'your_app_id' %>
+  key:    <%= ENV['MESSAGE_PUSHER_PUSHER_KEY'] || 'your_key' %>
+  secret: <%= ENV['MESSAGE_PUSHER_PUSHER_SECRET'] || 'your_secret' %>
  keima:
-  url: http://localhost:3001
-  key: 4e7c45a1a2cb660517000001
+  url: <%= ENV['MESSAGE_PUSHER_KEIMA_URL'] || 'http://localhost:3001' %>
+  key: <%= ENV['MESSAGE_PUSHER_KEIMA_KEY'] || '4e7c45a1a2cb660517000001' %>
  socky:
   http: http://localhost:3002/http
   web_socket: ws://localhost:3002/websocket

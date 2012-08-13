@@ -25,7 +25,7 @@ class AccountController < ApplicationController
   end
 
   def generate_spell
-    length = (20..30).to_a.choice
+    length = (20..30).to_a.sample
     chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
     Array.new(length) { chars[rand(chars.size)] }.join
   end

@@ -1,4 +1,4 @@
-//= require jquery.min
+//= require jquery-min
 //= require rails
 //= require_self
 

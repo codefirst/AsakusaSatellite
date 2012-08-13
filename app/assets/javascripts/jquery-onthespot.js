@@ -1,4 +1,4 @@
-//= require jquery.jeditable.mini
+//= require jquery-jeditable.mini
 
 (function($, document, undefined) {
     jQuery.fn.onTheSpot = function(config){

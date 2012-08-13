@@ -24,7 +24,7 @@
        =button_to t(:remove), nil, {:class => 'delete-device-button', :name => "device_deleted[#{device.name}]"}
 
 = content_for :javascripts do
- = javascript_include_tag "jquery.desktopnotify"
+ = javascript_include_tag "jquery-desktopnotify"
  :javascript
   $(function() {
     if (window.webkitNotifications && window.webkitNotifications.checkPermission() == 0) {

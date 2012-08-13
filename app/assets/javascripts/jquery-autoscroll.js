@@ -1,4 +1,4 @@
-//= require jquery.scrollTo-min
+//= require jquery-scrollTo-min
 
 (function($, document, undefined){
     $.fn.autoscroll = function(selector, config) {

@@ -87,7 +87,7 @@ describe AsakusaSatellite::Filter do
 
     describe 'div' do
       subject { make["<div/>"] }
-      it { should == "<div/>" }
+      it { should == "<div></div>" }
     end
   end
 

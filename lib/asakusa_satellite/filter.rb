@@ -68,7 +68,7 @@ module AsakusaSatellite
 
       # hack for some browser.
       # Convert <iframe /> to <iframe></iframe>
-      %w(iframe script).each do|name|
+      %w(iframe script div).each do|name|
         doc.each_element("//#{name}") do|node|
           node << REXML::Text.new('')
         end

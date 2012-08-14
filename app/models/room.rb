@@ -45,9 +45,10 @@ class Room
   end
 
   def messages_between(from_id, to_id, count)
-    rel = Message.where(:room_id => self.id)
-    rel = rel.where(:_id.gte => from_id) if from_id
-    rel = rel.where(:_id.lte => to_id) if to_id
+    where = {:room_id => self.id}
+    where[:_id.gte] = from_id if from_id
+    where[:_id.lte] = to_id if to_id
+    rel = Message.where(where)
     if (not from_id and to_id)
       rel = rel.order_by(:_id.desc)
     else

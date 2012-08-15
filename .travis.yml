@@ -4,3 +4,5 @@ rvm:
   - 1.9.2
 before_script:
   - mongo mydb_test --eval 'db.addUser("travis", "test");'
+notifications:
+  webhooks: http://dashbozu.herokuapp.com/hook/travisci

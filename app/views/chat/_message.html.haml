@@ -25,6 +25,8 @@
        %a{:target => "_blank", :href => root_path + filepath + File.basename(attachment.disk_filename) }
         - if image_mimetype?(attachment.mimetype)
          %img{:src => root_path + filepath + File.basename(attachment.disk_filename)}
+        - if video_mimetype?(attachment.mimetype)
+         %video{:src => root_path + filepath + File.basename(attachment.disk_filename), :controls => ''}
       %p
        %a{:target => "_blank", :href => root_path + filepath + File.basename(attachment.disk_filename) }
         = image_tag("page_attachment.gif")

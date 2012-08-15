@@ -17,4 +17,9 @@ module ApplicationHelper
   def image_mimetype?(mimetype)
     mimetype =~ /^image\//
   end
+
+  def video_mimetype?(mimetype)
+    mimetype =~ /^video\//
+  end
+
 end

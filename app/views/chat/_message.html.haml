@@ -21,13 +21,14 @@
     - message.attachments.each do |attachment|
      %div.attachment
       %p
-       - filepath = Setting[:use_attachment_alias] ? "watage/show/" : (Setting[:attachment_path].sub("public/","") + "/")
-       %a{:target => "_blank", :href => root_path + filepath + File.basename(attachment.disk_filename) }
+       - path = Setting[:use_attachment_alias] ? "watage/show" : Setting[:attachment_path].sub(/^public\//, '')
+       - fullpath = if attachment.disk_filename.start_with? "http" then attachment.disk_filename else "/#{path}/#{File.basename(attachment.disk_filename)}" end
+       %a{:target => "_blank", :href => fullpath}
         - if image_mimetype?(attachment.mimetype)
-         %img{:src => root_path + filepath + File.basename(attachment.disk_filename)}
+         %img{:src => fullpath}
         - if video_mimetype?(attachment.mimetype)
-         %video{:src => root_path + filepath + File.basename(attachment.disk_filename), :controls => ''}
+         %video{:src => fullpath, :controls => ''}
       %p
-       %a{:target => "_blank", :href => root_path + filepath + File.basename(attachment.disk_filename) }
+       %a{:target => "_blank", :href => fullpath}
         = image_tag("page_attachment.gif")
         = attachment.filename

@@ -6,7 +6,5 @@ oauth_request_site: "http://twitter.com"
 
 # file attachment setting for local storage
 attachment_path: "public/upload"
-use_attachment_alias: false
 # file attachment setting for heroku temporary directory
 # attachment_path: "tmp"
-# use_attachment_alias: true

@@ -21,8 +21,11 @@
     - message.attachments.each do |attachment|
      %div.attachment
       %p
-       - path = Setting[:use_attachment_alias] ? "watage/show" : Setting[:attachment_path].sub(/^public\//, '')
-       - fullpath = if attachment.disk_filename.start_with? "http" then attachment.disk_filename else "/#{path}/#{File.basename(attachment.disk_filename)}" end
+       - fullpath = case Setting[:attachment_path] |
+       when /^http/ then attachment.disk_filename |
+       when /^public\/(.+)/ then "/#{$1}/#{File.basename(attachment.disk_filename)}" |
+       else "/watage/show/#{File.basename(attachment.disk_filename)}" |
+       end |
        %a{:target => "_blank", :href => fullpath}
         - if image_mimetype?(attachment.mimetype)
          %img{:src => fullpath}

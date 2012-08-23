@@ -71,6 +71,13 @@ You need test db to run tests.
 
     $ bundle exec guard start
 
+#### JavaScript testing
+
+Requirement: phantomjs 1.5+
+
+    $ cd qunit
+    $ ./phantomjs_test.sh
+
 ### Generate Filter Plugin
 
 #### generate

@@ -62,14 +62,14 @@ module Api
       private
       def accessible?(room)
         if room.nil?
-          render :json => {:status => 'error', :error => "room #{room_id} does not exist"}
+          render :json => {:status => 'error', :error => "room #{room.room_id} does not exist"}
           return false
         end
         unless room.is_public
           return false unless check_spell
         end
         unless room.accessible?(current_user)
-          render :json => {:status => 'error', :error => "room #{room_id} does not exist"}
+          render :json => {:status => 'error', :error => "room #{room.room_id} does not exist"}
           return false
         end
         true

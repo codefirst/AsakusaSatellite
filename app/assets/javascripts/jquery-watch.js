@@ -1,6 +1,18 @@
+/**
+ * connect as::* events to other handlers
+ * @author codefist
+ */
 (function($, document, undefined) {
-    jQuery.fn.watch = function(selector, f){
+    /**
+     * fire function f to selected elements.
+     * bind as::* events to f
+     * @param {String} selector selector string
+     * @param {function} f function to be fired.
+     * @return this
+     */
+    $.fn.watch = function(selector, f){
         var target = this;
+
         target.find(selector).each(function(_, e){
             f($(e));
         });
@@ -19,6 +31,7 @@
                 f($(e));
             });
         });
+
         return this;
     }
 })(jQuery, document);

@@ -61,8 +61,8 @@ $(function() {
         'websocket::create' : function(){
             var audio = document.getElementById("audio");
             if(audio) {
-                document.getElementById("audio").load();
-                document.getElementById("audio").play();
+                audio.load();
+                audio.play();
             }
         },
         'websocket::connect' : function(){
@@ -109,7 +109,7 @@ $(function() {
     // ------------------------------
     // File DnD
     // ------------------------------
-    uploadConfig = {
+    var uploadConfig = {
         action : AsakusaSatellite.url.message,
         params : [{ room_id : AsakusaSatellite.current.room},
             { authenticity_token: AsakusaSatellite.form_auth }]

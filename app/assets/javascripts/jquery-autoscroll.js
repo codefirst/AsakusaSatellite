@@ -2,7 +2,7 @@
 
 (function($, document, undefined){
     $.fn.autoscroll = function(selector, config) {
-        var config = jQuery.extend({
+        var config = $.extend({
             scrollTo: function(e){
                 $(window).scrollTo( e , 500, { easing:'swing', queue:true, axis:'y' } );
                 $("img.attachment", e).bind("load", function(){

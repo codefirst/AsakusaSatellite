@@ -1,6 +1,19 @@
+/**
+ * pagination utility.
+ * @author codefirst
+ */
 (function($, document, undefined){
+    /**
+     * add event handler for pagination.
+     * @param {String} config.indicator HTML string to indicate loading
+     * @param {String} config.url request URL with ajax. it returns HTML content.
+     * @param {String} config.content selector for find each messages
+     * @param {function} config.current functions return current message id
+     * @param {function} config.append function appends DOM content
+     * @return this
+     */
     $.fn.pagination = function(config) {
-        var config = jQuery.extend({
+        var config = $.extend({
             indicator : "",
             content : "div"
         }, config);

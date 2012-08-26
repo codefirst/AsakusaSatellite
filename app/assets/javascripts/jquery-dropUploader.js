@@ -1,4 +1,21 @@
+/**
+ * jQuery Plugin for HTML5 File API.
+ */
 (function($, document, undefined){
+    /**
+     * add event handler for File API.
+     * @params {function} options.onDragstart function fired on dragstart (default: yes)
+     * @params {function} options.onProgress function fired on progress (default: yes)
+     * @params {function} options.onComplete function fired on complete
+     * @params {function} options.onMouseover function fired on mouseover (default: yes)
+     * @params {function} options.onMouseout function fired on mouseout (default: yes)
+     * @params {function} options.onError function fired on error
+     * @params {String} options.action action name in posting formdata (default: empty)
+     * @params {String} options.fieldName file field name in posting formdata (default: file)
+     * @params {String} options.mimetypeFieldName mime field name in posting formdata (default: mimetype)
+     * @params {Hash} options.params other parameters in posting formdata
+     * @return TODO
+     */
     $.fn.dropUploader = function(options){
         var self       = this;
         var options    = options;

@@ -1,7 +1,21 @@
 //= require jquery-jeditable-mini
 
+/**
+ * a wrapper for jQuery jeditable plugin.
+ * @author codefirst
+ */
 (function($, document, undefined) {
-    jQuery.fn.onTheSpot = function(config){
+    /**
+     * add event handler for editing.
+     * @param {String} config.submit label for OK button
+     * @param {String} config.cancel label for Cancel button
+     * @param {String} config.tooltip label for Tooltip
+     * @param {function} config.onerror function called on error
+     * @param {Number} config.textarea.rows textarea rows
+     * @param {Number} config.textarea.cols textarea columns
+     * @param this
+     */
+    $.fn.onTheSpot = function(config){
         var defaults = {
             submit  : 'OK',
             cancel  : 'Cancel',
@@ -15,7 +29,7 @@
                 cols: 40
             }
         };
-        config = jQuery.extend(defaults, config);
+        config = $.extend(defaults, config);
 
         var target = this;
 
@@ -48,5 +62,6 @@
         }
         options.data = config.data;
         target.editable( config.url, options);
+        return this;
     }
 })(jQuery, document);

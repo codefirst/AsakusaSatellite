@@ -25,6 +25,7 @@ gem 'on_the_spot'
 gem "uuidtools"
 gem 'oauth'
 gem 'json', "= 1.5.3"
+gem 'newrelic_rpm'
 
 group :development, :test do
   gem "rails3-generators"

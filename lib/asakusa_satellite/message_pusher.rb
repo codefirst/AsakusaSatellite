@@ -69,8 +69,12 @@ module AsakusaSatellite
       def post(url,params)
         uri = URI.parse(url)
         body = params.map{|key,value| "#{escape(key.to_s)}=#{escape(value)}" }.join('&')
-        Net::HTTP.start(uri.host, uri.port) do |http|
-          http.post(uri.path, body)
+        begin
+          Net::HTTP.start(uri.host, uri.port) do |http|
+            http.post(uri.path, body)
+          end
+        rescue Errno::ECONNREFUSED => e
+          Rails.logger.error e
         end
       end
 

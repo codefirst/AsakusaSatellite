@@ -7,8 +7,6 @@
   = stylesheet_link_tag 'application'
   %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"}
   %meta{:name => "content-script-type", :content => "text/javascript"}
-  = javascript_include_tag "application"
-  = yield :javascripts
   = csrf_meta_tag
   = favicon_link_tag
   %title= "#{@title and "#{@title} - "}AsakusaSatellite"
@@ -29,5 +27,6 @@
     = yield
    .footer
     %p!="Powered by #{link_to "AsakusaSatellite", :controller=>:application, :action=>:about}. Copyright (C) 2011-2012 <a href='http://codefirst.org'>codefirst.org</a>. All rights reserved."
-
+  = javascript_include_tag "application"
+  = yield :javascripts
 

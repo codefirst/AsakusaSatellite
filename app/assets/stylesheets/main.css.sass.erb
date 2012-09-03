@@ -18,6 +18,8 @@ body
   :margin 15px
   :margin-bottom 40px
   :border-bottom 1px solid #ccc
+  >a
+    :float left
 
 .main
   :width 720px
@@ -26,6 +28,9 @@ body
   :background-color #fff
   :box-shadow 1px 1px 2px #999
   :-webkit-box-shadow 1px 1px 2px #999
+
+#audio
+  :display none
 
 .footer
   :margin-top 50px
@@ -147,8 +152,10 @@ a img
     :margin 0
     .profile
       :display inline-block
+      :float left
+      :height 21px
       img.profile
-        :float left
+        :height 16px
       .user-name
         :font-weight bold
         :margin-left 3px
@@ -157,7 +164,7 @@ a img
     .update-time
       :float right
       :text-align right
-      :height 20px
+      :height 21px
       :font-size 75%
       :font-weight normal
       :vertical-align bottom
@@ -169,11 +176,13 @@ a img
     .edit-icons
       :float right
       :margin-right 5px
+      :height 21px
       :display none
       img
         :cursor pointer
   .body
     :clear both
+    :padding-top 6px
     span
       :font-weight normal
     pre

@@ -17,6 +17,19 @@
     .login-right
      =text_field :login, :key, {:class => :text, :placeholder => t(:input_your_key)}
     .clear
+   %legend{:align => :center, :style => "width:100%"}= t(:update_your_profile)
+   %div
+    .login-left
+     =label :login, :name, t(:name) + ":"
+    .login-right
+     =text_field :login, :name, {:class => :text}
+    .clear
+   %div
+    .login-left
+     =label :login, :image_url, t(:image_url) + ":"
+    .login-right
+     =text_field :login, :image_url, {:class => :text}
+    .clear
    %div{:style => "text-align:center;margin:10px;"}
     =submit_tag t(:login), :class => "submit red button large"
 

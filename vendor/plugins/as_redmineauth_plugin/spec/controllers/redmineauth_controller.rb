@@ -11,8 +11,7 @@ describe RedmineauthController do
     }
   end
 
-  it "validなユーザはログインできる" do
-    response = """<user>
+  VALID_API_RESPONSE = """<user>
 <id>3</id>
 <login>loginname</login>
 <firstname>Firstname</firstname>
@@ -21,7 +20,9 @@ describe RedmineauthController do
 <created_on>2011-07-03T20:37:23+09:00</created_on>
 <last_login_on>2011-07-03T21:33:31+09:00</last_login_on>
 </user>"""
-    RestClient.stub(:get).and_return(response)
+
+  it "validなユーザはログインできる" do
+    RestClient.stub(:get).and_return(VALID_API_RESPONSE)
     post :login, :login => {:key => 'dummy'}
     session[:current_user_id].should_not be_nil
   end
@@ -30,6 +31,15 @@ describe RedmineauthController do
     RestClient.stub(:get).and_raise(RestClient::Exception)
     post :login, :login => {:key => 'dummy'}
     session[:current_user_id].should be_nil
+  end
+
+  it "一度ログインしたユーザは同じユーザで再度ログインできる" do
+    RestClient.stub(:get).and_return(VALID_API_RESPONSE)
+    post :login, :login => {:key => 'dummy'}
+    uid = session[:current_user_id]
+
+    post :login, :login => {:key => 'dummy'}
+    session[:current_user_id].should == uid
   end
 
 end

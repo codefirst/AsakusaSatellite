@@ -15,7 +15,7 @@ class RedmineUser
   end
   
   def name
-    @document.root.elements['login'].text
+    @document.root.elements['mail'].text
   end
   
   def screen_name

@@ -1,3 +1,6 @@
 en:
  key: Redmine API access key
  input_your_key: Input your key
+ update_your_profile: Update your profile
+ name: Name
+ image_url: Profile image URL

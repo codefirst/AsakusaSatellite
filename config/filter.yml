@@ -2,4 +2,4 @@
 - name: quote_it
 - name: redmine_ticket_link
 - name: twitter_link
-- name: emoticon_filter
+- name: emoji_filter

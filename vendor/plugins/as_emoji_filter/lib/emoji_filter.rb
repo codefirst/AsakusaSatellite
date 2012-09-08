@@ -6,5 +6,7 @@ class EmojiFilter < AsakusaSatellite::Filter::Base
       %(<img src="#{url}" width="16"/>)
     end
     text
+  rescue
+    text
   end
 end

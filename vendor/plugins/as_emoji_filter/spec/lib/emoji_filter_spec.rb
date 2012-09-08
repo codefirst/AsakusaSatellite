@@ -20,7 +20,7 @@ describe EmojiFilter do
       @filter.process(":sushi:")
     }
 
-    it { should == %(<img src="http://example.com/emoji/sushi.png" width="16"/>) }
+    it { should == %(<img src="http://example.com/emoji/sushi.png" style="width:16px" title="sushi" alt="sushi"/>) }
   end
 
   describe "emoji with tailing-slash" do
@@ -29,7 +29,7 @@ describe EmojiFilter do
       @filter.process(":sushi:")
     }
 
-    it { should == %(<img src="http://example.com/emoji/sushi.png" width="16"/>) }
+    it { should == %(<img src="http://example.com/emoji/sushi.png" style="width:16px" title="sushi" alt="sushi"/>) }
   end
 
 

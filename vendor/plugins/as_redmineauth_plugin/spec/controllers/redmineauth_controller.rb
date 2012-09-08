@@ -42,4 +42,14 @@ describe RedmineauthController do
     session[:current_user_id].should == uid
   end
 
+  it "ログイン時に名前とプロフィール画像URLを上書きできる" do
+    RestClient.stub(:get).and_return(VALID_API_RESPONSE)
+    post :login, :login => {
+      :key => 'dummy', :name => 'updated',
+      :image_url => 'http://www.example.com/updated.png'
+    }
+    u = User.find(session[:current_user_id])
+    u.name.should == "updated"
+    u.profile_image_url.should == "http://www.example.com/updated.png"
+  end
 end

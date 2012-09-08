@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../../../../../spec/spec_helper'
 
 describe RedmineauthController do
@@ -14,7 +15,6 @@ describe RedmineauthController do
   it "validなユーザはログインできる" do
     response = """<user>
 <id>3</id>
-<login>loginname</login>
 <firstname>Firstname</firstname>
 <lastname>LastName</lastname>
 <mail>loginname@example.com</mail>

@@ -17,5 +17,7 @@ if %(development test).include?(Rails.env)
       t.pattern = "./vendor/plugins/as_*/spec/**/*_spec.rb"
     end
   end
+
+  task :default => [:spec, :'plugins:spec']
 end
 

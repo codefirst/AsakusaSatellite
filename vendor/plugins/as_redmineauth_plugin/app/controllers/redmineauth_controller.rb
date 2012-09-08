@@ -12,7 +12,7 @@ class RedmineauthController < ApplicationController
         return
       end
       
-      user = User.first(:conditions => {:screen_name => redmine_user.screen_name})
+      user = User.first(:conditions => {:screen_name => redmine_user.name})
       user ||= User.new
       user.screen_name ||= redmine_user.name
       user.name ||= redmine_user.screen_name

@@ -47,6 +47,24 @@ describe Api::V1::MessageController do
     }
   end
 
+  describe "秘密の部屋の特定の発言取得" do
+    context "API key を指定しない" do
+      before {
+        get :show, :id => @secret_message.id, :format => 'json'
+      }
+      subject { response.body }
+      it { should have_json("/status[text() = 'error']") }
+    end
+
+    context "API key を指定する" do
+      before {
+        get :show, :id => @secret_message.id, :format => 'json', :api_key => @other_user.spell
+      }
+      subject { response.body }
+      it { should have_json("/body") }
+    end
+  end
+
   describe "発言一覧取得" do
     describe"オプションなし" do
       before {

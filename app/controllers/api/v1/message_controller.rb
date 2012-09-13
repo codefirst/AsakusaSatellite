@@ -23,11 +23,15 @@ module Api
       end
 
       def show
-        @message = Message.find params[:id]
-        if @message and @message.room.accessible?(current_user) then
+        begin
+          @message = Message.find(params[:id])
+        rescue 
+          render :json => {:status => 'error', :error => "message #{params[:id]} not found"}
+          return
+        end
+        room = @message.room
+        if accessible?(room)
           respond_with(to_json(@message))
-        else
-          render :json => {:status => 'error', :error => "message #{params[:id]} does not exist"}
         end
       end
 
@@ -69,7 +73,7 @@ module Api
           return false unless check_spell
         end
         unless room.accessible?(current_user)
-          render :json => {:status => 'error', :error => "room #{room.room_id} does not exist"}
+          render :json => {:status => 'error', :error => "room #{room.id} does not exist"}
           return false
         end
         true

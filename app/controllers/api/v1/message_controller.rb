@@ -37,10 +37,14 @@ module Api
 
       def create
         room = Room.find(params[:room_id])
-        create_message(room, params[:message])
+        message = create_message(room, params[:message])
+        unless message
+          render :json => {:status => 'error', :error => "message creation failed"}
+          return
+        end
         room.updated_at = Time.now
         room.save
-        render :json => {:status => 'ok'}
+        render :json => {:status => 'ok', :message_id => message.id}
       end
 
       def update

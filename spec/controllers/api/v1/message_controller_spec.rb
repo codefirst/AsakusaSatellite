@@ -154,14 +154,24 @@ describe Api::V1::MessageController do
   end
 
   describe "発言作成" do
-    before {
-      post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
-    }
-    it_should_behave_like '成功'
-    it { expect {
+    context "API 指定" do
+      before {
         post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
-      }.to change { Message.all.size }.by(1)
-    }
+      }
+      it_should_behave_like '成功'
+      it { expect {
+          post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
+        }.to change { Message.all.size }.by(1)
+      }
+      it { response.body.should have_json("/message_id") }
+    end
+    context "API 指定しない" do
+      before {
+        post :create, :room_id => @room.id, :message => 'message'
+      }
+    subject { response.body }
+      it { should have_json("/error") }
+    end
   end
 
   describe "発言更新" do

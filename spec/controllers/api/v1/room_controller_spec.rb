@@ -88,6 +88,15 @@ describe Api::V1::RoomController do
       it { should have_json("/id[text() = '#{@room._id}']") }
       it { should have_json("/id[text() = '#{@private_room._id}']") }
     end
+    context "api_key 無しの場合は public な部屋のみ取得できる" do
+      before {
+        post :list, :format => 'json'
+      }
+      subject { response.body }
+
+      it { should have_json("/id[text() = '#{@room._id}']") }
+      it { should_not have_json("/id[text() = '#{@private_room._id}']") }
+    end
   end
 
   describe "メンバの追加" do

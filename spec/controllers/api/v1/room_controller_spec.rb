@@ -32,7 +32,9 @@ describe Api::V1::RoomController do
       before {
         post :create, :name => 'room name', :api_key => @user.spell, :format => 'json'
       }
+      subject { response.body }
       it_should_behave_like '成功する'
+      it { should have_json("/room_id") }
     end
 
     describe "DB" do

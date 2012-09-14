@@ -11,7 +11,7 @@ module Api
       def create
         room = Room.new(:title => params[:name], :user => current_user, :updated_at => Time.now)
         if room.save
-          render :json => {:status => 'ok'}
+          render :json => {:status => 'ok', :room_id => room._id}
         else
           render :json => {:status => 'error', :error => "room creation failure"}
         end

@@ -38,7 +38,6 @@ describe Message do
 
   describe "hash" do
     before do
-      I18n.stub(:l){|s| "i18n:#{s}" }
       AsakusaSatellite::Filter.stub(:process){|message, room| "filtered:#{message.body}" }
     end
 
@@ -49,7 +48,7 @@ describe Message do
     its(['attachment']) { should be_empty }
     it { subject['id'].should == @message.id }
     its(['screen_name']) { should == @message.user.screen_name }
-    its(['created_at']) { should == "i18n:#{@message.created_at}" }
+    its(['created_at']) { should == @message.created_at.to_s }
     its(['html_body']) { should == "filtered:#{@message.body}" }
   end
 

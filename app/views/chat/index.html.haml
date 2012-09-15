@@ -12,7 +12,7 @@
      =link_to room.title, :controller => :chat, :action => :room, :id => room
      =image_tag('private.gif', :alt => t(:private_room), :title => t(:private_room)) unless room.is_public
     %td.update
-     = l(room.updated_at.utc + 9*60*60)
+     = l(room.updated_at)
 
  - if logged?
   .buttons

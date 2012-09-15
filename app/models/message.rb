@@ -2,7 +2,7 @@
 class Message
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :created_at
+  field :created_at, :type => Time
   field :body
   belongs_to :room
   belongs_to :user
@@ -21,7 +21,7 @@ class Message
       'name' => (self.user ? self.user.name : 'Anonymous User'),
       'screen_name' => (self.user ? self.user.screen_name : 'Anonymous User'),
       'profile_image_url' => (self.user ? self.user.profile_image_url : ''),
-      'created_at' => I18n.l(self.created_at),
+      'created_at' => self.created_at.to_s,
       'room'       => self.room.to_json,
       'attachment' => self.attachments && self.attachments.map {|a| a.to_hash}
     }

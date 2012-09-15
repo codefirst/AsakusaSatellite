@@ -15,7 +15,8 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
 
   private
   def ticket(id, ref, info)
-    root_url = add_slash(info['root'])
+    root_url = info['root']
+    root_url << '/' unless root_url.end_with?('/')
     url =  URI.join(root_url,"./issues/#{id}")
     if info.key? 'api_key' then
       api =  URI.join(root_url,"./issues/#{id}.json?key=#{info['api_key']}")
@@ -31,10 +32,5 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
     else
       %[<a target="_blank" href="#{url}">#{ref}</a>]
     end
-  end
-
-  def add_slash(url)
-    url << "/" unless /\/$/ =~ url
-    url
   end
 end

@@ -15,9 +15,10 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
 
   private
   def ticket(id, ref, info)
-    url =  URI.join(info['root'],"./issues/#{id}")
+    root_url = add_slash(info['root'])
+    url =  URI.join(root_url,"./issues/#{id}")
     if info.key? 'api_key' then
-      api =  URI.join(info['root'],"./issues/#{id}.json?key=#{info['api_key']}")
+      api =  URI.join(root_url,"./issues/#{id}.json?key=#{info['api_key']}")
       begin
         open(api.to_s) do|io|
           hash = JSON.parse(io.read)
@@ -30,5 +31,10 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
     else
       %[<a target="_blank" href="#{url}">#{ref}</a>]
     end
+  end
+
+  def add_slash(url)
+    url << "/" unless /\/$/ =~ url
+    url
   end
 end

@@ -3,21 +3,41 @@ require File.dirname(__FILE__) + '/../../../../../spec/spec_helper'
 
 describe AsakusaSatellite::Filter::RedmineTicketLink do
   describe "API Keyなし" do
-    before do
-      @config = { :room =>
-        OpenStruct.new(:yaml => {
-                         :redmine_ticket => { 'root' => 'http://redmine.example.com/a/'
-                         }})
+    context "Redmine の URL の最後が /" do
+      before do
+        @config = { :room =>
+          OpenStruct.new(:yaml => {
+              :redmine_ticket => { 'root' => 'http://redmine.example.com/a/'
+              }})
+        }
+        @filter = AsakusaSatellite::Filter::RedmineTicketLink.new({})
+      end
+
+      subject {
+        @filter.process("foo #223", @config)
       }
-      @filter = AsakusaSatellite::Filter::RedmineTicketLink.new({})
+      it {
+        should == 'foo <a target="_blank" href="http://redmine.example.com/a/issues/223">#223</a>'
+      }
     end
 
-    subject {
-      @filter.process("foo #223", @config)
-    }
-    it {
-      should == 'foo <a target="_blank" href="http://redmine.example.com/a/issues/223">#223</a>'
-    }
+    context "Redmine の URL の最後が / じゃない" do
+      before do
+        @config = { :room =>
+          OpenStruct.new(:yaml => {
+              :redmine_ticket => { 'root' => 'http://redmine.example.com/a'
+              }})
+        }
+        @filter = AsakusaSatellite::Filter::RedmineTicketLink.new({})
+      end
+
+      subject {
+        @filter.process("foo #223", @config)
+      }
+      it {
+        should == 'foo <a target="_blank" href="http://redmine.example.com/a/issues/223">#223</a>'
+      }
+    end
   end
 
   describe "API keyあり" do

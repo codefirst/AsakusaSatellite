@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+$: << "#{File.dirname(__FILE__)}/../.."
 Dir.glob(File.join("plugins", "*")).each do |dir|
   next unless File.directory?(dir)
 

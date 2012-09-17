@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.2.8'
 
 # mongoid
 gem 'mongoid', '2.3.0'
@@ -15,7 +15,7 @@ gem 'thin'
 # html
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'sass-rails', '= 3.1.5' # for Rails 3.1
+gem 'sass-rails'
 gem "execjs"
 gem "therubyracer"
 gem 'uglifier', '>= 1.0.3'
@@ -40,6 +40,6 @@ group :development, :test do
   gem 'guard-rspec'
 end
 
-Dir.glob(File.join(File.dirname(__FILE__), 'vendor', 'plugins', '**', "Gemfile")) do |gemfile|
+Dir.glob(File.join(File.dirname(__FILE__), 'plugins', '**', "Gemfile")) do |gemfile|
   self.send(:eval, File.open(gemfile, 'r').read)
 end

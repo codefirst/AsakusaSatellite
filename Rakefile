@@ -14,7 +14,7 @@ if %(development test).include?(Rails.env)
 
   namespace :plugins do
     RSpec::Core::RakeTask.new(:spec) do|t|
-      t.pattern = "./vendor/plugins/as_*/spec/**/*_spec.rb"
+      t.pattern = "./plugins/as_*/spec/**/*_spec.rb"
     end
   end
 

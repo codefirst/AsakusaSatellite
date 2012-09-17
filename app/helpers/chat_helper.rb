@@ -50,9 +50,10 @@ module ChatHelper
   end
 
   def to_json(message, room = message.room)
-    view = render_to_string(:file   => "app/views/chat/_message.html.haml",
-                            :locals => { :message => message, :room => room },
-                            :layout => false)
+    view = render_to_string(:file    => "app/views/chat/_message",
+                            :locals  => { :message => message, :room => room },
+                            :formats => [ :html ],
+                            :layout  => false)
     message.to_hash.merge( :view => view )
   end
 

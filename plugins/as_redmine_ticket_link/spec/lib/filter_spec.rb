@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require File.dirname(__FILE__) + '/../../../../../spec/spec_helper'
+require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
 
 describe AsakusaSatellite::Filter::RedmineTicketLink do
   describe "API Keyなし" do

@@ -4,6 +4,7 @@ require 'yaml'
 require 'ostruct'
 require 'asakusa_satellite/filter'
 require 'asakusa_satellite/hook'
+require 'asakusa_satellite/config'
 require 'asakusa_satellite/message_pusher'
 
 config = lambda do|name|

@@ -86,8 +86,8 @@ Requirement: phantomjs 1.5+
 
 edit filies
 
- * vendor/plugins/as_test_filter/lib/test_filter.rb
- * vendor/plugins/as_test_filter/spec/lib/test_filter_spec.rb
+ * plugins/as_test_filter/lib/test_filter.rb
+ * plugins/as_test_filter/spec/lib/test_filter_spec.rb
 
 edit config/filters.yml
 

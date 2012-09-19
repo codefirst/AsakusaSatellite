@@ -11,7 +11,7 @@ class RedmineauthController < ApplicationController
         flash[:error] = 'login failed'
         return
       end
-      
+
       user = User.first(:conditions => {:screen_name => redmine_user.name})
       user ||= User.new
       user.screen_name ||= redmine_user.name

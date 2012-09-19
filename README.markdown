@@ -68,7 +68,7 @@ You need test db to run tests.
 
 #### test all
 
-    $ bundle exec rake spec
+    $ bundle exec rake
 
 #### run with rcov
 

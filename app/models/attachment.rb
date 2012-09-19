@@ -24,8 +24,6 @@ class Attachment
   end
 
   def self.create_and_save_file(filename, file, mimetype, message)
-    filepath = ""
-
     if Setting[:attachment_path].start_with? "http"
       uri = URI.parse Setting[:attachment_path]
       response = JSON.parse(post_multipart(uri, file).body)

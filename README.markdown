@@ -17,7 +17,7 @@ Authors
 
 Requirement
 ----------------
- * Ruby 1.8.7
+ * Ruby 1.8.7 or 1.9.3
  * RubyGems 1.4.2 or later
  * Bundler 1.0.7 or later
  * MongoDB 1.8.1 or later
@@ -27,7 +27,11 @@ Install
 
 Install dependencies:
 
-    $ bundle install --path vendor/bundle
+    $ bundle install --path .bundle --without development test
+
+Precompile assets:
+
+    $ bundle exec rake assets:precompile RAILS_ENV=production
 
 If you upgrade AS from 0.7.0 or older, execute following:
 
@@ -40,14 +44,17 @@ Excecute mongodb and socky:
 
 Run AsakusaSatellite:
 
-    $ bundle exec rails server
+    $ bundle exec rails s -e production
 
 and access to http://localhost:3000/
+
+
+For developers
+---------------
 
 ### Install for Developer
 
     $ cp misc/bleis-hooks/* .git/hooks
-
 
 ### Test
 
@@ -55,7 +62,7 @@ You need test db to run tests.
 
     $ mongod --dbpath <test_dir_name>
 
-#### indivisual testing
+#### individual testing
 
     $ bundle exec ruby spec/{controller,model}/$(name)_spec.rb
 

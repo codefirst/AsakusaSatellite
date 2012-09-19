@@ -6,6 +6,7 @@ tmp/**/*
 *~
 .DS_Store
 coverage/
+public/assets/
 public/upload/*
 .autotest
 spec/reports

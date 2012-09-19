@@ -22,4 +22,12 @@ module ApplicationHelper
     mimetype =~ /^video\//
   end
 
+  # monkey patch
+  def audio_tag(source, options = {})
+    options.symbolize_keys!
+    # originally defined as audio_path(source) but it doesn't work...
+    options[:src] = path_to_asset(source)
+    tag("audio", options)
+  end
+
 end

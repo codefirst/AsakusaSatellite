@@ -1,7 +1,7 @@
 -# -*- coding: utf-8 -*-
 .chat_room_top= raw(call_hook(:chat_room_top, :room => @room))
 .audio
- %audio{:src => "#{root_path}audio/sound.mp3", :id => :audio}
+ = audio_tag "sound.ogg", :id => :audio
 .yield
  - cache [:roominfo, @room._id] do
   = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => true }

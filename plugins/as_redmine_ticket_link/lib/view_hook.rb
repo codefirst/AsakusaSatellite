@@ -13,6 +13,7 @@ END
     context[:self].instance_eval { path = image_path("redmine.png") }
     info = context[:message].room.yaml[:redmine_ticket]
     root         = info["root"]
+    root << '/' unless root.end_with?('/')
     project_name = info["project_name"]
     url =  URI.join(root,
                     "./projects/#{project_name}/issues/new?issue[description]=#{description}&amp;issue[subject]=#{subject}")

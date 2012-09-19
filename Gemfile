@@ -17,7 +17,7 @@ gem 'jquery-rails'
 gem 'haml-rails'
 gem 'sass-rails'
 gem "execjs"
-gem "therubyracer"
+gem "therubyracer", :platform => :ruby
 gem 'uglifier', '>= 1.0.3'
 
 # util

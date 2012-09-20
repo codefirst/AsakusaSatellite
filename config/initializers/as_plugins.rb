@@ -23,4 +23,9 @@ Dir.glob(File.join("plugins", "*")).each do |dir|
     ActiveSupport::Dependencies.autoload_paths += [subdir] if File.directory?(subdir)
   end
 
+  initializers = Dir.glob(File.join(dir, 'config', 'initializers', '*.rb'))
+  initializers.each do |initializer|
+    require initializer
+  end
+
 end

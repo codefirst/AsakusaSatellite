@@ -24,7 +24,7 @@
       %p
        - fullpath = case Setting[:attachment_path] |
        when /^http/ then attachment.disk_filename |
-       when /^public\/(.+)/ then "/#{$1}/#{File.basename(attachment.disk_filename)}" |
+       when /^public\/(.+)/ then "#{root_path}#{$1}/#{File.basename(attachment.disk_filename)}" |
        else "/watage/show/#{File.basename(attachment.disk_filename)}" |
        end |
        %a{:target => "_blank", :href => fullpath}

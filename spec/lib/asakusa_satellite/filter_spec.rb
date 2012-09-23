@@ -6,6 +6,12 @@ class TestFilter < AsakusaSatellite::Filter::Base
   end
 end
 
+class ErrorFilter < AsakusaSatellite::Filter::Base
+  def process(text, opts={})
+    raise 'error occured'
+  end
+end
+
 describe AsakusaSatellite::Filter do
   make = lambda do|text|
     @room    = Room.new
@@ -89,6 +95,16 @@ describe AsakusaSatellite::Filter do
       subject { make["<div/>"] }
       it { should == "<div></div>" }
     end
+  end
+
+  describe 'return "as is" when error occured' do
+    before do
+      AsakusaSatellite::Filter.initialize!([{'name' => 'error_filter'}])
+      AsakusaSatellite::Filter.add_filter ErrorFilter,{}
+    end
+    subject { AsakusaSatellite::Filter.process(Message.new(:body => 'text'), nil) }
+
+    it { should == 'text' }
   end
 
 end

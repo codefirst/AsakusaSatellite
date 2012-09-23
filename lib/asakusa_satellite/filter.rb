@@ -75,6 +75,9 @@ module AsakusaSatellite
       end
 
       children(doc).join
+    rescue => e
+      Rails.logger.error e
+      message.body
     end
 
     def add_filter(klass, config)

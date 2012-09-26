@@ -4,7 +4,8 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
 
   def strip(str, n)
     str.to_json.scan(/((\\u[0-9a-f]{4})|(.))/).reduce(""){|x,y|
-      x.size < n ? x + y : x
+      z = x + y
+      z.size <= n ? z : x
     }
   end
 

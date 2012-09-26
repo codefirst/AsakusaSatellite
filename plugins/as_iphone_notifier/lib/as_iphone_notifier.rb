@@ -3,10 +3,11 @@ require 'asakusa_satellite/hook'
 class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listener
 
   def strip(str, n)
-    str.to_json.scan(/((\\u[0-9a-f]{4})|(.))/).map{|m| m[0]}.reduce(""){|x,y|
+    s = str.to_json.scan(/((\\u[0-9a-f]{4})|(.))/).map{|m| m[0]}.reduce(""){|x,y|
       z = x + y
       z.size <= n ? z : x
     }
+    (JSON.parse "[#{s}]")[0]
   end
 
   def after_create_message(context)

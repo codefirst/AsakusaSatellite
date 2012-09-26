@@ -14,7 +14,7 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
     message = context[:message]
     room = context[:room]
 
-    text = strip "#{message.user.name} / #{message.body}", 256
+    text = strip "#{message.user.name} / #{message.body}", 150
 
     members = room.members - [ message.user ]
 

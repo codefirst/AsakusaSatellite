@@ -3,7 +3,7 @@ require 'asakusa_satellite/hook'
 class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listener
 
   def strip(str, n)
-    str.to_json.scan(/./).reduce(""){|x,y|
+    str.to_json.scan(/((\\u[0-9a-f]{4})|(.))/).reduce(""){|x,y|
       x.size < n ? x + y : x
     }
   end

@@ -2,11 +2,17 @@
 require 'asakusa_satellite/hook'
 class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listener
 
+  def strip(str, n)
+    str.to_json.scan(/./).reduce(""){|x,y|
+      x.size < n ? x + y : x
+    }
+  end
+
   def after_create_message(context)
     message = context[:message]
     room = context[:room]
 
-    text = "#{message.user.name} / #{message.body}"[0,150]
+    text = strip "#{message.user.name} / #{message.body}", 256
 
     members = room.members - [ message.user ]
 

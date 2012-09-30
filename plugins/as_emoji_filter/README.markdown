@@ -10,7 +10,7 @@ Setup
 
 2. Restart AsakusaSatellite
 
-Hosting on your server(Recomment)
+Hosting on your server(Recommend)
 ---------------------------------
 
 Download github emoji:

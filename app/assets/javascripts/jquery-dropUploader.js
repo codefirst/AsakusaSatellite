@@ -36,21 +36,6 @@
         }
 
         /**
-         * _onMouseover
-         * @param {Object} elm
-         */
-        var _onMouseover = function(elm){
-            if(typeof options['onMouseover'] === 'function'){
-                options['onMouseover']();
-            }
-            else{
-                $(elm).css({
-                    "border" : "5px dotted #cccccc"
-                });
-            }
-        }
-
-        /**
          * _onMouseout
          * @param {Object} elm
          */
@@ -94,38 +79,16 @@
         var result = this.each(function(){
             var elm = this;
             if(window.addEventListener){
-                //for only 2 browsers. this means Google Chrome and Firefox having File API
-                if(navigator.userAgent.match("Chrome") || (navigator.userAgent.match("Firefox") && window.FileReader)){
-                    //setDroppable(elm);
-                }
-                elm.addEventListener(
-                    'dragstart',
-                    function(e){
-                        if (e.dataTransfer.files > 0) {
-                            _onDragstart(this);
-                        }
-                        e.preventDefault();
-                    },
-                    false
-                );
                 elm.addEventListener(
                     'dragenter',
                     function(e){
-                        _onMouseover(this);
+                        _onDragstart(this);
                         e.preventDefault();
                     },
                     false
                 );
                 elm.addEventListener(
-                    'dragover',
-                    function(e){
-                        _onMouseover(this);
-                        e.preventDefault();
-                    },
-                    false
-                );
-                elm.addEventListener(
-                    'dragout',
+                    'dragleave',
                     function(e){
                         _onMouseout(this);
                         e.preventDefault();

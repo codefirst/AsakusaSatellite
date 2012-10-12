@@ -18,6 +18,7 @@
      =text_area_tag :message, '', :class => :text, :autofocus=>true, :placeholder=> t('placeholder_message')
      =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
 .chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))
+.droppable
 
 = content_for :javascripts do
  - AsakusaSatellite::MessagePusher.jsFiles.each do|file|

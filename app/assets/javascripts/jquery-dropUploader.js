@@ -2,53 +2,9 @@
  * jQuery Plugin for HTML5 File API.
  */
 (function($, document, undefined){
-    /**
-     * add event handler for File API.
-     * @params {function} options.onDragstart function fired on dragstart (default: yes)
-     * @params {function} options.onProgress function fired on progress (default: yes)
-     * @params {function} options.onComplete function fired on complete
-     * @params {function} options.onMouseover function fired on mouseover (default: yes)
-     * @params {function} options.onMouseout function fired on mouseout (default: yes)
-     * @params {function} options.onError function fired on error
-     * @params {String} options.action action name in posting formdata (default: empty)
-     * @params {String} options.fieldName file field name in posting formdata (default: file)
-     * @params {String} options.mimetypeFieldName mime field name in posting formdata (default: mimetype)
-     * @params {Hash} options.params other parameters in posting formdata
-     * @return TODO
-     */
     $.fn.dropUploader = function(options){
         var self       = this;
         var options    = options;
-
-        /**
-         * _onDragstart
-         * @param {Object} elm
-         */
-        var _onDragstart = function(elm){
-            if(typeof options['onDragstart'] === 'function'){
-                options['onDragstart']();
-            }
-            else{
-                $(elm).css({
-                    "border" : "5px dotted #cccccc"
-                });
-            }
-        }
-
-        /**
-         * _onMouseout
-         * @param {Object} elm
-         */
-        var _onMouseout = function(elm){
-            if(typeof options['onMouseout'] === 'function'){
-                options['onMouseout']();
-            }
-            else{
-                $(elm).css({
-                    "border" : ""
-                });
-            }
-        }
 
         /**
          * _getAction
@@ -81,19 +37,33 @@
             if(window.addEventListener){
                 elm.addEventListener(
                     'dragenter',
-                    function(e){
-                        _onDragstart(this);
-                        e.preventDefault();
-                    },
-                    false
+                    (options['onDragenter'] || function(){}),
+                    options['bubbling']
+                );
+                elm.addEventListener(
+                    'dragend',
+                    (options['onDragend'] || function(){}),
+                    options['bubbling']
+                );
+                elm.addEventListener(
+                    'dragover',
+                    (options['onDragover'] || function(){}),
+                    options['bubbling']
+                );
+                elm.addEventListener(
+                    'dragstart',
+                    (options['onDragstart'] || function(){}),
+                    options['bubbling']
                 );
                 elm.addEventListener(
                     'dragleave',
-                    function(e){
-                        _onMouseout(this);
-                        e.preventDefault();
-                    },
-                    false
+                    (options['onDragleave'] || function(){}),
+                    options['bubbling']
+                );
+                elm.addEventListener(
+                    'dragcancel',
+                    (options['onDragcancel'] || function(){}),
+                    options['bubbling']
                 );
                 elm.addEventListener(
                     'drop',
@@ -162,9 +132,9 @@
                             data.append(mimetypeFieldName, file.type);
                             xhr.send(data);
                         }
-                        _onMouseout(this);
+                        options['onDragleave'](e);
                     },
-                    false
+                    options['bubbling']
                 );
             }
         });

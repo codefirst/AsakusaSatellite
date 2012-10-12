@@ -110,11 +110,32 @@ $(function() {
     // File DnD
     // ------------------------------
     var uploadConfig = {
-        action : AsakusaSatellite.url.message,
-        params : [{ room_id : AsakusaSatellite.current.room},
-            { authenticity_token: AsakusaSatellite.form_auth }]
+        onDragenter : function(e){
+            $('.droppable').css({"display":"block"});
+            setTimeout(function(){
+                $('.droppable').css({"opacity":"1"});
+            }, 0);
+        }
     };
-    $('.message-list').dropUploader(uploadConfig);
-    $('#message').dropUploader(uploadConfig);
+    $('body').dropUploader(uploadConfig);
+    var uploadConfig = {
+        action : AsakusaSatellite.url.message,
+        onDragleave : function(e){
+            $('.droppable').css({"opacity":"0"});
+            setTimeout(function(){
+                $('.droppable').css({"display":"none"});
+            },200);
+        },
+        onDragcancel : this['onDragleave'],
+        onDragover :
+        function(e){
+            e.preventDefault();
+            e.stopPropagation();
+        },
+        params : [{ room_id : AsakusaSatellite.current.room},
+                  { authenticity_token: AsakusaSatellite.form_auth }
+                 ]
+    }
+    $('.droppable').dropUploader(uploadConfig);
 });
 

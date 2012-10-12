@@ -62,7 +62,7 @@ class LoginController < ApplicationController
   def set_user_from(access_token)
     response = self.class.consumer.request(
       :get,
-        '/account/verify_credentials.json',
+        '/1/account/verify_credentials.json',
         access_token, { :scheme => :query_string }
     )
     case response

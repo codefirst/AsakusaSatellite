@@ -22,11 +22,7 @@
     - message.attachments.each do |attachment|
      %div.attachment
       %p
-       - fullpath = case Setting[:attachment_path] |
-       when /^http/ then attachment.disk_filename |
-       when /^public\/(.+)/ then "#{root_path}#{$1}/#{File.basename(attachment.disk_filename)}" |
-       else "/watage/show/#{File.basename(attachment.disk_filename)}" |
-       end |
+       - fullpath = attachment_path(attachment)
        %a{:target => "_blank", :href => fullpath}
         - if image_mimetype?(attachment.mimetype)
          %img{:src => fullpath}

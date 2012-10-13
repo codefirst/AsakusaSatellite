@@ -21,6 +21,7 @@ gem "therubyracer", :platform => :ruby
 gem 'uglifier', '>= 1.0.3'
 
 # util
+gem 'rest-client'
 gem 'on_the_spot'
 gem "uuidtools"
 gem 'oauth'

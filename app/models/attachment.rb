@@ -26,7 +26,8 @@ class Attachment
   def self.create_and_save_file(filename, file, mimetype, message)
     if Setting[:attachment_path].start_with? "http"
       uri = URI.parse Setting[:attachment_path]
-      response = JSON.parse(post_multipart(uri, file).body)
+      response_str = RestClient.post uri.to_s, { "upload[file]" => file }
+      response = JSON.parse response_str
       filepath = response["source"]
     else
       filepath = "#{UPLOAD_DIR}/#{unique_id}-#{filename}"
@@ -46,24 +47,4 @@ class Attachment
   def self.unique_id
     UUIDTools::UUID.random_create.to_s
   end
-
-  def self.post_multipart(uri, file, content_type=file.content_type, boundary="A300x")
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.start do
-      request = Net::HTTP::Post.new(uri.path + "?" + (uri.query || ""))
-      request["user-agent"] = "Ruby/#{RUBY_VERSION} MyHttpClient"
-      request.set_content_type "multipart/form-data; boundary=#{boundary}"
-      body = "--#{boundary}\r\n"
-      body += "Content-Disposition: form-data; name=\"upload[file]\"; filename=\"#{URI.encode(file.original_filename)}\"\r\n"
-      body += "Content-Type: #{content_type}\r\n"
-      body += "\r\n"
-      body += "#{file.read}\r\n"
-      body += "\r\n"
-      body += "--#{boundary}--\r\n"
-      request.body = body
-      http.request request
-    end
-  end
-
 end

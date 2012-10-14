@@ -16,7 +16,7 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
 
     not_attached = message.attachments.empty?
 
-    body = not_attached ? message.body : attachments[0].filename
+    body = not_attached ? message.body : message.attachments[0].filename
     text = strip "#{message.user.name} / #{body}", 150
 
     members = room.members - [ message.user ]

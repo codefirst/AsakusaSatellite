@@ -113,3 +113,7 @@ en:
   private_room: "Private room"
 
   delete_device: "Delete"
+
+  notification_time_in_second: "Notification time in second(s)"
+  second: "second"
+  set: "Set"

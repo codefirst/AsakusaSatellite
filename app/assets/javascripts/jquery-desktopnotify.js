@@ -4,6 +4,7 @@
  * @lisence MIT Lisence
  * @version 0.0.2
  */
+//= require "jquery-localstorage"
 (function($, document, undefined){
     /**
      * add event handler that check to have webkit notifications permission.
@@ -53,9 +54,13 @@
                 popup.ondisplay = setting.ondisplay;
                 popup.onclose = setting.onclose;
                 popup.show();
-                setTimeout(function() {
-                    popup.cancel();
-                }, 3000);
+
+                var delay = $.LocalStorage.getOrElse('notificationTime', 3);
+                if (delay > 0) {
+                    setTimeout(function() {
+                        popup.cancel();
+                    }, delay*1000);
+                }
             }
         }
 

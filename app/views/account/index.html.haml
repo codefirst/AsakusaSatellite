@@ -9,6 +9,10 @@
  %fieldset
   %legend Desktop notification
   =submit_tag t(:desktop_notification_on), {:id => 'dn-button', :class => "submit red button large"}
+  .set-notification-time
+   %label= t(:notification_time_in_second)
+   =text_field_tag '', '', {:class => :text, :id => 'notification-time', :placeholder => t(:second)}
+   %input{:type => 'submit', :id => 'set-notification-time-button', :value => t(:set)}
 
  %fieldset
   %legend Registered Devices
@@ -33,4 +37,14 @@
     } else {
       $('#dn-button').desktopNotifyAddPermission();
     }
+  });
+ :javascript
+  $(function() {
+    $('#notification-time').val($.LocalStorage.getOrElse('notificationTime', 3));
+    $('#set-notification-time-button').bind('click', function(e){
+      var time = parseInt($('#notification-time').val());
+      if (!isNaN(time)) {
+        $.LocalStorage.set('notificationTime', time);
+      }
+    });
   });

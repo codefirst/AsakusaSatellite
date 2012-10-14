@@ -22,7 +22,7 @@
                 config._notify({
                     picture: message.profile_image_url,
                     title: message.name + " / " + message.room.name,
-                    text : attached ? (attachment.filename || attachment.name) : message.body
+                    text : attached ? (attachment[0].filename || attachment[0].name) : message.body
                 });
             }
         });

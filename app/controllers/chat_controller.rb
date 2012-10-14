@@ -66,7 +66,7 @@ class ChatController < ApplicationController
       find_room(params[:room_id]) do
         @room.update_attributes!(:updated_at => Time.now)
         if request[:fileupload]
-          create_attach(params[:room_id], params)
+          create_attach(@room, params)
         else
           create_message(@room, params[:message])
         end

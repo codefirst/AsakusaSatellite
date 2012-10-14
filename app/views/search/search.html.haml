@@ -7,8 +7,9 @@
   .message-list
    - result[:messages].each do |message|
     = render :partial => 'chat/message', :locals => { :message => message, :room => message.room }
- %div{:id => 'read-more', :class => 'read-more' }
-  read more
+ - if @results.size == 1
+  %div{:id => 'read-more', :class => 'read-more' }
+   read more
 
 = content_for :javascripts do
  = javascript_include_tag "jquery-pagination"

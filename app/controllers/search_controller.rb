@@ -2,6 +2,7 @@
 class SearchController < ApplicationController
   include RoomHelper
 
+  INTERSECTION_SEARCH_LIMIT = 3
   SEARCH_LIMIT = 20
 
   def index
@@ -18,7 +19,7 @@ class SearchController < ApplicationController
     @rooms = search_from
     @room_id = params[:room].blank? ? "" : params[:room][:id]
     if @room_id.blank?
-      @results = Message.find_by_text :text => @query, :rooms => Room.all_live(current_user)
+      @results = Message.find_by_text(:text => @query, :rooms => Room.all_live(current_user), :limit => INTERSECTION_SEARCH_LIMIT)
     else
       find_room(@room_id, :not_auth => true) do
         @results = Message.find_by_text(:text => @query, :rooms => [ @room ], :limit => SEARCH_LIMIT)

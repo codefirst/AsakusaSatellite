@@ -7,20 +7,24 @@
   .message-list
    - result[:messages].each do |message|
     = render :partial => 'chat/message', :locals => { :message => message, :room => message.room }
- - if @results.size == 1
-  %div{:id => 'read-more', :class => 'read-more' }
-   read more
+  - if @results.size == 1
+   %div{:id => 'read-more', :class => 'read-more' }
+    read more
+  - else
+   %div{:id => 'read-more', :class => 'read-more' }
+    = link_to 'read more', :controller=>:search, :action=>:search, :room => {:id => result[:room].id}, :search => {:message => params[:search][:message]}
 
 = content_for :javascripts do
- = javascript_include_tag "jquery-pagination"
- :javascript
-  $(function() {
-   $("#read-more").pagination({
-    current : function(){ return $(".message").last().attr("message-id"); },
-    content : "div.message",
-    append  : function(elem){ $(".message-list").append(elem); },
-    url : "#{url_for(:action => :search_more)}",
-    params: "search_message=#{CGI.escape(@query)}&room_id=#{@room_id}",
-    indicator : #{image_tag('ajax-loader.gif').inspect}
+ - if @results.size == 1
+  = javascript_include_tag "jquery-pagination"
+  :javascript
+   $(function() {
+    $("#read-more").pagination({
+     current : function(){ return $(".message").last().attr("message-id"); },
+     content : "div.message",
+     append  : function(elem){ $(".message-list").append(elem); },
+     url : "#{url_for(:action => :search_more)}",
+     params: "search_message=#{CGI.escape(@query)}&room_id=#{@room_id}",
+     indicator : #{image_tag('ajax-loader.gif').inspect}
+    });
    });
-  });

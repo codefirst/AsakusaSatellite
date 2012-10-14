@@ -14,7 +14,11 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
     message = context[:message]
     room = context[:room]
 
-    text = strip "#{message.user.name} / #{message.body}", 150
+    attachment = message.attachment
+    not_attached = attachment.nil? or attachment.empty?
+
+    body = not_attached ? message.body : attachment.first.filename
+    text = strip "#{message.user.name} / #{body}", 150
 
     members = room.members - [ message.user ]
 

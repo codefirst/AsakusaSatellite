@@ -50,7 +50,9 @@ class Attachment
     UPLOAD_DIR = "#{Rails.root}/#{Setting[:attachment_path]}"
     def upload(filename, file, mimetype, message)
       filepath = "#{UPLOAD_DIR}/#{self.class.unique_id}-#{filename}"
-      File.write(filepath,file.read, nil, :mode => 'wb')
+      File.open(filepath, 'wb') do|io|
+        io.write file.read
+      end
 
       [ self.class.url_for_localfile(filepath), filepath ]
     end

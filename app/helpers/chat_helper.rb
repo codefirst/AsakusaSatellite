@@ -2,9 +2,7 @@ require 'yaml'
 require 'asakusa_satellite/message_pusher'
 
 module ChatHelper
-  def create_message(room, message, opt = {})
-    return if !opt[:force] and message.strip.empty?
-
+  def create_message(room, message)
     save_message(room, message){|_|}
   end
 
@@ -58,7 +56,7 @@ module ChatHelper
   def save_message(room, body, &f)
     Message.new(:room => room, :body => body, :user => current_user).
       tap{|m| return false unless m.save }.
-      tap{|m| f[message] }.
+      tap{|m| f[m] }.
       tap{|m| publish_message(:create, m, room) }
   end
 

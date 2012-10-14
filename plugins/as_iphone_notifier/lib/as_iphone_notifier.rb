@@ -39,6 +39,8 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
     }.tap{|xs|
       APNS.send_notifications xs
     }
+  rescue => e
+    Rails.logger.error e
   end
 
 end

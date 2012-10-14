@@ -21,7 +21,7 @@ describe Attachment do
 
   describe "create_and_save_file" do
     before {
-      Attachment.stub(:unique_id){ "hogehoge" }
+      Attachment::LocalStorePolicy.stub(:unique_id){ "hogehoge" }
     }
 
     subject {

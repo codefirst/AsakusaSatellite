@@ -31,13 +31,6 @@ module ApplicationHelper
   end
 
   def attachment_path(attachment)
-    case Setting[:attachment_path]
-    when /^http/
-      attachment.disk_filename
-    when /^public\/(.+)/
-      "#{root_path}#{$1}/#{File.basename(attachment.disk_filename)}"
-    else
-      "/watage/show/#{File.basename(attachment.disk_filename)}"
-    end
+    attachment.url
   end
 end

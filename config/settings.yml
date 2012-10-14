@@ -4,5 +4,6 @@ oauth_request_site: "http://api.twitter.com"
 #login_link : "redmineauth"
 #login_link_redmine: Redmine URL
 
-# file attachment setting
+# file attachment
+attachment_policy: <%= ENV['SETTINGS_ATTACHMENT_POLICY'] || "local" %>
 attachment_path: <%= ENV['SETTINGS_ATTACHMENT_PATH'] || "public/upload" %>

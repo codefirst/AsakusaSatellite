@@ -1,14 +1,16 @@
 as\_watage\_plugin
 ===================
 
-This plugin enables you to flexible file attachment.
+This plugin enables you to upload file to watage.
 
 Setup
 ----------------
 
-To store attachment file in temporary directory on heroku,
-add following lines to setting.yml:
+Add folowing line to `filter.yml` to enable this plugin
 
-attachment_path: "tmp"
-use_attachment_alias: true
+    - name: as_watage_plugin
 
+And `setting.yml`
+
+    attachment_policy: watage
+    attachment_path: https://your-watage.heroku.com/

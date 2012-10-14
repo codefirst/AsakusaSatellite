@@ -1,14 +1,33 @@
 # -*- coding: utf-8 -*-
 require 'uuidtools'
-require 'net/https'
-require 'uri'
-require 'json'
+
 class Attachment
-  UPLOAD_DIR = "#{Rails.root}/#{Setting[:attachment_path]}"
+  class << self
+    def create_and_save_file(filename, file, mimetype, message)
+      permalink, disk_filename = policy.upload(filename, file, mimetype, message)
+      Attachment.new(:filename => filename,
+                     :mimetype => mimetype,
+                     :permalink => permalink,
+                     :disk_filename => disk_filename,
+                     :message => message).tap{|a|
+        a.save }
+    end
+
+    def register(name, klass)
+      @@policy ||= {}
+      @@policy[name] = klass
+    end
+
+    private
+    def policy
+      @@policy[Setting[:attachment_policy] || 'local'].new
+    end
+  end
 
   include Mongoid::Document
   include Mongoid::Timestamps
   field :disk_filename
+  field :permalink
   field :filename
   field :content_type
   field :mimetype
@@ -17,34 +36,35 @@ class Attachment
 
   def to_hash
     {
-      :disk_filename => File.basename(self.disk_filename),
+      :disk_filename => File.basename(self.disk_filename || '' ),
       :filename => self.filename,
       :content_type => self.mimetype
     }
   end
 
-  def self.create_and_save_file(filename, file, mimetype, message)
-    if Setting[:attachment_path].start_with? "http"
-      uri = URI.parse Setting[:attachment_path]
-      response_str = RestClient.post uri.to_s, { "upload[file]" => file }
-      response = JSON.parse response_str
-      filepath = response["source"]
-    else
-      filepath = "#{UPLOAD_DIR}/#{unique_id}-#{filename}"
-      open(filepath, "wb") do |f|
-        f.write(file.read)
+  def url
+    self.permalink || LocalStorePolicy.url_for_localfile(self.disk_filename)
+  end
+
+  class LocalStorePolicy
+    UPLOAD_DIR = "#{Rails.root}/#{Setting[:attachment_path]}"
+    def upload(filename, file, mimetype, message)
+      filepath = "#{UPLOAD_DIR}/#{self.class.unique_id}-#{filename}"
+      File.write(filepath,file.read, nil, :mode => 'wb')
+
+      [ self.class.url_for_localfile(filepath), filepath ]
+    end
+
+    def self.url_for_localfile(path)
+      if path =~ %r!.*/public(/.+)! then
+        $1
       end
     end
 
-    attachment = Attachment.new(:filename => filename,
-                                :mimetype => mimetype,
-                                :disk_filename => filepath,
-                                :message => message)
-    attachment.save
-    attachment
+    def self.unique_id
+      UUIDTools::UUID.random_create.to_s
+    end
   end
 
-  def self.unique_id
-    UUIDTools::UUID.random_create.to_s
-  end
+  register('local' , LocalStorePolicy)
 end

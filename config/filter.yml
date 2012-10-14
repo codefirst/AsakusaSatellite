@@ -3,3 +3,4 @@
 - name: redmine_ticket_link
 - name: twitter_link
 - name: emoji_filter
+- name: as_watage_plugin

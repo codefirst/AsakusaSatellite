@@ -28,7 +28,11 @@
         var original = target.text();
         activate(target, function(elem, resume){
             target.addClass("loading").empty().html(config.indicator);
-            $.get( config.url + "?id=" + config.current(), function(content){
+            var params = "id=" + config.current();
+            if (config.params) {
+                params += "&" + config.params
+            }
+            $.get( config.url + "?" + params, function(content){
                 var dom = $(content);
                 var messages = dom.find(config.content);
                 elem.removeClass("loading");

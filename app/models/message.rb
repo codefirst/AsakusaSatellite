@@ -43,7 +43,10 @@ class Message
     query = params[:text]
     rooms = (params[:rooms] || Room.all_live).select {|room| not room.deleted}
     rooms.map do |room|
-      messages = Message.where(:room_id => room._id, :body => /#{query}/i).order_by(:_id.desc)
+      messages = Message.where(:room_id => room._id, :body => /#{query}/i)
+      messages = messages.where(:_id.lt => params[:message_id]) unless params[:message_id].blank?
+      messages = messages.limit(params[:limit]) if params[:limit]
+      messages = messages.order_by(:_id.desc)
       { :room => room, :messages => messages }
     end
   end

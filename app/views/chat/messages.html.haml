@@ -1,5 +1,5 @@
 -# -*- coding: utf-8 -*-
 .message-list
  - @messages.each do |message|
-  = render :partial => 'message', :locals => { :message => message, :room => @room }
+  = render :partial => 'chat/message', :locals => { :message => message, :room => @room }
 

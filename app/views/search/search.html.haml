@@ -5,6 +5,21 @@
   - next if result[:messages].count == 0
   = render :partial => "shared/room_info", :locals => { :room => result[:room], :has_button => false }
   .message-list
-  - result[:messages].each do |message|
-   = render :partial => 'chat/message', :locals => { :message => message, :room => message.room }
+   - result[:messages].each do |message|
+    = render :partial => 'chat/message', :locals => { :message => message, :room => message.room }
+ %div{:id => 'read-more', :class => 'read-more' }
+  read more
 
+= content_for :javascripts do
+ = javascript_include_tag "jquery-pagination"
+ :javascript
+  $(function() {
+   $("#read-more").pagination({
+    current : function(){ return $(".message").last().attr("message-id"); },
+    content : "div.message",
+    append  : function(elem){ $(".message-list").append(elem); },
+    url : "#{url_for(:action => :search_more)}",
+    params: "search_message=#{CGI.escape(@query)}&room_id=#{@room_id}",
+    indicator : #{image_tag('ajax-loader.gif').inspect}
+   });
+  });

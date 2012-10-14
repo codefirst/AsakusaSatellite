@@ -55,7 +55,7 @@ describe SearchController do
         @find_room    = Room.should_receive(:where).with(:_id => '1'){ [ @room ] }
         @find_by_text = Message.
           should_receive(:find_by_text).
-          with(:text => 'foo',:rooms => [ @room ]){ [] }
+          with(:text => 'foo', :rooms => [ @room ], :limit => 20){ [] }
         get :search, :search => {:message => 'foo'}, :room => { :id => '1' }
       end
 

@@ -1,4 +1,4 @@
-//= require jquery-scrollTo-min
+//= require jquery-scrollTo
 
 (function($, document, undefined){
     $.fn.autoscroll = function(selector, config) {
@@ -13,7 +13,10 @@
 
         var target = this;
 
-        config.scrollTo(target.find(selector).last());
+        var lasttarget = target.find(selector).last();
+        if (lasttarget.length > 0) {
+            config.scrollTo(lasttarget);
+        }
 
         target.bind('as::append', function(_, elems){
             if( $(elems).filter(selector).length != 0){

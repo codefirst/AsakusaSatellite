@@ -27,7 +27,7 @@ describe SearchController do
     context "部屋指定なし" do
       before do
         Room.stub(:all_live){ [] }
-        @find_by_text = Message.should_receive(:find_by_text).with(:text => 'foo', :rooms=>[]){ [] }
+        @find_by_text = Message.should_receive(:find_by_text).with(:text => 'foo', :rooms=>[], :limit => 3){ [] }
         get :search, :search => {:message => 'foo'}
       end
 

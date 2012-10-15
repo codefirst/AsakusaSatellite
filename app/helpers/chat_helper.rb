@@ -3,6 +3,7 @@ require 'asakusa_satellite/message_pusher'
 
 module ChatHelper
   def create_message(room, message)
+    return if message.strip.empty?
     save_message(room, message){|_|}
   end
 

@@ -9,6 +9,7 @@ AsakusaSatellite is a realtime chat application for Developers.
 
 Authors
 ----------------
+
  * @suer
  * @mallowlabs
  * @mzp
@@ -17,6 +18,7 @@ Authors
 
 Requirement
 ----------------
+
  * Ruby 1.8.7 or 1.9.3
  * RubyGems 1.4.2 or later
  * Bundler 1.0.7 or later

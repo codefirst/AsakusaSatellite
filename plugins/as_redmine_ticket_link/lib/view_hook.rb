@@ -1,16 +1,14 @@
 require 'asakusa_satellite/hook'
 
 class AsakusaSatellite::Hook::RedmineTicketLink < AsakusaSatellite::Hook::Listener
+  UNSAFE_CHARACTERS = /[^-_.!~*'()a-zA-Z\d;\/?:@=+$,\[\]]/n
   def message_buttons(context)
-    subject     = URI.escape(URI.escape(context[:message].body), /[&+]/)
-    description = <<END
+    subject     = URI::escape(context[:message].body, UNSAFE_CHARACTERS)
+    description = URI::escape(<<END, UNSAFE_CHARACTERS)
 #{context[:message].user.name}: #{context[:message].body}
 
 #{context[:permlink]}
 END
-    description = URI.escape(description)
-    description = URI.escape(description, /[&+]/)
-p description
 
     path = nil
     context[:self].instance_eval { path = image_path("redmine.png") }

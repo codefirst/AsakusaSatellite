@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'json'
 require 'open-uri'
+require 'cgi'
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
   def process(line, opts={})
@@ -23,7 +24,7 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
       begin
         open(api.to_s) do|io|
           hash = JSON.parse(io.read)
-          subject = hash["issue"]["subject"]
+          subject = CGI::escapeHTML hash["issue"]["subject"]
           return %[<a target="_blank" href="#{url}">#{ref} #{subject}</a>]
         end
       rescue => e

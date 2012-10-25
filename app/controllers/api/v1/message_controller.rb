@@ -25,7 +25,7 @@ module Api
       def show
         begin
           @message = Message.find(params[:id])
-        rescue 
+        rescue
           render :json => {:status => 'error', :error => "message #{params[:id]} not found"}
           return
         end

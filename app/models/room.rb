@@ -5,13 +5,22 @@ class Room
   field :title
   field :deleted, :type => Boolean, :default => false
   field :is_public, :type => Boolean, :default => true
-  field :alias
+  field :alternative_name
   field :yaml
   belongs_to :user, :polymorphic => true
   has_and_belongs_to_many :members, :class_name => 'User'
 
   validates_presence_of :title
-  validates_format_of :alias, :with => /\A[\w-]*\Z/
+  validates_format_of :alternative_name, :with => /\A[\w-]*\Z/
+
+  validate :unique_if_not_blank, :alternative_name
+
+  def unique_if_not_blank
+    unless alternative_name.blank?
+      size = Room.where(:alternative_name => alternative_name).where(:_id => {"$ne" => id}).size
+      errors.add("room alias", I18n.t(:alternative_name_not_unique)) if size > 0
+    end
+  end
 
   def self.public_rooms
     Room.where(:is_public => true, :deleted => false).to_a

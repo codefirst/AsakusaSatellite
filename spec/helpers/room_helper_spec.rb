@@ -36,7 +36,7 @@ describe RoomHelper do
 
   before do
     @room = mock "room"
-    @room.stub(:deleted => false, :is_public=>true, :accessible? => true, :alias => 'alias')
+    @room.stub(:deleted => false, :is_public=>true, :accessible? => true, :alternative_name => 'alias')
 
     @user = mock 'user'
     helper.stub(:current_user => @user)
@@ -77,6 +77,6 @@ describe RoomHelper do
         @room
       end
     }
-    its(:alias) { should == 'alias' }
+    its(:alternative_name) { should == 'alias' }
   end
 end

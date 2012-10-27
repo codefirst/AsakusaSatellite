@@ -11,8 +11,8 @@
     %legend= t(:input_room_name)
     =text_field :room, :title, {:class => :text, :autofocus => true, :placeholder => t(:input_new_room_name)}
    %fieldset
-    %legend= t(:input_room_alias)
-    =text_field :room, :alias, {:class => :text, :placeholder => t(:input_new_room_alias)}
+    %legend= t(:input_room_alternative_name)
+    =text_field :room, :alternative_name, {:class => :text, :placeholder => t(:input_new_room_alternative_name)}
 
    - unless @room.is_public
     %fieldset

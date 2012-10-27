@@ -40,6 +40,17 @@ describe Room do
       it { should have(2).records }
     end
 
+    context "duplicated alternative_name rooms" do
+      before do
+        Room.delete_all(:alternative_name => 'alias')
+        Room.new(:title => 'room1', :alternative_name => 'alias').save
+        @room = Room.new(:title => 'room2', :alternative_name => 'alias')
+        @room.save
+      end
+      subject { @room.errors }
+      it { should have(1).items }
+    end
+
     context "rooms が2個かつ1個削除されている" do
       before do
         Room.new(:title => 'room1', :user => nil, :updated_at => Time.now).save!

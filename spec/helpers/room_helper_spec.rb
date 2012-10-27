@@ -36,7 +36,7 @@ describe RoomHelper do
 
   before do
     @room = mock "room"
-    @room.stub(:deleted => false, :is_public=>true, :accessible? => true)
+    @room.stub(:deleted => false, :is_public=>true, :accessible? => true, :alias => 'alias')
 
     @user = mock 'user'
     helper.stub(:current_user => @user)
@@ -69,5 +69,14 @@ describe RoomHelper do
 
   context "ログインしている" do
     it_should_behave_like 'found room'
+  end
+
+  context 'find by alias' do
+    subject {
+      helper.find_room 'alias' do
+        @room
+      end
+    }
+    its(:alias) { should == 'alias' }
   end
 end

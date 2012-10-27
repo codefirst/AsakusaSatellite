@@ -10,7 +10,7 @@ class Room
   belongs_to :user, :polymorphic => true
   has_and_belongs_to_many :members, :class_name => 'User'
 
-  validates_presence_of :title, :alias
+  validates_presence_of :title
   validates_format_of :alias, :with => /\A[\w-]*\Z/
 
   def self.public_rooms

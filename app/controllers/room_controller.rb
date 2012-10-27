@@ -40,8 +40,8 @@ class RoomController < ApplicationController
     @plugins = AsakusaSatellite::Config.rooms
     find_room(@id) do
       if request.post? then
-        @room.title = params[:room][:title] unless params[:room][:title].blank?
-        @room.alias = params[:room][:alias] unless params[:room][:alias].blank?
+        @room.title = params[:room][:title]
+        @room.alias = params[:room][:alias]
         unless params[:room][:members].blank?
           @room.members = params[:room][:members].map do |_, user_name|
             user = User.where(:screen_name => user_name).first
@@ -52,7 +52,8 @@ class RoomController < ApplicationController
             end
           end.flatten
         end
-        @room.save
+        flash[:errors] = format_error_messages(@room) unless @room.save
+        logger.info @room.errors.size
         expire_fragment :controller => 'chat', :action => 'room', :id => @room.id
         redirect_to :action => 'configure'
       end

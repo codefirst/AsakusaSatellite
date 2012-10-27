@@ -33,4 +33,14 @@ module ApplicationHelper
   def attachment_path(attachment)
     attachment.url
   end
+
+  def format_error_messages(model)
+    html = '<div class="error_message">'
+    model.errors.messages.each do |field, messages|
+      messages.each do |message|
+        html << "<li>#{field} #{message}</li>"
+      end
+    end
+    html << '</div>'
+  end
 end

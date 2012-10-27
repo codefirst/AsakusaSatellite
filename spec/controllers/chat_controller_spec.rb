@@ -84,22 +84,6 @@ describe ChatController do
     its([:next]) { should have(5).items }
   end
 
-  context "非ログイン時" do
-    before { session[:current_user_id] = nil }
-
-    it { expect {
-        post :room, {:room => {:title => 'test'}}
-      }.to change(Room.all, :size).by(0) }
-
-    describe "部屋作成" do
-      before  { post :room, {:room => {:title => 'test'} } }
-      subject { response }
-      it {
-        should redirect_to(:controller => 'chat', :action => 'index')
-      }
-    end
-  end
-
   context "部屋が存在しない" do
     before {
       Room.delete_all

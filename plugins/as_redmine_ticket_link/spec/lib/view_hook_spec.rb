@@ -55,5 +55,19 @@ describe AsakusaSatellite::Hook::RedmineTicketLink do
       it { should have_xml "/a[contains(@href, 'quick%20%26%20dirty')]" }
       it { should have_xml "//img[@src='image-path']" }
     end
+
+    context "メッセージに ; が含まれる" do
+      subject {
+        room = Room.new
+        room.yaml = {:redmine_ticket => {
+            'root' => 'http://redmine.example.com/foo/',
+            'project_name' =>'bar'
+          }}
+        @hook.message_buttons(:message => Message.new(:body=>"(;o;)", :user=>User.new, :room => room),
+                              :permlink => 'http://example.com/001',
+                              :self => Dummy.new) }
+      it { should have_xml "/a[contains(@href, '(%3Bo%3B)')]" }
+      it { should have_xml "//img[@src='image-path']" }
+    end
   end
 end

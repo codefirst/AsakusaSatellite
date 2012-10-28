@@ -41,7 +41,7 @@ class RoomController < ApplicationController
     find_room(@id) do
       if request.post? then
         @room.title = params[:room][:title]
-        @room.alternative_name = params[:room][:alternative_name]
+        @room.nickname = params[:room][:nickname]
         unless params[:room][:members].blank?
           @room.members = params[:room][:members].map do |_, user_name|
             user = User.where(:screen_name => user_name).first

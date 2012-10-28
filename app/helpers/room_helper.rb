@@ -1,6 +1,6 @@
 module RoomHelper
   def find_room(id, params={}, &f)
-    @room = Room.where(:_id => id).first || Room.where(:alternative_name => id).first
+    @room = Room.where(:_id => id).first || Room.where(:nickname => id).first
     if (@room == nil) or
         @room.deleted or
         (not @room.accessible?(current_user)) or

@@ -5,20 +5,20 @@ class Room
   field :title
   field :deleted, :type => Boolean, :default => false
   field :is_public, :type => Boolean, :default => true
-  field :alternative_name
+  field :nickname
   field :yaml
   belongs_to :user, :polymorphic => true
   has_and_belongs_to_many :members, :class_name => 'User'
 
   validates_presence_of :title
-  validates_format_of :alternative_name, :with => /\A[\w-]*\Z/
+  validates_format_of :nickname, :with => /\A[\w-]*\Z/
 
-  validate :unique_if_not_blank, :alternative_name
+  validate :unique_if_not_blank, :nickname
 
   def unique_if_not_blank
-    unless alternative_name.blank?
-      is_duplicated = Room.where(:alternative_name => alternative_name).where(:_id => {"$ne" => id}).any?
-      errors.add("room alias", I18n.t(:alternative_name_not_unique)) if is_duplicated
+    unless nickname.blank?
+      is_duplicated = Room.where(:nickname => nickname).where(:_id => {"$ne" => id}).any?
+      errors.add("room nickname", I18n.t(:nickname_not_unique)) if is_duplicated
     end
   end
 
@@ -78,10 +78,10 @@ class Room
   end
 
   def to_param
-    if alternative_name.blank?
+    if nickname.blank?
       id.to_s
     else
-      alternative_name
+      nickname
     end
   end
 

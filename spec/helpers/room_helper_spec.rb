@@ -36,7 +36,7 @@ describe RoomHelper do
 
   before do
     @room = mock "room"
-    @room.stub(:deleted => false, :is_public=>true, :accessible? => true, :alternative_name => 'alias')
+    @room.stub(:deleted => false, :is_public=>true, :accessible? => true, :nickname => 'nickname')
 
     @user = mock 'user'
     helper.stub(:current_user => @user)
@@ -71,12 +71,12 @@ describe RoomHelper do
     it_should_behave_like 'found room'
   end
 
-  context 'find by alias' do
+  context 'find by nickname' do
     subject {
-      helper.find_room 'alias' do
+      helper.find_room 'nickname' do
         @room
       end
     }
-    its(:alternative_name) { should == 'alias' }
+    its(:nickname) { should == 'nickname' }
   end
 end

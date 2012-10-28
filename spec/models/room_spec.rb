@@ -40,11 +40,11 @@ describe Room do
       it { should have(2).records }
     end
 
-    context "duplicated alternative_name rooms" do
+    context "duplicated nickname rooms" do
       before do
-        Room.delete_all(:alternative_name => 'alias')
-        Room.new(:title => 'room1', :alternative_name => 'alias').save
-        @room = Room.new(:title => 'room2', :alternative_name => 'alias')
+        Room.delete_all(:nickname => 'nickname')
+        Room.new(:title => 'room1', :nickname => 'nickname').save
+        @room = Room.new(:title => 'room2', :nickname => 'nickname')
         @room.save
       end
       subject { @room.errors }
@@ -65,19 +65,19 @@ describe Room do
   end
 
   context "to_param" do
-    context "with alias" do
+    context "with nickname" do
       before do
-        Room.delete_all(:alternative_name => 'alias')
-        @room = Room.new(:title => 'room', :alternative_name => 'alias')
+        Room.delete_all(:nickname => 'nickname')
+        @room = Room.new(:title => 'room', :nickname => 'nickname')
         @room.save
       end
       subject { @room }
-      its(:to_param) { should == 'alias' }
+      its(:to_param) { should == 'nickname' }
     end
-    context "without alias" do
+    context "without nickname" do
       before do
-        Room.delete_all(:alternative_name => 'alias')
-        @room = Room.new(:title => 'room', :alternative_name => '')
+        Room.delete_all(:nickname => 'nickname')
+        @room = Room.new(:title => 'room', :nickname => '')
         @room.save
       end
       subject { @room }

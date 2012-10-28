@@ -8,7 +8,7 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
     when "graphviz::","graph::"
       %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&amp;chl=#{CGI.escape content}" />)
     when /\A(\w+)::\Z/
-      CodeRay.scan(content, $1).div.split '\n'
+      [CodeRay.scan(content, $1).div]
     else
       lines
     end

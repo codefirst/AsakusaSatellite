@@ -13,14 +13,17 @@ describe CodeHighlightFilter do
 
   it 'ハイライトできる' do
     plain = [ "ruby::", "puts \"hello\"",""]
-
-    result = <<END
-<div class="CodeRay">
-  <div class="code"><pre>puts <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">hello</span><span style="color:#710">&quot;</span></span>
-</pre></div>
-</div>
-END
     @filter.process_all(plain).join.should have_xml("//div[@class='CodeRay']")
+  end
+
+  it '\n が LF に置換されない' do
+    plain = [ "ruby::", "\"\\n\"",""]
+    @filter.process_all(plain).join.should have_xml("//span[text()='\\n']")
+  end
+
+  it 'LF が \n に置換されない' do
+    plain = [ "ruby::", "\"one\"\n\"two\"",""]
+    @filter.process_all(plain).join.should have_xml("//pre[text()='\n']")
   end
 
   it "graphvizの可視化に対応" do

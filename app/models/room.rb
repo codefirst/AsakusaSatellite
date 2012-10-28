@@ -77,6 +77,14 @@ class Room
     }
   end
 
+  def to_param
+    if alternative_name.blank?
+      id.to_s
+    else
+      alternative_name
+    end
+  end
+
   def yaml
     str = self.read_attribute("yaml")
     YAML.load(str) rescue {}

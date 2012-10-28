@@ -64,6 +64,28 @@ describe Room do
     end
   end
 
+  context "to_param" do
+    context "with alias" do
+      before do
+        Room.delete_all(:alternative_name => 'alias')
+        @room = Room.new(:title => 'room', :alternative_name => 'alias')
+        @room.save
+      end
+      subject { @room }
+      its(:to_param) { should == 'alias' }
+    end
+    context "without alias" do
+      before do
+        Room.delete_all(:alternative_name => 'alias')
+        @room = Room.new(:title => 'room', :alternative_name => '')
+        @room.save
+      end
+      subject { @room }
+      its(:to_param) { should == @room.id.to_s }
+    end
+  end
+
+
   before {
     @user = User.new
     @room = Room.new(:title => 'room1', :user => @user, :updated_at => Time.now)

@@ -17,8 +17,8 @@ class Room
 
   def unique_if_not_blank
     unless alternative_name.blank?
-      not_exists = Room.where(:alternative_name => alternative_name).where(:_id => {"$ne" => id}).empty?
-      errors.add("room alias", I18n.t(:alternative_name_not_unique)) unless not_exists
+      is_duplicated = Room.where(:alternative_name => alternative_name).where(:_id => {"$ne" => id}).any?
+      errors.add("room alias", I18n.t(:alternative_name_not_unique)) if is_duplicated
     end
   end
 

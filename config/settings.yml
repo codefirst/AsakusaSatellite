@@ -7,3 +7,5 @@ oauth_request_site: "http://api.twitter.com"
 # file attachment
 attachment_policy: <%= ENV['SETTINGS_ATTACHMENT_POLICY'] || "local" %>
 attachment_path: <%= ENV['SETTINGS_ATTACHMENT_PATH'] || "public/upload" %>
+watage_token: <%= ENV['SETTINGS_WATAGE_ACCESS_TOKEN'] || "00000000-0000-0000-0000-000000000000" %>
+watage_token_secret: <%= ENV['SETTINGS_WATAGE_ACCESS_TOKEN_SECRET'] || "00000000-0000-0000-0000-000000000000" %>

@@ -24,7 +24,7 @@ gem 'uglifier', '>= 1.0.3'
 gem 'rest-client'
 gem 'on_the_spot'
 gem "uuidtools"
-gem 'oauth'
+gem 'omniauth'
 gem 'json', "= 1.5.3"
 gem 'newrelic_rpm'
 

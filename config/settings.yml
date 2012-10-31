@@ -1,6 +1,9 @@
-oauth_request_token: "Ug9FZ0r8zp3jwuvOGFYWQ"
-oauth_request_token_secret: "qMvcOzyQu4Qkz1bm0k1bOHYDn1m4JF3DXbQK9CWfMA"
-oauth_request_site: "http://api.twitter.com"
+omniauth:
+  provider: "twitter"
+  provider_args:
+    - "Ug9FZ0r8zp3jwuvOGFYWQ"
+    - "qMvcOzyQu4Qkz1bm0k1bOHYDn1m4JF3DXbQK9CWfMA"
+
 #login_link : "redmineauth"
 #login_link_redmine: Redmine URL
 

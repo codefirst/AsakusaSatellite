@@ -6,6 +6,7 @@ require 'asakusa_satellite/filter'
 require 'asakusa_satellite/hook'
 require 'asakusa_satellite/config'
 require 'asakusa_satellite/message_pusher'
+require 'asakusa_satellite/omniauth/adapter'
 
 config = lambda do|name|
   YAML::load(ERB.new(File.read(File.expand_path("../#{name}.yml", __FILE__))).result)

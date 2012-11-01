@@ -6,9 +6,7 @@ class LoginController < ApplicationController
   end
 
   def omniauth_callback
-    adapter = AsakusaSatellite::Omniauth::Adapter.adapter(Setting['omniauth']['provider'])
-    authenticated_user = adapter.adapt(request.env['omniauth.auth'])
-
+    authenticated_user = AsakusaSatellite::Omniauth::Adapter.adapt(request.env['omniauth.auth'])
     user = User.first(:conditions => {:screen_name => authenticated_user.screen_name})
     user ||= authenticated_user
     user.save

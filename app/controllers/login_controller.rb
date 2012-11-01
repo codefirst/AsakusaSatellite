@@ -6,14 +6,11 @@ class LoginController < ApplicationController
   end
 
   def omniauth_callback
-    adapter_class = AsakusaSatellite::Omniauth::Adapter.adapter(Setting['omniauth']['provider'])
-    adapter = adapter_class.new(request.env['omniauth.auth'])
+    adapter = AsakusaSatellite::Omniauth::Adapter.adapter(Setting['omniauth']['provider'])
+    authenticated_user = adapter.adapt(request.env['omniauth.auth'])
 
-    user = User.first(:conditions => {:screen_name => adapter.screen_name})
-    user ||= User.new
-    user.screen_name = adapter.screen_name
-    user.name = adapter.name
-    user.profile_image_url = adapter.profile_image_url
+    user = User.first(:conditions => {:screen_name => authenticated_user.screen_name})
+    user ||= authenticated_user
     user.save
     set_current_user(user)
     redirect_to :controller => 'chat', :action => 'index'

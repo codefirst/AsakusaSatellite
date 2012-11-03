@@ -31,6 +31,7 @@ AsakusaSatellite::Application.routes.draw do
   match 'message', '/chat/show/:id',:controller => "chat", :action=> "show"
 
   match '/auth/:provider/callback', :to => 'login#omniauth_callback'
+  match '/auth/failure', :to => 'login#failure'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

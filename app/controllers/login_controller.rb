@@ -6,7 +6,7 @@ class LoginController < ApplicationController
   end
 
   def omniauth_callback
-    authenticated_user = AsakusaSatellite::Omniauth::Adapter.adapt(request.env['omniauth.auth'])
+    authenticated_user = AsakusaSatellite::OmniAuth::Adapter.adapt(request.env['omniauth.auth'])
     user = User.first(:conditions => {:screen_name => authenticated_user.screen_name})
     user ||= authenticated_user
     user.save
@@ -20,5 +20,9 @@ class LoginController < ApplicationController
       session.delete :current_user_id
     end
     redirect_to request.referer
+  end
+
+  def failure
+    redirect_to :back, :alert => params[:message]
   end
 end

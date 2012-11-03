@@ -8,20 +8,22 @@
    .login-right
     :width 70%
     :float right
- =form_for :localauth, :url => {:controller => :localauth, :action => :login} do |form|
+ =form_tag "#{root_path}auth/local/callback" do |form|
   %fieldset
    %legend{:align => :center}= t(:login)
+   - unless flash[:alert].blank?
+    .error_message= flash[:alert]
    %div
     .login-left
-     =label :login, :username, t(:username) + ":"
+     =label_tag :username, t(:username) + ":"
     .login-right
-     =text_field :login, :username, {:class => :text, :placeholder => t(:input_your_name)}
+     =text_field_tag :username, '', {:class => :text, :placeholder => t(:input_your_name)}
     .clear
    %div
     .login-left
-     =label :login, :username, t(:password) + ":"
+     =label_tag :username, t(:password) + ":"
     .login-right
-     =password_field :login, :password, {:class => :text, :placeholder => t(:input_your_password)}
+     =password_field_tag :password, '', {:class => :text, :placeholder => t(:input_your_password)}
     .clear
    %div{:style => "text-align:center;margin:10px;"}
     =submit_tag t(:login), :class => "submit red button large"

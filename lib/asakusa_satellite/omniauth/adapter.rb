@@ -1,5 +1,5 @@
 module AsakusaSatellite
-  module Omniauth
+  module OmniAuth
     class Adapter
       def self.adapt(omniauth_hash)
         User.new(:name => omniauth_hash.info.name,

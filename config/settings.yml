@@ -7,6 +7,9 @@ omniauth:
 #login_link : "redmineauth"
 #login_link_redmine: Redmine URL
 
+#omniauth:
+#  provider: "local"
+
 # file attachment
 attachment_policy: <%= ENV['SETTINGS_ATTACHMENT_POLICY'] || "local" %>
 attachment_path: <%= ENV['SETTINGS_ATTACHMENT_PATH'] || "public/upload" %>

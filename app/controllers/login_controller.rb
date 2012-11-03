@@ -11,7 +11,11 @@ class LoginController < ApplicationController
     user ||= authenticated_user
     user.save
     set_current_user(user)
-    redirect_to :controller => 'chat', :action => 'index'
+    if request.env['omniauth.origin'].blank?
+      redirect_to :controller => :chat, :action => :index
+    else
+      redirect_to request.env['omniauth.origin']
+    end
   end
 
   def logout

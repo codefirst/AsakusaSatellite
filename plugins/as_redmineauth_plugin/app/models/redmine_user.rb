@@ -2,11 +2,11 @@ require 'rest_client'
 require 'rexml/document'
 
 class RedmineUser
-  def initialize(key)
+  def initialize(key, redmine_url_base)
     begin
       @document = nil
       response = RestClient.get(
-        "#{Setting[:login_link_redmine]}/users/current.xml",
+        redmine_url_base,
         {:params => {:key => key}}
         )
       @document = REXML::Document.new(response)

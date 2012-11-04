@@ -8,8 +8,10 @@ Setup
 
 1. Edit <AS_ROOT>/config/settings.yml
 
-        login_link : "redmineauth"
-        login_link_redmine: http://redmine.host/path
+        omniauth:
+          provider: 'redmine'
+          provider_args:
+            - 'http://redmine.host/path'
 
 2. Restart AsakusaSatellite
 

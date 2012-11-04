@@ -8,8 +8,8 @@ Setup
 
 1. Edit <AS_ROOT>/config/settings.yml
 
-        #omniauth:
-        #  provider: "local"
+        omniauth:
+          provider: "local"
 
 2. Edit <PLUGIN_ROOT>/config/users.yml
 

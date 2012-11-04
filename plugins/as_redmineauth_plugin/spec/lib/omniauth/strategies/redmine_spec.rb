@@ -24,6 +24,7 @@ describe OmniAuth::Strategies::Redmine do
   context 'callback phase' do
     before {
       @strategy.stub(:request) { {:login_key => 'dummy', :login_name => 'name', :image_url => 'http://example.com/test.png'} }
+      @strategy.stub(:redmine_users_url) { '' }
     }
 
     context "validなユーザはログインできる" do

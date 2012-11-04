@@ -12,7 +12,7 @@ module OmniAuth
       end
 
       def callback_phase
-        redmine_user = RedmineUser.new(request[:login_key], "#{options.login_link_redmine}/users/current.xml")
+        redmine_user = RedmineUser.new(request[:login_key], redmine_users_url)
 
         return fail!('login failed') unless redmine_user.exist?
         return fail!('login failed') if redmine_user.screen_name.blank?
@@ -28,6 +28,13 @@ module OmniAuth
       end
 
       info { @info }
+
+      private
+      def redmine_users_url
+        redmine_base = options.login_link_redmine || ''
+        redmine_base << '/' unless redmine_base.end_with?('/')
+        URI.join(redmine_base, './users/current.xml').to_s
+      end
     end
   end
 end

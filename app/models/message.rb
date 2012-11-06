@@ -32,10 +32,12 @@ class Message
   end
 
   def prev(offset)
+    return [] if offset <= 0
     Message.where(:room_id => self.room_id, :_id.lt => self._id).order_by(:_id.desc).limit(offset).to_a.reverse
   end
 
   def next(offset)
+    return [] if offset <= 0
     Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 

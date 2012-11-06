@@ -58,13 +58,25 @@ describe Message do
   it { should have(2).next(2) }
 
   describe "prev" do
-    subject { @message.prev 2 }
-    it { should == [ @messages[3], @messages[4] ] }
+    context "with 2" do
+      subject { @message.prev 2 }
+      it { should == [ @messages[3], @messages[4] ] }
+    end
+    context "with 0" do
+      subject { @message.prev 0 }
+      it { should == [] }
+    end
   end
 
   describe "next" do
-    subject { @message.next 2 }
-    it { should == [ @messages[6], @messages[7] ] }
+    context "with 2" do
+      subject { @message.next 2 }
+      it { should == [ @messages[6], @messages[7] ] }
+    end
+    context "with 0" do
+      subject { @message.next 0 }
+      it { should == [] }
+    end
   end
 
   share_examples_for 'メッセージ有'  do

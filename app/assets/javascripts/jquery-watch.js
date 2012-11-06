@@ -1,3 +1,4 @@
+//= require jquery-append-hack
 /**
  * connect as::* events to other handlers
  * @author codefist

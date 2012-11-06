@@ -22,6 +22,7 @@
 
 = content_for :javascripts do
  = javascript_include_tag 'jquery-pagination'
+ = javascript_include_tag 'jquery-watch'
  :javascript
   $(function() {
     $("#read-prev").pagination({
@@ -39,4 +40,10 @@
         url : "#{url_for(:action => :next)}",
         indicator : #{image_tag('ajax-loader.gif').inspect}
     });
+
+    $(".message-list")
+    .watch('div.message', function(elem){
+        AsakusaSatelliteUtil.onMessageHover(elem);
+    });
+
   });

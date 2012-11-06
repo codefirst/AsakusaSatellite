@@ -1,7 +1,6 @@
 //= require "jquery-websocket"
 //= require "jquery-chat"
 //= require "jquery-pagination"
-//= require "jquery-append-hack"
 //= require "jquery-autoscroll"
 //= require "jquery-watch"
 //= require 'jquery-dropUploader'

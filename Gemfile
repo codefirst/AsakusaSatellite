@@ -3,8 +3,8 @@ source 'http://rubygems.org'
 gem 'rails', '3.2.8'
 
 # mongoid
-gem 'mongoid', '2.3.0'
-gem 'bson_ext'
+gem 'mongoid', '2.5.1'
+gem 'bson_ext', '1.7.0'
 
 # push notification
 gem 'pusher'
@@ -30,7 +30,7 @@ gem 'newrelic_rpm'
 group :development, :test do
   gem "rails3-generators"
 
-  gem "rspec-rails", ">= 2.3.0"
+  gem "rspec-rails", ">= 2.11.4"
   gem 'rcov', :platforms => :ruby_18
   gem 'ci_reporter'
 

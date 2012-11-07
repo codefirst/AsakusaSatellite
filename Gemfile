@@ -13,7 +13,6 @@ gem 'socky-server', '>= 0.5.0.beta1'
 gem 'thin'
 
 # html
-gem 'jquery-rails'
 gem 'haml-rails'
 gem 'sass-rails'
 gem "execjs"

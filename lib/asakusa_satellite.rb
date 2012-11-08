@@ -5,3 +5,6 @@ require 'asakusa_satellite/config'
 require 'asakusa_satellite/message_pusher'
 require 'asakusa_satellite/omniauth/adapter'
 
+module AsakusaSatellite
+  VERSION = '0.8.1.beta'
+end

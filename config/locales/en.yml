@@ -120,3 +120,10 @@ en:
   notification_time_in_second: "Notification time in second(s)"
   second: "second"
   set: "Set"
+
+  versions: "Versions"
+  application_name: "AsakusaSatellite"
+  ruby: "Ruby"
+  rails: "Rails"
+  mongodb: "MongoDB"
+  jquery: "jQuery"

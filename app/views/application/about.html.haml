@@ -1,65 +1,27 @@
 -# -*- coding: utf-8 -*-
 .yield
  .about
-  %h2 AsakusaSatellite
-  %p
-   AsakusaSatellite is a realtime chat application for Developers.
-   Written with Ruby on Rails framework, MongoDB, WebKit notification.
-  %p!='AsakusaSatellite is open source and released at <a href="https://github.com/codefirst/AsakusaSatellite">Github</a>.'
+  %h2= t(:versions)
+  %table
+   %tr
+    %td= t(:application_name)
+    %td= AsakusaSatellite::VERSION
+   %tr
+    %td= t(:ruby)
+    %td= "#{RUBY_VERSION} (#{RUBY_PLATFORM})"
+   %tr
+    %td= t(:rails)
+    %td= Rails::VERSION::STRING
+   %tr
+    %td= t(:mongodb)
+    %td= Mongoid.database.connection.server_version.to_s
+   %tr
+    %td= t(:jquery)
+    %td
+     %span.jquery-version
 
-  %h2 Features
-  %ul
-   %li Realtime notification(using Websocket).
-   %li Desktop notification.
-   %li Flexible plugin extenension.
-   %li Source code syntax highlight.
-   %li Full text search.
-   %li!='Collaboration with <a href="http://redmine.org/">Redmine</a>.'
-   %li iPhone UI.
-
-  %h2 Supported Browser
-  %ul
-   %li Google Chrome 9 or later
-
-  %h2 Author
-  %ul
-   %li
-    %a{:href=>"http://twitter.com/suer"}@suer
-    a.k.a. 最速さん
-    (Release Manager, DB Specialist)
-   %li
-    %a{:href=>"http://twitter.com/mallowlabs"}@mallowlabs
-    (UX Designer, HTML5 Engineer)
-   %li
-    %a{:href=>"http://twitter.com/banjun"}@banjun
-    (iPhone Engineer)
-   %li
-    %a{:href=>"http://twitter.com/mzp"}@mzp
-    (Ruby/Rails Engineer)
-   %li
-    %a{:href=>"http://twitter.com/shimomura1004"}@shimomura1004
-    (Plugin Developer)
-
-  %h2 Thanks
-  %h3 Very cute icons
-  %p Several icons is created by Mark James and distributed at <a href="http://www.famfamfam.com/lab/icons/mini/">mini icons - famfamfam.com</a>.
-
-  %h3 Cool sound
-  %p Cool sound is created by <a href="http://yen-soft.com/ssse/">On-Jin</a>. Do not redestribute the sound file.
-
-  %h3 Redmine logo
-  %p <a href="http://www.redmine.org/projects/redmine/wiki/Logo">Redmine Logo</a> is Copyright (C) 2009 Martin Herr and is licensed under ThereCreative Commons Attribution-Share Alike 2.5 Generic license.
-  %p See <a href="http://creativecommons.org/licenses/by-sa/2.5/">http://creativecommons.org/licenses/by-sa/2.5/</a> for more details.
-
-  %h2 Donation: If you like our service, please donate me.
-  %h3 Your donations keep AsakusaSatellite running!
-  %p Our service is provided free of charge, free of registration, and free of annoying advertising. It is dependent on your help to allow us to do that.
-  %p!="Your donation will help us to pay for <a href='http://www.heroku.com'>heroku</a> plan, <a href='http://pusher.com'>pusher</a> plan and so forth."
-  %h3 How do I donate?
-  %p!="To donate, please visit our <a href='http://pledgie.com/campaigns/15758'>pledgie page</a>. You can donate through PayPal using any major credit card (including VISA, Mastercard, Discover or American Express), debit card, or bank transfer. There is no minimum in donation, feel free to contribute as much (or less) as you wish, every dollar helps !"
-  %p When you donate us, we will list your name in this page. If you want not, please tell us at paypal memo.
-  %p!="<a href='http://www.pledgie.com/campaigns/15758'><img alt='Click here to lend your support to: AsakusaSatellite and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15758.png?skin_name=chrome' border='0' /></a>"
-  %h3 Donator(Alphabet order)
-  %ul
-   - ['atsumin', 'rednes'].sort.each do|name|
-    %li=name
+= content_for :javascripts do
+ :javascript
+  $(function() {
+   $(".jquery-version").text($.fn.jquery);
+  });

@@ -2,11 +2,7 @@
 require File.expand_path('../application', __FILE__)
 require 'yaml'
 require 'ostruct'
-require 'asakusa_satellite/filter'
-require 'asakusa_satellite/hook'
-require 'asakusa_satellite/config'
-require 'asakusa_satellite/message_pusher'
-require 'asakusa_satellite/omniauth/adapter'
+require 'asakusa_satellite'
 
 config = lambda do|name|
   YAML::load(ERB.new(File.read(File.expand_path("../#{name}.yml", __FILE__))).result)

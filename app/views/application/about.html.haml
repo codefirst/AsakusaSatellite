@@ -2,21 +2,21 @@
 .yield
  .about
   %h2= t(:versions)
-  %table
+  %table.version
    %tr
-    %td= t(:application_name)
+    %td.first= t(:application_name)
     %td= AsakusaSatellite::VERSION
    %tr
-    %td= t(:ruby)
+    %td.first= t(:ruby)
     %td= "#{RUBY_VERSION} (#{RUBY_PLATFORM})"
    %tr
-    %td= t(:rails)
+    %td.first= t(:rails)
     %td= Rails::VERSION::STRING
    %tr
-    %td= t(:mongodb)
+    %td.first= t(:mongodb)
     %td= Mongoid.database.connection.server_version.to_s
    %tr
-    %td= t(:jquery)
+    %td.first= t(:jquery)
     %td
      %span.jquery-version
 

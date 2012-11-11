@@ -1,12 +1,8 @@
+@import "compass"
+
 // variable
 $link-color: #e2041b
 $link-visited-color: #e597b2
-
-@mixin rounded($radius: 10px)
-  :border-radius $radius
-  :-webkit-border-radius $radius
-
-
 
 // layout
 body
@@ -26,8 +22,7 @@ body
   :margin auto
   :border 1px solid #ccc
   :background-color #fff
-  :box-shadow 1px 1px 2px #999
-  :-webkit-box-shadow 1px 1px 2px #999
+  @include box-shadow(1px 1px 2px #999)
 
 #audio
   :display none
@@ -51,8 +46,7 @@ body
   :display none
   :opacity 0
   :box-shadow 0px 0px 10px 5px #e2949b inset
-  :-moz-transition opacity 0.2s linear
-  :-webkit-transition opacity 0.2s linear
+  @include single-transition(opacity, 0.2s, linear)
 
 .yield
   :width 660px
@@ -71,10 +65,8 @@ body
       :padding-right 50px
 
 .room-info
-  :background-color #f9f9f9
-  :background -moz-linear-gradient(top, #fbfbfb 41%, #ededed 100%)
-  :background -o-linear-gradient(top, #fbfbfb 41%, #ededed 100%)
-  :background -webkit-gradient(linear, left top, left bottom, color-stop(0.41, #fbfbfb),color-stop(1, #ededed))
+  @include background(linear-gradient(top, #fbfbfb 41%, #ededed 100%), #f9f9f9)
+  @include border-radius(5px)
   :border 1px solid #ccc
   :font-size 100%
   :padding 5px
@@ -158,14 +150,9 @@ a img
   :padding-left 10px
   :padding-right 10px
   :margin-bottom 3px
-  :border-radius 5px 5px 5px 5px
-  :-webkit-border-radius 5px 5px 5px 5px
-  :background-color #fcfcfc
-  :background -moz-linear-gradient(top, #fcfcfc 40%,#efefef 100%)
-  :background -o-linear-gradient(top, #fcfcfc 40%, #efefef 100%)
-  :background -webkit-gradient(linear, left top, left bottom, color-stop(0.4, #fcfcfc),color-stop(1, #efefef))
-  :box-shadow 0 1px 1px #ccc
-  :-webkit-box-shadow 0 1px 1px #ccc
+  @include border-radius(3px)
+  @include background(linear-gradient(top, #fcfcfc 40%, #efefef 100%), #fcfcfc)
+  @include box-shadow(0 1px 1px #ccc)
   :font-size 90%
   div
     :padding 0
@@ -214,15 +201,12 @@ a img
     img
       :max-width 500px
       :max-height 500px
-      :border-radius 5px 5px 5px 5px
-      :-webkit-border-radius 5px 5px 5px 5px
-      :box-shadow 1px 1px 2px #999
-      :-webkit-box-shadow 1px 1px 2px #999
+      @include border-radius(5px)
+      @include box-shadow(1px 1px 2px #999)
     video
       :max-width 500px
       :max-height 500px
-      :box-shadow 1px 1px 2px #999
-      :-webkit-box-shadow 1px 1px 2px #999
+      @include box-shadow(1px 1px 2px #999)
 
 .message.target
   :border 3px solid #ccc
@@ -235,8 +219,7 @@ a img
   :cursor pointer
   :margin-bottom 5px
   :padding 3px
-  :border-radius 4px
-  :-webkit-border-radius 4px
+  @include border-radius(4px)
   :text-decoration underline
 .read-more:hover
   :background-color #fee
@@ -281,7 +264,7 @@ img.profile
         :max-height 20px
         :padding-right 5px
       :border 1px solid #DDD
-      @include rounded(3px)
+      @include border-radius(3px)
       :list-style-type none
       :padding 5px
       :position relative
@@ -370,10 +353,8 @@ form.inputarea
   :padding 5px 10px 6px
   :color #fff
   :text-decoration none
-  :border-radius 6px
-  :-webkit-border-radius 6px
-  :box-shadow 0 1px 3px rgba(0,0,0,0.6)
-  :-webkit-box-shadow 0 1px 3px rgba(0,0,0,0.6)
+  @include border-radius(6px)
+  @include box-shadow(0 1px 3px rgba(0,0,0,0.6))
   :text-shadow 0 -1px 1px rgba(0,0,0,0.25)
   :border-bottom 1px solid rgba(0,0,0,0.25)
   :position relative
@@ -440,8 +421,7 @@ form.inputarea
   .main
     :width 300px
     :margin 0
-    :box-shadow 0 0 0 #fff
-    :-webkit-box-shadow 0 0 0 #fff
+    @include box-shadow(0 0 0 #fff)
   .header
     :margin 0
     img
@@ -461,15 +441,12 @@ form.inputarea
       img
         :max-width 270px
         :max-height 270px
-        :border-radius 5px 5px 5px 5px
-        :-webkit-border-radius 5px 5px 5px 5px
-        :box-shadow 1px 1px 2px #999
-        :-webkit-box-shadow 1px 1px 2px #999
+        @include border-radius(5px)
+        @include box-shadow(1px 1px 2px #999)
       video
         :max-width 270px
         :max-height 270px
-        :box-shadow 1px 1px 2px #999
-        :-webkit-box-shadow 1px 1px 2px #999
+        @include box-shadow(1px 1px 2px #999)
 
   .text
     :font-size 18px

@@ -15,6 +15,7 @@ gem 'thin'
 # html
 gem 'haml-rails'
 gem 'sass-rails'
+gem 'compass-rails'
 gem "execjs"
 gem "therubyracer", :platform => :ruby
 gem 'uglifier', '>= 1.0.3'

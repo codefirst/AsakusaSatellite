@@ -40,7 +40,7 @@ class SearchController < ApplicationController
     find_room(@room_id, :not_auth => true) do
       @results = Message.find_by_text(:text => @query, :rooms => [ @room ], :limit => SEARCH_LIMIT, :message_id => @last_message_id)
       if @results.size > 0
-        @messages = @results.first[:messages]
+        @messages = @results.first[:messages].reverse!
       end
     end
     render :template => 'chat/messages', :layout => false

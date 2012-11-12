@@ -5,6 +5,11 @@ class LoginController < ApplicationController
   def index
   end
 
+  # This is an old login URL. Please use omniauth login URL like /auth/:provider
+  def oauth
+    redirect_to "#{root_path}auth/#{Setting['omniauth']['provider']}"
+  end
+
   def omniauth_callback
     authenticated_user = AsakusaSatellite::OmniAuth::Adapter.adapt(request.env['omniauth.auth'])
     user = User.first(:conditions => {:screen_name => authenticated_user.screen_name})

@@ -4,15 +4,15 @@
  - @results.each do |result|
   - next if result[:messages].count == 0
   = render :partial => "shared/room_info", :locals => { :room => result[:room], :has_button => false }
-  .message-list
-   - result[:messages].each do |message|
-    = render :partial => 'chat/message', :locals => { :message => message, :room => message.room }
   - if @results.size == 1
    %div{:id => 'read-more', :class => 'read-more' }
     read more
   - else
    %div{:id => 'read-more', :class => 'read-more' }
     = link_to 'read more', :controller=>:search, :action=>:search, :room => {:id => result[:room].id}, :search => {:message => params[:search][:message]}
+  .message-list
+   - result[:messages].reverse_each do |message|
+    = render :partial => 'chat/message', :locals => { :message => message, :room => message.room }
 
 = content_for :javascripts do
  - if @results.size == 1
@@ -20,9 +20,9 @@
   :javascript
    $(function() {
     $("#read-more").pagination({
-     current : function(){ return $(".message").last().attr("message-id"); },
+     current : function(){ return $(".message").first().attr("message-id"); },
      content : "div.message",
-     append  : function(elem){ $(".message-list").append(elem); },
+     append  : function(elem){ $(".message-list").prepend(elem); },
      url : "#{url_for(:action => :search_more)}",
      params: "search_message=#{CGI.escape(@query)}&room_id=#{@room_id}",
      indicator : #{image_tag('ajax-loader.gif').inspect}

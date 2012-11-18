@@ -108,23 +108,21 @@ $(function() {
     // ------------------------------
     // File DnD
     // ------------------------------
-    $('body').dropUploader({
-        onDragenter : function(e){
-            function isFileDrop(e){ 
-                var type = e.dataTransfer.types;
-                return (type[0] == "Files" ||               // chrome
-                        type[3] == "Files" ||               // safari
-                        type[0] == "application/x-moz-file" // firefox
-                       );
-            }
+    document.body.addEventListener('dragenter', function(e){
+        function isFileDrop(e){ 
+            var type = e.dataTransfer.types;
+            return (type[0] == "Files" ||               // chrome
+                    type[3] == "Files" ||               // safari
+                    type[0] == "application/x-moz-file" // firefox
+                   );
+        }
 
-            if (isFileDrop(e)) {
-                $('.droppable').css({"display":"block"});
-                setTimeout(function(){
-                    $('.droppable').css({"opacity":"1"});
-                }, 0);
-            }
-        },
+        if (AsakusaSatellite.current.user!="" && isFileDrop(e)) {
+            $('.droppable').css({"display":"block"});
+            setTimeout(function(){
+                $('.droppable').css({"opacity":"1"});
+            }, 0);
+        }
     });
 
     $('.droppable').dropUploader({

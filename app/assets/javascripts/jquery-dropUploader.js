@@ -77,14 +77,10 @@
                     options['bubbling']
                 );
                 elm.addEventListener(
-                    'dragcancel',
-                    (options['onDragcancel'] || function(){}),
-                    options['bubbling']
-                );
-                elm.addEventListener(
                     'drop',
                     function(e){
                         e.preventDefault();
+                        e.stopPropagation();
                         var files    = e.dataTransfer.files;
                         var total    = 0;
                         var loaded   = 0;

@@ -108,33 +108,40 @@ $(function() {
     // ------------------------------
     // File DnD
     // ------------------------------
-    var uploadConfig = {
+    $('body').dropUploader({
         onDragenter : function(e){
-            $('.droppable').css({"display":"block"});
-            setTimeout(function(){
-                $('.droppable').css({"opacity":"1"});
-            }, 0);
-        }
-    };
-    $('body').dropUploader(uploadConfig);
-    var uploadConfig = {
+            function isFileDrop(e){ 
+                var type = e.dataTransfer.types;
+                return (type[0] == "Files" ||               // chrome
+                        type[3] == "Files" ||               // safari
+                        type[0] == "application/x-moz-file" // firefox
+                       );
+            }
+
+            if (isFileDrop(e)) {
+                $('.droppable').css({"display":"block"});
+                setTimeout(function(){
+                    $('.droppable').css({"opacity":"1"});
+                }, 0);
+            }
+        },
+    });
+
+    $('.droppable').dropUploader({
         action : AsakusaSatellite.url.message,
+        onDragover : function(e){
+            e.preventDefault();
+            e.stopPropagation();
+        },
         onDragleave : function(e){
             $('.droppable').css({"opacity":"0"});
             setTimeout(function(){
                 $('.droppable').css({"display":"none"});
             },200);
         },
-        onDragcancel : this['onDragleave'],
-        onDragover :
-        function(e){
-            e.preventDefault();
-            e.stopPropagation();
-        },
         params : [{ room_id : AsakusaSatellite.current.room},
                   { authenticity_token: AsakusaSatellite.form_auth }
                  ]
-    }
-    $('.droppable').dropUploader(uploadConfig);
+    });
 });
 

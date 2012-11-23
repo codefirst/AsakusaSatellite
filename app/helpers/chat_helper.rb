@@ -8,6 +8,9 @@ module ChatHelper
   end
 
   def create_attach(room, params)
+    max_size = Setting[:attachment_max_size].to_i
+    return if max_size > 0 && params[:file].size > max_size.megabyte
+
     save_message(room, nil){|m|
       Attachment.create_and_save_file(params[:filename],
                                       params[:file],

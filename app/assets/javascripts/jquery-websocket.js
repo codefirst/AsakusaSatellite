@@ -1,10 +1,10 @@
 /**
- * connect message_pusher events to websocket::* .
+ * notify message_pusher event to clients via websocket and postMessage
  * @author codefirst
  */
 (function($, document, undefined) {
     /**
-     * connect message_pusher events to websocket::* .
+     * notify message_pusher event to clients via websocket and postMessage
      * @param {Object} config.pusher message pusher object like Pusher, Keima, Socky
      * @return this
      */
@@ -14,7 +14,11 @@
         var pusher = config.pusher;
 
         function fire(name, data){
-            target.trigger(name, data);
+            target.trigger("websocket::"+name, data);
+            window.postMessage({ 'type': name,
+                                 'current': AsakusaSatellite.current,
+                                 'data': data
+                               }, location.origin);
         }
 
         function parse(obj) {
@@ -26,24 +30,24 @@
         }
 
         pusher.connection.bind('connected',
-            function(e) { fire('websocket::connect', e); }
+            function(e) { fire('connect', e); }
         );
         pusher.connection.bind('failed',
-            function(e){ fire('websocket::error', e); }
+            function(e){ fire('error', e); }
         );
         pusher.connection.bind('disconnected',
-            function(e){ fire('websocket::disconnect', e); }
+            function(e){ fire('disconnect', e); }
         );
 
         var channel = pusher.subscribe('as-' + config.room );
         channel.bind('message_create',
-            function(obj){ fire('websocket::create', parse(obj).content); }
+            function(obj){ fire('create', parse(obj).content); }
         );
         channel.bind('message_update',
-            function(obj){ fire('websocket::update', parse(obj).content); }
+            function(obj){ fire('update', parse(obj).content); }
         );
         channel.bind('message_delete',
-            function(obj){ fire('websocket::delete', parse(obj).content); }
+            function(obj){ fire('delete', parse(obj).content); }
         );
 
         return this;

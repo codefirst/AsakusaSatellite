@@ -26,6 +26,7 @@
        %span= device.name.slice(1,6)+"..." rescue ""
       %td
        =button_to t(:remove), nil, {:class => 'delete-device-button', :name => "device_deleted[#{device.name}]"}
+ =raw(call_hook :account_setting_item, :controller => controller, :user => current_user)
 
 = content_for :javascripts do
  = javascript_include_tag "jquery-desktopnotify"

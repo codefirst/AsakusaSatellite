@@ -52,6 +52,12 @@ module AsakusaSatellite::Hook
       super
     end
 
+    def self.render_on(hook, options={})
+      define_method hook do |context|
+        context[:controller].send(:render_to_string, {:locals => context}.merge(options))
+      end
+    end
+
     def initialize(config)
       @config = config
     end

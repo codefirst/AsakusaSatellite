@@ -15,10 +15,12 @@
 
         function fire(name, data){
             target.trigger("websocket::"+name, data);
-            window.postMessage({ 'type': name,
-                                 'current': AsakusaSatellite.current,
-                                 'data': data
-                               }, location.origin);
+            if(window.postMessage) {
+                window.postMessage({ 'type': name,
+                                     'current': AsakusaSatellite.current,
+                                     'data': data
+                                   }, location.origin);
+            }
         }
 
         function parse(obj) {

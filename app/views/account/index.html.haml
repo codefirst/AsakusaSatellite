@@ -13,19 +13,6 @@
    %label= t(:notification_time_in_second)
    =text_field_tag '', '', {:class => :text, :id => 'notification-time', :placeholder => t(:second)}
    %input{:type => 'submit', :id => 'set-notification-time-button', :value => t(:set)}
-
- %fieldset
-  %legend Registered Devices
-  .devices{:style => 'margin-left:20%;margin-right:20%;width:60%;float:left'}
-   %table{:style => 'width:100%'}
-    - @devices.each do |device|
-     %tr
-      %td
-       %span= device.device_name rescue ""
-      %td
-       %span= device.name.slice(1,6)+"..." rescue ""
-      %td
-       =button_to t(:remove), nil, {:class => 'delete-device-button', :name => "device_deleted[#{device.name}]"}
  =raw(call_hook :account_setting_item, :controller => controller, :user => current_user)
 
 = content_for :javascripts do

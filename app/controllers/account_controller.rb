@@ -10,7 +10,6 @@ class AccountController < ApplicationController
 
     if request.post?
       register_spell if params.has_key? "account"
-      delete_device  if params.has_key? "device_deleted"
       redirect_to :controller => 'account'
     end
 
@@ -28,10 +27,5 @@ class AccountController < ApplicationController
     length = (20..30).to_a.sample
     chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
     Array.new(length) { chars[rand(chars.size)] }.join
-  end
-
-  def delete_device
-    device_name = params["device_deleted"].keys[0]
-    current_user.devices.where(:name => device_name).destroy
   end
 end

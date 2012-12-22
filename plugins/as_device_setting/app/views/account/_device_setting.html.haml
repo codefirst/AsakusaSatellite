@@ -1,0 +1,10 @@
+=form_for :account, :url => {:controller => :device_setting, :action => :update} do |form|
+ %fieldset
+  %legend Registered Devices
+  .devices{:style => 'margin-left:20%;margin-right:20%;width:60%;float:left'}
+   %table{:style => 'width:100%'}
+    - current_user.devices.each do |device|
+     %tr
+      %td= device.device_name rescue ""
+      %td= device.name.slice(1,6)+"..." rescue ""
+      %td= submit_tag "Remove", :class => "submit red button", :name => "device_deleted[#{device.name}]"

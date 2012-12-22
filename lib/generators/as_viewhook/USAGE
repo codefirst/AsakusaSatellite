@@ -1,8 +1,10 @@
 Description:
-    Explain the generator
+    This generates a template for view hook plugin.
 
 Example:
-    rails generate as_viewhook Thing
+    rails generate as_viewhook test
 
     This will create:
-        what/will/it/create
+        plugins/as_test/init.rb
+        plugins/as_test/lib/test.rb
+        plugins/as_test/spec/lib/test_spec.rb

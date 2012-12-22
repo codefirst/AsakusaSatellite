@@ -88,9 +88,9 @@ Requirement: phantomjs 1.5+
     $ cd qunit
     $ ./phantomjs_test.sh
 
-### Generate Filter Plugin
+### Generate Plugin Template
 
-#### generate
+#### generate filter
 
     $ rails g as_filter test
 
@@ -102,6 +102,15 @@ edit filies
 edit config/filters.yml
 
     - name: test_filter
+
+#### generate viewhook
+
+    $ rails g as_viewhook test
+
+edit files
+
+ * plugins/as_test/lib/test.rb
+ * plugins/as_test/spec/lib/test_spec.rb
 
 Thanks
 ----------------

@@ -234,7 +234,7 @@ DEPENDENCIES
   socky-client (>= 0.5.0.beta1)
   socky-server (>= 0.5.0.beta1)
   spork
-  therubyracer
+  therubyracer (= 0.10.2)
   thin
   uglifier (>= 1.0.3)
   uuidtools

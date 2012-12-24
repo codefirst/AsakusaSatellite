@@ -158,7 +158,7 @@ describe Api::V1::RoomController do
       before do
         @another_user = User.new
         @another_user.save
-        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @other_user.spell, :format => 'json'
       end
 
       it_should_behave_like '失敗する'

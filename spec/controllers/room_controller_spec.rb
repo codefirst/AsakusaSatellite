@@ -78,7 +78,7 @@ describe RoomController do
       before { post :delete, :id => @room.id }
 
       describe "room" do
-        subject { assigns[:room] }
+        subject { Room.find @room.id }
         its(:deleted) { should be_false }
       end
 

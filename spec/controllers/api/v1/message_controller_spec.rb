@@ -14,7 +14,7 @@ describe Api::V1::MessageController do
                      :profile_image_url => @image_url)
     @user.save!
 
-    @room = Room.new(:title=>'hoge',:user=>@user)
+    @room = Room.new(:title=>'hoge',:user=>@user, :nickname => 'nick')
     @room.save!
 
     @messages = (0..50).map do
@@ -123,6 +123,14 @@ describe Api::V1::MessageController do
       subject { assigns[:messages] }
       it { should have(1).items }
     end
+
+    describe "nickname" do
+      before {
+        get :list, :room_id => @room.nickname, :format => 'json'
+      }
+      subject { assigns[:messages] }
+      it { should have(20).items }
+    end
   end
 
   describe "プライベートルーム" do
@@ -169,8 +177,20 @@ describe Api::V1::MessageController do
       before {
         post :create, :room_id => @room.id, :message => 'message'
       }
-    subject { response.body }
+      subject { response.body }
       it { should have_json("/error") }
+    end
+
+    context "nickname" do
+      before {
+        post :create, :room_id => @room.nickname, :message => 'message', :api_key => @user.spell
+      }
+      it_should_behave_like '成功'
+      it { expect {
+          post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
+        }.to change { Message.all.size }.by(1)
+      }
+      it { response.body.should have_json("/message_id") }
     end
   end
 

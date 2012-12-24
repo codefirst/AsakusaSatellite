@@ -4,6 +4,7 @@ module Api
     class RoomController < ApplicationController
       include ChatHelper
       include ApiHelper
+      include RoomHelper
 
       before_filter :check_spell, :except => [:list]
 
@@ -18,24 +19,26 @@ module Api
       end
 
       def update
-        room = Room.get(params[:id], @current_user)
-        if room.nil?
-          render :json => {:status => 'error', :error => "room not found"}
-        elsif room.update_attributes(:title => params[:name])
-          render :json => {:status => 'ok'}
-        else
-          render :json => {:status => 'error', :error => "room creation failure"}
+        with_room(params[:id]) do|room|
+          if room.nil?
+            render :json => {:status => 'error', :error => "room not found"}
+          elsif room.update_attributes(:title => params[:name])
+            render :json => {:status => 'ok'}
+          else
+            render :json => {:status => 'error', :error => "room creation failure"}
+          end
         end
       end
 
       def destroy
-        room = Room.get(params[:id], @current_user)
-        if room.nil?
-          render :json => {:status => 'error', :error => "room not found"}
-        elsif room.update_attributes(:deleted => true)
-          render :json => {:status => 'ok'}
-        else
-          render :json => {:status => 'error', :error => "room deletion failure"}
+        with_room(params[:id]) do|room|
+          if room.nil?
+            render :json => {:status => 'error', :error => "room not found"}
+          elsif room.update_attributes(:deleted => true)
+            render :json => {:status => 'ok'}
+          else
+            render :json => {:status => 'error', :error => "room deletion failure"}
+          end
         end
       end
 
@@ -53,20 +56,20 @@ module Api
       end
 
       def add_member
-        room = Room.get(params[:id], @current_user)
-        user = User.find(params[:user_id])
-
-        if room.nil?
-          render :json => {:status => 'error', :error => "room not found"}
-        elsif user.nil?
-          render :json => {:status => 'error', :error => "user not found"}
-        else
-          room.members ||= []
-          room.members << user
-          if room.save
-            render :json => {:status => 'ok'}
+        with_room(params[:id]) do|room|
+          user = User.find(params[:user_id])
+          if room.nil?
+            render :json => {:status => 'error', :error => "room not found"}
+          elsif user.nil?
+            render :json => {:status => 'error', :error => "user not found"}
           else
-            render :json => {:status => 'error', :error => "add user"}
+            room.members ||= []
+            room.members << user
+            if room.save
+              render :json => {:status => 'ok'}
+            else
+              render :json => {:status => 'error', :error => "add user"}
+            end
           end
         end
       end

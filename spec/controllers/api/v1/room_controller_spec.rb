@@ -6,7 +6,7 @@ describe Api::V1::RoomController do
     cleanup_db
     @user = User.new(:spell => 'spell')
     @user.save
-    @room = Room.new(:title => 'title')
+    @room = Room.new(:title => 'title', :nickname => "test_room")
     @room.user = @user
     @room.save
 
@@ -46,21 +46,43 @@ describe Api::V1::RoomController do
   end
 
   describe "部屋名の変更" do
-    before {
-      post :update, :id => @room.id, :name => 'new_name', :api_key => @user.spell, :format => 'json'
-    }
-    it_should_behave_like '成功する'
-    subject { Room.find @room.id }
-    its(:title) { should == 'new_name' }
+    context 'id' do
+      before {
+        post :update, :id => @room.id, :name => 'new_name', :api_key => @user.spell, :format => 'json'
+      }
+      it_should_behave_like '成功する'
+      subject { Room.find @room.id }
+      its(:title) { should == 'new_name' }
+    end
+
+    context 'nickname' do
+      before {
+        post :update, :id => @room.nickname, :name => 'new name', :api_key => @user.spell, :format => 'json'
+      }
+      it_should_behave_like '成功する'
+      subject { Room.find @room.id }
+      its(:title) { should == 'new name' }
+    end
   end
 
   describe "部屋の削除" do
-    before {
-      post :destroy, :id => @room.id, :api_key => @user.spell, :format => 'json'
-    }
-    it_should_behave_like '成功する'
-    subject { Room.find @room.id }
-    its(:deleted) { should be_true }
+    context 'id' do
+      before {
+        post :destroy, :id => @room.id, :api_key => @user.spell, :format => 'json'
+      }
+      it_should_behave_like '成功する'
+      subject { Room.find @room.id }
+      its(:deleted) { should be_true }
+    end
+
+    context 'nickname' do
+      before {
+        post :destroy, :id => @room.nickname, :api_key => @user.spell, :format => 'json'
+      }
+      it_should_behave_like '成功する'
+      subject { Room.find @room.id }
+      its(:deleted) { should be_true }
+    end
   end
 
   describe "部屋の一覧" do
@@ -102,16 +124,29 @@ describe Api::V1::RoomController do
   end
 
   describe "メンバの追加" do
-    before {
-      @another_user = User.new
-      @another_user.save
-      post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
-      @room = Room.where(:_id =>@room.id).first
-    }
-    subject { @room.members[0] }
-    its(:id) { should  == @another_user.id }
-  end
+    context 'id' do
+      before {
+        @another_user = User.new
+        @another_user.save
+        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        @room = Room.where(:_id =>@room.id).first
+        p @room.members
+      }
+      subject { @room.members[0] }
+      its(:id) { should  == @another_user.id }
+    end
 
+    context 'nickname' do
+      before {
+        @another_user = User.new
+        @another_user.save
+        post :add_member, :id => @room.nickname, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        @room = Room.where(:_id =>@room.id).first
+      }
+      subject { @room.members[0] }
+      its(:id) { should  == @another_user.id }
+    end
+  end
 
   context "復活の呪文を間違えた" do
     describe "部屋の作成" do

@@ -4,6 +4,7 @@ module Api
     class MessageController < ApplicationController
       include ChatHelper
       include ApiHelper
+      include RoomHelper
       include Rails.application.routes.url_helpers
 
       before_filter :check_spell, :except => [ :list, :show ]
@@ -11,15 +12,19 @@ module Api
 
       def list
         room_id = params[:room_id]
-        room = Room.where(:_id => room_id).first
-        return unless accessible?(room)
-        count = params[:count] ? params[:count].to_i : 20
-        if params[:until_id] or params[:since_id]
-          @messages = room.messages_between(params[:since_id], params[:until_id], count)
-        else
-          @messages = room.messages(count)
+        with_room(room_id, :not_auth => true) do|room|
+          if room.nil?
+            render :json => {:status => 'error', :error => "room does not exist"}
+          else
+            count = params[:count] ? params[:count].to_i : 20
+            if params[:until_id] or params[:since_id]
+              @messages = room.messages_between(params[:since_id], params[:until_id], count)
+            else
+              @messages = room.messages(count)
+            end
+            respond_with(@messages.map{|m| to_json(m) })
+          end
         end
-        respond_with(@messages.map{|m| to_json(m) })
       end
 
       def show
@@ -36,15 +41,16 @@ module Api
       end
 
       def create
-        room = Room.find(params[:room_id])
-        message = create_message(room, params[:message])
-        unless message
-          render :json => {:status => 'error', :error => "message creation failed"}
-          return
+        with_room(params[:room_id]) do|room|
+          message = create_message(room, params[:message])
+          unless message
+            render :json => {:status => 'error', :error => "message creation failed"}
+            return
+          end
+          room.updated_at = Time.now
+          room.save
+          render :json => {:status => 'ok', :message_id => message.id}
         end
-        room.updated_at = Time.now
-        room.save
-        render :json => {:status => 'ok', :message_id => message.id}
       end
 
       def update

@@ -5,9 +5,7 @@
 //= require "jquery-watch"
 //= require 'jquery-dropUploader'
 //= require "jquery-multiline"
-//= require "jquery-notify"
 //= require "jquery-onthespot"
-//= require "jquery-desktopnotify"
 
 $(function() {
     // on the spot
@@ -52,9 +50,6 @@ $(function() {
     })
     .watch('div.message', function(elem){
         onTheSpot(elem);
-    })
-    .notify({
-        current_user : AsakusaSatellite.current.user
     })
     .bind({
         'websocket::create' : function(){

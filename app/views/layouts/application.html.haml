@@ -8,6 +8,7 @@
   = csrf_meta_tag
   = favicon_link_tag
   %title= "#{@title and "#{@title} - "}AsakusaSatellite"
+  = raw(call_hook :global_header, :controller => controller, :request => request)
  %body
   .main
    .header
@@ -27,4 +28,4 @@
     %p!="Powered by #{link_to "AsakusaSatellite", :controller=>:application, :action=>:about}. Copyright (C) 2011-2012 <a href='http://codefirst.org'>codefirst.org</a>. All rights reserved."
   = javascript_include_tag "application"
   = yield :javascripts
-
+  = raw(call_hook :global_footer, :controller => controller, :request => request)

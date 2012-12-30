@@ -32,6 +32,7 @@ GEM
     apns (0.9.0)
     arel (3.0.2)
     bson (1.7.0)
+    bson (1.7.0-java)
     bson_ext (1.7.0)
       bson (~> 1.7.0)
     builder (3.0.4)
@@ -79,7 +80,10 @@ GEM
       multi_xml
     i18n (0.6.1)
     journey (1.0.4)
+    jruby-jars (1.7.1)
+    jruby-rack (1.1.12)
     json (1.5.3)
+    json (1.5.3-java)
     json_pure (1.6.1)
     libv8 (3.3.10.4)
     mail (2.4.4)
@@ -159,6 +163,7 @@ GEM
       railties (>= 3.0)
       rspec (~> 2.11.0)
     ruby-hmac (0.4.0)
+    rubyzip (0.9.9)
     sass (3.2.1)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -198,12 +203,18 @@ GEM
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
     uuidtools (2.1.2)
+    warbler (1.3.6)
+      jruby-jars (>= 1.4.0)
+      jruby-rack (>= 1.0.0)
+      rake (>= 0.8.7)
+      rubyzip (>= 0.9.4)
     websocket-rack (0.3.1)
       em-websocket (~> 0.3.1)
       rack
       thin
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
@@ -238,3 +249,4 @@ DEPENDENCIES
   thin
   uglifier (>= 1.0.3)
   uuidtools
+  warbler

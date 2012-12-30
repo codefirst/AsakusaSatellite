@@ -20,7 +20,7 @@ Authors
 Requirement
 ----------------
 
- * Ruby 1.8.7 or 1.9.3
+ * Ruby 1.8.7 or Ruby 1.9.3 or JRuby 1.7.1
  * RubyGems 1.4.2 or later
  * Bundler 1.0.7 or later
  * MongoDB 1.8.1 or later
@@ -51,6 +51,18 @@ Run AsakusaSatellite:
 
 and access to http://localhost:3000/
 
+For JRuby user
+---------------
+
+### How to deploy
+
+    $ bundle exec rake assets:precompile
+    $ bundle exec warble
+
+### limitation
+
+ * Don't use socky on JRuby. use keima or pusher
+ * Don't use newrelic
 
 For developers
 ---------------

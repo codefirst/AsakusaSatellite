@@ -25,6 +25,9 @@ class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Ba
         open(api.to_s) do|io|
           hash = JSON.parse(io.read)
           subject = CGI::escapeHTML hash["issue"]["subject"]
+          if subject.respond_to? :force_encoding
+            subject.force_encoding 'utf-8'
+          end
           return %[<a target="_blank" href="#{url}">#{ref} #{subject}</a>]
         end
       rescue => e

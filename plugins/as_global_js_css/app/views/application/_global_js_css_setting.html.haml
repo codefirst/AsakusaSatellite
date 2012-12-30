@@ -1,0 +1,29 @@
+- require File.dirname(__FILE__) + "/../../helpers/global_js_css_setting_helper"
+- self.class.send(:include, GlobalJsCssSettingHelper)
+=form_for :global_js_css, :url => {:controller => :global_js_css, :action => :update} do |form|
+ %fieldset
+  %legend JavaScripts and CSSs to load globally
+  =text_field :file, :url, :class => :text, :placeholder => "URL of JavaScript or CSS file"
+  =select_tag "file[type]", options_for_select([['JavaScript', 'javascript'], ['CSS', 'css']])
+  =submit_tag t(:add), :class => "submit red button"
+  %h5 JavaScripts
+  - if GlobalJsCssFile.javascripts.empty?
+   %span= "No JavaScript files"
+  - else
+   %table
+    - GlobalJsCssFile.javascripts.each do |javascript|
+     %tr
+      %td= check_box "delete", javascript.url, {}, true, false
+      %td= link_to shorten_string(javascript.url, 40, 40), javascript.url
+   = submit_tag t(:remove), :class => "submit red button"
+  %h5 CSSs
+  - if GlobalJsCssFile.csss.empty?
+   %span= "No CSS files"
+  - else
+   %table
+    - GlobalJsCssFile.csss.each do |css|
+     %tr
+      %td= check_box "delete", css.url, {}, true, false
+      %td= link_to shorten_string(css.url, 40, 40), css.url
+   = submit_tag t(:remove), :class => "submit red button"
+

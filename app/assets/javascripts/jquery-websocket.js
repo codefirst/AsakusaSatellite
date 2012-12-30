@@ -19,7 +19,7 @@
                 window.postMessage({ 'type': name,
                                      'current': AsakusaSatellite.current,
                                      'data': data
-                                   }, location.origin);
+                                   }, location.protocol+"//"+location.host);
             }
         }
 

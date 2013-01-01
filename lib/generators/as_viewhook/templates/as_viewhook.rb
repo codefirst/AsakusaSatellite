@@ -4,8 +4,7 @@ class <%= class_name %>Listener < AsakusaSatellite::Hook::Listener
 
   # or define method by yourself
   def hookname(context)
-    context[:controller].send(:render_to_string,
-                              {:locals => context, :pertial => '_filename'})
+    context[:controller].send(:render_to_string, {:locals => context, :pertial => '_filename'})
   end
 end
 

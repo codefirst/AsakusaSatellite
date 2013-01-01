@@ -1,17 +1,12 @@
 @import "compass"
 
-// mixin
-@mixin line-bottom($op1: .2, $op2: .3)
-  :border-bottom 1px solid rgba(0, 0, 0, $op1)
-  @include box-shadow(rgba(255, 255, 255, $op2)0 1px 0)
-
 // variable
 $link-color: #e2041b
 $link-visited-color: #e597b2
 
 // layout
 body
-  :background-image url(bedge_grunge.png)
+  :background-color #fafafa
   :color #333
 
 .header
@@ -27,8 +22,7 @@ body
   :margin auto
   :border 1px solid #ccc
   :background-color #fff
-  @include border-radius(5px)
-  @include box-shadow(rgba(0, 0, 0, .3) 0 0 10px)
+  @include box-shadow(1px 1px 2px #999)
 
 #audio
   :display none
@@ -150,11 +144,15 @@ a img
   :margin-bottom 20px
 
 .message
-  @include line-bottom
+  :border 1px solid #eee
   :text-align left
   :padding 5px
   :padding-left 10px
   :padding-right 10px
+  :margin-bottom 3px
+  @include border-radius(3px)
+  @include background(linear-gradient(top, #fcfcfc 40%, #efefef 100%), #fcfcfc)
+  @include box-shadow(0 1px 1px #ccc)
   :font-size 90%
   div
     :padding 0
@@ -211,10 +209,9 @@ a img
       @include box-shadow(1px 1px 2px #999)
 
 .message.target
-  :background-color lightyellow
+  :border 3px solid #ccc
 
 .read-more
-  @include single-transition(background-color, 0.2s, linear)
   :border 1px solid #eee
   :background-color #fafafa
   :color #555

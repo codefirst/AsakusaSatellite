@@ -1,12 +1,10 @@
 # -*- encoding: utf-8 -*-
 class RoomController < ApplicationController
   include RoomHelper
+  before_filter :reject_unless_logged_in
 
   def create
-    if current_user.nil?
-      redirect_to :controller => 'chat'
-    elsif request.post?
-
+    if request.post?
       room = Room.new(:title => params[:room][:title],
                       :user => current_user,
                       :updated_at => Time.now,
@@ -63,6 +61,10 @@ class RoomController < ApplicationController
   end
 
   private
+  def reject_unless_logged_in
+    redirect_to :controller => 'chat' if current_user.nil?
+  end
+
   def include_member(room, user)
     return false if room.nil?
     return false if room.members.nil?

@@ -53,7 +53,8 @@ class RoomController < ApplicationController
           end.flatten
         end
         flash[:errors] = format_error_messages(@room) unless @room.save
-        expire_fragment :controller => 'chat', :action => 'room', :id => @room.id
+        expire_fragment [:roominfo, @room.id, true]
+        expire_fragment [:roominfo, @room.id, false]
         redirect_to :action => 'configure'
       end
       @members = @room.members.uniq

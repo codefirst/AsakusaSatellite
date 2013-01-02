@@ -37,7 +37,7 @@ group :development, :test do
   gem 'guard-rspec'
 end
 
-platform :ruby do
+platform :ruby, :mswin, :mingw do
   gem 'socky-server', '>= 0.5.0.beta1'
   gem 'thin'
   gem 'bson_ext', '1.7.0'

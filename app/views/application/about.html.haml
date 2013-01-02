@@ -1,8 +1,9 @@
 -# -*- coding: utf-8 -*-
 .yield
  .about
-  %h2= t(:settings)
-  = raw(call_hook :global_setting_item, :controller => controller)
+  - if logged?
+   %h2= t(:settings)
+   = raw(call_hook :global_setting_item, :controller => controller)
   %h2= t(:versions)
   %table.version
    %tr

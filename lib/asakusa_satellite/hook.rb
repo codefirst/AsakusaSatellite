@@ -71,7 +71,10 @@ module AsakusaSatellite::Hook
 
   module Helper
     def call_hook(hook, context = {})
-      AsakusaSatellite::Hook.call_hook(hook, context.merge({:controller => controller, :request => request}))
+      implicit_values = {}
+      implicit_values[:controller] = controller if defined? controller
+      implicit_values[:request] = request if defined? request
+      AsakusaSatellite::Hook.call_hook(hook, context.merge(implicit_values))
     end
   end
 end

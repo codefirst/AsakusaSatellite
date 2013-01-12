@@ -71,7 +71,7 @@ module AsakusaSatellite::Hook
 
   module Helper
     def call_hook(hook, context = {})
-      AsakusaSatellite::Hook.call_hook(hook, context)
+      AsakusaSatellite::Hook.call_hook(hook, context.merge({:controller => controller, :request => request}))
     end
   end
 end

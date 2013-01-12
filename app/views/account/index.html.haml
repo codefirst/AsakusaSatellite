@@ -13,7 +13,7 @@
    %label= t(:notification_time_in_second)
    =text_field_tag '', '', {:class => :text, :id => 'notification-time', :placeholder => t(:second)}
    %input{:type => 'submit', :id => 'set-notification-time-button', :value => t(:set)}
- =raw(call_hook :account_setting_item, :controller => controller, :user => current_user)
+ =raw(call_hook :account_setting_item)
 
 = content_for :javascripts do
  = javascript_include_tag "jquery-desktopnotify"

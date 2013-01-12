@@ -3,7 +3,7 @@
  .about
   - if logged?
    %h2= t(:settings)
-   = raw(call_hook :global_setting_item, :controller => controller)
+   = raw(call_hook :global_setting_item)
   %h2= t(:versions)
   %table.version
    %tr

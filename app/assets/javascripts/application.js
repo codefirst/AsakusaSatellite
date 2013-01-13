@@ -1,6 +1,7 @@
 //= require jquery-min
 //= require rails
 //= require_self
+//= require "jquery-localstorage"
 
 var AsakusaSatelliteUtil = {
     onMessageHover : function(dom) {

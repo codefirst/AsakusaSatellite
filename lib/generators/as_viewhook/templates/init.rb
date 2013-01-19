@@ -1,1 +1,1 @@
-require '<%= file_name %>'
+require '<%= file_name %>_listener'

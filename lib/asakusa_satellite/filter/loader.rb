@@ -3,10 +3,20 @@ module AsakusaSatellite
     class Loader
 
       def self.load
-        $: << "#{File.dirname(__FILE__)}/../../.."
-        AsakusaSatellite::Filter::FilterConfig.plugins_dirs.map { |dir|
+        dirs = AsakusaSatellite::Filter::FilterConfig.plugins_dirs.map do |dir|
           File.join("plugins", dir)
-        }.each do |dir|
+        end
+        load_dirs(dirs)
+      end
+
+      def self.load_all
+        load_dirs(Dir.glob("#{Rails.root.to_s}/plugins/*"))
+      end
+
+      private
+      def self.load_dirs(dirs)
+        $: << "#{File.dirname(__FILE__)}/../../.."
+        dirs.each do |dir|
           next unless File.directory?(dir)
 
           lib = File.join(dir, "lib")

@@ -1,2 +1,7 @@
 # -*- encoding: utf-8 -*-
-AsakusaSatellite::Filter::Loader.load
+
+unless ENV["RAILS_ENV"] == 'test'
+  AsakusaSatellite::Filter::Loader.load
+else
+  AsakusaSatellite::Filter::Loader.load_all
+end

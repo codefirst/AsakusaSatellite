@@ -85,10 +85,7 @@ module AsakusaSatellite
     end
 
     def [](name)
-      @filter_config.filters.each do |c|
-        return c if c['name'] == name
-      end
-      nil
+      @filter_config.filters.find { |c| c['name'] == name }
     end
 
     module_function :initialize!, :process, :add_filter, :[], :children

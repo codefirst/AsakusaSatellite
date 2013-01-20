@@ -12,10 +12,7 @@ module AsakusaSatellite::Hook
     end
 
     def [](name)
-      @filter_config.plugins.each do |c|
-        return c if c['name'] == name
-      end
-      nil
+      @filter_config.plugins.find { |c| c['name'] == name }
     end
 
     def call_hook(hook, context = {})

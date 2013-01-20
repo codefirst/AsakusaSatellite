@@ -39,7 +39,7 @@ module AsakusaSatellite
         def plugins_dirs
           filters_and_plugins.map do |filter|
             dir = filter["dir"]
-            dir = "as_" + filter["name"] unless dir
+            dir ||= "as_" + filter["name"]
             dir
           end
         end

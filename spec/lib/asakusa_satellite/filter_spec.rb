@@ -20,7 +20,8 @@ describe AsakusaSatellite::Filter do
   end
 
   before :all do
-    AsakusaSatellite::Filter.initialize!([{'name' => 'test_filter'}])
+    filter_config = AsakusaSatellite::Filter::FilterConfig.new([{'name' => 'test_filter'}])
+    AsakusaSatellite::Filter.initialize!(filter_config)
     AsakusaSatellite::Filter.add_filter TestFilter,{}
   end
 

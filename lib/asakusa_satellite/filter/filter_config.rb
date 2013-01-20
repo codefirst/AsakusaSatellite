@@ -11,6 +11,7 @@ module AsakusaSatellite
         def filters
           @array
         end
+        alias :plugins :filters
 
         def plugins_dirs
           Dir.glob((Rails.root + "plugins/*").to_s).map do |dir|
@@ -29,12 +30,23 @@ module AsakusaSatellite
           @hash["filters"] || []
         end
 
+        def plugins
+          filters_and_plugins.select do |plugin|
+             plugin["name"]
+          end
+        end
+
         def plugins_dirs
-          ((@hash["filters"] || []) + (@hash["plugins"] || [])).map do |filter|
+          filters_and_plugins.map do |filter|
             dir = filter["dir"]
             dir = "as_" + filter["name"] unless dir
             dir
           end
+        end
+
+        private
+        def filters_and_plugins
+          ((@hash["filters"] || []) + (@hash["plugins"] || []))
         end
       end
 
@@ -48,6 +60,10 @@ module AsakusaSatellite
 
       def filters
         @config.filters
+      end
+
+      def plugins
+        @config.plugins
       end
 
       def plugins_dirs

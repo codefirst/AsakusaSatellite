@@ -23,9 +23,9 @@ module AsakusaSatellite
       end
     end
 
-    def initialize!(config)
+    def initialize!(filter_config)
       @plugins = []
-      @config = config
+      @filter_config = filter_config
     end
 
     def children(doc, &f)
@@ -34,7 +34,7 @@ module AsakusaSatellite
     private :children
 
     def process(message, room)
-      all_process ||= @config.map{|c|
+      all_process ||= @filter_config.filters.map{|c|
         @plugins.find{|p|
           p.class.name.underscore.split('/')[-1] == c['name']
         }
@@ -85,7 +85,7 @@ module AsakusaSatellite
     end
 
     def [](name)
-      @config.each do |c|
+      @filter_config.filters.each do |c|
         return c if c['name'] == name
       end
       nil

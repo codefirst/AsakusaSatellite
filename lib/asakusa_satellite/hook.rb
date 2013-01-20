@@ -7,12 +7,12 @@ module AsakusaSatellite::Hook
       @@listeners << klass.new(OpenStruct.new(config))
     end
 
-    def initialize!(config)
-      @config = config
+    def initialize!(filter_config)
+      @filter_config = filter_config
     end
 
     def [](name)
-      @config.each do |c|
+      @filter_config.plugins.each do |c|
         return c if c['name'] == name
       end
       nil

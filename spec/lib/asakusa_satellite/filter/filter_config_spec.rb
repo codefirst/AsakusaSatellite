@@ -15,6 +15,11 @@ describe AsakusaSatellite::Filter::FilterConfig do
         it { should == [] }
       end
 
+      describe 'plugins' do
+        subject { @filter_config.plugins }
+        it { should == [] }
+      end
+
       describe 'plugins_dirs' do
         subject { @filter_config.plugins_dirs }
         it { should include("as_code_highlight_filter") }
@@ -28,6 +33,11 @@ describe AsakusaSatellite::Filter::FilterConfig do
 
       describe 'filters' do
         subject { @filter_config.filters }
+        it { should == [{"name"=>"foo"}] }
+      end
+
+      describe 'plugins' do
+        subject { @filter_config.plugins }
         it { should == [{"name"=>"foo"}] }
       end
 
@@ -46,6 +56,11 @@ describe AsakusaSatellite::Filter::FilterConfig do
 
       describe 'filters' do
         subject { @filter_config.filters }
+        it { should == [] }
+      end
+
+      describe 'plugins' do
+        subject { @filter_config.plugins }
         it { should == [] }
       end
 
@@ -75,6 +90,11 @@ YAML
       describe 'filters' do
         subject { @filter_config.filters }
         it { should == [{"dir"=>"as_foo","name"=>"foo"}] }
+      end
+
+      describe 'plugins' do
+        subject { @filter_config.plugins }
+        it { should == [{"dir"=>"as_foo","name"=>"foo"},{"name"=>"only_name"},{"dir"=>"as_name_dir","name"=>"name_and_dir"}] }
       end
 
       describe 'plugins_dirs' do

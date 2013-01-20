@@ -1,5 +1,19 @@
-- name: code_highlight_filter
-- name: auto_link
-- name: redmine_ticket_link
-- name: twitter_link
-- name: emoji_filter
+info:
+ version: 2
+
+filters:
+ - name: code_highlight_filter
+# - name: quote_it
+ - name: auto_link
+ - name: redmine_ticket_link
+ - name: twitter_link
+ - name: emoji_filter
+# - name: emoticon_filter
+
+plugins:
+# - dir: as_global_js_css
+# - dir: as_watage_plugin
+ - dir: as_twitterauth_plugin
+# - dir: as_localauth
+# - dir: as_redmineauth_plugin
+

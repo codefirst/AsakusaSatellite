@@ -1,6 +1,18 @@
-- name: code_highlight_filter
-- name: quote_it
-- name: redmine_ticket_link
-- name: twitter_link
-- name: emoji_filter
-- name: as_watage_plugin
+info:
+ version: 2
+
+filters:
+ - name: code_highlight_filter
+ - name: quote_it
+ - name: redmine_ticket_link
+ - name: twitter_link
+ - name: emoji_filter
+
+plugins:
+ - dir: as_android_notifier
+ - dir: as_iphone_notifier
+ - dir: as_device_setting
+ - dir: as_global_js_css
+ - dir: as_watage_plugin
+ - dir: as_twitterauth_plugin
+

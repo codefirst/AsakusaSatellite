@@ -11,9 +11,9 @@ filters:
 # - name: emoticon_filter
 
 plugins:
+ - dir: as_desktopnotification
 # - dir: as_global_js_css
 # - dir: as_watage_plugin
  - dir: as_twitterauth_plugin
 # - dir: as_localauth
 # - dir: as_redmineauth_plugin
-

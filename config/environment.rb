@@ -9,8 +9,7 @@ config = lambda do|name|
 end
 
 filter = ENV['FILTER_NAME'] || 'filter_intra'
-filter_config = AsakusaSatellite::Filter::FilterConfig.new(config[filter])
-
+filter_config = AsakusaSatellite::Filter::FilterConfig.initialize! config[filter]
 AsakusaSatellite::Filter.initialize! filter_config
 AsakusaSatellite::Hook.initialize! filter_config
 AsakusaSatellite::MessagePusher.engines = config['message_pusher']['engines']

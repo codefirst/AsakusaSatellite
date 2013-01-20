@@ -5,7 +5,7 @@ module AsakusaSatellite
       # filter.yml has an array
       class V1FilterConfig
         def initialize(array)
-          @array = array
+          @array = array || []
         end
 
         def filters
@@ -23,7 +23,7 @@ module AsakusaSatellite
       # filter.yml has a hash
       class V2FilterConfig
         def initialize(hash)
-          @hash = hash
+          @hash = hash || {}
         end
 
         def filters
@@ -46,9 +46,27 @@ module AsakusaSatellite
 
         private
         def filters_and_plugins
-          ((@hash["filters"] || []) + (@hash["plugins"] || []))
+          (@hash["filters"] || []) + (@hash["plugins"] || [])
         end
       end
+
+
+      def self.initialize!(config_content)
+        @@config = FilterConfig.new(config_content)
+      end
+
+      def self.filters
+        @@config.filters
+      end
+
+      def self.plugins
+        @@config.plugins
+      end
+
+      def self.plugins_dirs
+        @@config.plugins_dirs
+      end
+
 
       def initialize(config_content)
         if config_content.class == Array

@@ -1,7 +1,15 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe AsakusaSatellite::Filter::FilterConfig do
-  before :all do
+  describe "in class method" do
+    before do
+      AsakusaSatellite::Filter::FilterConfig.initialize!([{"name"=>"foo"}])
+    end
+
+    describe 'filters' do
+      subject { AsakusaSatellite::Filter::FilterConfig.filters }
+      it { should == [{"name"=>"foo"}] }
+    end
   end
 
   describe "with array" do

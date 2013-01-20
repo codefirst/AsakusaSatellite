@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 $: << "#{File.dirname(__FILE__)}/../.."
-Dir.glob(File.join("plugins", "*")).each do |dir|
+AsakusaSatellite::Filter::FilterConfig.plugins_dirs.map { |dir|
+  File.join("plugins", dir)
+}.each do |dir|
   next unless File.directory?(dir)
 
   lib = File.join(dir, "lib")

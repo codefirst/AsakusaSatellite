@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 require 'asakusa_satellite/filter'
+require 'asakusa_satellite/filter/filter_config'
 require 'asakusa_satellite/hook'
 require 'asakusa_satellite/config'
 require 'asakusa_satellite/message_pusher'

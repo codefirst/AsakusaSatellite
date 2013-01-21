@@ -24,6 +24,7 @@ AsakusaSatellite::Application.routes.draw do
       resources :room
       resources :message
       get 'login', :controller => 'login', :action => 'index'
+      get 'service/info', :controller => 'service', :action => 'info'
     end
   end
 

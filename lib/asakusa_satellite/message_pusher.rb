@@ -128,12 +128,15 @@ END
       extend  Forwardable
 
       def_delegators :@default, :trigger, :jsFiles, :jsClass
+      attr_reader :name, :param
 
       def engines=(params)
         @params = params
       end
 
       def default=(name)
+        @name = name
+        @param = @params[name]
         @default = Engine[name].new(@params[name])
       end
 

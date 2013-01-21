@@ -88,12 +88,13 @@ describe Room do
 
   before {
     @user = User.new
-    @room = Room.new(:title => 'room1', :user => @user, :updated_at => Time.now)
+    @room = Room.new(:title => 'room1', :user => @user, :nickname => 'nickname', :updated_at => Time.now)
   }
   describe "to_json" do
     subject { @room.to_json }
     its([:name]) { should == "room1" }
     its([:user])  { should == @user.to_json }
+    its([:nickname])  { should == "nickname" }
     its([:updated_at]) { should == @room.updated_at.to_s }
   end
 

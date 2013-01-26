@@ -14,13 +14,29 @@ module AsakusaSatellite
           name = klass.name.gsub(/\A.*::/,'').downcase
           @@engine[name] = klass
         end
+
+        def secrets(*keys)
+          @@secrets = keys
+        end
+      end
+
+      def initialize(opt)
+        @opt = opt
+      end
+
+      def to_json
+        {
+          :name => self.class.to_s.downcase,
+          :param => @opt.reject{|key, _| (@@secrets || []).include? key.to_sym }
+        }
       end
     end
 
     class Pusher < Engine
       require 'pusher'
+      secrets :secret
       def initialize(opt)
-        @opt = opt
+        super(opt)
         ::Pusher.app_id = opt['app_id']
         ::Pusher.key    = opt['key']
         ::Pusher.secret = opt['secret']
@@ -44,6 +60,7 @@ module AsakusaSatellite
       require 'net/http'
       require 'uri'
       def initialize(opt)
+        super(opt)
         @key = opt['key']
         @url = opt['url']
       end
@@ -85,7 +102,9 @@ module AsakusaSatellite
 
     class Socky < Engine
       require 'socky/client'
+      secrets :secret
       def initialize(opt)
+        super(opt)
         @webSocket = opt['web_socket']
         @http      = opt['http']
         @app       = opt['app']
@@ -127,8 +146,7 @@ END
       require 'forwardable'
       extend  Forwardable
 
-      def_delegators :@default, :trigger, :jsFiles, :jsClass
-      attr_reader :name, :param
+      def_delegators :@default, :trigger, :jsFiles, :jsClass, :to_json
 
       def engines=(params)
         @params = params

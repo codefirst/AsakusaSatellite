@@ -130,7 +130,6 @@ describe Api::V1::RoomController do
         @another_user.save
         post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
         @room = Room.where(:_id =>@room.id).first
-        p @room.members
       }
       subject { @room.members[0] }
       its(:id) { should  == @another_user.id }
@@ -145,6 +144,19 @@ describe Api::V1::RoomController do
       }
       subject { @room.members[0] }
       its(:id) { should  == @another_user.id }
+    end
+
+    context 'dupricated member' do
+      before {
+        @another_user = User.new
+        @another_user.save
+        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        @size = Room.where(:_id =>@room.id).first.members.size
+        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        @room = Room.where(:_id =>@room.id).first
+      }
+      subject { @room.members }
+      its(:size) { should == @size }
     end
   end
 

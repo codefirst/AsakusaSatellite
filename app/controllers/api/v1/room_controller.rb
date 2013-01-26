@@ -60,16 +60,24 @@ module Api
           user = User.find(params[:user_id])
           if room.nil?
             render :json => {:status => 'error', :error => "room not found"}
+            return
           elsif user.nil?
             render :json => {:status => 'error', :error => "user not found"}
+            return
+          end
+
+          room.members ||= []
+          member = room.members.where(:_id => user.id).first
+          unless member.nil?
+            render :json => {:status => 'error', :error => "user already exists"}
+            return
+          end
+
+          room.members << user
+          if room.save
+            render :json => {:status => 'ok'}
           else
-            room.members ||= []
-            room.members << user
-            if room.save
-              render :json => {:status => 'ok'}
-            else
-              render :json => {:status => 'error', :error => "add user"}
-            end
+            render :json => {:status => 'error', :error => "add user"}
           end
         end
       end

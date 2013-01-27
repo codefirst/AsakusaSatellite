@@ -1,0 +1,17 @@
+name:
+  main
+files:
+  - "../app/assets/javascripts/jquery-min.js"
+  - "../app/assets/javascripts/jquery-websocket.js"
+  - "../app/assets/javascripts/jquery-chat.js"
+  - "../app/assets/javascripts/jquery-pagination.js"
+  - "../app/assets/javascripts/jquery-multiline.js"
+  - "../app/assets/javascripts/jquery-append-hack.js"
+  - "../app/assets/javascripts/jquery-autoscroll.js"
+  - "../app/assets/javascripts/jquery-watch.js"
+  - "./test/websocket_test.js"
+  - "./test/chat_test.js"
+  - "./test/pagination_test.js"
+  - "./test/multiline_test.js"
+  - "./test/autoscroll_test.js"
+  - "./test/watch_test.js"

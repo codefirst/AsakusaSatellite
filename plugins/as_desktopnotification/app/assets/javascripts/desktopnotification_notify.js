@@ -56,7 +56,7 @@
         var onclose = function() {};
         
         var setting = $.extend(defaults, options);
-        if (window.webkitNotifications) {
+        if (window.webkitNotifications.checkPermission) {
             if (!window.webkitNotifications.checkPermission()) {
                 var popup = window.webkitNotifications.createNotification(
                     setting.picture,

@@ -8,11 +8,10 @@ module ApiHelper
         session[:current_user_id] = users.first.id.to_s
       end
     end
-
-    unless logged?
-      render :json => {:status => 'error', :error => 'login not yet'}
-      return false
-    end
     true
+  end
+
+  def render_login_error
+    render :json => {:status => 'error', :error => 'login not yet'}
   end
 end

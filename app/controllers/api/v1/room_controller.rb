@@ -6,10 +6,14 @@ module Api
       include ApiHelper
       include RoomHelper
 
-      before_filter :check_spell, :except => [:list]
+      before_filter :check_spell
 
       respond_to :json
       def create
+        unless logged?
+          render_login_error
+          return
+        end
         room = Room.new(:title => params[:name], :user => current_user, :updated_at => Time.now)
         if room.save
           render :json => {:status => 'ok', :room_id => room._id}
@@ -19,6 +23,10 @@ module Api
       end
 
       def update
+        unless logged?
+          render_login_error
+          return
+        end
         with_room(params[:id]) do|room|
           if room.nil?
             render :json => {:status => 'error', :error => "room not found"}
@@ -31,6 +39,10 @@ module Api
       end
 
       def destroy
+        unless logged?
+          render_login_error
+          return
+        end
         with_room(params[:id]) do|room|
           if room.nil?
             render :json => {:status => 'error', :error => "room not found"}
@@ -43,19 +55,14 @@ module Api
       end
 
       def list
-        if params[:api_key].blank?
-          render :json => Room.all_live.map {|r| r.to_json }
-          return
-        end
-
-        if check_spell
-          render :json => Room.all_live(current_user).map {|r| r.to_json }
-        else
-          render :json => {:status => 'error', :error => "login failure"}
-        end
+        render :json => Room.all_live(current_user).map {|r| r.to_json }
       end
 
       def add_member
+        unless logged?
+          render_login_error
+          return
+        end
         with_room(params[:id]) do|room|
           user = User.find(params[:user_id])
           if room.nil?

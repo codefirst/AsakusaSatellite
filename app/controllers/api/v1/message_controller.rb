@@ -7,12 +7,12 @@ module Api
       include RoomHelper
       include Rails.application.routes.url_helpers
 
-      before_filter :check_spell, :except => [ :list, :show ]
+      before_filter :check_spell
       respond_to :json
 
       def list
         room_id = params[:room_id]
-        with_room(room_id, :not_auth => true) do|room|
+        with_room(room_id, :not_auth => (not logged?)) do|room|
           if room.nil?
             render :json => {:status => 'error', :error => "room does not exist"}
           else
@@ -35,12 +35,18 @@ module Api
           return
         end
         room = @message.room
-        if accessible?(room)
+        if accessible?(@message)
           respond_with(to_json(@message))
+        else
+          render :json => {:status => 'error', :error => "message #{params[:id]} not found"}
         end
       end
 
       def create
+        unless logged?
+          render_login_error
+          return
+        end
         with_room(params[:room_id]) do|room|
           message = create_message(room, params[:message])
           unless message
@@ -54,6 +60,10 @@ module Api
       end
 
       def update
+        unless logged?
+          render_login_error
+          return
+        end
         message = Message.find(params[:id])
         unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
           render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
@@ -64,6 +74,10 @@ module Api
       end
 
       def destroy
+        unless logged?
+          render_login_error
+          return
+        end
         message = Message.where(:_id => params[:id]).first
         unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
           render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
@@ -74,16 +88,15 @@ module Api
       end
 
       private
-      def accessible?(room)
+      def accessible?(message)
+        room = message.room
         if room.nil?
-          render :json => {:status => 'error', :error => "room does not exist"}
           return false
         end
         unless room.is_public
-          return false unless check_spell
+          return false unless logged?
         end
         unless room.accessible?(current_user)
-          render :json => {:status => 'error', :error => "room #{room.id} does not exist"}
           return false
         end
         true

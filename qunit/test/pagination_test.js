@@ -25,7 +25,6 @@ module("pagination module");
 
     test("ロードが完了", function(){
 	target.trigger('click');
-                console.log(append);
 	equal(append.length, 2);
     });
 

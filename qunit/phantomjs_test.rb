@@ -39,9 +39,12 @@ end
 
 result = (["qunit_setting.yml"]+Dir::glob("../plugins/*/qunit/qunit_setting.yml")).all? do |yaml|
   path = File.dirname yaml
-  js_files = YAML.load_file yaml
-  generate_index_html(js_files.map{|f| File::expand_path(f, path)})
-  system("phantomjs run_qunit.js file://#{Dir::pwd+"/index.html"}")
+  setting = YAML.load_file yaml
+  generate_index_html(setting['files'].map{|f| File::expand_path(f, path)})
+  File::open("#{setting['name']}.tap", "w") do |f|
+    f.write %x(phantomjs run_qunit.js file://#{Dir::pwd+"/index.html"})
+  end
+  $?.exitstatus == 0
 end
 
-exit(result)
+exit result

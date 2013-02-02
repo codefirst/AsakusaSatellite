@@ -30,9 +30,17 @@
      * @param message to check
      */
     function isAllowedToNotify(message){
+        function check(param, default_value){
+            if (param == undefined) {
+                return default_value;
+            } else {
+                return param;
+            }
+        }
+
         var current = AsakusaSatellite.current;
-        return (current.user != message.screen_name) &&
-            $.LocalStorage.get('notification_setting_for_rooms', {})[current.room];
+        var allowed = $.LocalStorage.get('notification_setting_for_rooms', {})[current.room];
+        return (current.user != message.screen_name) && check(allowed, true);
     }
     
     /**

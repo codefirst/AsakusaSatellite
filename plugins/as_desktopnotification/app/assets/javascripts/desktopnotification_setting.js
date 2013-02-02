@@ -57,6 +57,13 @@ $(function() {
     });
 });
 $(function() {
+    function check(param, default_value){
+        if (param == undefined) {
+            return default_value;
+        } else {
+            return param;
+        }
+    }
     var KEY = 'notification_setting_for_rooms';
     
     $("#as_notification_setting .rooms input").click(function(e){
@@ -64,12 +71,13 @@ $(function() {
         
         var roomName = this.name;
         var setting = $.LocalStorage.get(KEY, {});
-        setting[roomName] = !setting[roomName];
+        setting[roomName] = !check(setting[roomName], true);
         $.LocalStorage.set(KEY, setting);
         
         $(this).toggleClass("gray").val( setting[roomName] ? "Notification On" : "Notification Off" );
     }).map(function(idx, button){
-        if ($.LocalStorage.get(KEY, {})[button.name]) {
+        var allowed = $.LocalStorage.get(KEY, {})[button.name];
+        if (check(allowed, true)) {
             $(button).addClass('gray').val("Notification On");
         } else {
             $(button).removeClass('gray').val("Notification Off");

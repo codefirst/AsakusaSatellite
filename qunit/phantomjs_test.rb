@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 require 'yaml'
 
-def generate_index_html(files)
-  File::open("index.html", "w") do |f|
+def generate_index_html(prefix, files)
+  File::open("#{prefix}_index.html", "w") do |f|
     f.write <<EOF
 # <!DOCTYPE html>
 <html>
@@ -37,14 +37,29 @@ EOF
   end
 end
 
-result = (["qunit_setting.yml"]+Dir::glob("../plugins/*/qunit/qunit_setting.yml")).all? do |yaml|
-  path = File.dirname yaml
-  setting = YAML.load_file yaml
-  generate_index_html(setting['files'].map{|f| File::expand_path(f, path)})
-  File::open("#{setting['name']}.tap", "w") do |f|
-    f.write %x(phantomjs run_qunit.js file://#{Dir::pwd+"/index.html"})
+def execute_test(name)
+  File::open("#{name}.tap", "w") do |f|
+    output = %x(phantomjs run_qunit.js file://#{Dir::pwd}/#{name}_index.html)
+    f.write output
+    puts output
   end
   $?.exitstatus == 0
 end
+
+(Dir::glob("*.html")+Dir::glob("*.tap")).each{|f| File.unlink f}
+
+result = (["qunit_setting.yml"]+Dir::glob("../plugins/*/qunit/qunit_setting.yml")).map do |yaml|
+  setting = YAML.load_file yaml
+  name    = setting['name']
+  files   = setting['files']
+
+  if ARGV.empty? or ARGV.member? name
+    path = File.dirname yaml
+    generate_index_html(name, files.map{|f| File::expand_path(f, path)})
+    execute_test(name)
+  else
+    false
+  end
+end.all?
 
 exit result

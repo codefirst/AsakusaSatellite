@@ -14,7 +14,16 @@
         var pusher = config.pusher;
 
         function fire(name, data){
+            function isMessageEvent(name){
+                return (name == "create" || name == "update" || name == "destroy");
+            }
+
             target.trigger("websocket::"+name, data);
+
+            if (isMessageEvent(name) && window.history && window.history.replaceState) {
+                window.history.replaceState(data.id ,"", location.pathname+"?latest="+data.id);
+            }
+
             if(window.postMessage) {
                 window.postMessage({ 'type': name,
                                      'current': AsakusaSatellite.current,

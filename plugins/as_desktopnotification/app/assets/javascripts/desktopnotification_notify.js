@@ -11,7 +11,7 @@
      */
     $.fn.setupDesktopNotify = function(){
         var target = this;
-        
+
         target.bind('websocket::create',function(_, message){
             var attachment = message.attachment;
             var attached = (attachment != null) && (attachment.length > 0);
@@ -24,7 +24,7 @@
             }
         });
     };
-    
+
     /**
      * check if desktop notify is enabled
      * @param message to check
@@ -42,7 +42,7 @@
         var allowed = $.LocalStorage.get('notification_setting_for_rooms', {})[current.room];
         return (current.user != message.screen_name) && check(allowed, true);
     }
-    
+
     /**
      * display desktop notification.
      * @param {String} options.picture url of icon file
@@ -59,12 +59,12 @@
             ondisplay : ondisplay,
             onclose : onclose
         };
-        
+
         var ondisplay = function() {};
         var onclose = function() {};
-        
+
         var setting = $.extend(defaults, options);
-        if (window.webkitNotifications.checkPermission) {
+        if (window.webkitNotifications) {
             if (!window.webkitNotifications.checkPermission()) {
                 var popup = window.webkitNotifications.createNotification(
                     setting.picture,
@@ -74,7 +74,7 @@
                 popup.ondisplay = setting.ondisplay;
                 popup.onclose = setting.onclose;
                 popup.show();
-                
+
                 var delay = $.LocalStorage.get('notificationTime', 3);
                 if (delay > 0) {
                     setTimeout(function() {
@@ -84,7 +84,7 @@
             }
         }
     };
-})(jQuery, document);
-(function(){
+
     $(".message-list").setupDesktopNotify();
-})();
+})(jQuery, document);
+

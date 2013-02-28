@@ -13,7 +13,5 @@ spec/reports
 spec/fixtures
 qunit/index.html
 *.swp
-qunit/*.tap
-qunit/*.html
 \#*\#
 tmp

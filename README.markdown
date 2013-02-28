@@ -97,8 +97,7 @@ You need test db to run tests.
 
 Requirement: phantomjs 1.5+
 
-    $ cd qunit
-    $ bundle exec ruby phantomjs_test.rb
+    $ bundle exec rake qunit
 
 ### Generate Plugin Template
 

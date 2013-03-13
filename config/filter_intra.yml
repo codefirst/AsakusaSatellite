@@ -15,5 +15,5 @@ plugins:
 # - dir: as_global_js_css
 # - dir: as_watage_plugin
  - dir: as_twitterauth_plugin
-# - dir: as_localauth
+# - dir: as_localauth_plugin
 # - dir: as_redmineauth_plugin

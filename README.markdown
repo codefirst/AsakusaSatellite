@@ -1,7 +1,7 @@
 AsakusaSatellite
 ===================
 
-[![Build Status](https://secure.travis-ci.org/codefirst/AsakusaSatellite.png?branch=master)](http://travis-ci.org/codefirst/AsakusaSatellite)
+[![Build Status](https://secure.travis-ci.org/codefirst/AsakusaSatellite.png?branch=master)](http://travis-ci.org/codefirst/AsakusaSatellite) [![Code Climate](https://codeclimate.com/github/codefirst/AsakusaSatellite.png)](https://codeclimate.com/github/codefirst/AsakusaSatellite)
 
 Overview
 ----------------

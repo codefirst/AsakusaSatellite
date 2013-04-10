@@ -85,7 +85,6 @@ describe Room do
     end
   end
 
-
   before {
     @user = User.new
     @room = Room.new(:title => 'room1', :user => @user, :nickname => 'nickname', :updated_at => Time.now)
@@ -121,6 +120,41 @@ describe Room do
     describe "messages_between" do
       subject { between = @room.messages_between(@messages[3].id, @messages[5].id, 2) }
       it { should == [@messages[3], @messages[4]] }
+    end
+  end
+
+  describe "owner and members" do
+    before do
+      @user = User.create
+      @member = User.create
+      @room = Room.create(:title => 'room private', :user => @user, :is_public => false)
+      @room.members << @member
+    end
+
+    context "user" do
+      subject { @room.user }
+      it { should == @user }
+    end
+
+    context "members" do
+      subject { @room.members.to_set }
+      it { should == [@member].to_set }
+    end
+
+    context "owner_and_members" do
+      context "exist members" do
+        subject { @room.owner_and_members.to_set }
+        it { should == [@user, @member].to_set }
+      end
+
+      context "no members" do
+        before do
+          @room = Room.create(:title => 'room private', :user => @user, :is_public => false)
+        end
+
+        subject { @room.owner_and_members.to_set }
+        it { should == [@user].to_set }
+      end
     end
   end
 

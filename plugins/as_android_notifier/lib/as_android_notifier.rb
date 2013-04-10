@@ -8,7 +8,7 @@ class AsakusaSatellite::Hook::ASAndroidNotifier < AsakusaSatellite::Hook::Listen
 
     text = "#{message.user.name} / #{message.body}"[0,150]
 
-    members = room.members - [ message.user ]
+    members = room.owner_and_members - [ message.user ]
     devices = members.map {|user|
       user.devices
     }.flatten

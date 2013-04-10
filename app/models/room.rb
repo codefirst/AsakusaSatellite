@@ -51,6 +51,10 @@ class Room
     room if room.accessible?(user)
   end
 
+  def owner_and_members
+    [self.user] + self.members
+  end
+
   def messages(offset)
     Message.where("room_id" => id).order_by(:_id.desc).limit(offset).to_a.reverse
   end

@@ -19,7 +19,7 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
     body = not_attached ? message.body : message.attachments[0].filename
     text = strip "#{message.user.name} / #{body}", 150
 
-    members = room.owner_and_members
+    members = room.owner_and_members - [ message.user ]
 
     devices = members.map {|user|
       user.devices

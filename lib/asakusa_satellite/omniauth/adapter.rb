@@ -2,9 +2,13 @@ module AsakusaSatellite
   module OmniAuth
     class Adapter
       def self.adapt(omniauth_hash)
-        User.new(:name => omniauth_hash.info.name,
-                 :screen_name => omniauth_hash.info.nickname,
-                 :profile_image_url => omniauth_hash.info.image)
+        info = omniauth_hash.info
+
+        User.find_or_create_by(:screen_name => info.nickname).tap do |user|
+          user.name = info.name if info.name
+          user.profile_image_url = info.image if info.image
+          user.save
+        end
       end
     end
   end

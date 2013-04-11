@@ -43,22 +43,22 @@
  :javascript
     $(function() {
       $('#add-member-button').bind('click', function(e) {
-        var name = $('#add-member-name').val();
-        $('#add-member-name').val('');
-        if (name.length == 0) {
-          return false;
+        var names = $('#add-member-name').val().split(" ").filter(function(u){return !u});
+        for (var i = 0, nameLen = names.length; i < nameLen; i++) {
+          var name = names[i];
+          $('#add-member-name').val('');
+          if( $(".screen-name").contents().filter(function(_,x){ return x.textContent == name }).length != 0) {
+            return false;
+          }
+          var length = $('.members li').length;
+  
+          var html = '<li class="new">' +
+                        '<input type="hidden" name="room[members[' + length + ']]" class="member-hidden" value="' + name + '">' +
+                        '<span class="screen-name">' + name + '</span>' +
+                        '<a class="action delete-member-button">#{image_tag "room_delete.gif"}</a>' +
+                     '</li>';
+          $('.members ul').append($(html));
         }
-        if( $(".screen-name").contents().filter(function(_,x){ return x.textContent == name }).length != 0) {
-          return false;
-        }
-        var length = $('.members li').length;
-
-        var html = '<li class="new">' +
-                      '<input type="hidden" name="room[members[' + length + ']]" class="member-hidden" value="' + name + '">' +
-                      '<span class="screen-name">' + name + '</span>' +
-                      '<a class="action delete-member-button">#{image_tag "room_delete.gif"}</a>' +
-                   '</li>';
-        $('.members ul').append($(html));
         return false;
       });
       $('.delete-member-button').live('click', function(e) {

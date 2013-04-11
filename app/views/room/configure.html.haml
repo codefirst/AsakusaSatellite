@@ -43,7 +43,7 @@
  :javascript
     $(function() {
       $('#add-member-button').bind('click', function(e) {
-        var names = $('#add-member-name').val().split(" ").filter(function(u){return u});
+        var names = $('#add-member-name').val().split(" ").filter(function(u){return u != ""});
         for (var i = 0, nameLen = names.length; i < nameLen; i++) {
           var name = names[i];
           $('#add-member-name').val('');

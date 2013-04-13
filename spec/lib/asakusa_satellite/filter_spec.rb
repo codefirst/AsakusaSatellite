@@ -38,7 +38,7 @@ describe AsakusaSatellite::Filter do
 
     describe 'apos string' do
       subject { make["'"] }
-      it { should == "'" }
+      it { should == "&#39;" }
     end
   end
 

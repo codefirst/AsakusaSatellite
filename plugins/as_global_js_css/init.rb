@@ -1,1 +1,1 @@
-require 'global_js_css'
+require 'global_js_css_listener'

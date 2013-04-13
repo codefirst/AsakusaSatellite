@@ -1,6 +1,6 @@
 require 'asakusa_satellite/hook'
 
-class AsakusaSatellite::Hook::RedmineTicketLink < AsakusaSatellite::Hook::Listener
+class AsakusaSatellite::Hook::RedmineTicketLinkHook < AsakusaSatellite::Hook::Listener
   UNSAFE_CHARACTERS = /[^-_.!~*'()a-zA-Z\d\/?:@=+$,\[\]]/
   def message_buttons(context)
     subject     = URI::escape(context[:message].body, UNSAFE_CHARACTERS)

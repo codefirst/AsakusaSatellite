@@ -3,7 +3,7 @@ require 'json'
 require 'open-uri'
 require 'cgi'
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-class AsakusaSatellite::Filter::RedmineTicketLink < AsakusaSatellite::Filter::Base
+class AsakusaSatellite::Filter::RedmineTicketLinkFilter < AsakusaSatellite::Filter::Base
   def process(line, opts={})
     room = opts[:room]
     info = room.yaml[:redmine_ticket]

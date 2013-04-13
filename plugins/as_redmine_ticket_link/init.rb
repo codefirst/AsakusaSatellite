@@ -1,6 +1,6 @@
 require 'asakusa_satellite/config'
 
-require 'filter'
-require 'view_hook'
+require 'redmine_ticket_link_filter'
+require 'redmine_ticket_link_hook'
 AsakusaSatellite::Config.room("Redmine Ticket Link",
                               :controller=>:as_redmine_ticket_link, :action=> :room)

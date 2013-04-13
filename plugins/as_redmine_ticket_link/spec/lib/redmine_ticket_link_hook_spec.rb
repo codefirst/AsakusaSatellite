@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
-require 'view_hook'
+require 'redmine_ticket_link_hook'
 
 class Dummy
   def image_path(_)
@@ -8,9 +8,9 @@ class Dummy
   end
 end
 
-describe AsakusaSatellite::Hook::RedmineTicketLink do
+describe AsakusaSatellite::Hook::RedmineTicketLinkHook do
   before do
-    @hook = AsakusaSatellite::Hook::RedmineTicketLink.new({})
+    @hook = AsakusaSatellite::Hook::RedmineTicketLinkHook.new({})
   end
 
   describe "message buttons" do

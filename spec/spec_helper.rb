@@ -1,4 +1,6 @@
 require 'rubygems'
+require 'coveralls'
+Coveralls.wear!('rails')
 require 'spork'
 require 'rspec/autorun'
 

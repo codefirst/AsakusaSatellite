@@ -12,12 +12,12 @@ if %(development test).include?(Rails.env)
   require 'rspec/core/rake_task'
   require 'ci/reporter/rake/rspec'
 
-  namespace :plugins do
-    RSpec::Core::RakeTask.new(:spec) do|t|
-      t.pattern = "./plugins/as_*/spec/**/*_spec.rb"
+  namespace :spec do
+    RSpec::Core::RakeTask.new(:all) do |t|
+      t.pattern = ["./spec/**/*_spec.rb", "./plugins/as_*/spec/**/*_spec.rb"]
     end
   end
 
-  task :default => [:spec, :'plugins:spec']
+  task :default => [:'spec:all']
 end
 

@@ -29,6 +29,7 @@ group :development, :test do
 
   gem "rspec-rails", ">= 2.11.4"
   gem 'rcov', :platforms => :ruby_18
+  gem 'simplecov', :platforms => :ruby_19
   gem 'ci_reporter'
 
   gem 'spork'

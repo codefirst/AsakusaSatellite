@@ -18,6 +18,9 @@ if %(development test).include?(Rails.env)
     end
   end
 
-  task :default => [:'spec:all']
+  if default = Rake.application.instance_variable_get('@tasks')['default']
+    default.prerequisites.delete('spec')
+  end
+  task :default => :'spec:all'
 end
 

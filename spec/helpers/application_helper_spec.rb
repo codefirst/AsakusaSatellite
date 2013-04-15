@@ -24,6 +24,7 @@ describe ApplicationHelper do
   describe "mine_type" do
     subject { helper }
     it { should be_image_mimetype('image/png') }
+    it { should be_video_mimetype('video/mpeg') }
     it { should_not be_image_mimetype('text/plain') }
   end
 

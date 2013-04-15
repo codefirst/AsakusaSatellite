@@ -53,6 +53,7 @@ class ChatController < ApplicationController
     find_room(params[:id], :not_auth=>true) do
       @messages = Message.where("room_id" => @room.id).order_by(:_id.desc).limit(PageSize).to_a
       @title = @room.title
+      call_hook(:in_chatroom_controller, :self => self)
     end
   end
 

@@ -25,4 +25,10 @@ describe AsakusaSatellite::Filter::AutoLink do
     it { should have_xml("//a[@href='http://twitpic.com/3gy2dn']") }
     it { should have_xml("//img[@src='http://twitpic.com/show/thumb/3gy2dn']") }
   end
+
+  describe 'jpgを展開する' do
+    subject { @filter.process('http://www.example.com/foo.jpg') }
+    it { should have_xml("//a[@href='http://www.example.com/foo.jpg']") }
+    it { should have_xml("//img[@src='http://www.example.com/foo.jpg']") }
+  end
 end

@@ -91,6 +91,27 @@ JSON
     it {
       should == '<a target="_blank" href="http://redmine.example.com/a/issues/1334">#1334 redmine_ticket プラグインでチケットを作るとき、本文に &amp; があるとそこでパラメータが切れちゃう。</a>'}
   end
+
+  describe "例外発生" do
+    before do
+      @config = { :room =>
+        OpenStruct.new(:yaml => {
+                         :redmine_ticket => {
+                           'root' => 'http://redmine.example.com/a/',
+                           'api_key' => 'hoge'
+                         }})}
+      @filter = AsakusaSatellite::Filter::RedmineTicketLinkFilter.new({})
+      @filter.stub!(:open).and_raise("error")
+    end
+
+    subject {
+      @filter.process('#1334', @config)
+    }
+
+    it {
+      should == '<a target="_blank" href="http://redmine.example.com/a/issues/1334">#1334</a>'
+    }
+  end
 end
 
 

@@ -50,7 +50,7 @@ platform :jruby do
   gem 'warbler'
 
   # FIXME: warbler does not recognize plugins' Gemfile
-  gem 'omniauth-twitter'
+  gem 'omniauth-twitter', '>= 0.0.14'
 end
 
 Dir.glob(File.join(File.dirname(__FILE__), 'plugins', '**', "Gemfile")) do |gemfile|

@@ -84,6 +84,28 @@ describe ChatController do
     its([:next]) { should have(5).items }
   end
 
+  describe "next" do
+    context "without offset" do
+      before { get :next, :id => @messages[10].id }
+      subject { assigns }
+      its([:messages]) { should have(20).items }
+    end
+  end
+
+  describe "prev" do
+    context "without offset" do
+      before { get :prev, :id => @messages[40].id }
+      subject { assigns }
+      its([:messages]) { should have(20).items }
+    end
+
+    context "with not exisiting message" do
+      before { get :prev, :id => "undefined" }
+      subject { assigns }
+      its([:messages]) { should have(0).items }
+    end
+  end
+
   context "部屋が存在しない" do
     before {
       Room.delete_all
@@ -100,5 +122,11 @@ describe ChatController do
       subject { response }
       it { should redirect_to(:action => 'index') }
     end
+  end
+
+  context "ログインしていない" do
+    before { session[:current_user_id] = nil }
+    subject { post :message, {:room_id => @room.id, :message => "メッセージ" } }
+    it { should redirect_to(:controller => 'chat') }
   end
 end

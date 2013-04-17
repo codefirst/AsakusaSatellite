@@ -1,1 +1,1 @@
-gem 'omniauth-twitter'
+gem 'omniauth-twitter', '>= 0.0.14'

@@ -34,6 +34,15 @@ describe RoomController do
       }
     end
 
+    describe "部屋作成失敗" do
+      before do
+        Room.stub(:new) { mock_model(Room, :save => false) }
+        post :create, {:room => {:title => 'foo' }}
+      end
+      subject { response }
+      it { should redirect_to(:controller => 'room', :action => 'create') }
+    end
+
     describe "privateな部屋作成" do
       before {
           post :create, {:room => {:title => 'foo private', :is_public => false }}
@@ -50,6 +59,23 @@ describe RoomController do
       its(:is_public) { should be_true }
     end
 
+    describe "/deleteにGET" do
+      before { get :delete, :id => @room.id }
+      subject { response }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
+    end
+
+    describe "/configure" do
+      before do
+        new_username = Time.now.to_s
+        post :configure, :id => @room.id,
+             :room => { :title => 'new title', :members => {1 => @user.name, 2 => new_username} }
+        @room = Room.find(@room.id)
+      end
+      subject { @room }
+      its(:title) { should == 'new title'}
+      it { should redirect_to(:controller => 'room', :action => 'configure') }
+    end
   end
 
   context "owner以外でログイン時" do

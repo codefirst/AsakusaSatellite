@@ -16,7 +16,6 @@ end
 
 RSpec::Matchers.define :have_xml do |selector|
   match do |response_body|
-    selector.gsub!(/_/,'-')
     doc = REXML::Document.new(response_body).root
     REXML::XPath.match(doc, selector).size > 0
   end

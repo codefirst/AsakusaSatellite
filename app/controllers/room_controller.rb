@@ -66,15 +66,6 @@ class RoomController < ApplicationController
     redirect_to :controller => 'chat' if current_user.nil?
   end
 
-  def include_member(room, user)
-    return false if room.nil?
-    return false if room.members.nil?
-    room.members.each do |member|
-      return true if member.id.to_s == user.id.to_s
-    end
-    false
-  end
-
   def true?(x)
     not ['0', false, nil].include?(x)
   end

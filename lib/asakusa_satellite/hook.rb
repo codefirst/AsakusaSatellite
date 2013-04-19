@@ -23,7 +23,8 @@ module AsakusaSatellite::Hook
           begin
             elem = listener.send(hook, context)
             html + ((elem.class == String and not elem.nil?) ? elem : '')
-          rescue
+          rescue => e
+            Rails.logger.error e
             html
           end
         end

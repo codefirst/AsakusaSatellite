@@ -129,4 +129,21 @@ describe ChatController do
     subject { post :message, {:room_id => @room.id, :message => "メッセージ" } }
     it { should redirect_to(:controller => 'chat') }
   end
+
+  context "コントローラフック" do
+    before {
+      class DummyPluginListener < AsakusaSatellite::Hook::Listener
+        def in_chatroom_controller(context)
+          context[:controller].instance_eval do
+            @added_in_hook = "test"
+          end
+        end
+      end
+    }
+    describe "登録したフックが呼び出される" do
+      before { get :room, {:id => @room.id } }
+      subject { assigns }
+      its([:added_in_hook]) { should == "test" }
+    end
+  end
 end

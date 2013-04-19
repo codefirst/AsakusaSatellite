@@ -37,7 +37,7 @@ describe AsakusaSatellite::Hook::Listener do
       before {
         class TestListener3 < AsakusaSatellite::Hook::Listener
           def foo(context)
-            undefined_variable
+            raise "some error happens"
           end
         end
         Rails.logger = DummyLogger.new

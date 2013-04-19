@@ -39,4 +39,11 @@ describe EmojiFilter do
     it { should == %(<img src="http://example.com/emoji/sushi.png" style="width:16px" title="sushi" alt="sushi"/>) }
   end
 
+  describe "non-existent emoji" do
+    subject {
+      @filter.process(":asakusasatellite:")
+    }
+
+    it { should == ":asakusasatellite:" }
+  end
 end

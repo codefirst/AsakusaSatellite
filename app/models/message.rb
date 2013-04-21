@@ -41,10 +41,48 @@ class Message
     Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
-  def self.create_message(room, user, message_body)
-    return if message_body.strip.empty?
-    Message.new(:room => room, :body => message_body, :user => user).tap do |message|
-      return nil unless message.save
+  def self.create_message(user, room, message_body)
+    return :login_error if user.nil?
+    return :empty_message if message_body.strip.empty?
+
+    message = Message.new(:room => room, :body => message_body, :user => user)
+    if message.save then return message
+                    else return :error_on_save
+    end
+  end
+
+  def self.create_attach(user, room, params)
+    max_size = Setting[:attachment_max_size].to_i
+    return if max_size > 0 && params[:file].size > max_size.megabyte
+
+    Message.new(:room => room, :body => nil, :user => user).tap do |message|
+      return unless message.save
+      Attachment.create_and_save_file(params[:filename], params[:file], params[:mimetype], message)
+    end
+  end
+
+  def self.update_message(user, message_id, message_body)
+    return :login_error if user.nil?
+
+    Message.with_own_message(message_id, user) do |message|
+      return :error_message_not_found unless message
+
+      message.body = message_body
+      if message.save then return message
+                      else return :error_on_save
+      end
+    end
+  end
+
+  def self.delete_message(user, message_id)
+    return :login_error if user.nil?
+
+    Message.with_own_message(message_id, user) do |message|
+      return :error_message_not_found unless message
+
+      if message.destroy then return message
+                         else return :error_on_destroy
+      end
     end
   end
 

@@ -75,4 +75,33 @@ describe SearchController do
       end
     end
   end
+
+  describe "search_more" do
+    context "search_message が空" do
+      before { get :search_more, :room_id => 1 }
+      subject { assigns[:results] }
+      it { should be_nil }
+    end
+
+    context "room_id が空" do
+      before { get :search_more, :search_message => 'foo' }
+      subject { assigns[:results] }
+      it { should be_nil }
+    end
+
+    context "検索結果がある" do
+      before do
+        @room = mock
+        @room.stub(:deleted => false,
+                   :_id => 42,
+                   :accessible? => true)
+        Room.stub(:all_live => [ @room ])
+        Room.stub(:where).with(:_id => '1'){ [ @room ] }
+        Message.stub(:find_by_text) { [{ :room => @room, :messages => [Message.new] }] }
+        get :search_more, :id => 1, :search_message => 'foo', :room_id => 1
+      end
+      subject { assigns[:results] }
+      its(:size) { should == 1 }
+    end
+  end
 end

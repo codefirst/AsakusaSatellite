@@ -11,7 +11,23 @@ module ApiHelper
     true
   end
 
+  def render_error(message)
+    render :json => {:status => 'error', :error => message}
+  end
+
   def render_login_error
-    render :json => {:status => 'error', :error => 'login not yet'}
+    render_error 'login not yet'
+  end
+
+  def render_room_not_found(id)
+    render_error 'room #{id} not found'
+  end
+
+  def render_message_not_found(id)
+    render_error 'message #{id} not found'
+  end
+
+  def render_message_creation_error
+    render_error 'message creation failed'
   end
 end

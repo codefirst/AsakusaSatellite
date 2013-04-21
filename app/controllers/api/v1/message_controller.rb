@@ -28,78 +28,53 @@ module Api
       end
 
       def show
-        begin
-          @message = Message.find(params[:id])
-        rescue
-          render :json => {:status => 'error', :error => "message #{params[:id]} not found"}
-          return
-        end
-        room = @message.room
-        if accessible?(@message)
-          respond_with(to_json(@message))
-        else
-          render :json => {:status => 'error', :error => "message #{params[:id]} not found"}
+        Message.with_message(params[:id]) do |message|
+          render_message_not_found(params[:id]) and return unless message
+
+          if message.accessible?(current_user)
+            respond_with(to_json(message))
+          else
+            render_message_not_found(params[:id]) and return
+          end
         end
       end
 
       def create
-        unless logged?
-          render_login_error
-          return
-        end
-        with_room(params[:room_id]) do|room|
-          message = create_message(room, params[:message])
-          unless message
-            render :json => {:status => 'error', :error => "message creation failed"}
-            return
-          end
-          room.updated_at = Time.now
-          room.save
+        render_login_error and return unless logged?
+
+        with_room(params[:room_id]) do |room|
+          render_room_not_found(params[:room_id]) and return unless room
+
+          message = Message.create_message(room, current_user, params[:message])
+          render_message_creation_error and return unless message
+
+          publish_message(:create, message, room)
+          room.update_attributes(:updated_at => Time.now)
+
           render :json => {:status => 'ok', :message_id => message.id}
         end
       end
 
       def update
-        unless logged?
-          render_login_error
-          return
+        render_login_error and return unless logged?
+
+        Message.with_own_message(params[:id], current_user) do |message|
+          render_message_not_found(params[:id]) and return unless message
+
+          update_message(params[:id], params[:message])
+          render :json => {:status => 'ok'}
         end
-        message = Message.find(params[:id])
-        unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
-          render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
-          return
-        end
-        update_message(params[:id], params[:message])
-        render :json => {:status => 'ok'}
       end
 
       def destroy
-        unless logged?
-          render_login_error
-          return
-        end
-        message = Message.where(:_id => params[:id]).first
-        unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
-          render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
-          return
-        end
-        delete_message(params[:id])
-        render :json => {:status => 'ok'}
-      end
+        render_login_error and return unless logged?
 
-      private
-      def accessible?(message)
-        room = message.room
-        if room.nil?
-          return false
+        Message.with_own_message(params[:id], current_user) do |message|
+          render_message_not_found(params[:id]) and return unless message
+
+          delete_message(params[:id])
+          render :json => {:status => 'ok'}
         end
-        unless room.is_public
-          return false unless logged?
-        end
-        unless room.accessible?(current_user)
-          return false
-        end
-        true
       end
     end
   end

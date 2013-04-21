@@ -41,6 +41,17 @@ class Message
     Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
+  def self.create_message(room, user, message_body)
+    return if message_body.strip.empty?
+    Message.new(:room => room, :body => message_body, :user => user).tap do |message|
+      return nil unless message.save
+    end
+  end
+
+  def accessible?(user)
+    self.room and self.room.accessible?(user)
+  end
+
   def self.find_by_text(params)
     query = params[:text]
     rooms = (params[:rooms] || Room.all_live).select {|room| not room.deleted}
@@ -53,5 +64,17 @@ class Message
       { :room => room, :messages => messages }
     end
   end
-end
 
+  def self.with_message(id, conditions={}, &f)
+    message = Message.where({:_id => id}.merge(conditions)).first
+    unless message.nil? then
+      f[message]
+    else
+      f[nil]
+    end
+  end
+
+  def self.with_own_message(id, user, &f)
+    with_message(id, {:user_id => user.id}, &f)
+  end
+end

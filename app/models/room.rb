@@ -104,6 +104,7 @@ class Room
   end
 
   def accessible?(user)
+    return false if self.deleted
     self.is_public || (self.user == user) || (self.members.include? user)
   end
 end

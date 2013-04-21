@@ -113,6 +113,7 @@ class Message
   end
 
   def self.with_own_message(id, user, &f)
+    return f[nil] if user.nil?
     with_message(id, {:user_id => user.id}, &f)
   end
 end

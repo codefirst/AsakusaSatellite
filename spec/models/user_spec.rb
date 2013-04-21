@@ -27,4 +27,13 @@ describe User do
     it { should_not have_key(:spell) }
     it { should_not have_key(:email) }
   end
+  describe "register_spell" do
+    before {
+      @user.register_spell
+    }
+    subject { @user.spell }
+    its (:size) { should <= 30 }
+    its (:size) { should >= 20 }
+    it { should =~ /([0-9a-zA-Z])+/ }
+  end
 end

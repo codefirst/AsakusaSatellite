@@ -5,22 +5,12 @@ describe AccountController do
   context "ログイン時" do
     before do
       users = []
-      @user = mock_model(User)
-      @user.stub(:id){ '42' }
-      @user.stub(:spell){ @spell }
-      @user.stub(:spell=){|s| @spell = s }
-      @user.stub(:devices => [])
-      @user.stub(:save)
+      @user = User.new
+      @user.stub(:generate_spell){ "spell-1" }
       users << @user
       User.stub(:where){ users }
 
       session[:current_user_id] = @user.id
-
-      i = 0
-      controller.stub(:generate_spell) {
-        i += 1
-        "spell-#{i}"
-      }
     end
 
     describe "index" do
@@ -28,10 +18,10 @@ describe AccountController do
       subject { response }
       it { should be_success }
 
-      context "複数回アクセス" do
-        before  { get 'index'; get 'index' }
+      context "既に設定されている" do
+        before  { @user.spell = 'spell-2'; get 'index' }
         subject { @user }
-        its(:spell) { should == "spell-1" }
+        its(:spell) { should == "spell-2" }
       end
     end
   end

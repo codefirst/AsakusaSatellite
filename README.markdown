@@ -79,7 +79,7 @@ You need test db to run tests.
 
 #### individual testing
 
-    $ bundle exec ruby spec/{controller,model}/$(name)_spec.rb
+    $ bundle exec rspec spec/{controller,model}/$(name)_spec.rb
 
 #### test all
 

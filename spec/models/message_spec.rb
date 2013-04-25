@@ -134,4 +134,65 @@ describe Message do
       end
     end
   end
+
+  describe "メッセージの保存・破棄に失敗する" do
+    before {
+      @stub_message = mock "message"
+      @stub_message.stub(:body= => nil)
+      Message.stub(:new => @stub_message)
+    }
+
+    context "メッセージ作成" do
+      before { @stub_message.should_receive(:save).and_return(false) }
+      it { Message.create_message(@user, @room, "new message") }
+    end
+
+    context "メッセージ更新" do
+      before {
+        @stub_message.should_receive(:save).and_return(false)
+        Message.should_receive(:with_own_message).and_yield(@stub_message)
+      }
+      it { Message.update_message(@user, "0", "modified message") }
+    end
+
+    context "メッセージ破棄" do
+      before {
+        @stub_message.should_receive(:destroy).and_return(false)
+        Message.should_receive(:with_own_message).and_yield(@stub_message)
+      }
+      it { Message.delete_message(@user, "0") }
+    end
+  end
+
+  describe "添付ファイル" do
+    before {
+      Setting.should_receive(:[]).with(:attachment_max_size).and_return("1")
+    }
+
+    context "添付ファイルを保存する" do
+      before {
+        file = mock "file"
+        file.stub(:size => 10.kilobyte)
+        @params = mock "param"
+        @params.stub(:[] => file, :filename => "test.txt", :mimetype => "text/plain", :file => nil)
+      }
+      it {
+        Attachment.should_receive(:create_and_save_file)
+        Message.create_attach(@user, @room, @params)
+      }
+    end
+
+    context "添付ファイルのサイズが容量制限を上回る" do
+      before {
+        file = mock "file"
+        file.stub(:size => 100.megabyte)
+        @params = mock "param"
+        @params.stub(:[] => file)
+      }
+      it {
+        Message.should_not_receive(:new)
+        Message.create_attach(@user, @room, @params)
+      }
+    end
+  end
 end

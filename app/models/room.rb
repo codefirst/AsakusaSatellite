@@ -46,11 +46,6 @@ class Room
     xs.uniq
   end
 
-  def self.get(id, user = nil)
-    room = Room.find(id)
-    room if room.accessible?(user)
-  end
-
   def owner_and_members
     [self.user] + self.members
   end

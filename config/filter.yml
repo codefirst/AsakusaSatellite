@@ -1,3 +1,9 @@
+#
+# Filter setting for internet environment.
+# To use this setting, set FILTER_NAME variable to 'filter.yml'.
+# For details, check http://docs.asakusa-satellite.org/
+#
+
 info:
  version: 2
 

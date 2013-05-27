@@ -1,3 +1,9 @@
+#
+# Filter setting for intranet environment.
+# This setting is used by default.
+# For details, check http://docs.asakusa-satellite.org/
+#
+
 info:
  version: 2
 

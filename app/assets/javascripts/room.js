@@ -40,6 +40,7 @@ $(function() {
     // ------------------------------
     // chat
     // ------------------------------
+    var connected = false;
     $(".message-list")
     .webSocket({
         pusher : AsakusaSatellite.pusher,
@@ -60,12 +61,15 @@ $(function() {
             }
         },
         'websocket::connect' : function(){
+            connected = true;
             $("img.websocket-status").attr('src', AsakusaSatellite.resouces.connect);
         },
         'websocket::error' : function(){
+            connected = false;
             $("img.websocket-status").attr('src', AsakusaSatellite.resouces.disconnect);
         },
         'websocket::disconnect' : function(){
+            connected = false;
             $("img.websocket-status").attr('src', AsakusaSatellite.resouces.disconnect);
         }
     });
@@ -76,12 +80,14 @@ $(function() {
     $('textarea#message').multiline();
 
     $('form.inputarea').bind('submit', function(e){
-        e.preventDefault();
-        jQuery.post(AsakusaSatellite.url.create, {
-            'room_id' : AsakusaSatellite.current.room,
-            'message' : $('textarea#message').val()
-        });
-        $('textarea#message').val('');
+      if(connected) {
+          e.preventDefault();
+          jQuery.post(AsakusaSatellite.url.create, {
+              'room_id' : AsakusaSatellite.current.room,
+              'message' : $('textarea#message').val()
+          });
+          $('textarea#message').val('');
+      }
     });
 
     // ------------------------------

@@ -41,7 +41,7 @@ class Message
     Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
-  def self.create_message(user, room, message_body)
+  def self.make(user, room, message_body)
     return :login_error if user.nil?
     return :empty_message if message_body.strip.empty?
 
@@ -51,7 +51,7 @@ class Message
     end
   end
 
-  def self.create_attach(user, room, params)
+  def self.attach(user, room, params)
     max_size = Setting[:attachment_max_size].to_i
     return if max_size > 0 && params[:file].size > max_size.megabyte
 
@@ -61,7 +61,7 @@ class Message
     end
   end
 
-  def self.update_message(user, message_id, message_body)
+  def self.update(user, message_id, message_body)
     return :login_error if user.nil?
 
     Message.with_own_message(message_id, user) do |message|
@@ -74,7 +74,7 @@ class Message
     end
   end
 
-  def self.delete_message(user, message_id)
+  def self.delete(user, message_id)
     return :login_error if user.nil?
 
     Message.with_own_message(message_id, user) do |message|

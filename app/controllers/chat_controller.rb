@@ -67,9 +67,9 @@ class ChatController < ApplicationController
       find_room(params[:room_id]) do
         @room.update_attributes!(:updated_at => Time.now)
         if request[:fileupload]
-          message = Message.create_attach(current_user, @room, params)
+          message = Message.attach(current_user, @room, params)
         else
-          message = Message.create_message(current_user, @room, params[:message])
+          message = Message.make(current_user, @room, params[:message])
         end
         publish_message(:create, message, message.room)
       end
@@ -81,7 +81,7 @@ class ChatController < ApplicationController
     message = Message.find(params[:id])
     if request.post? and  logged? and current_user.id == message.user.id
       expire_fragment message
-      Message.update_message(current_user, message.id, params[:value])
+      Message.update(current_user, message.id, params[:value])
     end
     render :text => message.body
   end

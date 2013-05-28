@@ -144,7 +144,7 @@ describe Message do
 
     context "メッセージ作成" do
       before { @stub_message.should_receive(:save).and_return(false) }
-      it { Message.create_message(@user, @room, "new message") }
+      it { Message.make(@user, @room, "new message") }
     end
 
     context "メッセージ更新" do
@@ -152,7 +152,7 @@ describe Message do
         @stub_message.should_receive(:save).and_return(false)
         Message.should_receive(:with_own_message).and_yield(@stub_message)
       }
-      it { Message.update_message(@user, "0", "modified message") }
+      it { Message.update(@user, "0", "modified message") }
     end
 
     context "メッセージ破棄" do
@@ -160,7 +160,7 @@ describe Message do
         @stub_message.should_receive(:destroy).and_return(false)
         Message.should_receive(:with_own_message).and_yield(@stub_message)
       }
-      it { Message.delete_message(@user, "0") }
+      it { Message.delete(@user, "0") }
     end
   end
 
@@ -178,7 +178,7 @@ describe Message do
       }
       it {
         Attachment.should_receive(:create_and_save_file)
-        Message.create_attach(@user, @room, @params)
+        Message.attach(@user, @room, @params)
       }
     end
 
@@ -191,7 +191,7 @@ describe Message do
       }
       it {
         Message.should_not_receive(:new)
-        Message.create_attach(@user, @room, @params)
+        Message.attach(@user, @room, @params)
       }
     end
   end

@@ -46,8 +46,8 @@ class Message
     return :empty_message if message_body.strip.empty?
 
     message = Message.new(:room => room, :body => message_body, :user => user)
-    if message.save then return message
-                    else return :error_on_save
+    if message.save then message
+                    else :error_on_save
     end
   end
 
@@ -64,25 +64,25 @@ class Message
   def self.update(user, message_id, message_body)
     return :login_error if user.nil?
 
-    Message.with_own_message(message_id, user) do |message|
-      return :error_message_not_found unless message
-
+    case message = Message.where(:user_id => user.id, :_id => message_id).first
+    when Message
       message.body = message_body
-      if message.save then return message
-                      else return :error_on_save
+      if message.save then message
+                      else :error_on_save
       end
+    else :error_message_not_found
     end
   end
 
   def self.delete(user, message_id)
     return :login_error if user.nil?
 
-    Message.with_own_message(message_id, user) do |message|
-      return :error_message_not_found unless message
-
-      if message.destroy then return message
-                         else return :error_on_destroy
+    case message = Message.where({:user_id => user.id, :_id => message_id}).first
+    when Message
+      if message.destroy then message
+                         else :error_on_destroy
       end
+    else :error_message_not_found
     end
   end
 
@@ -101,19 +101,5 @@ class Message
       messages = messages.order_by(:_id.desc)
       { :room => room, :messages => messages }
     end
-  end
-
-  def self.with_message(id, conditions={}, &f)
-    message = Message.where({:_id => id}.merge(conditions)).first
-    unless message.nil? then
-      f[message]
-    else
-      f[nil]
-    end
-  end
-
-  def self.with_own_message(id, user, &f)
-    return f[nil] if user.nil?
-    with_message(id, {:user_id => user.id}, &f)
   end
 end

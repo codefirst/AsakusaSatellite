@@ -27,14 +27,14 @@ module Api
       end
 
       def show
-        Message.with_message(params[:id]) do |message|
-          render_message_not_found(params[:id]) and return unless message
-
+        case message = Message.where(:_id => params[:id]).first
+        when Message
           if message.accessible?(current_user)
             respond_with(to_json(message))
           else
-            render_message_not_found(params[:id]) and return
+            render_message_not_found(params[:id])
           end
+        when nil then render_message_not_found(params[:id])
         end
       end
 
@@ -55,32 +55,24 @@ module Api
       end
 
       def update
-        Message.with_own_message(params[:id], current_user) do |message|
-          render_message_not_found(params[:id]) and return unless message
-
-          case message = Message.update_message(current_user, params[:id], params[:message])
-          when Message
-            publish_message(:update, message, message.room)
-            render :json => {:status => 'ok'}
-          when :login_error             then render_login_error
-          when :error_message_not_found then render_message_not_found(params[:id])
-          when :error_on_save           then render_error "save failed"
-          end
+        case message = Message.update(current_user, params[:id], params[:message])
+        when Message
+          publish_message(:update, message, message.room)
+          render :json => {:status => 'ok'}
+        when :login_error             then render_login_error
+        when :error_message_not_found then render_message_not_found(params[:id])
+        when :error_on_save           then render_error "save failed"
         end
       end
 
       def destroy
-        Message.with_own_message(params[:id], current_user) do |message|
-          render_message_not_found(params[:id]) and return unless message
-
-          case message = Message.delete_message(current_user, params[:id])
-          when Message
-            publish_message(:delete, message, message.room)
-            render :json => {:status => 'ok'}
-          when :login_error      then render_login_error
-          when :error_message_not_found then render_message_not_found(params[:id])
-          when :error_on_destroy then render_error "destroy error"
-          end
+        case message = Message.delete(current_user, params[:id])
+        when Message
+          publish_message(:delete, message, message.room)
+          render :json => {:status => 'ok'}
+        when :login_error             then render_login_error
+        when :error_message_not_found then render_message_not_found(params[:id])
+        when :error_on_destroy        then render_error "destroy error"
         end
       end
     end

@@ -149,16 +149,18 @@ describe Message do
 
     context "メッセージ更新" do
       before {
+        Message.should_receive(:where).and_return([@stub_message])
+        Message.should_receive(:===).and_return(true)
         @stub_message.should_receive(:save).and_return(false)
-        Message.should_receive(:with_own_message).and_yield(@stub_message)
       }
       it { Message.update(@user, "0", "modified message") }
     end
 
     context "メッセージ破棄" do
       before {
+        Message.should_receive(:where).and_return([@stub_message])
+        Message.should_receive(:===).and_return(true)
         @stub_message.should_receive(:destroy).and_return(false)
-        Message.should_receive(:with_own_message).and_yield(@stub_message)
       }
       it { Message.delete(@user, "0") }
     end

@@ -238,4 +238,24 @@ describe Api::V1::RoomController do
       it { should_not have_json("/id[text() = '#{@room._id}']") }
     end
   end
+
+  context "部屋の削除" do
+    describe "未ログイン時" do
+      before {
+        cotroller.should_receive(:render_login_error)
+        post :destroy, :id => @room.id, :api_key => "", :format => 'json'
+      }
+    end
+
+    describe "保存に失敗" do
+      before {
+        room = stub "room"
+        room.should_receive(:save).and_return(false)
+        Room.should_receive(:with_room).and_yield(room)
+        cotroller.should_receive(:render_error_on_save)
+        
+        post :destroy, :id => @room.id, :api_key => @user.spell, :format => 'json'
+      }
+    end
+  end
 end

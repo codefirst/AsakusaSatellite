@@ -10,7 +10,7 @@ describe RoomController do
   share_examples_for '部屋を消せる'  do
     before { post :delete, :id => @room.id }
     describe "room" do
-      subject { assigns[:room] }
+      subject { Room.where(:_id => @room.id).first }
       its(:deleted) { should be_true }
     end
 
@@ -26,6 +26,22 @@ describe RoomController do
       session[:current_user_id] = user.id
     end
     it_should_behave_like '部屋を消せる'
+
+    describe "存在しない部屋を消そうとする" do
+      before { post :delete, :id => 0 }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
+    end
+
+    describe "部屋の削除の永続化に失敗する" do
+      before {
+        room = mock "room"
+        room.should_receive(:save).and_return(false)
+        room.should_receive(:deleted=)
+        Room.should_receive(:with_room).and_yield(room)
+        post :delete, :id => @room.id
+      }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
+    end
 
     describe "部屋作成" do
       it { expect {
@@ -112,6 +128,11 @@ describe RoomController do
         subject { response }
         it { should redirect_to(:controller => 'chat', :action => 'index') }
       end
+    end
+
+    describe "存在しない部屋を消そうとする" do
+      before { post :delete, :id => @room.id }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
     end
   end
 end

@@ -113,4 +113,16 @@ class Room
       f[nil]
     end
   end
+  def self.delete(id, user)
+    return :login_error if user.nil?
+
+    with_room(id, user) do |room|
+      return :error_room_not_found if room.nil?
+
+      room.deleted = true
+      if room.save then room
+                   else :error_on_save
+      end
+    end
+  end
 end

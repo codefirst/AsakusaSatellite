@@ -38,18 +38,11 @@ module Api
       end
 
       def destroy
-        unless logged?
-          render_login_error
-          return
-        end
-        Room.with_room(params[:id], current_user) do |room|
-          if room.nil?
-            render :json => {:status => 'error', :error => "room not found"}
-          elsif room.update_attributes(:deleted => true)
-            render :json => {:status => 'ok'}
-          else
-            render :json => {:status => 'error', :error => "room deletion failure"}
-          end
+        case Room.delete(params[:id], current_user)
+        when Room                  then render :json => {:status => 'ok'}
+        when :login_error          then render_login_error
+        when :error_room_not_found then render_room_not_found(params[:id])
+        when :error_on_save        then render_error_on_save
         end
       end
 

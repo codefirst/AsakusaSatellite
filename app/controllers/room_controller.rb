@@ -20,17 +20,14 @@ class RoomController < ApplicationController
   end
 
   def delete
-    @id = params[:id]
-
     if request.post?
-      find_room(@id) do
-        @room.deleted = true
-        @room.save!
-        redirect_to :controller => 'chat', :action => 'index'
+      case Room.delete(params[:id], current_user)
+      when :error_room_not_found then flash[:error] = t(:error_room_deleted)
+      when :error_on_save        then flash[:error] = t(:error_on_save)
       end
-    else
-      redirect_to :controller => 'chat', :action => 'index'
     end
+
+    redirect_to :controller => 'chat', :action => 'index'
   end
 
   def configure

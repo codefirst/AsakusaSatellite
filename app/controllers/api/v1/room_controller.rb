@@ -22,18 +22,11 @@ module Api
       end
 
       def update
-        unless logged?
-          render_login_error
-          return
-        end
-        Room.with_room(params[:id], current_user) do |room|
-          if room.nil?
-            render :json => {:status => 'error', :error => "room not found"}
-          elsif room.update_attributes(:title => params[:name])
-            render :json => {:status => 'ok'}
-          else
-            render :json => {:status => 'error', :error => "room creation failure"}
-          end
+        case Room.configure(params[:id], current_user, :title => params[:name])
+        when Room                  then render :json => {:status => 'ok'}
+        when :login_error          then render_login_error
+        when :error_room_not_found then render_room_not_found(params[:id])
+        when :error_on_save        then render_error_on_save
         end
       end
 

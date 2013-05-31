@@ -32,15 +32,24 @@ describe RoomController do
       it { should redirect_to(:controller => 'chat', :action => 'index') }
     end
 
-    describe "部屋の削除の永続化に失敗する" do
+    describe "部屋の保存に失敗する" do
       before {
         room = mock "room"
-        room.should_receive(:save).and_return(false)
-        room.should_receive(:deleted=)
+        room.should_receive(:update_attributes).and_return(false)
         Room.should_receive(:with_room).and_yield(room)
-        post :delete, :id => @room.id
       }
-      it { should redirect_to(:controller => 'chat', :action => 'index') }
+
+      describe "更新" do
+        before { post :configure, :room => {
+            :name => "title", :nickname => "nickname", :members => []
+          } }
+        it { should redirect_to(:controller => 'room', :action => 'configure') }
+      end
+
+      describe "削除" do
+        before { post :delete, :id => @room.id }
+        it { should redirect_to(:controller => 'chat', :action => 'index') }
+      end
     end
 
     describe "部屋作成" do
@@ -91,6 +100,16 @@ describe RoomController do
       subject { @room }
       its(:title) { should == 'new title'}
       it { should redirect_to(:controller => 'room', :action => 'configure') }
+    end
+
+    describe "メンバーが部屋の設定画面を GET" do
+      before { get :configure, :id => @room.id }
+      it { response.should render_template("room/configure") }
+    end
+
+    describe "存在しない部屋の設定を変更" do
+      before { post :configure, :id => 0, :room => {:members => []} }
+      it { should redirect_to :action => 'configure' }
     end
   end
 

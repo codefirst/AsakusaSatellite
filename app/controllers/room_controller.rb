@@ -31,31 +31,31 @@ class RoomController < ApplicationController
   end
 
   def configure
-    @id      = params[:id]
-    @plugins = AsakusaSatellite::Config.rooms
-    find_room(@id) do
-      if request.post? then
-        @room.title = params[:room][:title]
-        @room.nickname = params[:room][:nickname]
-        unless params[:room][:members].blank?
-          @room.members = params[:room][:members].map do |_, user_name|
-            user = User.where(:screen_name => user_name).first
-            if user.nil? then
-              User.new(:screen_name => user_name,
-                       :profile_image_url => "data:image/gif;base64,R0lGODlhEAAQAMQfAFWApnCexR4xU1SApaJ3SlB5oSg9ZrOVcy1HcURok/Lo3iM2XO/i1lJ8o2eVu011ncmbdSc8Zc6lg4212DZTgC5Hcmh3f8OUaDhWg7F2RYlhMunXxqrQ8n6s1f///////yH5BAEAAB8ALAAAAAAQABAAAAVz4CeOXumNKOpprHampAZltAt/q0Tvdrpmm+Am01MRGJpgkvBSXRSHYPTSJFkuws0FU8UBOJiLeAtuer6dDmaN6Uw4iNeZk653HIFORD7gFOhpARwGHQJ8foAdgoSGJA1/HJGRC40qHg8JGBQVe10kJiUpIQA7")
-            else
-              user
-            end
-          end.flatten
-        end
-        flash[:errors] = format_error_messages(@room) unless @room.save
-        expire_fragment [:roominfo, @room.id, true]
-        expire_fragment [:roominfo, @room.id, false]
-        redirect_to :action => 'configure'
-      end
+    unless request.post?
+      @id      = params[:id]
+      @plugins = AsakusaSatellite::Config.rooms
+      @room = Room.where(:_id => @id).first
       @members = @room.members.uniq
-      @room.members = @members
+      return
     end
+
+    members = (params[:room][:members] || []).map do |_, user_name|
+      User.find_or_create_by(:screen_name => user_name)
+    end
+    data = {
+      :title    => params[:room][:title],
+      :nickname => params[:room][:nickname],
+      :members  => members
+    }
+    case room = Room.configure(params[:id], current_user, data)
+    when Room
+      expire_fragment [:roominfo, room.id, true]
+      expire_fragment [:roominfo, room.id, false]
+    when :error_room_not_found then flash[:errors] = t(:error_room_deleted)
+    when :error_on_save        then flash[:errors] = t(:error_on_save)
+    end
+
+    redirect_to :action => 'configure'
   end
 
   private

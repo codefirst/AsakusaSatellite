@@ -9,15 +9,12 @@ module Api
 
       respond_to :json
       def create
-        unless logged?
-          render_login_error
-          return
-        end
-        room = Room.new(:title => params[:name], :user => current_user, :updated_at => Time.now)
-        if room.save
-          render :json => {:status => 'ok', :room_id => room._id}
-        else
-          render :json => {:status => 'error', :error => "room creation failure"}
+        render_login_error and return unless logged?
+
+        case room = Room.make(params[:name], current_user)
+        when Room           then render :json => {:status => 'ok', :room_id => room._id}
+        when :login_error   then render_login_error
+        when :error_on_save then render_error_on_save
         end
       end
 

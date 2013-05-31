@@ -61,7 +61,7 @@ describe RoomController do
 
     describe "部屋作成失敗" do
       before do
-        Room.stub(:new) { mock_model(Room, :save => false) }
+        Room.stub(:new) { mock_model(Room, :update_attributes => false) }
         post :create, {:room => {:title => 'foo' }}
       end
       subject { response }

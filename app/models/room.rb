@@ -113,6 +113,16 @@ class Room
       f[nil]
     end
   end
+
+  def self.make(name, owner, attributes={})
+    return :login_error if owner.nil?
+
+    room = Room.new(:title => name, :user => owner, :update_at => Time.now)
+    if room.update_attributes(attributes) then room
+                                          else :error_on_save
+    end
+  end
+
   def self.configure(id, user, attributes)
     return :login_error if user.nil?
 

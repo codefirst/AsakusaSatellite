@@ -4,18 +4,15 @@ class RoomController < ApplicationController
   before_filter :reject_unless_logged_in
 
   def create
-    if request.post?
-      room = Room.new(:title => params[:room][:title],
-                      :user => current_user,
-                      :updated_at => Time.now,
-                      :deleted => false,
-                      :is_public => true?(params[:room][:is_public]))
-      if room.save
-        redirect_to :controller => :chat, :action => 'room', :id => room.id
-      else
-        flash[:error] = t(:error_room_cannot_create)
-        redirect_to :action => 'create'
-      end
+    return unless request.post?
+
+    data = { :deleted => false, :is_public => true?(params[:room][:is_public]) }
+    case room = Room.make(params[:room][:title], current_user, data)
+    when Room
+      redirect_to(:controller => :chat, :action => 'room', :id => room.id)
+    when :error_on_save
+      flash[:error] = t(:error_room_cannot_create)
+      redirect_to :action => 'create'
     end
   end
 

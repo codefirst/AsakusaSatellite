@@ -41,32 +41,21 @@ module Api
       end
 
       def add_member
-        unless logged?
-          render_login_error
-          return
-        end
+        render_login_error and return unless logged?
+
         Room.with_room(params[:id], current_user) do |room|
+          render_room_not_found(params[:id]) and return if room.nil?
+
           user = User.find(params[:user_id])
-          if room.nil?
-            render :json => {:status => 'error', :error => "room not found"}
-            return
-          elsif user.nil?
-            render :json => {:status => 'error', :error => "user not found"}
-            return
-          end
+          render_user_not_found(params[:user_id]) and return if user.nil?
 
-          room.members ||= []
-          member = room.members.where(:_id => user.id).first
-          unless member.nil?
+          if room.members.include?(user)
             render :json => {:status => 'error', :error => "user already exists"}
-            return
-          end
-
-          room.members << user
-          if room.save
-            render :json => {:status => 'ok'}
           else
-            render :json => {:status => 'error', :error => "add user"}
+            room.members << user
+            if room.save then render :json => {:status => 'ok'}
+                         else render :json => {:status => 'error', :error => "add user"}
+            end
           end
         end
       end

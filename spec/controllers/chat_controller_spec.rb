@@ -34,14 +34,21 @@ describe ChatController do
   end
 
   describe "入室" do
-    before {
-      session[:current_user_id] = nil
-      get :room, {:id => @room.id }
-    }
-    subject {
-      assigns[:messages].to_a
-    }
-    it { should have(20).records }
+    describe "ID を指定する" do
+      before {
+        session[:current_user_id] = nil
+        get :room, {:id => @room.id }
+      }
+      subject {
+        assigns[:messages].to_a
+      }
+      it { should have(20).records }
+    end
+
+    describe "ID を指定しない" do
+      before { get :room }
+      it { should redirect_to(:action => 'index') }
+    end
   end
 
   describe "発言更新" do

@@ -50,8 +50,6 @@ class ChatController < ApplicationController
   end
 
   def room
-    redirect_to(:action => 'index') and return if params[:id].blank?
-
     find_room(params[:id], :not_auth=>true) do
       @messages = Message.where("room_id" => @room.id).order_by(:_id.desc).limit(PageSize).to_a
       @title = @room.title

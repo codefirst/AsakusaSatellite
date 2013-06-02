@@ -12,6 +12,8 @@ module RoomHelper
   end
 
   def with_room(id, params={}, &f)
+    return f[nil] if id.blank?
+
     room = Room.where(:_id => id).first || Room.where(:nickname => id).first
     if (room == nil) or
         room.deleted or

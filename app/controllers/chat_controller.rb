@@ -81,7 +81,7 @@ class ChatController < ApplicationController
     message = Message.find(params[:id])
     if request.post? and  logged? and current_user.id == message.user.id
       expire_fragment message
-      Message.update(current_user, message.id, params[:value])
+      Message.update_body(current_user, message.id, params[:value])
     end
     render :text => message.body
   end

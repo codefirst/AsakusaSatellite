@@ -55,7 +55,7 @@ module Api
       end
 
       def update
-        case message = Message.update(current_user, params[:id], params[:message])
+        case message = Message.update_body(current_user, params[:id], params[:message])
         when Message
           publish_message(:update, message, message.room)
           render :json => {:status => 'ok'}

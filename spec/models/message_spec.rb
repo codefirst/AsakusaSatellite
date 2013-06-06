@@ -153,7 +153,7 @@ describe Message do
         Message.should_receive(:===).and_return(true)
         @stub_message.should_receive(:save).and_return(false)
       }
-      it { Message.update(@user, "0", "modified message") }
+      it { Message.update_body(@user, "0", "modified message") }
     end
 
     context "メッセージ破棄" do

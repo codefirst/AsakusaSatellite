@@ -61,7 +61,7 @@ class Message
     end
   end
 
-  def self.update(user, message_id, message_body)
+  def self.update_body(user, message_id, message_body)
     return :login_error if user.nil?
 
     case message = Message.where(:user_id => user.id, :_id => message_id).first

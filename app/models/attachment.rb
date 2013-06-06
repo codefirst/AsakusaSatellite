@@ -59,7 +59,7 @@ class Attachment
 
     def self.url_for_localfile(path)
       if path =~ %r!.*/public(/.+)! then
-        $1
+        (Rails.configuration.relative_url_root || "") + $1
       end
     end
 

@@ -4,7 +4,6 @@ module Api
     class RoomController < ApplicationController
       include ChatHelper
       include ApiHelper
-      include RoomHelper
 
       before_filter :check_spell
 
@@ -27,7 +26,7 @@ module Api
           render_login_error
           return
         end
-        with_room(params[:id]) do|room|
+        Room.with_room(params[:id], current_user) do |room|
           if room.nil?
             render :json => {:status => 'error', :error => "room not found"}
           elsif room.update_attributes(:title => params[:name])
@@ -43,7 +42,7 @@ module Api
           render_login_error
           return
         end
-        with_room(params[:id]) do|room|
+        Room.with_room(params[:id], current_user) do |room|
           if room.nil?
             render :json => {:status => 'error', :error => "room not found"}
           elsif room.update_attributes(:deleted => true)
@@ -63,7 +62,7 @@ module Api
           render_login_error
           return
         end
-        with_room(params[:id]) do|room|
+        Room.with_room(params[:id], current_user) do |room|
           user = User.find(params[:user_id])
           if room.nil?
             render :json => {:status => 'error', :error => "room not found"}

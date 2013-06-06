@@ -41,6 +41,55 @@ class Message
     Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
+  def self.make(user, room, message_body)
+    return :login_error if user.nil?
+    return :empty_message if message_body.strip.empty?
+
+    message = Message.new(:room => room, :body => message_body, :user => user)
+    if message.save then message
+                    else :error_on_save
+    end
+  end
+
+  def self.attach(user, room, params)
+    max_size = Setting[:attachment_max_size].to_i
+    return if max_size > 0 && params[:file].size > max_size.megabyte
+
+    Message.new(:room => room, :body => nil, :user => user).tap do |message|
+      return unless message.save
+      Attachment.create_and_save_file(params[:filename], params[:file], params[:mimetype], message)
+    end
+  end
+
+  def self.update_body(user, message_id, message_body)
+    return :login_error if user.nil?
+
+    case message = Message.where(:user_id => user.id, :_id => message_id).first
+    when Message
+      message.body = message_body
+      if message.save then message
+                      else :error_on_save
+      end
+    else :error_message_not_found
+    end
+  end
+
+  def self.delete(user, message_id)
+    return :login_error if user.nil?
+
+    case message = Message.where({:user_id => user.id, :_id => message_id}).first
+    when Message
+      if message.destroy then message
+                         else :error_on_destroy
+      end
+    else :error_message_not_found
+    end
+  end
+
+  def accessible?(user)
+    self.room and self.room.accessible?(user)
+  end
+
   def self.find_by_text(params)
     query = params[:text]
     rooms = (params[:rooms] || Room.all_live).select {|room| not room.deleted}
@@ -54,4 +103,3 @@ class Message
     end
   end
 end
-

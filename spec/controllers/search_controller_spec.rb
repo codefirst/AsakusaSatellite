@@ -52,7 +52,8 @@ describe SearchController do
 
         Room.stub(:all_live => [ @room ])
 
-        @find_room    = Room.should_receive(:where).with(:_id => '1'){ [ @room ] }
+        @find_room    = Room.should_receive(:any_of).
+          with({:_id => '1'}, {:nickname => '1'}){ [ @room ] }
         @find_by_text = Message.
           should_receive(:find_by_text).
           with(:text => 'foo', :rooms => [ @room ], :limit => 20){ [] }
@@ -96,7 +97,7 @@ describe SearchController do
                    :_id => 42,
                    :accessible? => true)
         Room.stub(:all_live => [ @room ])
-        Room.stub(:where).with(:_id => '1'){ [ @room ] }
+        Room.stub(:any_of).with({:_id => '1'}, {:nickname => '1'}){ [ @room ] }
         Message.stub(:find_by_text) { [{ :room => @room, :messages => [Message.new] }] }
         get :search_more, :id => 1, :search_message => 'foo', :room_id => 1
       end

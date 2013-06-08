@@ -4,7 +4,6 @@ module Api
     class MessageController < ApplicationController
       include ChatHelper
       include ApiHelper
-      include RoomHelper
       include Rails.application.routes.url_helpers
 
       before_filter :check_spell
@@ -12,7 +11,7 @@ module Api
 
       def list
         room_id = params[:room_id]
-        with_room(room_id, :not_auth => (not logged?)) do|room|
+        Room.with_room(room_id, current_user) do |room|
           if room.nil?
             render :json => {:status => 'error', :error => "room does not exist"}
           else
@@ -28,78 +27,53 @@ module Api
       end
 
       def show
-        begin
-          @message = Message.find(params[:id])
-        rescue
-          render :json => {:status => 'error', :error => "message #{params[:id]} not found"}
-          return
-        end
-        room = @message.room
-        if accessible?(@message)
-          respond_with(to_json(@message))
-        else
-          render :json => {:status => 'error', :error => "message #{params[:id]} not found"}
+        case message = Message.where(:_id => params[:id]).first
+        when Message
+          if message.accessible?(current_user)
+            respond_with(to_json(message))
+          else
+            render_message_not_found(params[:id])
+          end
+        when nil then render_message_not_found(params[:id])
         end
       end
 
       def create
-        unless logged?
-          render_login_error
-          return
-        end
-        with_room(params[:room_id]) do|room|
-          message = create_message(room, params[:message])
-          unless message
-            render :json => {:status => 'error', :error => "message creation failed"}
-            return
+        Room.with_room(params[:room_id], current_user) do |room|
+          render_room_not_found(params[:room_id]) and return unless room
+
+          case message = Message.make(current_user, room, params[:message])
+          when Message
+            publish_message(:create, message, room)
+            room.update_attributes(:updated_at => Time.now)
+            render :json => {:status => 'ok', :message_id => message.id}
+          when :login_error   then render_login_error
+          when :empty_message then render_error "empty message"
+          when :error_on_save then render_message_creation_error
           end
-          room.updated_at = Time.now
-          room.save
-          render :json => {:status => 'ok', :message_id => message.id}
         end
       end
 
       def update
-        unless logged?
-          render_login_error
-          return
+        case message = Message.update_body(current_user, params[:id], params[:message])
+        when Message
+          publish_message(:update, message, message.room)
+          render :json => {:status => 'ok'}
+        when :login_error             then render_login_error
+        when :error_message_not_found then render_message_not_found(params[:id])
+        when :error_on_save           then render_error "save failed"
         end
-        message = Message.find(params[:id])
-        unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
-          render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
-          return
-        end
-        update_message(params[:id], params[:message])
-        render :json => {:status => 'ok'}
       end
 
       def destroy
-        unless logged?
-          render_login_error
-          return
+        case message = Message.delete(current_user, params[:id])
+        when Message
+          publish_message(:delete, message, message.room)
+          render :json => {:status => 'ok'}
+        when :login_error             then render_login_error
+        when :error_message_not_found then render_message_not_found(params[:id])
+        when :error_on_destroy        then render_error "destroy error"
         end
-        message = Message.where(:_id => params[:id]).first
-        unless message and message.user and current_user and message.user.screen_name == current_user.screen_name
-          render :json => {:status => 'error', :error => "message #{params[:id]} is not your own"}
-          return
-        end
-        delete_message(params[:id])
-        render :json => {:status => 'ok'}
-      end
-
-      private
-      def accessible?(message)
-        room = message.room
-        if room.nil?
-          return false
-        end
-        unless room.is_public
-          return false unless logged?
-        end
-        unless room.accessible?(current_user)
-          return false
-        end
-        true
       end
     end
   end

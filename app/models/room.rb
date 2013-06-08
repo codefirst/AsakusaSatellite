@@ -46,11 +46,6 @@ class Room
     xs.uniq
   end
 
-  def self.get(id, user = nil)
-    room = Room.find(id)
-    room if room.accessible?(user)
-  end
-
   def owner_and_members
     [self.user] + self.members
   end
@@ -104,6 +99,18 @@ class Room
   end
 
   def accessible?(user)
+    return false if self.deleted
     self.is_public || (self.user == user) || (self.members.include? user)
+  end
+
+  def self.with_room(id, user, params={}, &f)
+    return f[nil] if id.blank?
+
+    room = Room.any_of({:_id => id}, {:nickname => id}).first
+    if room and room.accessible?(user) then
+      f[room]
+    else
+      f[nil]
+    end
   end
 end

@@ -7,10 +7,10 @@ class ChromeNotifierListener < AsakusaSatellite::Hook::Listener
     room = context[:room]
 
     (room.owner_and_members - [message.user]).each do |member|
-      Chrome.where(:user_id => member.id).each do |chrome|
-        Chrome.send(chrome.channel_id, message.id)
+      member.devices.each do |device|
+        channel_id = device.name
+        Chrome.send(channel_id, message.id) unless channel_id.nil?
       end
     end
-
   end
 end

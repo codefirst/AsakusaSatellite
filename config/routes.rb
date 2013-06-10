@@ -18,6 +18,7 @@ AsakusaSatellite::Application.routes.draw do
       get 'room/list', :controller => 'room', :action => 'list'
       get 'message/list', :controller => 'message', :action => 'list'
       get 'user', :controller => 'user', :action => 'show'
+      get 'user/add_device', :controller => 'user', :action => 'add_device'
       post 'user/add_device', :controller => 'user', :action => 'add_device'
       post 'user/delete_device', :controller => 'user', :action => 'delete_device'
       resources :room

@@ -14,7 +14,10 @@ class ChromeController < ApplicationController
   def register
     render_login_error and return unless logged?
 
-    chrome = Chrome.register(params[:channel_id])
-    render :json => {:status => 'ok', :chrome => chrome}
+    redirect_to({:controller => "api/v1/user", :action => "add_device",
+                 :api_key => params[:api_key],
+                 :name => "Chrome",
+                 :device => params[:channel_id],
+                 :type => "chrome"})
   end
 end

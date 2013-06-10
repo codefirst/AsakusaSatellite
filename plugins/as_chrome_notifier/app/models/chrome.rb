@@ -3,10 +3,6 @@ require 'net/http'
 require 'json'
 
 class Chrome
-  include Mongoid::Document
-  field :channel_id
-  field :user_id
-
   @@client = Google::APIClient.new
   @@client.authorization.client_id = ENV["GCM_CLIENT_ID"]
   @@client.authorization.client_secret = ENV["GCM_CLIENT_SECRET"]
@@ -22,10 +18,6 @@ class Chrome
     @@client.authorization.fetch_access_token!
     ENV['GCM_REFRESH_TOKEN'] = @@client.authorization.refresh_token
     ENV['GCM_ACCESS_TOKEN']  = @@client.authorization.access_token
-  end
-
-  def self.register(channel_id)
-    Chrome.find_or_create_by(:channel_id => channel_id, :user_id => current_user.id)
   end
 
   def self.send(channel_id, message_id)

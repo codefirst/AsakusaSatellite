@@ -1,0 +1,6 @@
+%fieldset
+ %legend Google Cloud Messaging for Chrome
+ -if ENV["GCM_REFRESH_TOKEN"].nil?
+  =button_to "Click to authorize this app", {:controller => "chrome", :action => "auth"}, {:class => "submit red button large", :method => "get"}
+ -else
+  =button_to "This app is authorized (click to re-authorize this app)", {:controller => "chrome", :action => "auth"}, {:class => "submit gray button large", :method => "get"}

@@ -9,7 +9,6 @@ class ChromeController < ApplicationController
 
   def callback
     refresh_token = Chrome.refresh_token(params[:code])
-    render :json => {:status => 'ok', :refresh_token => refresh_token}
   end
 
   def register

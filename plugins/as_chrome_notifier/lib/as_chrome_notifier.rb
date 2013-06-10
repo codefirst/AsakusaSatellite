@@ -1,5 +1,7 @@
 require 'asakusa_satellite/hook'
-class AsakusaSatellite::Hook::ASChromeNotifier < AsakusaSatellite::Hook::Listener
+class ChromeNotifierListener < AsakusaSatellite::Hook::Listener
+  render_on :global_setting_item, :partial => "global_chrome_notifier_setting"
+
   def after_create_message(context)
     message = context[:message]
     room = context[:room]

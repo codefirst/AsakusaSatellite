@@ -2,4 +2,4 @@
  .chrome_notification_authorized
   %h2 Authorization succeeded!
   %p Add the token below as "GCM_REFRESH_TOKEN" to your environment variables
-  %p= params[:code]
+  %p= ENV["GCM_REFRESH_TOKEN"]

@@ -34,6 +34,18 @@ class Chrome
       :payload => message_id
     }.to_json
 
-    https.request(request)
+    case https.request(request)
+    when Net::HTTPUnauthorized
+      refetch_access_token
+      request["Authorization"] = "OAuth #{ENV['GCM_ACCESS_TOKEN']}"
+      https.request(request)
+    end
+  end
+
+  private
+  def self.refetch_access_token
+    @@client.authorization.refresh_token = ENV["GCM_REFRESH_TOKEN"]
+    @@client.authorization.fetch_access_token!
+    ENV["GCM_ACCESS_TOKEN"] = @@client.authorization.access_token
   end
 end

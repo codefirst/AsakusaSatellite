@@ -1,8 +1,10 @@
 require 'google/api_client'
 require 'net/http'
 require 'json'
+require 'faraday'
 
 class Chrome
+  @@proxy_connection = Faraday::Connection.new(:proxy => ENV["https_proxy"] || ENV["HTTPS_PROXY"] || "")
   @@client = Google::APIClient.new
   @@client.authorization.client_id = ENV["GCM_CLIENT_ID"]
   @@client.authorization.client_secret = ENV["GCM_CLIENT_SECRET"]
@@ -15,13 +17,14 @@ class Chrome
 
   def self.refresh_token(code)
     @@client.authorization.code = code
-    @@client.authorization.fetch_access_token!
+    @@client.authorization.fetch_access_token!(:connection => @@proxy_connection)
     ENV['GCM_REFRESH_TOKEN'] = @@client.authorization.refresh_token
     ENV['GCM_ACCESS_TOKEN']  = @@client.authorization.access_token
   end
 
   def self.send(channel_id, message_id)
-    https = Net::HTTP.new("www.googleapis.com", 443)
+    proxy = URI.parse(ENV["https_proxy"] || ENV["HTTPS_PROXY"] || "")
+    https = Net::HTTP::Proxy(proxy.host, proxy.port).new("www.googleapis.com", 443)
     https.use_ssl = true
 
     request = Net::HTTP::Post.new("/gcm_for_chrome/v1/messages")
@@ -45,7 +48,7 @@ class Chrome
   private
   def self.refetch_access_token
     @@client.authorization.refresh_token = ENV["GCM_REFRESH_TOKEN"]
-    @@client.authorization.fetch_access_token!
+    @@client.authorization.fetch_access_token!(:connection => @@proxy_connection)
     ENV["GCM_ACCESS_TOKEN"] = @@client.authorization.access_token
   end
 end

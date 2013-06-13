@@ -37,6 +37,8 @@
             tooltip: config.tooltip,
             cancel:  config.cancel,
             submit:  config.submit,
+            method: "PUT",
+            name: "message",
             event: "onTheSpot::start",
             placeholder : '',
             style: "",

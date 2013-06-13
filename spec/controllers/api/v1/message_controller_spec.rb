@@ -195,12 +195,22 @@ describe Api::V1::MessageController do
   end
 
   describe "発言更新" do
-    before {
-      post :update, :id => @message.id, :message => 'modified', :api_key => @user.spell
-    }
-    it_should_behave_like '成功'
-    subject { Message.where(:_id => @message.id).first }
-    its(:body) { should == 'modified' }
+    context "通常の更新" do
+      before {
+        post :update, :id => @message.id, :message => 'modified', :api_key => @user.spell
+      }
+      it_should_behave_like '成功'
+      subject { Message.where(:_id => @message.id).first }
+      its(:body) { should == 'modified' }
+    end
+    context "on the spot での更新" do
+      before {
+        put :update, :id => @message.id, :message => 'modified_again', :api_key => @user.spell
+      }
+      it_should_behave_like '成功'
+      subject { Message.where(:_id => @message.id).first }
+      its(:body) { should == 'modified_again' }
+    end
   end
 
   describe "発言削除" do
@@ -244,12 +254,23 @@ describe Api::V1::MessageController do
       @other_user.save!
     end
 
-    describe "発言更新" do
-      before {
-        post :update, :id => @message.id, :message => 'modified', :api_key => @other_user.spell
-      }
-      it_should_behave_like '失敗'
+    context "通常の更新" do
+      describe "発言更新" do
+        before {
+          post :update, :id => @message.id, :message => 'modified', :api_key => @other_user.spell
+        }
+        it_should_behave_like '失敗'
+      end
     end
+    context "on the spot での更新" do
+      describe "発言更新" do
+        before {
+          put :update, :id => @message.id, :message => 'modified', :api_key => @other_user.spell
+        }
+        it_should_behave_like '失敗'
+      end
+    end
+
 
     describe "発言削除" do
       before {

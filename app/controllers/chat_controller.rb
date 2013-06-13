@@ -77,15 +77,6 @@ class ChatController < ApplicationController
     redirect_to :controller => 'chat', :action => 'room', :id => params[:room_id]
   end
 
-  def update_message_on_the_spot
-    message = Message.find(params[:id])
-    if request.post? and  logged? and current_user.id == message.user.id
-      expire_fragment message
-      Message.update_body(current_user, message.id, params[:value])
-    end
-    render :text => message.body
-  end
-
   private
   def int(s, default)
     if s.blank? then

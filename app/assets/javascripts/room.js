@@ -15,7 +15,7 @@ $(function() {
             dom.find(".own-message").show();
             var body = dom.find(".body");
             body.onTheSpot({
-                url  : AsakusaSatellite.url.update,
+                url  : AsakusaSatellite.url.update + "/" + body.attr("id"),
                 data : body.attr("original")
             });
             dom.find(".edit").bind("click",function(){ body.trigger("onTheSpot::start"); });

@@ -51,25 +51,6 @@ describe ChatController do
     end
   end
 
-  describe "発言更新" do
-    context "発言者" do
-      subject { Message.find(@message.id) }
-      before {
-        post :update_message_on_the_spot, {:id => @message.id, :value => 'modified'}
-      }
-      its(:body) { should == 'modified' }
-    end
-
-    context "非発言者" do
-      before do
-        session[:current_user_id] = @other.id
-        post :update_message_on_the_spot, {:id => @message.id, :value => 'modified'}
-      end
-      subject { Message.find(@message.id) }
-      its(:body) { should == @message.body }
-    end
-  end
-
   describe "トップページ" do
     before do
       Room.all.each {|room| room.delete}

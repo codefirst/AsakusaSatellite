@@ -8,7 +8,6 @@ AsakusaSatellite::Application.routes.draw do
   get "account/index"
 
   get '/' => 'chat#index', :as => :index
-  get "chat/update_attribute_on_the_spot"
 
   get '/about' => 'application#about'
 

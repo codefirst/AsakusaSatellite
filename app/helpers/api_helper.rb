@@ -19,6 +19,10 @@ module ApiHelper
     render_error "login not yet"
   end
 
+  def render_error_on_save
+    render_error "save failed"
+  end
+
   def render_room_not_found(id)
     render_error "room #{id} not found"
   end
@@ -29,5 +33,9 @@ module ApiHelper
 
   def render_message_creation_error
     render_error "message creation failed"
+  end
+
+  def render_user_not_found(id)
+    render_error "user #{id} not found"
   end
 end

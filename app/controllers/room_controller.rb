@@ -4,61 +4,55 @@ class RoomController < ApplicationController
   before_filter :reject_unless_logged_in
 
   def create
-    if request.post?
-      room = Room.new(:title => params[:room][:title],
-                      :user => current_user,
-                      :updated_at => Time.now,
-                      :deleted => false,
-                      :is_public => true?(params[:room][:is_public]))
-      if room.save
-        redirect_to :controller => :chat, :action => 'room', :id => room.id
-      else
-        flash[:error] = t(:error_room_cannot_create)
-        redirect_to :action => 'create'
-      end
+    return unless request.post?
+
+    data = { :deleted => false, :is_public => true?(params[:room][:is_public]) }
+    case room = Room.make(params[:room][:title], current_user, data)
+    when Room
+      redirect_to(:controller => :chat, :action => 'room', :id => room.id)
+    when :error_on_save
+      flash[:error] = t(:error_room_cannot_create)
+      redirect_to :action => 'create'
     end
   end
 
   def delete
-    @id = params[:id]
-
     if request.post?
-      find_room(@id) do
-        @room.deleted = true
-        @room.save!
-        redirect_to :controller => 'chat', :action => 'index'
+      case Room.delete(params[:id], current_user)
+      when :error_room_not_found then flash[:error] = t(:error_room_deleted)
+      when :error_on_save        then flash[:error] = t(:error_on_save)
       end
-    else
-      redirect_to :controller => 'chat', :action => 'index'
     end
+
+    redirect_to :controller => 'chat', :action => 'index'
   end
 
   def configure
-    @id      = params[:id]
-    @plugins = AsakusaSatellite::Config.rooms
-    find_room(@id) do
-      if request.post? then
-        @room.title = params[:room][:title]
-        @room.nickname = params[:room][:nickname]
-        unless params[:room][:members].blank?
-          @room.members = params[:room][:members].map do |_, user_name|
-            user = User.where(:screen_name => user_name).first
-            if user.nil? then
-              User.new(:screen_name => user_name,
-                       :profile_image_url => "data:image/gif;base64,R0lGODlhEAAQAMQfAFWApnCexR4xU1SApaJ3SlB5oSg9ZrOVcy1HcURok/Lo3iM2XO/i1lJ8o2eVu011ncmbdSc8Zc6lg4212DZTgC5Hcmh3f8OUaDhWg7F2RYlhMunXxqrQ8n6s1f///////yH5BAEAAB8ALAAAAAAQABAAAAVz4CeOXumNKOpprHampAZltAt/q0Tvdrpmm+Am01MRGJpgkvBSXRSHYPTSJFkuws0FU8UBOJiLeAtuer6dDmaN6Uw4iNeZk653HIFORD7gFOhpARwGHQJ8foAdgoSGJA1/HJGRC40qHg8JGBQVe10kJiUpIQA7")
-            else
-              user
-            end
-          end.flatten
-        end
-        flash[:errors] = format_error_messages(@room) unless @room.save
-        expire_fragment [:roominfo, @room.id, true]
-        expire_fragment [:roominfo, @room.id, false]
-        redirect_to :action => 'configure'
-      end
+    unless request.post?
+      @id      = params[:id]
+      @plugins = AsakusaSatellite::Config.rooms
+      @room = Room.where(:_id => @id).first
       @members = @room.members.uniq
-      @room.members = @members
+      return
     end
+
+    members = (params[:room][:members] || []).map do |_, user_name|
+      User.find_or_create_by(:screen_name => user_name)
+    end
+    data = {
+      :title    => params[:room][:title],
+      :nickname => params[:room][:nickname],
+      :members  => members
+    }
+    case room = Room.configure(params[:id], current_user, data)
+    when Room
+      expire_fragment [:roominfo, room.id, true]
+      expire_fragment [:roominfo, room.id, false]
+    when :error_room_not_found then flash[:errors] = t(:error_room_deleted)
+    when :error_on_save        then flash[:errors] = t(:error_on_save)
+    end
+
+    redirect_to :action => 'configure'
   end
 
   private

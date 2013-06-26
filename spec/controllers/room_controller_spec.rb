@@ -10,7 +10,7 @@ describe RoomController do
   share_examples_for '部屋を消せる'  do
     before { post :delete, :id => @room.id }
     describe "room" do
-      subject { assigns[:room] }
+      subject { Room.where(:_id => @room.id).first }
       its(:deleted) { should be_true }
     end
 
@@ -27,6 +27,31 @@ describe RoomController do
     end
     it_should_behave_like '部屋を消せる'
 
+    describe "存在しない部屋を消そうとする" do
+      before { post :delete, :id => 0 }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
+    end
+
+    describe "部屋の保存に失敗する" do
+      before {
+        room = mock "room"
+        room.should_receive(:update_attributes).and_return(false)
+        Room.should_receive(:with_room).and_yield(room)
+      }
+
+      describe "更新" do
+        before { post :configure, :room => {
+            :name => "title", :nickname => "nickname", :members => []
+          } }
+        it { should redirect_to(:controller => 'room', :action => 'configure') }
+      end
+
+      describe "削除" do
+        before { post :delete, :id => @room.id }
+        it { should redirect_to(:controller => 'chat', :action => 'index') }
+      end
+    end
+
     describe "部屋作成" do
       it { expect {
           post :create, {:room => {:title => 'foo' }}
@@ -36,7 +61,7 @@ describe RoomController do
 
     describe "部屋作成失敗" do
       before do
-        Room.stub(:new) { mock_model(Room, :save => false) }
+        Room.stub(:new) { mock_model(Room, :update_attributes => false) }
         post :create, {:room => {:title => 'foo' }}
       end
       subject { response }
@@ -76,6 +101,16 @@ describe RoomController do
       its(:title) { should == 'new title'}
       it { should redirect_to(:controller => 'room', :action => 'configure') }
     end
+
+    describe "メンバーが部屋の設定画面を GET" do
+      before { get :configure, :id => @room.id }
+      it { response.should render_template("room/configure") }
+    end
+
+    describe "存在しない部屋の設定を変更" do
+      before { post :configure, :id => 0, :room => {:members => []} }
+      it { should redirect_to :action => 'configure' }
+    end
   end
 
   context "owner以外でログイン時" do
@@ -112,6 +147,11 @@ describe RoomController do
         subject { response }
         it { should redirect_to(:controller => 'chat', :action => 'index') }
       end
+    end
+
+    describe "存在しない部屋を消そうとする" do
+      before { post :delete, :id => @room.id }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
     end
   end
 end

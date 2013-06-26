@@ -82,6 +82,7 @@ en:
   logout: "Logout"
   room_created_by: "Owner: "
   error_message_user_not_login_yet: "Unable to post message. Just login users can be allowed to post messages."
+  error_on_save: "Failed to save data."
   your_secret_key: "Your secret key"
   generate: "Generate"
   search: "Search"

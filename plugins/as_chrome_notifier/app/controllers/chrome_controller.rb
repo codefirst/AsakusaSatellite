@@ -3,7 +3,7 @@ class ChromeController < ApplicationController
   before_filter :check_spell
 
   def auth
-    callback_url = request.url.split("/").slice(0...-1).join("/") + "/callback"
+    callback_url = request.url.sub(/\/auth$/, "/callback")
     redirect_to(Chrome.auth_url(callback_url))
   end
 

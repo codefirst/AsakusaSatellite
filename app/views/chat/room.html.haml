@@ -12,7 +12,7 @@
   - @messages.reverse_each do |message|
    = render :partial => 'message', :locals => { :message => message, :room => @room }
  - if logged?
-  - cache [:inputfield, @room_id] do
+  - cache [:inputfield, @room.id] do
    .input
     = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
      =text_area_tag :message, '', :class => :text, :autofocus=>true, :placeholder=> t('placeholder_message')

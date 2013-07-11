@@ -107,13 +107,11 @@ GEM
     journey (1.0.4)
     jruby-jars (1.7.1)
     jruby-rack (1.1.12)
-    json (1.5.3)
-    json (1.5.3-java)
+    json (1.8.0)
+    json (1.8.0-java)
     json_pure (1.6.1)
     jwt (0.1.8)
       multi_json (>= 1.5)
-    keima (0.0.2)
-      json
     launchy (2.3.0)
       addressable (~> 2.3)
     libv8 (3.3.10.4)
@@ -131,7 +129,7 @@ GEM
     multi_json (1.7.2)
     multi_xml (0.5.1)
     multipart-post (1.2.0)
-    newrelic_rpm (3.4.1)
+    newrelic_rpm (3.6.5.130)
     oauth (0.4.7)
     omniauth (1.1.4)
       hashie (>= 1.2, < 3)
@@ -274,7 +272,7 @@ DEPENDENCIES
   guard-rspec
   guard-spork
   haml-rails
-  json (= 1.5.3)
+  json
   mongoid (= 2.5.1)
   newrelic_rpm
   omniauth

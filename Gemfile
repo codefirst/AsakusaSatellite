@@ -22,7 +22,7 @@ gem 'rest-client'
 gem 'on_the_spot'
 gem "uuidtools"
 gem 'omniauth'
-gem 'json', "= 1.5.3"
+gem 'json'
 
 group :development, :test do
   gem "rails3-generators"

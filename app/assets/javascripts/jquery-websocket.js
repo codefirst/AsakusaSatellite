@@ -36,6 +36,10 @@
             }
         }
 
+        if (pusher == null) {
+            return this;
+        }
+
         pusher.connection.bind('connected',
             function(e) { fire('connect', e); }
         );

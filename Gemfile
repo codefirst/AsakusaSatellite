@@ -44,6 +44,7 @@ platform :ruby, :mswin, :mingw do
   gem 'thin'
   gem 'bson_ext', '1.7.0'
   gem 'newrelic_rpm'
+  gem 'airbrake'
 end
 
 platform :jruby do

@@ -64,12 +64,20 @@ describe ChatController do
   end
 
   describe "個別ページ" do
-    before {
-      get :show, :id => @messages[20].id, :c => 5
-    }
-    subject { assigns }
-    its([:prev]) { should have(5).items }
-    its([:next]) { should have(5).items }
+    context "prev and next" do
+      before {
+        get :show, :id => @messages[20].id, :c => 5
+      }
+      subject { assigns }
+      its([:prev]) { should have(5).items }
+      its([:next]) { should have(5).items }
+    end
+    context "not found" do
+      it "send response with status code 302" do
+        get :show, :id => "not_existing_id"
+        response.response_code.should == 302
+      end
+    end
   end
 
   describe "next" do

@@ -117,9 +117,31 @@ describe Room do
       it { should == @messages[6..-1] }
     end
 
-    describe "messages_between" do
-      subject { between = @room.messages_between(@messages[3].id, @messages[5].id, 2) }
-      it { should == [@messages[3], @messages[4]] }
+    context "messages_between" do
+      describe "messages_between" do
+        subject { @room.messages_between(@messages[3].id, @messages[5].id, 2) }
+        it { should == @messages[3..4] }
+      end
+
+      describe "messages_between without both since_id and until_id" do
+        subject { @room.messages_between(nil, nil, 2) }
+        it { should == @messages[0..1] }
+      end
+
+      describe "messages_between with small count" do
+        subject { @room.messages_between(@messages[3].id, @messages[8].id, 2) }
+        it { should == @messages[3..4] }
+      end
+
+      describe "messages_between with only since_id" do
+        subject { @room.messages_between(@messages[5].id, nil, 2) }
+        it { should == @messages[5..6] }
+      end
+
+      describe "messages_between with only until_id" do
+        subject { @room.messages_between(nil, @messages[5].id, 2) }
+        it { should == @messages[4..5].reverse }
+      end
     end
   end
 

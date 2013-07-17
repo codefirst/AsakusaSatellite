@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Attachment do
   before do
-    @attachment = Attachment.new(:disk_filename => '/tmp/file.png',
+    @attachment = Attachment.new(:disk_filename => '/public/file.png',
                                  :filename => 'file.png',
                                  :mimetype => 'image/png')
 
@@ -17,6 +17,7 @@ describe Attachment do
     its([:disk_filename]) { should == "file.png"  }
     its([:filename])      { should == "file.png"  }
     its([:content_type])  { should == "image/png" }
+    its([:url])  { should == "/file.png" }
   end
 
   describe "create_and_save_file" do

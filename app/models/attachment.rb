@@ -38,7 +38,8 @@ class Attachment
     {
       :disk_filename => File.basename(self.disk_filename || '' ),
       :filename => self.filename,
-      :content_type => self.mimetype
+      :content_type => self.mimetype,
+      :url => self.url
     }
   end
 

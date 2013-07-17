@@ -11,15 +11,23 @@ module Api
 
       def list
         room_id = params[:room_id]
+        order = if params[:order] == 'asc'
+                  :asc
+                elsif params[:order] == 'desc'
+                  :desc
+                else
+                  nil
+                end
+
         Room.with_room(room_id, current_user) do |room|
           if room.nil?
             render :json => {:status => 'error', :error => "room does not exist"}
           else
             count = params[:count] ? params[:count].to_i : 20
             if params[:until_id] or params[:since_id]
-              @messages = room.messages_between(params[:since_id], params[:until_id], count)
+              @messages = room.messages_between(params[:since_id], params[:until_id], count, order)
             else
-              @messages = room.messages(count)
+              @messages = room.messages(count, order)
             end
             respond_with(@messages.map{|m| to_json(m) })
           end

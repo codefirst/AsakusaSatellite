@@ -116,6 +116,19 @@ describe Api::V1::MessageController do
       it { should be_include(@messages[26]) }
     end
 
+    describe "order を指定" do
+      before {
+        get :list, :room_id => @room.id, :since_id => @messages[30].id, :count => 10, :order => 'desc', :format => 'json'
+      }
+
+      subject { assigns[:messages] }
+      it { should have(10).items }
+      it { should_not be_include(@messages[30]) }
+      it { should be_include(@messages[41]) }
+      it { should be_include(@messages[50]) }
+    end
+
+
     describe "countを指定" do
       before {
         get :list, :room_id => @room.id, :count => 1 , :format => 'json'

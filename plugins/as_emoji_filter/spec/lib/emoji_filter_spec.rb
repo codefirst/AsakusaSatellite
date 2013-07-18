@@ -4,7 +4,6 @@ require 'emoji_filter'
 describe EmojiFilter do
   before do
     @filter = EmojiFilter.new({})
-    ENV['AS_EMOJI_URL_ROOT'] = 'http://example.com/emoji'
   end
 
   describe "non emoji" do
@@ -28,7 +27,7 @@ describe EmojiFilter do
       @filter.process(":sushi:")
     }
 
-    it { should == %(<img src="http://example.com/emoji/sushi.png" style="width:16px" title="sushi" alt="sushi"/>) }
+    it { should == %(<img src="/assets/emoji/sushi.png" style="width:16px" title="sushi" alt="sushi"/>) }
   end
 
   describe "emoji with tailing-slash" do
@@ -36,7 +35,7 @@ describe EmojiFilter do
       @filter.process(":sushi:")
     }
 
-    it { should == %(<img src="http://example.com/emoji/sushi.png" style="width:16px" title="sushi" alt="sushi"/>) }
+    it { should == %(<img src="/assets/emoji/sushi.png" style="width:16px" title="sushi" alt="sushi"/>) }
   end
 
   describe "non-existent emoji" do

@@ -68,6 +68,12 @@ module AsakusaSatellite
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    # gemoji
+    if defined?(Emoji)
+      config.assets.paths << Emoji.images_path
+      config.assets.precompile << "emoji/*.png"
+    end
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 

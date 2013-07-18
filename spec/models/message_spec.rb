@@ -68,6 +68,17 @@ describe Message do
     end
   end
 
+  describe "prev_id" do
+    context "has prev" do
+      subject { @messages[5].prev_id }
+      it { should == @messages[4].id }
+    end
+    context "not has prev" do
+      subject { @messages[0].prev_id }
+      it { should be_nil }
+    end
+  end
+
   describe "next" do
     context "with 2" do
       subject { @message.next 2 }

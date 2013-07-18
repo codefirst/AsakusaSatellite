@@ -20,8 +20,10 @@ module ChatHelper
 
   private
   def publish_message(event, message, room)
-    data = if event == :delete then
+    data = if event == :delete
              { :content => { :id => message.id } }
+           elsif event == :create
+             { :content => to_json(message, room).merge({ :prev_id => message.prev_id }) }
            else
              { :content => to_json(message, room) }
            end

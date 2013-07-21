@@ -1,7 +1,8 @@
 class AsRedmineTicketLinkController < ApplicationController
   include RoomHelper
   def room
-    find_room(params[:id]) do
+    find_room(params[:id]) do |room|
+      @room = room
       @hash   = @room.yaml[:redmine_ticket] || {}
       if request.post? then
         @hash.merge!(params[:config])

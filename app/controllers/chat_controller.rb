@@ -50,7 +50,8 @@ class ChatController < ApplicationController
   end
 
   def room
-    find_room(params[:id], :not_auth=>true) do
+    find_room(params[:id], :not_auth=>true) do |room|
+      @room = room
       @messages = Message.where("room_id" => @room.id).order_by(:_id.desc).limit(PageSize).to_a
       @title = @room.title
       call_hook(:in_chatroom_controller, :controller => self)
@@ -64,7 +65,8 @@ class ChatController < ApplicationController
       return
     end
     if request.post? then
-      find_room(params[:room_id]) do
+      find_room(params[:room_id]) do |room|
+        @room = room
         @room.update_attributes!(:updated_at => Time.now)
         if request[:fileupload]
           message = Message.attach(current_user, @room, params)

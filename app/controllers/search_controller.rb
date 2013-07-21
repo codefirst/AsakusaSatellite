@@ -21,7 +21,8 @@ class SearchController < ApplicationController
     if @room_id.blank?
       @results = Message.find_by_text(:text => @query, :rooms => Room.all_live(current_user), :limit => INTERSECTION_SEARCH_LIMIT)
     else
-      find_room(@room_id, :not_auth => true) do
+      find_room(@room_id, :not_auth => true) do |room|
+        @room = room
         @results = Message.find_by_text(:text => @query, :rooms => [ @room ], :limit => SEARCH_LIMIT)
       end
     end
@@ -37,7 +38,8 @@ class SearchController < ApplicationController
     @last_message_id = params[:id]
     @query = params[:search_message]
     @room_id = params[:room_id]
-    find_room(@room_id, :not_auth => true) do
+    find_room(@room_id, :not_auth => true) do |room|
+      @room = room
       @results = Message.find_by_text(:text => @query, :rooms => [ @room ], :limit => SEARCH_LIMIT, :message_id => @last_message_id)
       if @results.size > 0
         @messages = @results.first[:messages].reverse!

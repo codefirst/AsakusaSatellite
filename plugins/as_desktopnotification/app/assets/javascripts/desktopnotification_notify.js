@@ -64,16 +64,15 @@
         var onclose = function() {};
 
         var setting = $.extend(defaults, options);
-        if (window.webkitNotifications) {
-            if (!window.webkitNotifications.checkPermission()) {
-                var popup = window.webkitNotifications.createNotification(
+        if ($.DesktopNotification.isAvailable()) {
+            if (!$.DesktopNotification.checkPermission()) {
+                var popup = $.DesktopNotification.createNotification(
                     setting.picture,
                     setting.title,
                     setting.text
                 );
                 popup.ondisplay = setting.ondisplay;
                 popup.onclose = setting.onclose;
-                popup.show();
 
                 var delay = $.LocalStorage.get('notificationTime', 3);
                 if (delay > 0) {

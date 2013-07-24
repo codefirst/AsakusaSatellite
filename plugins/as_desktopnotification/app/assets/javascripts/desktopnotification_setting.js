@@ -14,9 +14,9 @@
     $.fn.desktopNotifyAddPermission = function(callback, options) {
         this.click(function(e) {
             e.preventDefault();
-            if (window.webkitNotifications) {
-                if (window.webkitNotifications.checkPermission()) {
-                    window.webkitNotifications.requestPermission(callback);
+            if ($.DesktopNotification.isAvailable()) {
+                if ($.DesktopNotification.checkPermission()) {
+                    $.DesktopNotification.requestPermission(callback);
                 }
             }
         });
@@ -36,15 +36,14 @@ $(function() {
     };
     action[PermissionNotAllowed] = function(){
         $('#dn-button').desktopNotifyAddPermission(function(){
-            action[window.webkitNotifications.checkPermission()]();
+            action[$.DesktopNotification.checkPermission()]();
         });
     };
     action[PermissionDenied] = function(){
         $('#dn-button').attr("disabled", "disabled").addClass("gray").val("Permission denied by your browser");
     };
-    
-    if (window.webkitNotifications) {
-        action[window.webkitNotifications.checkPermission()]();
+    if ($.DesktopNotification.isAvailable()){
+        action[$.DesktopNotification.checkPermission()]();
     }
 });
 $(function() {

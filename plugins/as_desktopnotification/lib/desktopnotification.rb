@@ -12,9 +12,15 @@ class DesktopnotificationListener < AsakusaSatellite::Hook::Listener
 
     case {:controller => controller, :action => action}
     when {:controller => "account", :action => "index"}
-      "<script>#{read_js 'desktopnotification_setting.js'}</script>"
+      <<-JS
+      <script>#{read_js 'desktopnotification.js'}</script>
+      <script>#{read_js 'desktopnotification_setting.js'}</script>
+      JS
     when {:controller => "chat",    :action => "room"}
-      "<script>#{read_js 'desktopnotification_notify.js'}</script>"
+      <<-JS
+      <script>#{read_js 'desktopnotification.js'}</script>
+      <script>#{read_js 'desktopnotification_notify.js'}</script>
+      JS
     end
   end
 

@@ -48,7 +48,6 @@
      * @param {String} options.picture url of icon file
      * @param {String} options.title title string
      * @param {String} options.text notification message
-     * @param {function} options.ondisplay function called on diplayed
      * @param {function} options.onclose function called on closed
      */
     function desktopNotify(options) {
@@ -56,11 +55,9 @@
             picture : "",
             title : "",
             text : "",
-            ondisplay : ondisplay,
             onclose : onclose
         };
 
-        var ondisplay = function() {};
         var onclose = function() {};
 
         var setting = $.extend(defaults, options);
@@ -71,7 +68,6 @@
                     setting.title,
                     setting.text
                 );
-                popup.ondisplay = setting.ondisplay;
                 popup.onclose = setting.onclose;
 
                 var delay = $.LocalStorage.get('notificationTime', 3);

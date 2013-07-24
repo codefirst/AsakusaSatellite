@@ -18,6 +18,15 @@ module ChatHelper
     end
   end
 
+  def current_info(room)
+    {
+      :user => current_user && current_user.screen_name,
+      :room => room.id,
+      :public => room.is_public,
+      :member => room.owner_and_members.map{|user| user._id}
+    }
+  end
+
   private
   def publish_message(event, message, room)
     data = if event == :delete

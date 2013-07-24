@@ -28,7 +28,6 @@
             "default" : 1,
             "denied"  : 2
         };
-        console.log(Notification.permission);
         var klass = {
             checkPermission : function(){
                 return permissionTable[window.Notification.permission];

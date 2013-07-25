@@ -202,6 +202,7 @@ describe Room do
       @member = User.create
       @room = Room.create(:title => 'room private', :user => @user, :is_public => false)
       @room.members << @member
+      @public_room = Room.create(:title => 'room public', :user => @user, :is_public => true)
     end
 
     context "user" do
@@ -227,6 +228,11 @@ describe Room do
 
         subject { @room.owner_and_members.to_set }
         it { should == [@user].to_set }
+      end
+
+      context "public room" do
+        subject { @public_room.owner_and_members }
+        it { should == [] }
       end
     end
   end

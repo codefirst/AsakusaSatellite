@@ -10,5 +10,6 @@ files:
   - "./app/assets/javascripts/jquery-autoscroll.js"
   - "./app/assets/javascripts/jquery-watch.js"
   - "./app/assets/javascripts/jquery-localstorage.js"
+  - "./plugins/as_desktopnotification/app/assets/javascripts/desktopnotification.js"
   - "./plugins/as_desktopnotification/app/assets/javascripts/desktopnotification_notify.js"
   - "./plugins/as_desktopnotification/qunit/as_desktopnotification_test.js"

@@ -47,7 +47,10 @@ class Room
   end
 
   def owner_and_members
-    [self.user] + self.members
+    if self.is_public
+    then []
+    else [self.user] + self.members
+    end
   end
 
   def messages(offset, order = nil)

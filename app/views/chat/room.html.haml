@@ -26,10 +26,7 @@
  = javascript_include_tag "room"
  :javascript
   var AsakusaSatellite = {
-    current : {
-        user : "#{current_user && current_user.screen_name}",
-        room : "#{@room.id}"
-    },
+    current : #{current_info(@room).to_json},
     pusher    : #{AsakusaSatellite::MessagePusher.jsClass},
     form_auth : "#{form_authenticity_token}",
     url : {

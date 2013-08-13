@@ -51,6 +51,20 @@ describe Api::V1::UserController do
       its(:body) { should have_json("/status[text() = 'error']") }
       its(:body) { should have_json("/error[text() = 'user not found']") }
     end
+    context "user.saveでエラー" do
+      before {
+        user = mock 'user'
+        devices = mock 'devices'
+        devices.stub(:where => [mock('device')])
+        user.stub(:save => false, :devices => devices, :to_json => '')
+        User.stub(:where => [user])
+        post :add_device, :api_key => @user.spell, :format => 'json', :device => 'device_id'
+      }
+      subject { response }
+      its(:response_code) { should == 500 }
+      its(:body) { should have_json("/status[text() = 'error']") }
+      its(:body) { should have_json("/error[text() = 'cannot save device data']") }
+    end
   end
 
 end

@@ -20,8 +20,11 @@ module Api
           end
 
           unless user.save
-            render :json => {:status => 'error', :error => 'cannot save device data'}
+            render :json => {:status => 'error', :error => 'cannot save device data'}, :status => 500
+            return
           end
+
+          render :json => user.to_json
         end
       end
 
@@ -31,6 +34,8 @@ module Api
             device = user.devices.where(:name => params[:device])
             device.destroy
           end
+
+          render :json => user.to_json
         end
       end
 
@@ -38,12 +43,12 @@ module Api
       def manage_device(&proc)
         user = User.where(:spell => params[:api_key]).first
         unless user
-          render :json => {:status => 'error', :error => 'user not found'}
+          render :json => {:status => 'error', :error => 'user not found'}, :status => 403
+          return
         end
 
         user.devices ||= []
         proc.call user
-        render :json => user.to_json
       end
 
     end

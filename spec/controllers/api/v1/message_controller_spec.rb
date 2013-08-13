@@ -151,27 +151,31 @@ describe Api::V1::MessageController do
       before {
         get :list, :room_id => @private_room.id, :format => 'json'
       }
-      subject { response.body }
-      it { should have_json("/status[text() = 'error']") }
+      subject { response }
+      its(:response_code) { should == 403 }
+      its(:body) { should have_json("/status[text() = 'error']") }
     end
 
     describe "個別取得" do
       before {
         get :show, :id => @secret_message.id, :format => 'json'
       }
-      subject { response.body }
-      it { should have_json("/status[text() = 'error']") }
+      subject { response }
+      its(:response_code) { should == 403 }
+      its(:body) { should have_json("/status[text() = 'error']") }
     end
    end
 
   share_examples_for '成功'  do
-    subject { response.body }
-    it { should have_json("/status[text() = 'ok']") }
+    subject { response }
+    its(:response_code) { should == 200 }
+    its(:body) { should have_json("/status[text() = 'ok']") }
   end
 
   share_examples_for '失敗'  do
-    subject { response.body }
-    it { should have_json("/status[text() = 'error']") }
+    subject { response }
+    its(:response_code) { should_not == 200 }
+    its(:body) { should have_json("/status[text() = 'error']") }
   end
 
   describe "発言作成" do
@@ -241,6 +245,8 @@ describe Api::V1::MessageController do
         post :create, :room_id => @room.id, :message => 'message', :api_key => '(puke)'
       }
       it_should_behave_like '失敗'
+      subject { response }
+      its(:response_code) { should == 403 }
     end
 
     describe "発言更新" do
@@ -248,6 +254,8 @@ describe Api::V1::MessageController do
         post :update, :id => @message.id, :message => 'modified', :api_key => '(puke)'
       }
       it_should_behave_like '失敗'
+      subject { response }
+      its(:response_code) { should == 403 }
     end
 
     describe "発言更新" do
@@ -255,6 +263,8 @@ describe Api::V1::MessageController do
         post :destroy, :id => @message.id, :api_key => '(puke)'
       }
       it_should_behave_like '失敗'
+      subject { response }
+      its(:response_code) { should == 403 }
     end
   end
 
@@ -273,6 +283,8 @@ describe Api::V1::MessageController do
           post :update, :id => @message.id, :message => 'modified', :api_key => @other_user.spell
         }
         it_should_behave_like '失敗'
+        subject { response }
+        its(:response_code) { should == 403 }
       end
     end
     context "on the spot での更新" do
@@ -281,6 +293,8 @@ describe Api::V1::MessageController do
           put :update, :id => @message.id, :message => 'modified', :api_key => @other_user.spell
         }
         it_should_behave_like '失敗'
+        subject { response }
+        its(:response_code) { should == 403 }
       end
     end
 
@@ -290,6 +304,8 @@ describe Api::V1::MessageController do
         post :destroy, :id => @message.id, :api_key => @other_user.spell
       }
       it_should_behave_like '失敗'
+      subject { response }
+      its(:response_code) { should == 403 }
     end
   end
 end

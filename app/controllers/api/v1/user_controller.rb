@@ -2,13 +2,14 @@
 module Api
   module V1
     class UserController < ApplicationController
+      include ApiHelper
       def show
         users = User.where(:spell => params[:api_key])
         if users.first
           render :json => users.first.to_json
           return
         end
-        render :json => {:status => 'error', :error => 'user not found'}
+        render_error 'user not found', 403
       end
 
       def add_device
@@ -20,7 +21,7 @@ module Api
           end
 
           unless user.save
-            render :json => {:status => 'error', :error => 'cannot save device data'}, :status => 500
+            render_error 'cannot save device data'
             return
           end
 
@@ -43,7 +44,7 @@ module Api
       def manage_device(&proc)
         user = User.where(:spell => params[:api_key]).first
         unless user
-          render :json => {:status => 'error', :error => 'user not found'}, :status => 403
+          render_error 'user not found', 403
           return
         end
 

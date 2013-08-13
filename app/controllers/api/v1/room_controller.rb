@@ -50,11 +50,11 @@ module Api
           render_user_not_found(params[:user_id]) and return if user.nil?
 
           if room.members.include?(user)
-            render :json => {:status => 'error', :error => "user already exists"}
+            render_error "user already exists", 200
           else
             room.members << user
             if room.save then render :json => {:status => 'ok'}
-                         else render :json => {:status => 'error', :error => "add user"}
+                         else render_error "add user"
             end
           end
         end

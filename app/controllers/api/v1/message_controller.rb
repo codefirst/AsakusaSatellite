@@ -21,7 +21,7 @@ module Api
 
         Room.with_room(room_id, current_user) do |room|
           if room.nil?
-            render :json => {:status => 'error', :error => "room does not exist"}
+            render_error "room does not exist", 403
           else
             count = params[:count] ? params[:count].to_i : 20
             if params[:until_id] or params[:since_id]

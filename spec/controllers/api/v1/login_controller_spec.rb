@@ -14,6 +14,7 @@ describe Api::V1::LoginController do
     it "ユーザを取得できない場合は error を返す" do
       User.delete_all
       get :index, :user => 'user', :password => 'password', :format => 'json'
+      response.response_code.should == 403
       response.body.should have_json("/status[text() = 'error']")
       session[:current_user_id].should be_nil
     end

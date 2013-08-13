@@ -38,7 +38,8 @@ module Api
       def manage_device(&proc)
         user = User.where(:spell => params[:api_key]).first
         unless user
-          render :json => {:status => 'error', :error => 'user not found'}
+          render :json => {:status => 'error', :error => 'user not found'}, :status => 403
+          return
         end
 
         user.devices ||= []

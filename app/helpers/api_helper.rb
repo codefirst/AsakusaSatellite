@@ -11,12 +11,12 @@ module ApiHelper
     true
   end
 
-  def render_error(message)
-    render :json => {:status => 'error', :error => message}
+  def render_error(message, response_code=500)
+    render :json => {:status => 'error', :error => message}, :status => response_code
   end
 
   def render_login_error
-    render_error "login not yet"
+    render_error "login not yet", 403
   end
 
   def render_error_on_save
@@ -24,11 +24,11 @@ module ApiHelper
   end
 
   def render_room_not_found(id)
-    render_error "room #{id} not found"
+    render_error "room #{id} not found", 403
   end
 
   def render_message_not_found(id)
-    render_error "message #{id} not found"
+    render_error "message #{id} not found", 403
   end
 
   def render_message_creation_error
@@ -36,6 +36,6 @@ module ApiHelper
   end
 
   def render_user_not_found(id)
-    render_error "user #{id} not found"
+    render_error "user #{id} not found", 403
   end
 end

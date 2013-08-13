@@ -18,13 +18,15 @@ describe Api::V1::RoomController do
   end
 
   share_examples_for '成功する'  do
-    subject { response.body }
-    it { should have_json("/status[text() = 'ok']") }
+    subject { response }
+    its(:response_code) { should == 200 }
+    its(:body) { should have_json("/status[text() = 'ok']") }
   end
 
   share_examples_for '失敗する'  do
-    subject { response.body }
-    it { should have_json("/status[text() = 'error']") }
+    subject { response }
+    its(:response_code) { should_not == 200 }
+    its(:body) { should have_json("/status[text() = 'error']") }
   end
 
   describe "部屋作成" do
@@ -155,8 +157,14 @@ describe Api::V1::RoomController do
         post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
         @room = Room.where(:_id =>@room.id).first
       }
-      subject { @room.members }
-      its(:size) { should == @size }
+      describe "size not changed for duplicated" do
+        subject { @room.members }
+        its(:size) { should == @size }
+      end
+      describe "response is ok" do
+        subject { response }
+        its(:response_code) { should == 200 }
+      end
     end
   end
 
@@ -209,6 +217,8 @@ describe Api::V1::RoomController do
       end
 
       it_should_behave_like '失敗する'
+      subject { response }
+      its(:response_code) { should == 403 }
     end
 
     describe "部屋名の変更" do

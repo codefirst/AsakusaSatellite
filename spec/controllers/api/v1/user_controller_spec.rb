@@ -27,9 +27,10 @@ describe Api::V1::UserController do
       before {
         get :show, :api_key => "peropero", :format => 'json'
       }
-      subject { response.body }
-      it { should have_json("/status[text() = 'error']") }
-      it { should have_json("/error[text() = 'user not found']") }
+      subject { response }
+      its(:response_code) { should == 403 }
+      its(:body) { should have_json("/status[text() = 'error']") }
+      its(:body) { should have_json("/error[text() = 'user not found']") }
     end
   end
 

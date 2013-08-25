@@ -57,15 +57,6 @@ class Message
     end
   end
 
-  def self.attach(message, file)
-    max_size = Setting[:attachment_max_size].to_i
-    return if max_size > 0 && file.size > max_size.megabyte
-
-    filename = file.original_filename
-    mimetype = file.content_type
-    Attachment.create_and_save_file(file.original_filename, file, mimetype, message)
-  end
-
   def self.update_body(user, message_id, message_body)
     return :login_error if user.nil?
 
@@ -89,6 +80,15 @@ class Message
       end
     else :error_message_not_found
     end
+  end
+
+  def attach(file)
+    max_size = Setting[:attachment_max_size].to_i
+    return if max_size > 0 && file.size > max_size.megabyte
+
+    filename = file.original_filename
+    mimetype = file.content_type
+    Attachment.create_and_save_file(file.original_filename, file, mimetype, self)
   end
 
   def accessible?(user)

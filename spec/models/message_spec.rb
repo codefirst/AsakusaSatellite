@@ -180,8 +180,7 @@ describe Message do
   describe "添付ファイル" do
     before {
       Setting.should_receive(:[]).with(:attachment_max_size).and_return("1")
-      @stub_message = mock "message"
-      @stub_message.stub(:body= => nil)
+      @stub_message = Message.make(@user, @room, nil, true)
       @file = mock "file"
       @file.stub(:size => 10.kilobyte, :original_filename => "file1.jpg", :content_type => "image/jpeg")
       @large_file = mock "large file"
@@ -191,14 +190,14 @@ describe Message do
     context "添付ファイルを保存する" do
       it {
         Attachment.should_receive(:create_and_save_file)
-        Message.attach(@stub_message, @file)
+        @stub_message.attach(@file)
       }
     end
 
     context "添付ファイルのサイズが容量制限を上回る" do
       it {
         Attachment.should_not_receive(:create_and_save_file)
-        Message.attach(@stub_message, @large_file)
+        @stub_message.attach(@large_file)
       }
     end
   end

@@ -50,11 +50,12 @@ module Api
         Room.with_room(params[:room_id], current_user) do |room|
           render_room_not_found(params[:room_id]) and return unless room
 
-          case message = Message.make(current_user, room, params[:message], true)
+          files = (params["files"] || {}).values
+          has_files = !(files.empty?)
+
+          case message = Message.make(current_user, room, params[:message], has_files)
           when Message
-            if params["files"]
-              params["files"].each_value {|file| message.attach(file)}
-            end
+            files.each {|file| message.attach(file)}
             room.update_attributes(:updated_at => Time.now)
             publish_message(:create, message, room)
             render :json => {:status => 'ok', :message_id => message.id}

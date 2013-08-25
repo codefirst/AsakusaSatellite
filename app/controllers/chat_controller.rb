@@ -64,16 +64,17 @@ class ChatController < ApplicationController
       redirect_to :controller => 'chat'
       return
     end
+
     if request.post? then
       find_room(params[:room_id]) do |room|
         @room = room
-        @room.update_attributes!(:updated_at => Time.now)
-        if request[:fileupload]
-          message = Message.attach(current_user, @room, params)
-        else
-          message = Message.make(current_user, @room, params[:message])
+
+        case message = Message.make(current_user, room, params[:message], allow_empty=true)
+        when Message
+          Message.attach(message, params[:file]) if params[:file]
+          room.update_attributes!(:updated_at => Time.now)
+          publish_message(:create, message, room)
         end
-        publish_message(:create, message, message.room)
       end
     end
     redirect_to :controller => 'chat', :action => 'room', :id => params[:room_id]

@@ -47,11 +47,11 @@ class Message
     Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
-  def self.make(user, room, message_body)
+  def self.make(user, room, message_body, allow_empty=false)
     return :login_error if user.nil?
-    return :empty_message if message_body.strip.empty?
+    return :empty_message if not allow_empty and message_body.strip.empty?
 
-    message = Message.new(:room => room, :body => message_body, :user => user)
+    message = Message.new(:room => room, :body => message_body || "", :user => user)
     if message.save then message
                     else :error_on_save
     end

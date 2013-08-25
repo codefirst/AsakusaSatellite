@@ -57,14 +57,13 @@ class Message
     end
   end
 
-  def self.attach(user, room, params)
+  def self.attach(message, file)
     max_size = Setting[:attachment_max_size].to_i
-    return if max_size > 0 && params[:file].size > max_size.megabyte
+    return if max_size > 0 && file.size > max_size.megabyte
 
-    Message.new(:room => room, :body => nil, :user => user).tap do |message|
-      return unless message.save
-      Attachment.create_and_save_file(params[:filename], params[:file], params[:mimetype], message)
-    end
+    filename = file.original_filename
+    mimetype = file.content_type
+    Attachment.create_and_save_file(file.original_filename, file, mimetype, message)
   end
 
   def self.update_body(user, message_id, message_body)

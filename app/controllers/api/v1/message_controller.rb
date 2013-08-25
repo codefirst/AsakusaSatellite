@@ -52,8 +52,11 @@ module Api
 
           case message = Message.make(current_user, room, params[:message])
           when Message
-            publish_message(:create, message, room)
+            if params["files"]
+              params["files"].each_value {|file| Message.attach(message, file)}
+            end
             room.update_attributes(:updated_at => Time.now)
+            publish_message(:create, message, room)
             render :json => {:status => 'ok', :message_id => message.id}
           when :login_error   then render_login_error
           when :empty_message then render_error "empty message"

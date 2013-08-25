@@ -69,9 +69,10 @@ class ChatController < ApplicationController
       find_room(params[:room_id]) do |room|
         @room = room
 
-        case message = Message.make(current_user, room, params[:message], true)
+        has_file = !(params[:file].nil?)
+        case message = Message.make(current_user, room, params[:message], has_file)
         when Message
-          message.attach(params[:file]) if params[:file]
+          message.attach(params[:file]) if has_file
           room.update_attributes!(:updated_at => Time.now)
           publish_message(:create, message, room)
         end

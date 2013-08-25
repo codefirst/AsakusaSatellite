@@ -88,7 +88,7 @@ class Message
 
     filename = file.original_filename
     mimetype = file.content_type
-    Attachment.create_and_save_file(file.original_filename, file, mimetype, self)
+    Attachment.create_and_save_file(filename, file, mimetype, self)
   end
 
   def accessible?(user)

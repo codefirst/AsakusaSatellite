@@ -209,6 +209,45 @@ describe Api::V1::MessageController do
       }
       it { response.body.should have_json("/message_id") }
     end
+
+    describe "空メッセージは無視する" do
+      before {
+        post :create, :room_id => @room.id, :message => '', :api_key => @user.spell
+      }
+      it_should_behave_like '失敗'
+      it { expect {
+          post :create, :room_id => @room.id, :message => '', :api_key => @user.spell
+        }.to change { Message.all.size }.by(0)
+      }
+    end
+
+    describe "添付つきメッセージの投稿" do
+      before {
+        @file = fixture_file_upload("#{Rails.root}/app/assets/images/logo.png")
+      }
+
+      describe "メッセージあり" do
+        before {
+          post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell, :files => {"logo.png" => @file}
+        }
+        it_should_behave_like '成功'
+        it { expect {
+            post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell, :files => {"logo.png" => @file}
+          }.to change { Message.all.size }.by(1)
+        }
+      end
+
+      describe "メッセージなし" do
+        before {
+          post :create, :room_id => @room.id, :message => '', :api_key => @user.spell, :files => {"logo.png" => @file}
+        }
+        it_should_behave_like '成功'
+        it { expect {
+            post :create, :room_id => @room.id, :message => '', :api_key => @user.spell, :files => {"logo.png" => @file}
+          }.to change { Message.all.size }.by(1)
+        }
+      end
+    end
   end
 
   describe "発言更新" do

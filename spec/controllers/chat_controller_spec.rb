@@ -15,12 +15,41 @@ describe ChatController do
   end
 
   describe "発言投稿" do
-    it { expect {
-        post :message, {:room_id => @room.id, :message => "メッセージ" }
-      }.to change { Message.all.size }.by(1)
-    }
+    describe "発言の更新" do
+      it { expect {
+          post :message, {:room_id => @room.id, :message => "メッセージ" }
+        }.to change { Message.all.size }.by(1)
+      }
+    end
 
-    describe "部屋" do
+    describe "空メッセージは無視する" do
+      it { expect {
+          post :message, {:room_id => @room.id, :message => "" }
+        }.to change { Message.all.size }.by(0)
+      }
+    end
+
+    describe "添付つきメッセージの投稿" do
+      before {
+        @file = fixture_file_upload("#{Rails.root}/app/assets/images/logo.png")
+      }
+
+      describe "メッセージあり" do
+        it { expect {
+            post :message, {:room_id => @room.id, :message => "メッセージ", :file => @file }
+          }.to change { Message.all.size }.by(1)
+        }
+      end
+
+      describe "メッセージなし" do
+        it { expect {
+            post :message, {:room_id => @room.id, :message => "", :file => @file }
+          }.to change { Message.all.size }.by(1)
+        }
+      end
+    end
+
+    describe "部屋の更新" do
       before {
         @now = Time.at(Time.now.to_i+100)
         Time.stub(:now) { @now.dup }

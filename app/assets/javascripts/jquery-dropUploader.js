@@ -42,7 +42,6 @@
                     }
                 }
             }
-            url += '&fileupload=1'
             return url;
         }
         var fieldName = (!options['fieldName'] ? 'file' : options['fieldName']);

@@ -47,23 +47,13 @@ class Message
     Message.where(:room_id => self.room_id, :_id.gt => self._id).order_by(:_id.asc).limit(offset).to_a
   end
 
-  def self.make(user, room, message_body)
+  def self.make(user, room, message_body, allow_empty=false)
     return :login_error if user.nil?
-    return :empty_message if message_body.strip.empty?
+    return :empty_message if not allow_empty and message_body.strip.empty?
 
-    message = Message.new(:room => room, :body => message_body, :user => user)
+    message = Message.new(:room => room, :body => message_body || "", :user => user)
     if message.save then message
                     else :error_on_save
-    end
-  end
-
-  def self.attach(user, room, params)
-    max_size = Setting[:attachment_max_size].to_i
-    return if max_size > 0 && params[:file].size > max_size.megabyte
-
-    Message.new(:room => room, :body => nil, :user => user).tap do |message|
-      return unless message.save
-      Attachment.create_and_save_file(params[:filename], params[:file], params[:mimetype], message)
     end
   end
 
@@ -90,6 +80,15 @@ class Message
       end
     else :error_message_not_found
     end
+  end
+
+  def attach(file)
+    max_size = Setting[:attachment_max_size].to_i
+    return if max_size > 0 && file.size > max_size.megabyte
+
+    filename = file.original_filename
+    mimetype = file.content_type
+    Attachment.create_and_save_file(filename, file, mimetype, self)
   end
 
   def accessible?(user)

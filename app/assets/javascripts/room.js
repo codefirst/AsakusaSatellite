@@ -99,14 +99,16 @@ $(function() {
     });
 
     $('form.inputarea').bind('submit', function(e){
-      if(connected) {
-          e.preventDefault();
-          jQuery.post(AsakusaSatellite.url.create, {
-              'room_id' : AsakusaSatellite.current.room,
-              'message' : $('textarea#message').val()
-          });
-          $('textarea#message').val('');
-      }
+        var textcompleting = $(".dropdown-menu")[0].style.display != "none";
+        console.log(textcompleting);
+        if(connected && !textcompleting) {
+            e.preventDefault();
+            jQuery.post(AsakusaSatellite.url.create, {
+                'room_id' : AsakusaSatellite.current.room,
+                'message' : $('textarea#message').val()
+            });
+            $('textarea#message').val('');
+        }
     });
 
     // ------------------------------
@@ -129,7 +131,7 @@ $(function() {
     // File DnD
     // ------------------------------
     document.body.addEventListener('dragenter', function(e){
-        function isFileDrop(e){ 
+        function isFileDrop(e){
             var type = e.dataTransfer.types;
             return (type[0] == "Files" ||               // chrome
                     type[3] == "Files" ||               // safari

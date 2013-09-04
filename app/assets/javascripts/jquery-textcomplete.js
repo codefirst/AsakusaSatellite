@@ -109,6 +109,12 @@
     }
 
     $.extend(Completer.prototype, {
+      /**
+       * add a strategy into existing strategies.
+       */
+      addStrategy: function(name, strategy) {
+        this.strategies[name] = strategy;
+      },
 
       /**
        * Show autocomplete list next to the caret.
@@ -342,6 +348,7 @@
     return ListView;
   })();
 
+  var completers = {};
   $.fn.textcomplete = function (strategies) {
     var name, strategy;
     for (name in strategies) if (strategies.hasOwnProperty(name)) {
@@ -355,7 +362,28 @@
       strategy.maxCount || (strategy.maxCount = 10);
     }
     this.each(function () {
-      new Completer(this, strategies);
+      completers[this] = new Completer(this, strategies);
+    });
+
+    return this;
+  };
+
+  $.fn.textcompleteAddStrategy = function(name, strategy) {
+    if (!strategy.template) {
+      strategy.template = identity;
+    }
+    if (strategy.index == null) {
+      strategy.index = 2;
+    }
+    strategy.maxCount || (strategy.maxCount = 10);
+
+    this.each(function(){
+      var completer = completers[this];
+      if (completer) {
+        completer.addStrategy(name, strategy);
+      } else {
+        completers[this] = new Completer(this, strategies);
+      }
     });
 
     return this;

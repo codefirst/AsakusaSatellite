@@ -10,7 +10,7 @@ info:
 filters:
  - name: code_highlight_filter
  - name: quote_it
- - name: redmine_ticket_link
+ - name: redmine_ticket_link_filter
  - name: twitter_link
  - name: emoji_filter
 

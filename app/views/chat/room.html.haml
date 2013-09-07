@@ -45,3 +45,4 @@
         disconnect : "#{image_path('connection_fail.gif')}"
     }
   }
+ .script_in_chat_room= raw(call_hook(:script_in_chat_room, :room => @room))

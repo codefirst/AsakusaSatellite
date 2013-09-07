@@ -1,0 +1,20 @@
+:javascript
+ $(function(){
+   $('textarea#message').textcompleteAddStrategy("gemoji", {
+     emojies: #{Emoji.names},
+     match: /(^|\s):([\w|\+|\-]*)$/,
+     search: function(term, callback){
+       var regexp = new RegExp('^' + term.replace("+", "\\+"));
+       callback($.map(this.emojies, function (emoji) {
+         return regexp.test(emoji) ? emoji : undefined;
+       }));
+     },
+     replace: function(value){
+       return ":" + value + ":";
+     },
+     template: function(value){
+       return '<img src="/assets/emoji/' + value + '.png"/>' + value;
+     },
+     maxCount: 5,
+   });
+ });

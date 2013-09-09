@@ -13,7 +13,7 @@
        return ":" + value + ":";
      },
      template: function(value){
-       return '<img src="/assets/emoji/' + value + '.png"/>' + value;
+       return "<img src='#{asset_path('emoji')}/" + value + ".png'>" + value + "</img>";
      },
      maxCount: 5,
    });

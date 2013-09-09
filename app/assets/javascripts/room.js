@@ -81,7 +81,7 @@ $(function() {
     $('textarea#message').multiline().textcomplete({});
 
     $('form.inputarea').bind('submit', function(e){
-        var textcompleting = $(".dropdown-menu")[0].style.display != "none";
+        var textcompleting = $(".dropdown-menu").is(":visible");
 
         if(connected && !textcompleting) {
             e.preventDefault();

@@ -1,7 +1,8 @@
 name:
   as_desktopnotification
 files:
-  - "./app/assets/javascripts/jquery-min.js"
+  - "./app/assets/javascripts/jquery.js"
+  - "./app/assets/javascripts/jquery-migrate.js"
   - "./app/assets/javascripts/jquery-websocket.js"
   - "./app/assets/javascripts/jquery-chat.js"
   - "./app/assets/javascripts/jquery-pagination.js"

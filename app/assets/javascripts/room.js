@@ -78,7 +78,7 @@ $(function() {
     // ------------------------------
     // submit area
     // ------------------------------
-    $('textarea#message').multiline().textcomplete({});
+    $('textarea#message').multiline();
 
     $('form.inputarea').bind('submit', function(e){
         var textcompleting = $(".dropdown-menu").is(":visible");

@@ -3,8 +3,8 @@ module("notify module");
 (function(){
     AsakusaSatellite.current = {user : 'nzp', room : 'some room'};
     $.LocalStorage = { get : function(){return {"some room":true};} };
-    window.webkitNotifications.checkPermission = function(){return 0;};
-    window.webkitNotifications.createNotification = function(picture,title,text){
+    $.DesktopNotification.checkPermission = function(){return 0;};
+    $.DesktopNotification.createNotification = function(picture,title,text){
         obj = {};
         obj.picture = picture;
         obj.title = title;

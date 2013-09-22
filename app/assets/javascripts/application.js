@@ -1,4 +1,5 @@
-//= require jquery-min
+//= require jquery
+//= require jquery-migrate
 //= require rails
 //= require_self
 //= require "jquery-localstorage"

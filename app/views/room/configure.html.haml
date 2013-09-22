@@ -61,7 +61,7 @@
         }
         return false;
       });
-      $('.delete-member-button').live('click', function(e) {
+      $(document).on('click', '.delete-member-button', function(e) {
         $(this).parent().remove();
         return false;
       });

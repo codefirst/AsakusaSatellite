@@ -7,6 +7,7 @@
 //= require "jquery-multiline"
 //= require "jquery-onthespot"
 //= require "jquery-textcomplete"
+//= require "jquery-replacestate"
 
 $(function() {
     // on the spot

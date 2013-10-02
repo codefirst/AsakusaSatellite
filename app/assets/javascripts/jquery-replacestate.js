@@ -4,9 +4,9 @@
  */
 (function($, document, undefined) {
     if (window.history && window.history.replaceState) {
-        $(window).unload(function(){
-            var latest_id = $(".message:last").attr("message-id");
-            window.history.replaceState(latest_id ,"", location.pathname+"?latest="+latest_id);
+        $(window).on("unload", function(){
+            var latestId = $(".message:last").attr("message-id");
+            window.history.replaceState(latestId ,"", location.pathname+"?latest="+latestId);
         });
     }
 })(jQuery, document);

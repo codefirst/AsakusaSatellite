@@ -14,7 +14,7 @@ module ChatHelper
     if has_class
       block.call
     else
-      cache(message, &block)
+      cache([message, :web], &block)
     end
   end
 

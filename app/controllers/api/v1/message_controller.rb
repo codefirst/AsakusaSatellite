@@ -29,7 +29,7 @@ module Api
             else
               @messages = room.messages(count, order)
             end
-            respond_with(@messages.map{|m| to_json(m) })
+            respond_with(@messages.map{|m| cache(m.updated_at){to_json(m)} })
           end
         end
       end

@@ -117,7 +117,7 @@ $(function() {
         function isFileDrop(e){
             var type = e.dataTransfer.types;
             return (type[0] == "Files" ||               // chrome
-                    type[3] == "Files" ||               // safari
+                    type[3] == "Files" || type[4] == "Files" ||               // safari
                     type[0] == "application/x-moz-file" // firefox
                    );
         }

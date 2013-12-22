@@ -21,4 +21,11 @@ $.fn.before = function(value){
     return ret;
 };
 
+$.fn.__replaceWith = $.fn.replaceWith;
+$.fn.replaceWith = function(value){
+    var ret = this.__replaceWith.apply(this, arguments);
+    value.trigger("as::replaceWith", Array.prototype.slice.call(arguments));
+    return ret;
+};
+
 })(jQuery, document);

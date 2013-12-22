@@ -20,7 +20,7 @@ describe AsakusaSatellite::MessagePusher do
     subject { @pusher }
     its (:jsFiles) { should == ['http://www.example.com/socket.io/socket.io.js',
                        'http://www.example.com/javascripts/keima.js'] }
-    its (:jsClass) { should == "new Keima('API_KEY')" }
+    its (:jsClass) { should =~ /new Keima\('API_KEY'\)/ }
   end
 
   describe AsakusaSatellite::MessagePusher::Socky do

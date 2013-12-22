@@ -79,7 +79,7 @@ module AsakusaSatellite
       end
 
       def jsClass
-        "new Keima('#{@key}')"
+        "typeof(Keima) == 'undefined' ? null : new Keima('#{@key}')"
       end
 
       private

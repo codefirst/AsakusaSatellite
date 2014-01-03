@@ -84,16 +84,16 @@ $(function() {
     $('form.inputarea').bind('submit', function(e){
         var textcompleting = $(".dropdown-menu").is(":visible");
         if (!textcompleting) {
-          if (connected) {
-              e.preventDefault();
-              jQuery.post(AsakusaSatellite.url.create, {
-                  'room_id' : AsakusaSatellite.current.room,
-                  'message' : $('textarea#message').val()
-              });
-              $('textarea#message').val('');
-          } else if (e.target == $('textarea#message').get(0)) {
-            this.submit();
-          }
+            if (connected) {
+                e.preventDefault();
+                jQuery.post(AsakusaSatellite.url.create, {
+                    'room_id' : AsakusaSatellite.current.room,
+                    'message' : $('textarea#message').val()
+                });
+                $('textarea#message').val('');
+            } else if (e.target == $('textarea#message').get(0)) {
+                this.submit();
+            }
         }
     });
 

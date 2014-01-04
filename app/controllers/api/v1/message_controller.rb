@@ -10,27 +10,37 @@ module Api
       respond_to :json
 
       def list
-        room_id = params[:room_id]
-        order = if params[:order] == 'asc'
-                  :asc
-                elsif params[:order] == 'desc'
-                  :desc
-                else
-                  nil
-                end
+        room_id    = params[:room_id]
+        since_id   = params[:since_id]
+        newer_than = params[:newer_than]
+        until_id   = params[:until_id]
+        older_than = params[:older_than]
+
+        if (since_id and newer_than) or (until_id and older_than)
+          render_error("duplicated parameters are specified", 403) and return
+        end
 
         Room.with_room(room_id, current_user) do |room|
-          if room.nil?
-            render_error "room does not exist", 403
+          render_error("room does not exist", 403) and return unless room
+
+          count = params[:count] ? params[:count].to_i : 20
+          order = case params[:order]
+                  when 'asc'  then :asc
+                  when 'desc' then :desc
+                  else             nil
+                  end
+          from_id = since_id || newer_than
+          to_id   = until_id || older_than
+          from    = {:id => from_id, :include_boundary => !!since_id} if from_id
+          to      = {:id => to_id,   :include_boundary => !!until_id} if to_id
+
+          if from or to
+            messages = room.messages_between(from, to, count, order)
           else
-            count = params[:count] ? params[:count].to_i : 20
-            if params[:until_id] or params[:since_id]
-              @messages = room.messages_between(params[:since_id], params[:until_id], count, order)
-            else
-              @messages = room.messages(count, order)
-            end
-            respond_with(@messages.map{|m| cache([m, :api]){to_json(m)} })
+            messages = room.messages(count, order)
           end
+
+          respond_with(messages.map{|m| cache([m, :api]){to_json(m)}})
         end
       end
 

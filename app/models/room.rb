@@ -53,24 +53,31 @@ class Room
     end
   end
 
-  def messages(offset, order = nil)
+  def messages(count, order = nil)
     rel = Message.where("room_id" => id)
     if order == nil or order == :desc
       rel = rel.order_by(:_id.desc)
     else
       rel = rel.order_by(:_id.asc)
     end
-    ret = rel.limit(offset).to_a
+    ret = rel.limit(count).to_a
     ret.reverse! if order == nil
     ret
   end
 
-  def messages_between(from_id, to_id, count, order = nil)
-    where = {:room_id => self.id}
-    where[:_id.gte] = from_id if from_id
-    where[:_id.lte] = to_id if to_id
-    rel = Message.where(where)
-    only_to_id = ((not from_id) and to_id)
+  def messages_between(from, to, count, order = nil)
+    conditions = {:room_id => self.id}
+    if from
+      conditions[:_id.gte] = from[:id] if     from[:include_boundary]
+      conditions[:_id.gt]  = from[:id] unless from[:include_boundary]
+    end
+    if to
+      conditions[:_id.lte] = to[:id] if     to[:include_boundary]
+      conditions[:_id.lt]  = to[:id] unless to[:include_boundary]
+    end
+
+    rel = Message.where(conditions)
+    only_to_id = ((not from) and to)
     if order == :desc or only_to_id
       rel = rel.order_by(:_id.desc)
     else

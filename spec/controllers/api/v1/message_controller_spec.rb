@@ -77,55 +77,132 @@ describe Api::V1::MessageController do
         it { should have_json("/id[text() = '#{@messages[-20].id}']") }
         it { should_not have_json("/id[text() = '#{@messages[-21].id}']") }
       end
-      describe "messages" do
-        subject { assigns[:messages] }
-        it { should have(20).items }
-      end
     end
 
     describe "since_id と until_id を指定" do
       before {
         get :list, :room_id => @room.id, :since_id => @messages[24].id, :until_id => @messages[26].id , :count => 2, :format => 'json'
       }
+      describe "response" do
+        subject { response.body }
+        it { should have_json("/id[text() = '#{@messages[24].id}']") }
+        it { should have_json("/id[text() = '#{@messages[25].id}']") }
+        it { should_not have_json("/id[text() = '#{@messages[26].id}']") }
+      end
+    end
 
-      subject { assigns[:messages] }
-      it { should be_include(@messages[24]) }
-      it { should be_include(@messages[25]) }
-      it { should_not be_include(@messages[26]) }
+    describe "newer_than と older_than を指定" do
+      before {
+        get :list, :room_id => @room.id, :newer_than => @messages[24].id, :older_than => @messages[27].id , :count => 4, :format => 'json'
+      }
+      describe "response" do
+        subject { response.body }
+        it { should_not have_json("/id[text() = '#{@messages[24].id}']") }
+        it { should have_json("/id[text() = '#{@messages[25].id}']") }
+        it { should have_json("/id[text() = '#{@messages[26].id}']") }
+        it { should_not have_json("/id[text() = '#{@messages[27].id}']") }
+      end
     end
 
     describe "until_idを指定" do
       before {
         get :list, :room_id => @room.id, :until_id => @messages[25].id , :format => 'json'
       }
+      describe "response" do
+        subject { response.body }
+        it { should have_json("/id[text() = '#{@messages[24].id}']") }
+        it { should have_json("/id[text() = '#{@messages[25].id}']") }
+        it { should_not have_json("/id[text() = '#{@messages[26].id}']") }
+      end
+    end
 
-      subject { assigns[:messages] }
-      it { should be_include(@messages[24]) }
-      it { should be_include(@messages[25]) }
-      it { should_not be_include(@messages[26]) }
+    describe "older_than を指定" do
+      before {
+        get :list, :room_id => @room.id, :older_than => @messages[25].id , :format => 'json'
+      }
+      describe "response" do
+        subject { response.body }
+        it { should have_json("/id[text() = '#{@messages[23].id}']") }
+        it { should have_json("/id[text() = '#{@messages[24].id}']") }
+        it { should_not have_json("/id[text() = '#{@messages[25].id}']") }
+      end
     end
 
     describe "since_idを指定" do
       before {
         get :list, :room_id => @room.id, :since_id => @messages[25].id , :format => 'json'
       }
+      describe "response" do
+        subject { response.body }
+        it { should_not have_json("/id[text() = '#{@messages[24].id}']") }
+        it { should have_json("/id[text() = '#{@messages[25].id}']") }
+        it { should have_json("/id[text() = '#{@messages[26].id}']") }
+      end
+    end
 
-      subject { assigns[:messages] }
-      it { should_not be_include(@messages[24]) }
-      it { should be_include(@messages[25]) }
-      it { should be_include(@messages[26]) }
+    describe "newer_than を指定" do
+      before {
+        get :list, :room_id => @room.id, :newer_than => @messages[25].id , :format => 'json'
+      }
+      describe "response" do
+        subject { response.body }
+        it { should_not have_json("/id[text() = '#{@messages[25].id}']") }
+        it { should have_json("/id[text() = '#{@messages[26].id}']") }
+        it { should have_json("/id[text() = '#{@messages[27].id}']") }
+      end
+    end
+
+    describe "パラメータ指定が無効" do
+      describe "newer_than と since_id を指定" do
+        before {
+          get :list, :room_id => @room.id, :newer_than => @messages[25].id, :since_id => @messages[25].id, :format => 'json'
+        }
+        describe "response" do
+          subject { response.body }
+          it { should have_json("/status[text() = 'error']") }
+        end
+      end
+      describe "older_than と until_id を指定" do
+        before {
+          get :list, :room_id => @room.id, :older_than => @messages[25].id, :until_id => @messages[25].id, :format => 'json'
+        }
+        describe "response" do
+          subject { response.body }
+          it { should have_json("/status[text() = 'error']") }
+        end
+      end
     end
 
     describe "order を指定" do
-      before {
-        get :list, :room_id => @room.id, :since_id => @messages[30].id, :count => 10, :order => 'desc', :format => 'json'
-      }
-
-      subject { assigns[:messages] }
-      it { should have(10).items }
-      it { should_not be_include(@messages[30]) }
-      it { should be_include(@messages[41]) }
-      it { should be_include(@messages[50]) }
+      describe "order に asc を指定" do
+        before {
+          get :list, :room_id => @room.id, :since_id => @messages[30].id, :count => 10, :order => 'asc', :format => 'json'
+        }
+        describe "response" do
+          subject { response.body }
+          it { should have_json("/id[text() = '#{@messages[30].id}']") }
+          it { should_not have_json("/id[text() = '#{@messages[40].id}']") }
+        end
+        describe "response length" do
+          subject { JSON.parse(response.body) }
+          it { should have(10).items }
+        end
+      end
+      describe "order に desc を指定" do
+        before {
+          get :list, :room_id => @room.id, :since_id => @messages[30].id, :count => 10, :order => 'desc', :format => 'json'
+        }
+        describe "response" do
+          subject { response.body }
+          it { should_not have_json("/id[text() = '#{@messages[30].id}']") }
+          it { should have_json("/id[text() = '#{@messages[41].id}']") }
+          it { should have_json("/id[text() = '#{@messages[50].id}']") }
+        end
+        describe "response length" do
+          subject { JSON.parse(response.body) }
+          it { should have(10).items }
+        end
+      end
     end
 
 
@@ -133,16 +210,20 @@ describe Api::V1::MessageController do
       before {
         get :list, :room_id => @room.id, :count => 1 , :format => 'json'
       }
-      subject { assigns[:messages] }
-      it { should have(1).items }
+      describe "response" do
+        subject { JSON.parse(response.body) }
+        it { should have(1).items }
+      end
     end
 
     describe "nickname" do
       before {
         get :list, :room_id => @room.nickname, :format => 'json'
       }
-      subject { assigns[:messages] }
-      it { should have(20).items }
+      describe "response" do
+        subject { JSON.parse(response.body) }
+        it { should have(20).items }
+      end
     end
   end
 

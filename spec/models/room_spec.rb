@@ -130,10 +130,30 @@ describe Room do
     end
 
     context "messages_between" do
+      before {
+        @message3  = {:id => @messages[3].id, :include_boundary => true}
+        @message5  = {:id => @messages[5].id, :include_boundary => true}
+        @message3_ = {:id => @messages[3].id, :include_boundary => false}
+        @message5_ = {:id => @messages[5].id, :include_boundary => false}
+      }
       context "without order paramemter" do
         describe "messages_between" do
-          subject { @room.messages_between(@messages[3].id, @messages[5].id, 2) }
-          it { should == @messages[3..4] }
+          describe "3 <= n <= 5" do
+            subject { @room.messages_between(@message3, @message5, 2) }
+            it { should == @messages[3..4] }
+          end
+          describe "3 < n <= 5" do
+            subject { @room.messages_between(@message3_, @message5, 2) }
+            it { should == @messages[4..5] }
+          end
+          describe "3 <= n < 5" do
+            subject { @room.messages_between(@message3, @message5_, 2) }
+            it { should == @messages[3..4] }
+          end
+          describe "3 < n < 5" do
+            subject { @room.messages_between(@message3_, @message5_, 2) }
+            it { should == [@messages[4]] }
+          end
         end
 
         describe "messages_between without both since_id and until_id" do
@@ -142,19 +162,45 @@ describe Room do
         end
 
         describe "messages_between with only since_id" do
-          subject { @room.messages_between(@messages[5].id, nil, 2) }
-          it { should == @messages[5..6] }
+          describe "5 <= n" do
+            subject { @room.messages_between(@message5, nil, 2) }
+            it { should == @messages[5..6] }
+          end
+          describe "5 < n" do
+            subject { @room.messages_between(@message5_, nil, 2) }
+            it { should == @messages[6..7] }
+          end
         end
 
         describe "messages_between with only until_id" do
-          subject { @room.messages_between(nil, @messages[5].id, 2) }
-          it { should == @messages[4..5].reverse }
+          describe "n <= 5" do
+            subject { @room.messages_between(nil, @message5, 2) }
+            it { should == @messages[4..5].reverse }
+          end
+          describe "n < 5" do
+            subject { @room.messages_between(nil, @message5_, 2) }
+            it { should == @messages[3..4].reverse }
+          end
         end
       end
       context "with :asc" do
         describe "messages_between" do
-          subject { @room.messages_between(@messages[3].id, @messages[5].id, 2, :asc) }
-          it { should == @messages[3..4] }
+          describe "3 <= n <= 5" do
+            subject { @room.messages_between(@message3, @message5, 2, :asc) }
+            it { should == @messages[3..4] }
+          end
+          describe "3 < n <= 5" do
+            subject { @room.messages_between(@message3_, @message5, 2, :asc) }
+            it { should == @messages[4..5] }
+          end
+          describe "3 <= n < 5" do
+            subject { @room.messages_between(@message3, @message5_, 2, :asc) }
+            it { should == @messages[3..4] }
+          end
+          describe "3 < n < 5" do
+            subject { @room.messages_between(@message3_, @message5_, 2, :asc) }
+            it { should == [@messages[4]] }
+          end
         end
 
         describe "messages_between without both since_id and until_id" do
@@ -163,19 +209,45 @@ describe Room do
         end
 
         describe "messages_between with only since_id" do
-          subject { @room.messages_between(@messages[5].id, nil, 2, :asc) }
-          it { should == @messages[5..6] }
+          describe "5 <= n" do
+            subject { @room.messages_between(@message5, nil, 2, :asc) }
+            it { should == @messages[5..6] }
+          end
+          describe "5 < n" do
+            subject { @room.messages_between(@message5_, nil, 2, :asc) }
+            it { should == @messages[6..7] }
+          end
         end
 
         describe "messages_between with only until_id" do
-          subject { @room.messages_between(nil, @messages[5].id, 2, :asc) }
-          it { should == @messages[4..5] }
+          describe "n <= 5" do
+            subject { @room.messages_between(nil, @message5, 2, :asc) }
+            it { should == @messages[4..5] }
+          end
+          describe "n < 5" do
+            subject { @room.messages_between(nil, @message5_, 2, :asc) }
+            it { should == @messages[3..4] }
+          end
         end
       end
       context "with :desc" do
         describe "messages_between" do
-          subject { @room.messages_between(@messages[3].id, @messages[5].id, 2, :desc) }
-          it { should == @messages[4..5].reverse }
+          describe "3 <= n <= 5" do
+            subject { @room.messages_between(@message3, @message5, 2, :desc) }
+            it { should == @messages[4..5].reverse }
+          end
+          describe "3 < n <= 5" do
+            subject { @room.messages_between(@message3_, @message5, 2, :desc) }
+            it { should == @messages[4..5].reverse }
+          end
+          describe "3 <= n < 5" do
+            subject { @room.messages_between(@message3, @message5_, 2, :desc) }
+            it { should == @messages[3..4].reverse }
+          end
+          describe "3 < n < 5" do
+            subject { @room.messages_between(@message3_, @message5_, 2, :desc) }
+            it { should == [@messages[4]] }
+          end
         end
 
         describe "messages_between without both since_id and until_id" do
@@ -184,13 +256,25 @@ describe Room do
         end
 
         describe "messages_between with only since_id" do
-          subject { @room.messages_between(@messages[5].id, nil, 2, :desc) }
-          it { should == @messages[9..10].reverse }
+          describe "5 <= n" do
+            subject { @room.messages_between(@message5, nil, 2, :desc) }
+            it { should == @messages[9..10].reverse }
+          end
+          describe "5 < n" do
+            subject { @room.messages_between(@message5_, nil, 2, :desc) }
+            it { should == @messages[9..10].reverse }
+          end
         end
 
         describe "messages_between with only until_id" do
-          subject { @room.messages_between(nil, @messages[5].id, 2, :desc) }
-          it { should == @messages[4..5].reverse }
+          describe "n <= 5" do
+            subject { @room.messages_between(nil, @message5, 2, :desc) }
+            it { should == @messages[4..5].reverse }
+          end
+          describe "n < 5" do
+            subject { @room.messages_between(nil, @message5_, 2, :desc) }
+            it { should == @messages[3..4].reverse }
+          end
         end
       end
     end

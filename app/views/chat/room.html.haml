@@ -33,8 +33,8 @@
         create  : "#{url_for(:controller=>'api/v1/message', :action=>'create')}",
         update  : "#{url_for(:controller=>'api/v1/message')}",
         destroy : "#{url_for(:controller=>'api/v1/message', :action=>'destroy', :id => nil)}",
-        message : "#{url_for(:controller => 'chat', :action => 'message')}",
-        prev    : "#{url_for(:action => :prev)}"
+        message : "#{url_for(:controller=>'chat', :action=>'message')}",
+        prev    : "#{url_for(:controller=>'api/v1/message', :action=>'list')}"
     },
     t : {
         are_you_sure_you_want_to_delete_this_message : '#{t(:are_you_sure_you_want_to_delete_this_message)}'

@@ -28,13 +28,14 @@
         var original = target.text();
         activate(target, function(elem, resume){
             target.addClass("loading").empty().html(config.indicator);
-            var params = "id=" + config.current();
+            var params =
+                "room_id=" + AsakusaSatellite.current.room + "&" +
+                "older_than=" + config.current();
             if (config.params) {
                 params += "&" + config.params
             }
             $.get( config.url + "?" + params, function(content){
-                var dom = $(content);
-                var messages = dom.find(config.content);
+                var messages = $( content.map(function(m){return m.view;}).join("") );
                 elem.removeClass("loading");
                 if(messages.length == 0){
                     elem.empty().html("no more message");
@@ -44,9 +45,6 @@
                     messages.hide();
                     config.append(messages);
                     messages.fadeIn();
-
-                    config.append(dom.slice(1));
-
                     elem.empty().html(original);
 
                     resume();

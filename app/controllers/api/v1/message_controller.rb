@@ -31,8 +31,8 @@ module Api
                   end
           from_id = since_id || newer_than
           to_id   = until_id || older_than
-          from    = {:id => from_id, :include_boundary => !!since_id} if from_id
-          to      = {:id => to_id,   :include_boundary => !!until_id} if to_id
+          from    = {:id => from_id, :include_boundary => (not since_id.blank?)} if from_id
+          to      = {:id => to_id,   :include_boundary => (not until_id.blank?)} if to_id
 
           if from or to
             messages = room.messages_between(from, to, count, order)

@@ -152,19 +152,56 @@ describe Api::V1::MessageController do
       end
     end
 
-    describe "order を指定" do
-      before {
-        get :list, :room_id => @room.id, :since_id => @messages[30].id, :count => 10, :order => 'desc', :format => 'json'
-      }
-      describe "response" do
-        subject { response.body }
-        it { should_not have_json("/id[text() = '#{@messages[30].id}']") }
-        it { should have_json("/id[text() = '#{@messages[41].id}']") }
-        it { should have_json("/id[text() = '#{@messages[50].id}']") }
+    describe "パラメータ指定が無効" do
+      describe "newer_than と since_id を指定" do
+        before {
+          get :list, :room_id => @room.id, :newer_than => @messages[25].id, :since_id => @messages[25].id, :format => 'json'
+        }
+        describe "response" do
+          subject { response.body }
+          it { should have_json("/status[text() = 'error']") }
+        end
       end
-      describe "response length" do
-        subject { JSON.parse(response.body) }
-        it { should have(10).items }
+      describe "older_than と until_id を指定" do
+        before {
+          get :list, :room_id => @room.id, :older_than => @messages[25].id, :until_id => @messages[25].id, :format => 'json'
+        }
+        describe "response" do
+          subject { response.body }
+          it { should have_json("/status[text() = 'error']") }
+        end
+      end
+    end
+
+    describe "order を指定" do
+      describe "order に asc を指定" do
+        before {
+          get :list, :room_id => @room.id, :since_id => @messages[30].id, :count => 10, :order => 'asc', :format => 'json'
+        }
+        describe "response" do
+          subject { response.body }
+          it { should have_json("/id[text() = '#{@messages[30].id}']") }
+          it { should_not have_json("/id[text() = '#{@messages[40].id}']") }
+        end
+        describe "response length" do
+          subject { JSON.parse(response.body) }
+          it { should have(10).items }
+        end
+      end
+      describe "order に desc を指定" do
+        before {
+          get :list, :room_id => @room.id, :since_id => @messages[30].id, :count => 10, :order => 'desc', :format => 'json'
+        }
+        describe "response" do
+          subject { response.body }
+          it { should_not have_json("/id[text() = '#{@messages[30].id}']") }
+          it { should have_json("/id[text() = '#{@messages[41].id}']") }
+          it { should have_json("/id[text() = '#{@messages[50].id}']") }
+        end
+        describe "response length" do
+          subject { JSON.parse(response.body) }
+          it { should have(10).items }
+        end
       end
     end
 

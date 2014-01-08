@@ -101,10 +101,10 @@ $(function() {
     // pagination
     // ------------------------------
     $("#read-more").pagination({
-        current : function(){ return $(".message").first().attr("message-id"); },
         content : "div.message",
         append  : function(elem){ $(".message-list").prepend(elem); },
         url : AsakusaSatellite.url.prev,
+        params : function(){return "room_id=" + AsakusaSatellite.current.room + "&older_than=" +  $(".message").first().attr("message-id");},
         indicator : AsakusaSatellite.resouces.ajaxLoader
     });
 

@@ -8,8 +8,8 @@
      * @param {String} config.indicator HTML string to indicate loading
      * @param {String} config.url request URL with ajax. it returns HTML content.
      * @param {String} config.content selector for find each messages
-     * @param {function} config.current functions return current message id
      * @param {function} config.append function appends DOM content
+     * @param {function} config.params function added to get query
      * @return this
      */
     $.fn.pagination = function(config) {
@@ -28,12 +28,7 @@
         var original = target.text();
         activate(target, function(elem, resume){
             target.addClass("loading").empty().html(config.indicator);
-            var params =
-                "room_id=" + AsakusaSatellite.current.room + "&" +
-                "older_than=" + config.current();
-            if (config.params) {
-                params += "&" + config.params
-            }
+            var params = config.params ? config.params() : "";
             $.get( config.url + "?" + params, function(content){
                 var messages = $( content.map(function(m){return m.view;}).join("") );
                 elem.removeClass("loading");

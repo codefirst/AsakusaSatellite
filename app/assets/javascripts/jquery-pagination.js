@@ -30,7 +30,16 @@
             target.addClass("loading").empty().html(config.indicator);
             var params = config.params ? config.params() : "";
             $.get( config.url + "?" + params, function(content){
-                var messages = $( content.map(function(m){return m.view;}).join("") );
+                var messages;
+                switch(typeof(content)) {
+                case 'string':
+                    messages = $( content );
+                    break;
+                case 'json':
+                    messages = $( content.map(function(m){return m.view;}).join("") );
+                    break;
+                }
+
                 elem.removeClass("loading");
                 if(messages.length == 0){
                     elem.empty().html("no more message");

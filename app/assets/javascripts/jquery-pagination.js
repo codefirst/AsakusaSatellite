@@ -34,19 +34,15 @@
                     params.push(k + "=" + encodeURIComponent(v));
                 });
 
-            $.get( config.url + "?" + params.join("&"), function(content){
-                var messages;
-console.log(typeof(content));
-                switch(typeof(content)) {
+            $.get( config.url + "?" + params.join("&"), function(response){
+                var messages = [];
+                switch(typeof(response)) {
                 case 'string':
-                    messages = $( content );
+                    messages = $( response ).find(config.content);
                     break;
                 case 'object': case 'json':
-                    messages = $( content.map(function(m){return m.view;}).join("") );
+                    messages = $( response.map(function(m){return m.view;}).join("") );
                     break;
-                default:
-                    console.error("unknown type: " + typeof(content));
-                    console.error(content);
                 }
 
                 elem.removeClass("loading");

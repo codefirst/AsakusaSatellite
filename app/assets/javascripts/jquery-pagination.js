@@ -28,16 +28,25 @@
         var original = target.text();
         activate(target, function(elem, resume){
             target.addClass("loading").empty().html(config.indicator);
-            var params = config.params ? config.params() : "";
-            $.get( config.url + "?" + params, function(content){
+            var params = []
+            if (typeof(config.params) === "function")
+                $.each(config.params(), function(k,v){
+                    params.push(k + "=" + encodeURIComponent(v));
+                });
+
+            $.get( config.url + "?" + params.join("&"), function(content){
                 var messages;
+console.log(typeof(content));
                 switch(typeof(content)) {
                 case 'string':
                     messages = $( content );
                     break;
-                case 'json':
+                case 'object': case 'json':
                     messages = $( content.map(function(m){return m.view;}).join("") );
                     break;
+                default:
+                    console.error("unknown type: " + typeof(content));
+                    console.error(content);
                 }
 
                 elem.removeClass("loading");

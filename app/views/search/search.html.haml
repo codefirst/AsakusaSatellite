@@ -24,7 +24,7 @@
      content : "div.message",
      append  : function(elem){ $(".message-list").prepend(elem); },
      url : "#{url_for(:action => :search_more)}",
-     params: function(){return "search_message=#{CGI.escape(@query)}&room_id=#{@room_id}"},
+     params: function(){return {"search_message" : "#{CGI.escape(@query)}", "room_id" : "#{@room_id}"}},
      indicator : #{image_tag('ajax-loader.gif').inspect}
     });
    });

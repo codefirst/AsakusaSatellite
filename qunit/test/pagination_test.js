@@ -5,7 +5,7 @@ module("pagination module");
     var append = [];
     target.pagination({
         url     : 'http://example.com/api/v1/list',
-        params : function(){return "room_id=123&older_than=10"},
+        params  : function(){return {"room_id":"123", "older_than":"10"};},
         content : 'p',
         append  : function(elem){ append.push(elem); },
         current : function(){ return 10; }

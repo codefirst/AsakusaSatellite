@@ -7,7 +7,7 @@ module("pagination module");
         url     : 'http://example.com/api/v1/list',
         params  : function(){return {"room_id":"123", "older_than":"10"};},
         content : 'p',
-        append  : function(elem){ append.push(elem); },
+        append  : function(elem){ append = elem.toArray(); },
         current : function(){ return 10; }
     });
 
@@ -26,14 +26,14 @@ module("pagination module");
 
     test("ロードが完了", function(){
         target.trigger('click');
-        equal(append.length, 1);
+        equal(append.length, 2);
     });
 
     test("ロード時にpagination::loadイベントが発生する",function(){
         stop(100);
         target.bind('pagination::load',function(_, elem){
             start();
-            equal(elem.length, 1);
+            equal(elem.length, 2);
         });
         target.trigger('click');
     });

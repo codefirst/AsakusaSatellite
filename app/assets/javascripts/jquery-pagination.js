@@ -28,7 +28,7 @@
         var original = target.text();
         activate(target, function(elem, resume){
             target.addClass("loading").empty().html(config.indicator);
-            var params = []
+            var params = [];
             if (typeof(config.params) === "function")
                 $.each(config.params(), function(k,v){
                     params.push(k + "=" + encodeURIComponent(v));

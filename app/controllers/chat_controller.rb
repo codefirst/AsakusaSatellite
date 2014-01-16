@@ -10,24 +10,6 @@ class ChatController < ApplicationController
     @rooms = Room.all_live(current_user)
   end
 
-  def prev
-    @message = params[:id]!="undefined" && Message.find(params[:id])
-    @messages = if @message then
-                  @message.prev( params[:offset] || 20 )
-                else
-                  []
-                end
-
-    render :action => :messages, :layout => false
-  end
-
-  def next
-    @message = Message.find(params[:id])
-    @messages = @message.next(params[:offset] || 20)
-
-    render :action => :messages, :layout => false
-  end
-
   def show
     @id      = params[:id]
     @message = Message.where(:_id => @id).first

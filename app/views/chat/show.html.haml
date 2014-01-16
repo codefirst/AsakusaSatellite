@@ -26,18 +26,18 @@
  :javascript
   $(function() {
     $("#read-prev").pagination({
-        current : function(){ return $(".message").first().attr("message-id"); },
         content : "div.message",
         append  : function(elem){ $(".message-list").prepend(elem); },
-        url : "#{url_for(:action => :prev)}",
+        url : "#{url_for(:controller=>'api/v1/message', :action=>'list')}",
+        params : function(){return {"room_id" : "#{@room._id}", "older_than" : $(".message").first().attr("message-id"), "order":"asc"}},
         indicator : #{image_tag('ajax-loader.gif').inspect}
     });
 
     $("#read-next").pagination({
-        current : function(){ return $(".message").last().attr("message-id"); },
         content : "div.message",
         append  : function(elem){ $(".message-list").append(elem); },
-        url : "#{url_for(:action => :next)}",
+        url : "#{url_for(:controller=>'api/v1/message', :action=>'list')}",
+        params : function(){return {"room_id" : "#{@room._id}", "newer_than" : $(".message").last().attr("message-id"), "order":"asc"}},
         indicator : #{image_tag('ajax-loader.gif').inspect}
     });
 

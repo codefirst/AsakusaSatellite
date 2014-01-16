@@ -20,11 +20,10 @@
   :javascript
    $(function() {
     $("#read-more").pagination({
-     current : function(){ return $(".message").first().attr("message-id"); },
      content : "div.message",
      append  : function(elem){ $(".message-list").prepend(elem); },
      url : "#{url_for(:action => :search_more)}",
-     params: "search_message=#{CGI.escape(@query)}&room_id=#{@room_id}",
+     params: function(){return {"id" : $(".message").first().attr("message-id"), "search_message" : "#{CGI.escape(@query)}", "room_id" : "#{@room_id}"}},
      indicator : #{image_tag('ajax-loader.gif').inspect}
     });
    });

@@ -1,7 +1,4 @@
 -# -*- coding: utf-8 -*-
-- if flash[:errors]
- = raw flash[:errors]
-
 .yield
  = render :partial => "shared/room_info", :locals => { :room => @room, :has_button => false }
  .configure

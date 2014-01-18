@@ -48,8 +48,8 @@ class RoomController < ApplicationController
     when Room
       expire_fragment [:roominfo, room.id, true]
       expire_fragment [:roominfo, room.id, false]
-    when :error_room_not_found then flash[:errors] = t(:error_room_deleted)
-    when :error_on_save        then flash[:errors] = t(:error_on_save)
+    when :error_room_not_found then flash[:error] = t(:error_room_deleted)
+    when :error_on_save        then flash[:error] = t(:error_on_save)
     end
 
     redirect_to :action => 'configure'

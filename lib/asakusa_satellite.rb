@@ -8,5 +8,5 @@ require 'asakusa_satellite/message_pusher'
 require 'asakusa_satellite/omniauth/adapter'
 
 module AsakusaSatellite
-  VERSION = '0.9.0.beta'
+  VERSION = '0.9.0'
 end

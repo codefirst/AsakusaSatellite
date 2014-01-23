@@ -3,7 +3,7 @@ require '<%= file_name %>_filter'
 
 describe AsakusaSatellite::Filter::<%= class_name %>Filter do
   before do
-    @filter = <%= class_name %>Filter.new({})
+    @filter = AsakusaSatellite::Filter::<%= class_name %>Filter.new({})
   end
 
   it 'enables process' do

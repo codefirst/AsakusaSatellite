@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'json'
 
 class AsakusaSatellite::Filter::RevisionItFilter < AsakusaSatellite::Filter::Base
 
@@ -7,7 +8,16 @@ class AsakusaSatellite::Filter::RevisionItFilter < AsakusaSatellite::Filter::Bas
     text.gsub /rev:([0-9a-zA-Z]{6,})/ do|original|
       rev = $1
       begin
-        open("#{root}/hash/#{rev}").read
+        hash = JSON.parse open("#{root}/hash/#{rev}.json").read
+        if hash['status'] == 'ok' then
+          hash_code = hash['revision']['hash_code']
+          url = hash['revision']['url']
+          log = hash['revision']['log']
+
+          %(<a href="#{url}" target="_blank">#{hash_code[0,6]} #{log.split("\n").first}</a>)
+        else
+          original
+        end
       rescue
         original
       end

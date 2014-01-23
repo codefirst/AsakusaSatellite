@@ -20,12 +20,17 @@ describe AsakusaSatellite::Filter::RevisionItFilter do
 
   context 'valid hash' do
     before do
-      io = StringIO.new "[[hash html]]"
-      @filter.stub!(:open).with("http://revision-it.herokuapp.com/hash/x123456") { io }
+      io = StringIO.new({ 'status' => 'ok',
+                          'revision' => {
+                             'url' => "http://example.com",
+                             'hash_code' => "1234567890",
+                             'log' => "foo\nbar" }
+                        }.to_json)
+      @filter.stub!(:open).with("http://revision-it.herokuapp.com/hash/x123456.json") { io }
     end
 
     subject { @filter.process("rev:x123456") }
-    it { should == "[[hash html]]" }
+    it { should == %(<a href="http://example.com" target="_blank">123456 foo</a>) }
   end
 
   context 'invalid hash' do

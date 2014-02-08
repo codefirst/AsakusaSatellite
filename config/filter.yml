@@ -20,6 +20,7 @@ plugins:
  - dir: as_android_notifier
  - dir: as_iphone_notifier
  - dir: as_chrome_notifier
+ - dir: as_profile_setting
  - dir: as_device_setting
  - dir: as_global_js_css
  - dir: as_watage_plugin

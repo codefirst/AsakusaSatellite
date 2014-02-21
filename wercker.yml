@@ -1,0 +1,18 @@
+box: wercker/rvm
+services:
+  - wercker/mongodb
+build:
+    steps:
+        - bundle-install
+        - script:
+            name: echo ruby information
+            code: |
+                echo "ruby version $(ruby --version) running"
+                echo "from location $(which ruby)"
+                echo -p "gem list: $(gem list)"
+        - script:
+            name: rspec
+            code: bundle exec rake spec
+    after-steps:
+        - mzp/http-notify:
+            url: $DASHBOZU_URL

@@ -4,7 +4,6 @@ services:
 build:
     steps:
         - bundle-install
-        - aussiegeek/install-phantomjs@0.0.3
         - script:
             name: echo ruby information
             code: |

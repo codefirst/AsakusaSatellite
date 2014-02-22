@@ -10,4 +10,5 @@ services:
 before_script:
   - mongo mydb_test --eval 'db.addUser("travis", "test");'
 notifications:
-  webhooks: http://dashbozu.herokuapp.com/hook/travisci
+  webhooks:
+    secure: "l/khAAdjPH4I0Pz4y5eFTjHdnBilyqwGnvwsf5DUjXxybkRUCd2kenjPdRxwhG9PbRsieK7WFinlEo9EP7G3D5xEpz4O6Q5tekcMAVwCV5q9aiMxybLko+67AIg9mxQf7SV3eNCeKrO3u4MFbmpRkiOnCN7i94tPclEeWTqXlPw="

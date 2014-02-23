@@ -73,8 +73,12 @@
                 var delay = $.LocalStorage.get('notificationTime', 3);
                 if (delay > 0) {
                     setTimeout(function() {
-                        popup.cancel();
-                    }, delay*1000);
+                        if (popup.cancel) {
+                            popup.cancel();
+                        } else if (popup.close) {
+                            popup.close();
+                        }
+                    }, delay * 1000);
                 }
             }
         }

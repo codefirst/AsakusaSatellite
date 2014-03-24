@@ -9,6 +9,10 @@ describe Api::V1::UserController do
                      :profile_image_url => 'url',
                      :spell => 'spell')
     @user.save!
+    User.new(:name => 'test',
+             :screen_name => 'test-name',
+             :profile_image_url => 'test-url',
+             :spell => nil).save!
   end
 
   describe "show" do
@@ -26,6 +30,16 @@ describe Api::V1::UserController do
     context "api_keyが不一致" do
       before {
         get :show, :api_key => "peropero", :format => 'json'
+      }
+      subject { response }
+      its(:response_code) { should == 403 }
+      its(:body) { should have_json("/status[text() = 'error']") }
+      its(:body) { should have_json("/error[text() = 'user not found']") }
+    end
+
+    context "without api_key" do
+      before {
+        get :show, :api_key => nil, :format => 'json'
       }
       subject { response }
       its(:response_code) { should == 403 }
@@ -58,7 +72,7 @@ describe Api::V1::UserController do
         devices = mock 'devices'
         devices.stub(:where => [mock('device')])
         user.stub(:save => false, :devices => devices, :to_json => '')
-        User.stub(:where => [user])
+        controller.stub(:current_user) { user }
         post :add_device, :api_key => @user.spell, :format => 'json', :device => 'device_id'
       }
       subject { response }

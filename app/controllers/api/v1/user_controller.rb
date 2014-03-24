@@ -3,10 +3,13 @@ module Api
   module V1
     class UserController < ApplicationController
       include ApiHelper
+
+      before_filter :check_spell
+
       def show
-        users = User.where(:spell => params[:api_key])
-        if users.first
-          render :json => users.first.to_json
+        user = current_user
+        if user
+          render :json => user.to_json
           return
         end
         render_error 'user not found', 403
@@ -42,7 +45,7 @@ module Api
 
       private
       def manage_device(&proc)
-        user = User.where(:spell => params[:api_key]).first
+        user = current_user
         unless user
           render_error 'user not found', 403
           return

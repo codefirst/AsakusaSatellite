@@ -31,16 +31,18 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
       device.device_type.nil? or device.device_type == 'iphone'
     end
 
-    iphones.to_a.map{|iphone|
-      APNS::Notification.new(iphone.name,
-        :alert => text,
-        :sound => 'default',
-        :other => {
-          :id => room.id
-        })
-    }.tap{|xs|
-      APNS.send_notifications xs
-    }
+    AsakusaSatellite::AsyncRunner.run do
+      iphones.to_a.map{|iphone|
+        APNS::Notification.new(iphone.name,
+          :alert => text,
+          :sound => 'default',
+          :other => {
+            :id => room.id
+          })
+      }.tap{|xs|
+        APNS.send_notifications xs
+      }
+    end
   rescue => e
     Rails.logger.error e
   end

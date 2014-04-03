@@ -19,19 +19,21 @@ class AsakusaSatellite::Hook::ASAndroidNotifier < AsakusaSatellite::Hook::Listen
       device.device_type == 'android'
     }
 
-    android.to_a.map{|device|
-      { :registration_id => device.name,
-        :data => {
-          :message => text,
-          :id => room.id
+    AsakusaSatellite::AsyncRunner.run do
+      android.to_a.map{|device|
+        { :registration_id => device.name,
+          :data => {
+            :message => text,
+            :id => room.id
+          }
         }
+      }.tap{|xs|
+        C2DM.send_notifications(ENV["ANDROID_MAIL_ADDRESS"],
+          ENV["ANDROID_PASSWORD"],
+          xs,
+          ENV["ANDROID_APPLICATION_NAME"])
       }
-    }.tap{|xs|
-      C2DM.send_notifications(ENV["ANDROID_MAIL_ADDRESS"],
-        ENV["ANDROID_PASSWORD"],
-        xs,
-        ENV["ANDROID_APPLICATION_NAME"])
-    }
+    end
 
   end
 

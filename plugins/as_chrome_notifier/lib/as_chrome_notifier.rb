@@ -6,10 +6,12 @@ class ChromeNotifierListener < AsakusaSatellite::Hook::Listener
     message = context[:message]
     room = context[:room]
 
-    room.owner_and_members.each do |member|
-      member.devices.each do |device|
-        if device.device_type == "chrome" and device.name
-          Chrome.send(device.name, message.id)
+    AsakusaSatellite::AsyncRunner.run do
+      room.owner_and_members.each do |member|
+        member.devices.each do |device|
+          if device.device_type == "chrome" and device.name
+            Chrome.send(device.name, message.id)
+          end
         end
       end
     end

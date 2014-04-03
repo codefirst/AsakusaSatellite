@@ -32,19 +32,21 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
     end
 
     AsakusaSatellite::AsyncRunner.run do
-      iphones.to_a.map{|iphone|
-        APNS::Notification.new(iphone.name,
-          :alert => text,
-          :sound => 'default',
-          :other => {
-            :id => room.id
-          })
-      }.tap{|xs|
-        APNS.send_notifications xs
-      }
+      begin
+        iphones.to_a.map{|iphone|
+          APNS::Notification.new(iphone.name,
+            :alert => text,
+            :sound => 'default',
+            :other => {
+              :id => room.id
+            })
+        }.tap{|xs|
+          APNS.send_notifications xs
+        }
+      rescue => e
+        Rails.logger.error e
+      end
     end
-  rescue => e
-    Rails.logger.error e
   end
 
 end

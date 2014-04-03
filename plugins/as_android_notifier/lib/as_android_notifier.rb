@@ -3,6 +3,8 @@ require 'asakusa_satellite/hook'
 class AsakusaSatellite::Hook::ASAndroidNotifier < AsakusaSatellite::Hook::Listener
 
   def after_create_message(context)
+    return if ENV["ANDROID_MAIL_ADDRESS"].nil? or ENV["ANDROID_PASSWORD"].nil? or ENV["ANDROID_APPLICATION_NAME"].nil?
+
     message = context[:message]
     room = context[:room]
 
@@ -25,10 +27,10 @@ class AsakusaSatellite::Hook::ASAndroidNotifier < AsakusaSatellite::Hook::Listen
         }
       }
     }.tap{|xs|
-      C2DM.send_notifications(ENV[:ANDROID_MAIL_ADDRESS],
-        ENV[:ANDROID_PASSWORD],
+      C2DM.send_notifications(ENV["ANDROID_MAIL_ADDRESS"],
+        ENV["ANDROID_PASSWORD"],
         xs,
-        ENV[:ANDROID_APPLICATION_NAME])
+        ENV["ANDROID_APPLICATION_NAME"])
     }
 
   end

@@ -72,6 +72,7 @@ GEM
       eventmachine (>= 0.12.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
+    eventmachine (1.0.3-java)
     execjs (1.4.0)
       multi_json (~> 1.0)
     extlib (0.9.16)
@@ -271,6 +272,7 @@ DEPENDENCIES
   coderay
   compass-rails
   coveralls
+  eventmachine
   execjs
   faraday
   gemoji

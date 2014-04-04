@@ -37,12 +37,14 @@ module ChatHelper
              { :content => to_json(message, room) }
            end
 
-    begin
-      AsakusaSatellite::MessagePusher.trigger("as-#{room.id}",
-                                              "message_#{event}",
-                                              data.to_json)
-    rescue => e
-      Rails.logger.warn "fail to send message: #{e.inspect}"
+    AsakusaSatellite::AsyncRunner.run do
+      begin
+        AsakusaSatellite::MessagePusher.trigger("as-#{room.id}",
+                                                "message_#{event}",
+                                                data.to_json)
+      rescue => e
+        Rails.logger.warn "fail to send message: #{e.inspect}"
+      end
     end
 
     if event == :create then

@@ -6,6 +6,7 @@ gem 'rails', '3.2.17'
 gem 'mongoid', '2.5.1'
 
 # push notification
+gem 'eventmachine'
 gem 'pusher'
 gem 'socky-client', '>= 0.5.0.beta1'
 

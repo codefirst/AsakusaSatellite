@@ -99,7 +99,8 @@ class Message
     query = params[:text]
     rooms = (params[:rooms] || Room.all_live).select {|room| not room.deleted}
     rooms.map do |room|
-      condition = {:room_id => room._id, "$or" => [{:body => /#{query}/i}, {"attachments.filename" => /#{query}/i}]}
+      regexp = /#{Regexp.escape(query)}/i
+      condition = {:room_id => room._id, "$or" => [{:body => regexp}, {"attachments.filename" => regexp}]}
       condition.merge!({:_id.lt => params[:message_id]}) unless params[:message_id].blank?
       messages = Message.where(condition)
       messages = messages.limit(params[:limit]) if params[:limit]

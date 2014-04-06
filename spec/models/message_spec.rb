@@ -144,6 +144,15 @@ describe Message do
         it_should_behave_like 'メッセージ有'
       end
     end
+
+    context "with Regexp meta characters" do
+      context "for (" do
+        before { @result = Message.find_by_text(:text => "(") }
+        subject { @result }
+        it { should have(2).item }
+        it_should_behave_like 'メッセージ無'
+      end
+    end
   end
 
   describe "メッセージの保存・破棄に失敗する" do

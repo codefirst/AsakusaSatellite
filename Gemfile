@@ -27,6 +27,7 @@ gem 'json'
 
 group :development, :test do
   gem "rails3-generators"
+  gem 'quiet_assets'
 
   gem "rspec-rails", ">= 2.11.4"
   gem 'rcov', :platforms => :ruby_18

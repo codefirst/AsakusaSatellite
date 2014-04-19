@@ -12,6 +12,7 @@
         var target = this;
 
         var pusher = config.pusher;
+        var currentChannel = null;
 
         function fire(name, data){
             function isMessageEvent(name){
@@ -36,29 +37,37 @@
             }
         }
 
+        function subscribe(pusher, config) {
+            var channel = pusher.subscribe('as-' + config.room);
+            if (currentChannel != channel) {
+                 currentChannel = channel;
+                 channel.bind('message_create',
+                     function(obj){ fire('create', parse(obj).content); }
+                 );
+                 channel.bind('message_update',
+                     function(obj){ fire('update', parse(obj).content); }
+                 );
+                 channel.bind('message_delete',
+                     function(obj){ fire('delete', parse(obj).content); }
+                 );
+            }
+        }
+
         if (pusher == null) {
             return this;
         }
 
         pusher.connection.bind('connected',
-            function(e) { fire('connect', e); }
+            function(e) {
+                subscribe(pusher, config);
+                fire('connect', e);
+            }
         );
         pusher.connection.bind('failed',
             function(e){ fire('error', e); }
         );
         pusher.connection.bind('disconnected',
             function(e){ fire('disconnect', e); }
-        );
-
-        var channel = pusher.subscribe('as-' + config.room );
-        channel.bind('message_create',
-            function(obj){ fire('create', parse(obj).content); }
-        );
-        channel.bind('message_update',
-            function(obj){ fire('update', parse(obj).content); }
-        );
-        channel.bind('message_delete',
-            function(obj){ fire('delete', parse(obj).content); }
         );
 
         return this;

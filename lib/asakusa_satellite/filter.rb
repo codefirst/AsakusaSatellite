@@ -33,6 +33,11 @@ module AsakusaSatellite
     end
     private :children
 
+    def escapeText(str)
+      REXML::Text::normalize(str || '')
+    end
+    private :escapeText
+
     def process(message, room)
       all_process ||= @filter_config.filters.map{|c|
         @plugins.find{|p|
@@ -42,8 +47,8 @@ module AsakusaSatellite
 
       # process order
       # 1. process_all for all lines
-      raw_lines = CGI.escapeHTML(message.body || "").split("\n")
-      lines = all_process.reduce(raw_lines) do| lines, process|
+      raw_lines = escapeText(message.body).split("\n")
+      lines = all_process.reduce(raw_lines) do |lines, process|
         if process.respond_to? :process_all
           process.process_all(lines, :message => message, :room => room)
         else
@@ -53,11 +58,11 @@ module AsakusaSatellite
 
       # 2. process for each text node
       body = lines.to_a.join("<br />")
-      doc  = all_process.reduce(REXML::Document.new "<as>#{body}</as>") do|doc, process|
+      doc  = all_process.reduce(REXML::Document.new "<as>#{body}</as>") do |doc, process|
         if process.respond_to? :process
-          doc.each_element('/as/text()').each do|node|
+          doc.each_element('/as/text()').each do |node|
             s = process.process(node.to_s, :message => message, :room => room)
-            children(REXML::Document.new("<as>#{s}</as>")).each do|x|
+            children(REXML::Document.new("<as>#{s}</as>")).each do |x|
               node.parent.insert_before node, x
             end
             node.remove
@@ -68,8 +73,8 @@ module AsakusaSatellite
 
       # hack for some browser.
       # Convert <iframe /> to <iframe></iframe>
-      %w(iframe script div).each do|name|
-        doc.each_element("//#{name}") do|node|
+      %w(iframe script div).each do |name|
+        doc.each_element("//#{name}") do |node|
           node << REXML::Text.new('')
         end
       end
@@ -77,7 +82,7 @@ module AsakusaSatellite
       children(doc).join
     rescue => e
       Rails.logger.error e
-      message.body
+      escapeText(message.body)
     end
 
     def add_filter(klass, config)
@@ -88,6 +93,6 @@ module AsakusaSatellite
       @filter_config.filters.find { |c| c['name'] == name }
     end
 
-    module_function :initialize!, :process, :add_filter, :[], :children
+    module_function :initialize!, :process, :add_filter, :[], :children, :escapeText
   end
 end

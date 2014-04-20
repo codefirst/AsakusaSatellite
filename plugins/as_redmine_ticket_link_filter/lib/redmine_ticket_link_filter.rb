@@ -7,6 +7,7 @@ class AsakusaSatellite::Filter::RedmineTicketLinkFilter < AsakusaSatellite::Filt
   def process(line, opts={})
     room = opts[:room]
     info = room.yaml[:redmine_ticket]
+    return line if info.blank?
     line.gsub(/#(\d+)/) {|id|
       ticket $1, id, info
     }
@@ -24,7 +25,7 @@ class AsakusaSatellite::Filter::RedmineTicketLinkFilter < AsakusaSatellite::Filt
       begin
         open(api.to_s) do|io|
           hash = JSON.parse(io.read)
-          subject = CGI::escapeHTML hash["issue"]["subject"]
+          subject = REXML::Text::normalize hash["issue"]["subject"]
           if subject.respond_to? :force_encoding
             subject.force_encoding 'utf-8'
           end

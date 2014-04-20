@@ -3,7 +3,7 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
 
   def process_all(lines, opts={})
     lang,*body = lines
-    content = CGI.unescapeHTML(body.join("\n"))
+    content = REXML::Text::unnormalize(body.join("\n"))
     case lang
     when "graphviz::","graph::"
       %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&amp;chl=#{CGI.escape content}" />)

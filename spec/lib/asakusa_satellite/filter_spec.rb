@@ -12,6 +12,12 @@ class ErrorFilter < AsakusaSatellite::Filter::Base
   end
 end
 
+class NumberFilter < AsakusaSatellite::Filter::Base
+  def process(text, opts={})
+    text.gsub('#','<strong>#</strong>')
+  end
+end
+
 describe AsakusaSatellite::Filter do
   make = lambda do|text|
     @room    = Room.new
@@ -38,13 +44,13 @@ describe AsakusaSatellite::Filter do
 
     describe 'apos string' do
       subject { make["'"] }
-      it { should == "&#39;" }
+      it { should == "&apos;" }
     end
   end
 
   describe "passing tags" do
     before do
-      CGI.stub(:escapeHTML){|x| x }
+      AsakusaSatellite::Filter.stub(:escapeText){|x| x }
     end
 
     describe 'filter text' do
@@ -99,13 +105,37 @@ describe AsakusaSatellite::Filter do
   end
 
   describe 'return "as is" when error occured' do
-    before do
-      AsakusaSatellite::Filter.initialize!([{'name' => 'error_filter'}])
-      AsakusaSatellite::Filter.add_filter ErrorFilter,{}
-    end
-    subject { AsakusaSatellite::Filter.process(Message.new(:body => 'text'), nil) }
+    context "without tags" do
+      before do
+        filter_config = AsakusaSatellite::Filter::FilterConfig.new([{'name' => 'error_filter'}])
+        AsakusaSatellite::Filter.initialize!(filter_config)
+        AsakusaSatellite::Filter.add_filter ErrorFilter,{}
+      end
+      subject { AsakusaSatellite::Filter.process(Message.new(:body => 'text'), nil) }
 
-    it { should == 'text' }
+      it { should == 'text' }
+    end
+    context "with tags" do
+      before do
+        filter_config = AsakusaSatellite::Filter::FilterConfig.new([{'name' => 'error_filter'}])
+        AsakusaSatellite::Filter.initialize!(filter_config)
+        AsakusaSatellite::Filter.add_filter ErrorFilter,{}
+      end
+      subject { AsakusaSatellite::Filter.process(Message.new(:body => '<script />'), nil) }
+
+      it { should == '&lt;script /&gt;' }
+    end
+  end
+
+  describe 'valid escaping' do
+    before do
+      filter_config = AsakusaSatellite::Filter::FilterConfig.new([{'name' => 'number_filter'}])
+      AsakusaSatellite::Filter.initialize!(filter_config)
+      AsakusaSatellite::Filter.add_filter NumberFilter,{}
+    end
+    subject { AsakusaSatellite::Filter.process(Message.new(:body => "'#"), nil) }
+
+    it { should == '&apos;<strong>#</strong>' }
   end
 
 end

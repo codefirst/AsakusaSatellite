@@ -8,7 +8,7 @@ describe AsakusaSatellite::MessagePusher do
       @pusher = AsakusaSatellite::MessagePusher::Pusher.new(opt)
     }
     subject { @pusher }
-    its (:jsFiles) { should == ['https://d3dy5gmtp8yhk7.cloudfront.net/1.9/pusher.min.js'] }
+    its (:jsFiles) { should == ['https://d3dy5gmtp8yhk7.cloudfront.net/2.2/pusher.min.js'] }
     its (:jsClass) { should == "new Pusher('API_KEY')" }
   end
 

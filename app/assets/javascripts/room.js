@@ -84,11 +84,15 @@ $(function() {
     $('form.inputarea').bind('submit', function(e){
         var textcompleting = $(".dropdown-menu").is(":visible");
         if (!textcompleting) {
+            var message = $('textarea#message').val();
+            if (message == '') {
+               return;
+            }
             if (connected) {
                 e.preventDefault();
                 jQuery.post(AsakusaSatellite.url.create, {
                     'room_id' : AsakusaSatellite.current.room,
-                    'message' : $('textarea#message').val()
+                    'message' : message
                 });
                 $('textarea#message').val('');
             } else if (e.target == $('textarea#message').get(0)) {

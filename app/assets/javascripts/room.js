@@ -86,7 +86,7 @@ $(function() {
         if (!textcompleting) {
             var message = $('textarea#message').val();
             if (message == '') {
-               return;
+                return;
             }
             if (connected) {
                 e.preventDefault();

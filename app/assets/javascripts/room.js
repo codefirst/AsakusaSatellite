@@ -85,7 +85,7 @@ $(function() {
         var textcompleting = $(".dropdown-menu").is(":visible");
         if (!textcompleting) {
             var message = $('textarea#message').val();
-            if (message == '') {
+            if (message == '' || message == null) {
                 return;
             }
             if (connected) {

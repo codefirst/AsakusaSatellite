@@ -3,6 +3,7 @@
  =form_for :account, :url => {:controller => :account} do |form|
   %fieldset
    %legend= t(:your_secret_key)
-   =text_field :account, :secret_key, :class => :text, :value => current_user.spell
-   =submit_tag t(:generate), :class => "submit red button large"
+   .form-inline
+    =text_field :account, :secret_key, :class => :text, :value => current_user.spell
+    =submit_tag t(:generate), :class => "submit red button large"
   =raw(call_hook :account_setting_item)

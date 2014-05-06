@@ -2,10 +2,10 @@
  %fieldset#as_notification_setting
   %legend Desktop notification
   =submit_tag t(:desktop_notification_on), {:id => 'dn-button', :class => "submit red button large"}
-  .set-notification-time
+  .set-notification-time.form-inline
    %label= t(:notification_time_in_second)
    =text_field_tag '', '', {:class => :text, :id => 'notification-time', :placeholder => t(:second)}
-   %input{:type => 'submit', :id => 'set-notification-time-button', :value => t(:set)}
+   %input{:type => 'submit', :class => 'submit red button', :id => 'set-notification-time-button', :value => t(:set)}
 
   .rooms{:style => 'display: none;'}
    %h5 Settings for each rooms

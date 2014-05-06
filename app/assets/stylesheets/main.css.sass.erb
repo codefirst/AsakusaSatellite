@@ -370,12 +370,16 @@ form.inputarea
 .red.button:hover
   :background-color #cf2525
 
-.gray.button, .gray.button:visited
+.gray.button, .gray.button:visited, .gray.button:hover
   :background-color #969696
+.gray.button:disabled
   :cursor default
-.gray.button:hover
-  :background-color #969696
-  :cursor default
+
+.form-inline
+  input, label, button
+    :display inline-block
+    :margin-bottom 0
+    :vertical-align middle
 
 .contextual
   :float right

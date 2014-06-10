@@ -33,7 +33,7 @@ class LoginController < ApplicationController
       session.delete :cached_current_user
       session.delete :current_user_id
     end
-    redirect_to request.referer
+    redirect_to(request.referer || root_path)
   end
 
   def failure

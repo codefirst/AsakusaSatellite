@@ -11,14 +11,25 @@ describe LoginController do
 
   }
   context "ログアウト後" do
-    before do
-      @user = User.new.tap{|user| user.save! }
-      session[:current_user_id] = @user.id
-      request.stub(:referer) { 'http://localhost' }
-      post :logout
+    context "referer is nil" do
+      before do
+        @user = User.new.tap{|user| user.save! }
+        session[:current_user_id] = @user.id
+        post :logout
+      end
+      subject { response }
+      it { should redirect_to root_path }
     end
-    subject { session }
-    its([:current_user_id]) { should be_nil }
+    context "referer is not nil" do
+      before do
+        @user = User.new.tap{|user| user.save! }
+        session[:current_user_id] = @user.id
+        request.stub(:referer) { 'http://localhost' }
+        post :logout
+      end
+      subject { session }
+      its([:current_user_id]) { should be_nil }
+    end
   end
 
   context "callback" do

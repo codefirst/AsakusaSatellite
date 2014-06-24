@@ -6,23 +6,20 @@ class Device
   field :device_type
   embedded_in :User, :inverse_of => :devices
 
-  @@after_save_procs = []
-  def self.add_after_save(proc)
-    @@after_save_procs << proc
+  def self.register_callback(event)
+    class_eval <<-EOS
+      @@#{event.to_s}_procs = []
+      def self.add_#{event.to_s}(proc)
+        @@#{event.to_s}_procs << proc
+      end
+      #{event.to_s} do |device|
+        @@#{event.to_s}_procs.each do |proc|
+          proc.call(device)
+        end
+      end
+    EOS
   end
-  after_save do |device|
-    @@after_save_procs.each do |proc|
-      proc.call(device)
-    end
-  end
+  register_callback :after_save
+  register_callback :after_destroy
 
-  @@after_destory_procs = []
-  def self.add_after_destroy(proc)
-    @@after_destory_procs << proc
-  end
-  after_destroy do |device|
-    @@after_destory_procs.each do |proc|
-      proc.call(device)
-    end
-  end
 end

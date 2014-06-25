@@ -17,7 +17,7 @@ module AsakusaSatellite
           content = ''
         end
 
-        open(PEM_FILE, 'w') { |f| f.write(content) }
+        File.write(PEM_FILE, content)
 
         APNS.pem = PEM_FILE
         APNS.port = 2195

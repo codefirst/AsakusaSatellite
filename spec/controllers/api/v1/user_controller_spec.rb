@@ -48,6 +48,32 @@ describe Api::V1::UserController do
     end
   end
 
+  describe "update" do
+    context "名前の変更" do
+      before {
+        post :update, :api_key => @user.spell, :format => 'json', :name => "modified name"
+      }
+      subject { User.first(:conditions => {:_id => @user.id }).name }
+      it { should == "modified name" }
+    end
+
+    context "アイコンの変更" do
+      before {
+        post :update, :api_key => @user.spell, :format => 'json', :profile_image_url => "http://example.com/somepic.jpg"
+      }
+      subject { User.first(:conditions => {:_id => @user.id }).profile_image_url }
+      it { should == "http://example.com/somepic.jpg" }
+    end
+
+    context "存在しないパラメータの変更" do
+      before {
+        post :update, :api_key => @user.spell, :format => 'json', :invalid_param => "evil value"
+      }
+      subject { User.first(:conditions => {:_id => @user.id }) }
+      it { should_not respond_to :invalid_param }
+    end
+  end
+
   describe "add_device" do
     context "api_keyが一致" do
       before {

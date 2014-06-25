@@ -16,14 +16,7 @@ module Api
       end
 
       def update
-        def add(map, key)
-          map[key] = params[key] if params[key]
-        end
-
-        attributes = {}
-        add(attributes, :name)
-        add(attributes, :profile_image_url)
-
+        attributes = params.slice(:name,:profile_image_url)
         unless update_profile(attributes)
           return_error 'cannnot update user data' and return
         end
@@ -62,7 +55,7 @@ module Api
 
       def update_profile(profile_info)
         user = User.first(:conditions => {:_id => current_user.id})
-        profile_info.each {|k, v| user.update_attributes(profile_info)}
+        user.update_attributes(profile_info)
         user.save
       end
 

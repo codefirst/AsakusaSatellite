@@ -1,24 +1,8 @@
-#! /opt/local/bin/ruby -w
-# -*- mode:ruby; encoding:utf-8 -*-
-require 'base64'
-
-#APNS.host = 'gateway.push.apple.com'
-PEM_FILE = File.dirname(__FILE__) + '/../../../../tmp/apns-sandbox-cert.pem'
-
-pem = ENV['PEM']
-
-if pem
-   content = Base64.decode64(pem.gsub('\n', "\n"))
-   content.force_encoding('utf-8') rescue content # TODO remove me
-else
-   warn "Set ENV['PEM'] for Notification"
-   content = ''
+instance = AsakusaSatellite::APNService.instance
+Device.add_after_save do |device|
+  instance.register(device)
 end
-
-open(PEM_FILE, 'w') do |f|
-   f.write(content)
+Device.add_after_destroy do |device|
+  instance.unregister(device)
 end
-
-APNS.pem = PEM_FILE
-APNS.port = 2195
 

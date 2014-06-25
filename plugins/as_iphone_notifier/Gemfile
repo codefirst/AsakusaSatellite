@@ -1,2 +1,2 @@
 gem 'apns'
-
+gem 'zero_push'

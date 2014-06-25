@@ -23,7 +23,7 @@ describe Device do
                             :device_type => 'android')
         user.devices = [device]
         @saved = nil
-        Device.add_after_save(lambda { |device| @saved = device })
+        Device.add_after_save { |device| @saved = device }
         device.save!
       end
       subject { @saved }
@@ -39,7 +39,7 @@ describe Device do
         user.save!
 
         @destroyed = nil
-        Device.add_after_destroy(lambda { |device| @destroyed = device })
+        Device.add_after_destroy { |device| @destroyed = device }
         user.devices.destroy
       end
       subject { @destroyed }

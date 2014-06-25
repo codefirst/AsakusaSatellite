@@ -34,6 +34,6 @@ module AsakusaSatellite
           APNS.send_notifications notification
         }
       end
-    end
+    end if ENV['PEM']
   end
 end

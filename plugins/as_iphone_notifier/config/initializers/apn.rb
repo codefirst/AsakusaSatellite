@@ -1,8 +1,8 @@
 instance = AsakusaSatellite::APNService.instance
-Device.add_after_save(lambda { |device|
+Device.add_after_save do |device|
   instance.register(device)
-})
-Device.add_after_destroy(lambda { |device|
+end
+Device.add_after_destroy do |device|
   instance.unregister(device)
-})
+end
 

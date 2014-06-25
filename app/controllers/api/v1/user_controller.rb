@@ -15,6 +15,18 @@ module Api
         render_error 'user not found', 403
       end
 
+      def update
+        attributes = {}
+        params.slice(:name,:profile_image_url).each do |k,v|
+          attributes[k] = v.to_s
+        end
+
+        unless update_profile(attributes)
+          return_error 'cannnot update user data' and return
+        end
+        render :json => {:status => 'ok'}
+      end
+
       def add_device
         manage_device do |user|
           if user.devices.where(:name => params[:device]).empty?
@@ -44,6 +56,13 @@ module Api
       end
 
       private
+
+      def update_profile(profile_info)
+        user = User.first(:conditions => {:_id => current_user.id})
+        user.update_attributes(profile_info)
+        user.save
+      end
+
       def manage_device(&proc)
         user = current_user
         unless user

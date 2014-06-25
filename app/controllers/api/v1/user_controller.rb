@@ -16,7 +16,11 @@ module Api
       end
 
       def update
-        attributes = params.slice(:name,:profile_image_url)
+        attributes = {}
+        params.slice(:name,:profile_image_url).each do |k,v|
+          attributes[k] = v.to_s
+        end
+
         unless update_profile(attributes)
           return_error 'cannnot update user data' and return
         end

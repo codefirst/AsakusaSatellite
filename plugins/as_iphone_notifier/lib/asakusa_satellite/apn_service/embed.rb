@@ -23,7 +23,7 @@ module AsakusaSatellite
         APNS.port = 2195
       end
 
-      def send(device_tokens, room, text)
+      def send_message(device_tokens, room, text)
         device_tokens.map { |device_token|
           APNS::Notification.new(device_token,
             :alert => text,

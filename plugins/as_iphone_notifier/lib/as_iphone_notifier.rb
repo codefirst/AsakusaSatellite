@@ -35,7 +35,7 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
 
     AsakusaSatellite::AsyncRunner.run do
       begin
-        apn_service.send(device_tokens, room, text)
+        apn_service.send_message(device_tokens, room, text)
       rescue => e
         Rails.logger.error e
       end

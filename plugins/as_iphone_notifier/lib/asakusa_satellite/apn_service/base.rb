@@ -19,7 +19,7 @@ module AsakusaSatellite
 
       def register(device); end
       def unregister(device); end
-      def send(device_tokens, room, text); end
+      def send_message(device_tokens, room, text); end
     end
 
     def self.instance

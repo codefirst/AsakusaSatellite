@@ -31,6 +31,6 @@ module AsakusaSatellite
       def normalize(token)
         token.gsub(/[\s|<|>]/, '')
       end
-    end if ENV['ZEROPUSH_TOKEN']
+    end if ENV['ZEROPUSH_TOKEN'] and defined?(::ZeroPush)
   end
 end

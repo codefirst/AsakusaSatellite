@@ -20,7 +20,7 @@ module AsakusaSatellite
 
       def send_message(device_tokens, room, text)
         ::ZeroPush.notify({
-          :device_tokens => device_tokens.map { |token| normalize(token) },
+          :device_tokens => device_tokens.map(&method(:normalize)),
           :alert => text,
           :sound => "default",
           :info  => { :id => room.id }

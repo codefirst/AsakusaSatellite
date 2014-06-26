@@ -1,2 +1,2 @@
 gem 'apns'
-
+gem 'zero_push', :platforms => [:ruby_19, :ruby_20, :ruby_21]

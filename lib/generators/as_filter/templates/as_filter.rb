@@ -1,4 +1,4 @@
-class <%= class_name %>Filter < AsakusaSatellite::Filter::Base
+class AsakusaSatellite::Filter::<%= class_name %>Filter < AsakusaSatellite::Filter::Base
 
   def process(text, opts={})
     # generated method

@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
 require '<%= file_name %>_filter'
 
-describe <%= class_name %>Filter do
+describe AsakusaSatellite::Filter::<%= class_name %>Filter do
   before do
-    @filter = <%= class_name %>Filter.new({})
+    @filter = AsakusaSatellite::Filter::<%= class_name %>Filter.new({})
   end
 
   it 'enables process' do

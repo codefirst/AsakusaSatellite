@@ -1,0 +1,15 @@
+%fieldset
+ %legend Your Profile
+ %div
+  %h3 Default Profile
+  %img{:src => current_user.profile_image_url}
+  %span #{current_user.name}
+
+ %div{:style => "margin-bottom: 50px;"}
+  %h3 Private Rooms
+  - (@rooms[:owner_rooms] + @rooms[:member_rooms]).each do |room|
+   = render :partial => "input", :locals => {:room => room}
+ %div{:style => "margin-bottom: 50px;"}
+  %h3 Public Rooms
+  - @rooms[:public_rooms].each do |room|
+   = render :partial => "input", :locals => {:room => room}

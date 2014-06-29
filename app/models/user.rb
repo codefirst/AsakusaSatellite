@@ -8,6 +8,7 @@ class User
   field :profile_image_url, :default => "data:image/gif;base64,R0lGODlhEAAQAMQfAFWApnCexR4xU1SApaJ3SlB5oSg9ZrOVcy1HcURok/Lo3iM2XO/i1lJ8o2eVu011ncmbdSc8Zc6lg4212DZTgC5Hcmh3f8OUaDhWg7F2RYlhMunXxqrQ8n6s1f///////yH5BAEAAB8ALAAAAAAQABAAAAVz4CeOXumNKOpprHampAZltAt/q0Tvdrpmm+Am01MRGJpgkvBSXRSHYPTSJFkuws0FU8UBOJiLeAtuer6dDmaN6Uw4iNeZk653HIFORD7gFOhpARwGHQJ8foAdgoSGJA1/HJGRC40qHg8JGBQVe10kJiUpIQA7"
   field :spell
   embeds_many :devices
+  embeds_many :user_profiles
   has_many :rooms, :as => :own_rooms
   has_and_belongs_to_many :rooms, :class_name => 'Room'
 
@@ -17,6 +18,14 @@ class User
       :name => self.name,
       :screen_name => self.screen_name,
       :profile_image_url => self.profile_image_url,
+    }
+  end
+
+  def profile_for(room_id)
+    profile = self.user_profiles.where(:room_id => room_id)[0]
+    {
+      :name => profile.try(:name) || self.name,
+      :profile_image_url => profile.try(:profile_image_url) || self.profile_image_url
     }
   end
 

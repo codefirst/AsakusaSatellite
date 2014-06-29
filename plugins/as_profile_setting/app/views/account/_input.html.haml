@@ -1,0 +1,26 @@
+=form_for :account, :url => {:controller => :profile_setting, :action => :update} do |form|
+ =hidden_field :room, :id, {:value => room.id}
+ %div
+  %h4 #{room.title}
+  %div
+   - room.owner_and_members.each do |user|
+    = image_tag(user.profile_for(room.id)[:profile_image_url], :title => user.screen_name, :class => "profile")
+
+  %div
+   %div{:style => "float: left; width: 10%;"}
+    =image_tag(current_user.profile_for(room.id)[:profile_image_url], :title => current_user.screen_name, :style => "width: 100%;")
+   %div{:style => "margin-left: 10%; width: 90%;"}
+
+    %div
+     %div{:style => "float: left; width: 50px;"}
+      %span Icon
+     %div{:style => "margin-left: 80px;"}
+      =text_field :account, :image_url, :class => :text, :value => current_user.profile_for(room.id)[:profile_image_url], :style => "width: 100%; margin-left: 0px;"
+
+    %div
+     %div{:style => "float: left; width: 50px;"}
+      %span Name
+     %div{:style => "margin-left: 80px;"}
+      = text_field :account, :name, :class => :text, :value => current_user.profile_for(room.id)[:name], :style => "width: 100%; margin-left: 0px;"
+
+ =submit_tag "Update", :class => "submit red button large"

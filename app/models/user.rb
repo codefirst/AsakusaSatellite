@@ -30,6 +30,22 @@ class User
     }
   end
 
+  def find_or_create_profile_for(room_id)
+    self.user_profiles ||= []
+    room = Room.where(:_id => room_id)[0]
+    self.user_profiles.find_or_create_by(:room_id => room._id) unless room.nil?
+  end
+
+  def update_profile_for(room_id, new_name, new_icon_url)
+    profile = find_or_create_profile_for(room_id)
+    profile.update_attributes(:name => new_name, :profile_image_url => new_icon_url) if profile
+  end
+
+  def delete_profile_for(room_id)
+    room = Room.where(:_id => room_id)[0]
+    self.user_profiles.where(:room_id => room._id).delete unless room.nil?
+  end
+
   def register_spell
     self.spell = generate_spell
     self.save

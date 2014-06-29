@@ -14,11 +14,7 @@ class AccountController < ApplicationController
     end
 
     @devices = current_user.devices
-    @rooms = {
-      :public_rooms => Room.public_rooms,
-      :member_rooms => Room.member_rooms(current_user),
-      :owner_rooms  => Room.owner_rooms(current_user)
-    }
+    @rooms = Room.all_live(current_user)
   end
 
 end

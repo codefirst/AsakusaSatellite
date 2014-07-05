@@ -3,8 +3,6 @@
 module AsakusaSatellite
   module APNService
     class PushIt < Base
-      def initialize
-      end
 
       def send_message(device_tokens, room, text)
         body = json(device_tokens, room, text).to_json

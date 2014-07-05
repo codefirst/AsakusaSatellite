@@ -23,4 +23,5 @@
      %div{:style => "margin-left: 80px;"}
       = text_field :account, :name, :class => :text, :value => current_user.profile_for(room.id)[:name], :style => "width: 100%; margin-left: 0px;"
 
- =submit_tag "Update", :class => "submit red button large"
+ =submit_tag "Remove", :name => "remove", :class => "submit red button middle", :style => "margin-right: 10px;"
+ =submit_tag "Update", :name => "update", :class => "submit red button middle"

@@ -126,6 +126,31 @@ describe ProfileSettingController do
               end
             end
           end
+
+          describe "1つめのプロファイルを削除する" do
+            before {
+              session[:current_user_id] = @user.id
+              put(:update,
+                  :room => {"id" => @room1._id},
+                  :remove =>  "Remove")
+            }
+
+            describe "プロファイルを追加する" do
+              before { @modified_user = User.where(:_id => @user._id).first }
+
+              describe "成功する" do
+                subject { response }
+                it {
+                  should redirect_to :controller => 'account'
+                }
+              end
+
+              describe "削除される" do
+                subject { @modified_user.user_profiles.length }
+                it { should be 1 }
+              end
+            end
+          end
         end
       end
     end

@@ -14,13 +14,19 @@ class Message
   end
 
   def to_hash
+    if self.user
+      profile = self.user.profile_for(self.room._id)
+    else
+      profile = {:name => "Anonymous User", :profile_image_url => ""}
+    end
+
     {
       'id'   => self.id,
       'body' => self.body,
       'html_body' => self.html_body(self.room),
-      'name' => (self.user ? self.user.name : 'Anonymous User'),
+      'name' => profile[:name],
       'screen_name' => (self.user ? self.user.screen_name : 'Anonymous User'),
-      'profile_image_url' => (self.user ? self.user.profile_image_url : ''),
+      'profile_image_url' => profile[:profile_image_url],
       'created_at' => self.created_at.to_s,
       'room'       => self.room.to_json,
       'attachment' => self.attachments && self.attachments.map {|a| a.to_hash}

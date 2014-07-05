@@ -5,11 +5,17 @@
   %img{:src => current_user.profile_image_url}
   %span #{current_user.name}
 
- %div{:style => "margin-bottom: 50px;"}
-  %h3 Private Rooms
-  - (@rooms[:owner_rooms] + @rooms[:member_rooms]).each do |room|
-   = render :partial => "input", :locals => {:room => room}
- %div{:style => "margin-bottom: 50px;"}
-  %h3 Public Rooms
-  - @rooms[:public_rooms].each do |room|
-   = render :partial => "input", :locals => {:room => room}
+ %div
+  - customized_room_ids = current_user.user_profiles.map(&:room_id)
+  - customized_rooms = @rooms.select {|room| customized_room_ids.include?(room._id)}
+  - default_rooms = @rooms.select {|room| not customized_room_ids.include?(room._id)}
+
+  %div
+   = form_for :account, :url => {:controller => :profile_setting, :action => :create} do
+    .form-inline
+     = select :new_room, :room_id, default_rooms.map{|room| [room.title, room._id]}
+     = submit_tag t(:generate), :class => "submit red button middle"
+
+  %div{:style => "margin-bottom: 50px;"}
+   - customized_rooms.each do |room|
+    = render :partial => "input", :locals => {:room => room}

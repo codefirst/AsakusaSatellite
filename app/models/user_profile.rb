@@ -5,4 +5,13 @@ class UserProfile
   field :name
   field :profile_image_url
   embedded_in :User, :inverse_of => :user_profiles
+
+  def to_json
+    {
+      :id => self.id,
+      :room_id => self.room_id,
+      :name => self.name,
+      :profile_image_url => self.profile_image_url
+    }
+  end
 end

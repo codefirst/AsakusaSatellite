@@ -23,7 +23,7 @@ class User
   end
 
   def profile_for(room_id)
-    profile = self.user_profiles.where(:room_id => room_id)[0]
+    profile = self.user_profiles.where(:room_id => room_id).first
     {
       :name => profile.try(:name) || self.name,
       :profile_image_url => profile.try(:profile_image_url) || self.profile_image_url
@@ -32,7 +32,7 @@ class User
 
   def find_or_create_profile_for(room_id)
     self.user_profiles ||= []
-    room = Room.where(:_id => room_id)[0]
+    room = Room.where(:_id => room_id).first
     self.user_profiles.find_or_create_by(:room_id => room._id) unless room.nil?
   end
 
@@ -42,7 +42,7 @@ class User
   end
 
   def delete_profile_for(room_id)
-    room = Room.where(:_id => room_id)[0]
+    room = Room.where(:_id => room_id).first
     self.user_profiles.where(:room_id => room._id).delete unless room.nil?
   end
 

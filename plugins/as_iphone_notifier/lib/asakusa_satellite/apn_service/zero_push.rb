@@ -11,11 +11,11 @@ module AsakusaSatellite
       end
 
       def register(device)
-        ::ZeroPush.register(normalize(device.name))
+        ::ZeroPush.register(normalize(device.name)) if device.ios?
       end
 
       def unregister(device)
-        ::ZeroPush.unregister(normalize(device.name))
+        ::ZeroPush.unregister(normalize(device.name)) if device.ios?
       end
 
       def send_message(device_tokens, room, text)

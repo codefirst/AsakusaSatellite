@@ -6,6 +6,10 @@ class Device
   field :device_type
   embedded_in :User, :inverse_of => :devices
 
+  def ios?
+    device_type.nil? or device_type == "iphone"
+  end
+
   def self.register_callback(event)
     class_eval <<-EOS
       @@#{event.to_s}_procs = []

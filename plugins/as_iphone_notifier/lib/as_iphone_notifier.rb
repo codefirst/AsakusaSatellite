@@ -27,9 +27,8 @@ class AsakusaSatellite::Hook::ASIPhoneNotifier < AsakusaSatellite::Hook::Listene
       user.devices
     }.flatten
 
-    device_tokens = devices.select { |device|
-      device.device_type.nil? or device.device_type == 'iphone'
-    }.map(&:name)
+    device_tokens = devices.select(&:ios?).map(&:name)
+    return if device_tokens.empty?
 
     apn_service = AsakusaSatellite::APNService.instance
 

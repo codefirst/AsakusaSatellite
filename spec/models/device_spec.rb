@@ -45,5 +45,21 @@ describe Device do
       subject { @destroyed }
       it { should be }
     end
+
+    context "ios?" do
+      context 'nil' do
+        subject { Device.new(:device_type => nil) }
+        its(:ios?) { should be_true }
+      end
+      context 'iphone' do
+        subject { Device.new(:device_type => 'iphone') }
+        its(:ios?) { should be_true }
+      end
+      context 'android' do
+        subject { Device.new(:device_type => 'indroid') }
+        its(:ios?) { should be_false }
+      end
+    end
+
   end
 end

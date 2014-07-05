@@ -4,15 +4,12 @@ module AsakusaSatellite
   module APNService
     class PushIt < Base
       def initialize
-        uri = URI.parse(ENV['PUSH_IT_URL'])
-        @client = Net::HTTP.new(uri.host, uri.port)
-        @client.use_ssl = uri.scheme == 'https'
       end
 
       def send_message(device_tokens, room, text)
         body = json(device_tokens, room, text).to_json
         begin
-          @client.start do |connection|
+          client.start do |connection|
             connection.post("/message", body)
           end
         rescue Errno::ECONNREFUSED => e
@@ -21,6 +18,13 @@ module AsakusaSatellite
       end
 
       private
+
+      def client
+        uri = URI.parse(ENV['PUSH_IT_URL'])
+        client = Net::HTTP.new(uri.host, uri.port)
+        client.use_ssl = uri.scheme == 'https'
+        client
+      end
 
       def json(device_tokens, room, text)
         {

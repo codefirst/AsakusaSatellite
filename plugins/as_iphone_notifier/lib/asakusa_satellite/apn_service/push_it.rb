@@ -30,7 +30,7 @@ module AsakusaSatellite
               :alert => text,
               :sound => "default"
             },
-            :id => room.id
+            :id => room.id.to_s
           }
         }
       end

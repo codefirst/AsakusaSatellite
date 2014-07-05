@@ -23,7 +23,7 @@ module AsakusaSatellite
           :device_tokens => device_tokens.map(&method(:normalize)),
           :alert => text,
           :sound => "default",
-          :info  => { :id => room.id }
+          :info  => { :id => room.id.to_s }
         })
       end
 

@@ -28,7 +28,7 @@ module AsakusaSatellite
           APNS::Notification.new(device_token,
             :alert => text,
             :sound => 'default',
-            :other => { :id => room.id }
+            :other => { :id => room.id.to_s }
           )
         }.tap { |notification|
           APNS.send_notifications notification

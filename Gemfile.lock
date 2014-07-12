@@ -136,7 +136,7 @@ GEM
     multi_json (1.10.0)
     multi_xml (0.5.1)
     multipart-post (1.2.0)
-    newrelic_rpm (3.6.5.130)
+    newrelic_rpm (3.9.0.229)
     oauth (0.4.7)
     omniauth (1.1.4)
       hashie (>= 1.2, < 3)

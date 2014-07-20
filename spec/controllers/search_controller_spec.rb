@@ -90,6 +90,12 @@ describe SearchController do
       it { should be_nil }
     end
 
+    context "存在しない部屋" do
+      before { get :search_more, :search_message => 'foo', :room_id => 'not_exisiting_room_id'}
+      subject { response }
+      it { should redirect_to(:controller => 'chat', :action => 'index') }
+    end
+
     context "検索結果がある" do
       before do
         @room = mock

@@ -44,8 +44,8 @@ class SearchController < ApplicationController
       if @results.size > 0
         @messages = @results.first[:messages].reverse!
       end
+      render :template => 'chat/messages', :layout => false
     end
-    render :template => 'chat/messages', :layout => false
   end
 
   private

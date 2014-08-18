@@ -7,6 +7,9 @@ test:
   database: asakusa_satellite_test
 
 production:
+  # if uri is available, uri has priority
+  uri: <%= ENV['MONGODB_URI'] || ENV['MONGOHQ_URL'] || ENV['MONGOLAB_URI'] %>
+  # if uri is not available, use below configuration
   host: <%= ENV['MONGODB_HOST'] || 'localhost' %>
   port: <%= ENV['MONGODB_PORT'] || 27017 %>
   database: <%= ENV['MONGODB_DATABASE'] || 'asakusa_satellite_production' %>

@@ -37,9 +37,11 @@ module AsakusaSatellite
       secrets :secret
       def initialize(opt)
         super(opt)
-        ::Pusher.app_id = opt['app_id']
-        ::Pusher.key    = opt['key']
-        ::Pusher.secret = opt['secret']
+        unless ENV['PUSHER_URL']
+          ::Pusher.app_id = opt['app_id']
+          ::Pusher.key    = opt['key']
+          ::Pusher.secret = opt['secret']
+        end
       end
 
       def trigger(channel, event, data)
@@ -51,7 +53,7 @@ module AsakusaSatellite
       end
 
       def jsClass
-        key = @opt['key']
+        key = @opt['key'] || URI.parse(ENV['PUSHER_URL']).user
         "new Pusher('#{key}')"
       end
     end

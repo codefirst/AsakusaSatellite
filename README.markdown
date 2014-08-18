@@ -1,6 +1,8 @@
 AsakusaSatellite
 ===================
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 [![Build Status](https://secure.travis-ci.org/codefirst/AsakusaSatellite.png?branch=master)](http://travis-ci.org/codefirst/AsakusaSatellite) [![Code Climate](https://codeclimate.com/github/codefirst/AsakusaSatellite.png)](https://codeclimate.com/github/codefirst/AsakusaSatellite) [![Coverage Status](https://coveralls.io/repos/codefirst/AsakusaSatellite/badge.png?branch=master)](https://coveralls.io/r/codefirst/AsakusaSatellite) [![wercker status](https://app.wercker.com/status/b901326474567a915d89a93aed4b1ad5/s/ "wercker status")](https://app.wercker.com/project/bykey/b901326474567a915d89a93aed4b1ad5)
 
 Overview

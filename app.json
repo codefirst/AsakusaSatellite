@@ -1,0 +1,25 @@
+{
+  "name": "asakusa-satellite",
+  "description": "A realtime chat application for developers",
+  "repository": "https://github.com/codefirst/AsakusaSatellite/",
+  "logo": "https://raw.githubusercontent.com/codefirst/AsakusaSatellite/master/app/assets/images/logo.png",
+  "env": {
+    "FILTER_NAME": {
+      "description": "Filter file name",
+      "value": "filter"
+    },
+    "MESSAGE_PUSHER_ENGINE": {
+      "description": "Message pusher type",
+      "value": "pusher"
+    },
+    "QUOTEIT_URL": {
+      "description": "QuoteIt URL",
+      "value": "https://quoteit.herokuapp.com"
+    }
+  },
+  "addons": [
+    "pusher",
+    "mongohq"
+  ]
+}
+

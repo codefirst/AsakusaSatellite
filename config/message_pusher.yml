@@ -2,9 +2,9 @@ default: <%= ENV['MESSAGE_PUSHER_ENGINE'] || 'socky' %>
 
 engines:
  pusher:
-  app_id: <%= ENV['MESSAGE_PUSHER_PUSHER_APP_ID'] || 'your_app_id' %>
-  key:    <%= ENV['MESSAGE_PUSHER_PUSHER_KEY'] || 'your_key' %>
-  secret: <%= ENV['MESSAGE_PUSHER_PUSHER_SECRET'] || 'your_secret' %>
+  app_id: <%= ENV['MESSAGE_PUSHER_PUSHER_APP_ID'] %>
+  key:    <%= ENV['MESSAGE_PUSHER_PUSHER_KEY'] %>
+  secret: <%= ENV['MESSAGE_PUSHER_PUSHER_SECRET'] %>
  keima:
   url: <%= ENV['MESSAGE_PUSHER_KEIMA_URL'] || 'http://localhost:3001' %>
   key: <%= ENV['MESSAGE_PUSHER_KEIMA_KEY'] || '4e7c45a1a2cb660517000001' %>

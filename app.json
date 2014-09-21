@@ -16,7 +16,7 @@
       "description": "QuoteIt URL",
       "value": "https://quoteit.herokuapp.com"
     },
-    "SECRET_KEY_BASE": {
+    "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies",
       "generator": "secret"
     }

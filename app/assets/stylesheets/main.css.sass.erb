@@ -420,10 +420,9 @@ form.inputarea
   :color #0A0
 
 
-// for iPhone 4
-@media only screen and (max-device-width: 480px)
+@mixin smart-phone-css($width)
   .main
-    :width 300px
+    :width $width
     :margin 0
     @include box-shadow(0 0 0 #fff)
   .header
@@ -433,23 +432,23 @@ form.inputarea
   .footer
     :margin-top 10px
   .yield
-    :width 300px
+    :width $width
     :margin 0
   textarea.text
-    :width 275px
+    :width $width - 25px
     :margin 0
   #send
     :display none
   .message
     .thumbnail,.expand-image,.attachment
       img
-        :max-width 270px
-        :max-height 270px
+        :max-width $width - 30px
+        :max-height $width - 30px
         @include border-radius(5px)
         @include box-shadow(1px 1px 2px #999)
       video
-        :max-width 270px
-        :max-height 270px
+        :max-width $width - 30px
+        :max-height $width - 30px
         @include box-shadow(1px 1px 2px #999)
 
   .text
@@ -458,7 +457,7 @@ form.inputarea
     :margin-left 0
     :margin-right 0
   .room-list
-    :width 300px
+    :width $width
   .room-info
     :margin-top 0
     .left
@@ -468,10 +467,20 @@ form.inputarea
 
   .configure
     table.plugin-configure
-      :width 270px
+      :width $width - 30px
     .members
-      :width 270px
+      :width $width - 30px
       .add-member
         input.text
           :width 170px
+
+// for iPhone 4 or 5
+@media only screen and (max-device-width: 480px)
+  @include smart-phone-css(300px)
+// for iPhone 6
+@media only screen and (max-device-width: 667px)
+  @include smart-phone-css(358px)
+// for iPhone 6 Plus
+@media only screen and (max-device-width: 736px)
+  @include smart-phone-css(396px)
 

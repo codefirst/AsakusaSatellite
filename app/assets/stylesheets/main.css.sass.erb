@@ -475,12 +475,11 @@ form.inputarea
           :width 170px
 
 // for iPhone 4 or 5
-@media only screen and (max-device-width: 480px)
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px)
   @include smart-phone-css(300px)
 // for iPhone 6
-@media only screen and (max-device-width: 667px)
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px)
   @include smart-phone-css(358px)
 // for iPhone 6 Plus
-@media only screen and (max-device-width: 736px)
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px)
   @include smart-phone-css(396px)
-

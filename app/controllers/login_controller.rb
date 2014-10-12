@@ -37,6 +37,10 @@ class LoginController < ApplicationController
   end
 
   def failure
-    redirect_to :back, :alert => params[:message]
+    if request.env["HTTP_REFERER"]
+      redirect_to :back, :alert => params[:message]
+    else
+      redirect_to root_path, :alert => params[:message]
+    end
   end
 end

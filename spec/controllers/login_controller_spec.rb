@@ -42,4 +42,20 @@ describe LoginController do
     its(:screen_name) { should == 'nickname' }
     its(:profile_image_url) { should == 'http://example.com/a.jpg' }
   end
+
+  context "login/failure" do
+    context "access from other page" do
+      before do
+        request.env["HTTP_REFERER"] = "http://example.com"
+        get :failure
+      end
+      it { should redirect_to "http://example.com" }
+    end
+    context "access directly" do
+      before do
+        get :failure
+      end
+      it { should redirect_to root_path }
+    end
+  end
 end

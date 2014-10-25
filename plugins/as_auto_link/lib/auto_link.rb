@@ -1,6 +1,8 @@
-require 'uri'
+# -*- encoding: utf-8 -*-
 class AsakusaSatellite::Filter::AutoLink < AsakusaSatellite::Filter::Base
-   @@picture = []
+  REGEXP = /((https?):\/\/[^\s　]+)/
+
+  @@picture = []
   def self.picture(regexp, &f)
     @@picture << [ regexp, f ]
   end
@@ -14,7 +16,7 @@ class AsakusaSatellite::Filter::AutoLink < AsakusaSatellite::Filter::Base
   end
 
   def process(text, opts={})
-    text.gsub URI.regexp(%w[http https]) do|url|
+    text.gsub REGEXP do |url|
       link,image = any(@@picture) do| regexp, handle |
         if (m = regexp.match(url)) then
           handle[*m.captures]

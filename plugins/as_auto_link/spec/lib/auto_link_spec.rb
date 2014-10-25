@@ -16,8 +16,9 @@ describe AsakusaSatellite::Filter::AutoLink do
   end
 
   it "前後に文字があっても動作する" do
-    @filter.process('<div>ほげhttp://example.comほげ</div>').should have_xml("//a[@href='http://example.com']")
-    @filter.process('<div>ほげhttp://example.com/abcほげ</div>').should have_xml("//a[@href='http://example.com/abc']")
+    @filter.process('ほげhttp://example.com').should have_xml("//a[@href='http://example.com']")
+    @filter.process('ほげhttp://example.com/abc').should have_xml("//a[@href='http://example.com/abc']")
+    @filter.process('ほげhttp://example.com/abc/efg ふが').should have_xml("//a[@href='http://example.com/abc/efg']")
   end
 
   describe 'twitpicを展開する' do

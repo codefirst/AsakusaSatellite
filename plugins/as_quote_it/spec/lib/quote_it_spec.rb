@@ -7,7 +7,7 @@ describe AsakusaSatellite::Filter::QuoteIt do
       @filter = AsakusaSatellite::Filter::QuoteIt.new({})
       io = StringIO.new "<a href='http://www.example.com/1.png'>1</a>"
 
-      @filter.stub!(:open).with("http://quoteit.heroku.com/clip.html?u=#{CGI.escape 'http://www.example.com/1'}").and_return(io)
+      @filter.stub!(:open).with("https://quoteit.herokuapp.com/clip.html?u=#{CGI.escape 'http://www.example.com/1'}").and_return(io)
     end
 
     describe "non url" do

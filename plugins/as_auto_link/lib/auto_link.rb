@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-require 'uri'
 class AsakusaSatellite::Filter::AutoLink < AsakusaSatellite::Filter::Base
   REGEXP = /((https?):\/\/[^\s　]+)/
 

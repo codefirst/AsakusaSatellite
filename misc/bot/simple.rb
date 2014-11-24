@@ -1,4 +1,4 @@
-#! /user/bin/env ruby
+#!/user/bin/env ruby
 # -*- mode:ruby; coding:utf-8 -*-
 
 # ------------------------------
@@ -6,13 +6,13 @@
 # ------------------------------
 
 # Get from http://$AS_ROOT/account/index
-ApiKey   = "YOUR_API_KEY"
+API_KEY = "YOUR_API_KEY"
 
 # EntryPoint
-EntryPoint = "http://localhost:3000/api/v1"
+ENTRY_POINT = "http://localhost:3000/api/v1"
 
 # ------------------------------
-require 'net/http'
+require 'net/https'
 
 if ARGV.size != 2 then
   puts "#{$0} <room_id> <message>"
@@ -20,10 +20,17 @@ if ARGV.size != 2 then
 end
 
 room_id, message = *ARGV
-uri = URI(EntryPoint)
+uri = URI(ENTRY_POINT)
 
-Net::HTTP.start(uri.host, uri.port) do| http |
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = uri.scheme == 'https'
+http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+http.start do |h|
   # post message
-  p http.post(uri.path + "/message",
-              "room_id=#{room_id}&message=#{message}&api_key=#{ApiKey}")
+  p h.post(uri.path + "/message", URI.encode_www_form({
+               room_id: room_id,
+               api_key: API_KEY,
+               message: message
+             }))
 end
+

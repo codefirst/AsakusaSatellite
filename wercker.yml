@@ -4,7 +4,7 @@ services:
 build:
     steps:
         - rvm-use:
-            version: ruby-2.1.0
+            version: ruby-2.1.5
         - bundle-install
         - script:
             name: echo ruby information

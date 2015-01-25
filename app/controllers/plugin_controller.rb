@@ -9,7 +9,11 @@ class PluginController < ApplicationController
     content_type  = Rack::Mime.mime_type(File.extname filename)
 
     begin
-      content = File.read absolute_path
+      content = if File.exist?(absolute_path.to_s + ".erb")
+        ERB.new(File.read(absolute_path.to_s + ".erb")).result
+      else
+        File.read(absolute_path)
+      end
       render :text => content, :content_type => content_type
     rescue
       render :nothing => true, :status => 404

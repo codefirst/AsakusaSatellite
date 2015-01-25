@@ -3,6 +3,8 @@ services:
   - wercker/mongodb
 build:
     steps:
+        - rvm-use:
+            version: ruby-2.1.0
         - bundle-install
         - script:
             name: echo ruby information

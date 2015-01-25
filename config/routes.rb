@@ -35,7 +35,7 @@ AsakusaSatellite::Application.routes.draw do
   match '/auth/:provider/callback', :to => 'login#omniauth_callback'
   match '/auth/failure', :to => 'login#failure'
 
-  match '/plugin/:plugin/:type/:file.:format', :to => 'plugin#asset'
+  match '/plugin/:plugin/:type/:file.:format', :to => 'plugin#asset', :as => :plugin_asset
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

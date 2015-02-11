@@ -4,7 +4,7 @@ require 'watage_policy'
 describe Watage::WatagePolicy do
   before do
     @policy = Watage::WatagePolicy.new
-    RestClient.stub!(:post).and_return('{"source":"http://www.example.com/foo.zip"}')
+    allow(RestClient).to receive(:post).and_return('{"source":"http://www.example.com/foo.zip"}')
   end
 
   describe "upload" do

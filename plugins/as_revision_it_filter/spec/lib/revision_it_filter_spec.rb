@@ -8,7 +8,7 @@ describe AsakusaSatellite::Filter::RevisionItFilter do
 
   context 'with normal text' do
     before do
-      @filter.stub!(:open).and_raise('error')
+      allow(@filter).to receive(:open).and_raise('error')
     end
 
     subject {
@@ -26,7 +26,7 @@ describe AsakusaSatellite::Filter::RevisionItFilter do
                              'hash_code' => "1234567890",
                              'log' => "foo\nbar" }
                         }.to_json)
-      @filter.stub!(:open).with("http://revision-it.herokuapp.com/hash/x123456.json") { io }
+      allow(@filter).to receive(:open).with("http://revision-it.herokuapp.com/hash/x123456.json") { io }
     end
 
     subject { @filter.process("rev:x123456") }
@@ -35,7 +35,7 @@ describe AsakusaSatellite::Filter::RevisionItFilter do
 
   context 'invalid hash' do
     before do
-      @filter.stub!(:open).and_raise('error')
+      allow(@filter).to receive(:open).and_raise('error')
     end
 
     subject {

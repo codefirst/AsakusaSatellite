@@ -8,17 +8,17 @@ describe AsakusaSatellite::Filter::AutoLink do
   end
 
   it 'URLにリンクを貼る' do
-    @filter.process('http://example.com').should have_xml("//a[@href='http://example.com']")
+    expect(@filter.process('http://example.com')).to have_xml("//a[@href='http://example.com']")
   end
 
   it "httpsについても動作する" do
-    @filter.process('https://example.com').should have_xml("//a[@href='https://example.com']")
+    expect(@filter.process('https://example.com')).to have_xml("//a[@href='https://example.com']")
   end
 
   it "前後に文字があっても動作する" do
-    @filter.process('ほげhttp://example.com').should have_xml("//a[@href='http://example.com']")
-    @filter.process('ほげhttp://example.com/abc').should have_xml("//a[@href='http://example.com/abc']")
-    @filter.process('ほげhttp://example.com/abc/efg ふが').should have_xml("//a[@href='http://example.com/abc/efg']")
+    expect(@filter.process('ほげhttp://example.com')).to have_xml("//a[@href='http://example.com']")
+    expect(@filter.process('ほげhttp://example.com/abc')).to have_xml("//a[@href='http://example.com/abc']")
+    expect(@filter.process('ほげhttp://example.com/abc/efg ふが')).to have_xml("//a[@href='http://example.com/abc/efg']")
   end
 
   describe 'twitpicを展開する' do

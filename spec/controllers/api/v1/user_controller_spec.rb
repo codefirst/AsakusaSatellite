@@ -94,11 +94,11 @@ describe Api::V1::UserController do
     end
     context "user.saveでエラー" do
       before {
-        user = mock 'user'
-        devices = mock 'devices'
-        devices.stub(:where => [mock('device')])
-        user.stub(:save => false, :devices => devices, :to_json => '')
-        controller.stub(:current_user) { user }
+        user = double 'user'
+        devices = double 'devices'
+        allow(devices).to receive_messages(:where => [double('device')])
+        allow(user).to receive_messages(:save => false, :devices => devices, :to_json => '')
+        allow(controller).to receive(:current_user).and_return(user)
         post :add_device, :api_key => @user.spell, :format => 'json', :device => 'device_id'
       }
       subject { response }

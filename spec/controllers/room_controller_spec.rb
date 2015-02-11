@@ -7,11 +7,11 @@ describe RoomController do
     @room = Room.new(:title => 'title', :user => @user).tap{|x| x.save! }
   end
 
-  share_examples_for '部屋を消せる'  do
+  shared_examples_for '部屋を消せる'  do
     before { post :delete, :id => @room.id }
     describe "room" do
       subject { Room.where(:_id => @room.id).first }
-      its(:deleted) { should be_true }
+      its(:deleted) { should be_truthy }
     end
 
     describe "response" do
@@ -34,9 +34,9 @@ describe RoomController do
 
     describe "部屋の保存に失敗する" do
       before {
-        room = mock "room"
-        room.should_receive(:update_attributes).and_return(false)
-        Room.should_receive(:with_room).and_yield(room)
+        room = double "room"
+        expect(room).to receive(:update_attributes).and_return(false)
+        expect(Room).to receive(:with_room).and_yield(room)
       }
 
       describe "更新" do
@@ -61,7 +61,7 @@ describe RoomController do
 
     describe "部屋作成失敗" do
       before do
-        Room.stub(:new) { mock_model(Room, :update_attributes => false) }
+        allow(Room).to receive(:new) { mock_model(Room, :update_attributes => false) }
         post :create, {:room => {:title => 'foo' }}
       end
       subject { response }
@@ -73,7 +73,7 @@ describe RoomController do
           post :create, {:room => {:title => 'foo private', :is_public => false }}
       }
       subject { Room.last }
-      its(:is_public) { should be_false }
+      its(:is_public) { should be_falsey }
     end
 
     describe "publicな部屋作成" do
@@ -81,7 +81,7 @@ describe RoomController do
           post :create, {:room => {:title => 'foo', :is_public => true }}
       }
       subject { Room.last }
-      its(:is_public) { should be_true }
+      its(:is_public) { should be_truthy }
     end
 
     describe "/deleteにGET" do
@@ -104,7 +104,7 @@ describe RoomController do
 
     describe "メンバーが部屋の設定画面を GET" do
       before { get :configure, :id => @room.id }
-      it { response.should render_template("room/configure") }
+      it { expect(response).to render_template("room/configure") }
     end
 
     describe "存在しない部屋の設定を変更" do
@@ -140,7 +140,7 @@ describe RoomController do
 
       describe "room" do
         subject { Room.find @room.id }
-        its(:deleted) { should be_false }
+        its(:deleted) { should be_falsey }
       end
 
       describe "response" do

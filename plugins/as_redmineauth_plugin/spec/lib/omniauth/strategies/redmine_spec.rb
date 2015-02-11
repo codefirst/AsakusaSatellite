@@ -3,13 +3,13 @@ require File.dirname(__FILE__) + '/../../../../../../spec/spec_helper'
 
 describe OmniAuth::Strategies::Redmine do
   before {
-    @app = mock
-    @app.stub(:url_for) { '/redmineauth/login' }
+    @app = double
+    allow(@app).to receive(:url_for) { '/redmineauth/login' }
     @strategy = OmniAuth::Strategies::Redmine.new({})
-    @strategy.stub(:app) { @app }
-    @strategy.stub(:script_name) { '/as' }
-    @strategy.stub(:env) { {} }
-    @strategy.stub(:call_app!)
+    allow(@strategy).to receive(:app) { @app }
+    allow(@strategy).to receive(:script_name) { '/as' }
+    allow(@strategy).to receive(:env) { {} }
+    allow(@strategy).to receive(:call_app!)
   }
 
   context 'request phase' do
@@ -18,13 +18,13 @@ describe OmniAuth::Strategies::Redmine do
     }
     subject { @response }
     its(:status) { 302 }
-    it { subject.header['Location'].should == '/as/redmineauth/login' }
+    it { expect(subject.header['Location']).to eq '/as/redmineauth/login' }
   end
 
   context 'callback phase' do
     before {
-      @strategy.stub(:request) { {:login_key => 'dummy', :login_name => 'name', :image_url => 'http://example.com/test.png'} }
-      @strategy.stub(:redmine_users_url) { '' }
+      allow(@strategy).to receive(:request) { {:login_key => 'dummy', :login_name => 'name', :image_url => 'http://example.com/test.png'} }
+      allow(@strategy).to receive(:redmine_users_url) { '' }
     }
 
     context "validなユーザはログインできる" do
@@ -37,7 +37,7 @@ describe OmniAuth::Strategies::Redmine do
 <last_login_on>2011-07-03T21:33:31+09:00</last_login_on>
 </user>"""
       before {
-        RestClient.stub(:get).and_return(VALID_API_RESPONSE)
+        allow(RestClient).to receive(:get).and_return(VALID_API_RESPONSE)
         @strategy.callback_phase
       }
       subject { @strategy.info }
@@ -47,10 +47,10 @@ describe OmniAuth::Strategies::Redmine do
     end
 
     it "invalidなユーザはログインできない" do
-      RestClient.stub(:get).and_raise(RestClient::Exception)
+      allow(RestClient).to receive(:get).and_raise(RestClient::Exception)
       @strategy.callback_phase
       _, _, @response =  @strategy.callback_phase
-      @response.header['Location'].should match(/\/auth\/failure/)
+      expect(@response.header['Location']).to match(/\/auth\/failure/)
     end
   end
 end

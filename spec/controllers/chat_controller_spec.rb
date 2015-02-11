@@ -52,7 +52,7 @@ describe ChatController do
     describe "部屋の更新" do
       before {
         @now = Time.at(Time.now.to_i+100)
-        Time.stub(:now) { @now.dup }
+        allow(Time).to receive(:now) { @now.dup }
         post :message, {:room_id => @room.id, :message => "メッセージ" }
       }
       subject {
@@ -104,7 +104,7 @@ describe ChatController do
     context "not found" do
       it "send response with status code 302" do
         get :show, :id => "not_existing_id"
-        response.response_code.should == 302
+        expect(response.response_code).to eq 302
       end
     end
   end

@@ -22,7 +22,7 @@ describe Attachment do
 
   describe "create_and_save_file" do
     before {
-      Attachment::LocalStorePolicy.stub(:unique_id){ "hogehoge" }
+      allow(Attachment::LocalStorePolicy).to receive(:unique_id){ "hogehoge" }
     }
 
     subject {
@@ -32,7 +32,7 @@ describe Attachment do
                                       Message.new)
     }
     its(:filename) { should == File.basename(__FILE__) }
-    it { File.should be_exists(subject.disk_filename) }
+    it { expect(File).to be_exists(subject.disk_filename) }
 
     its(:disk_filename) { should match(/hogehoge/) }
   end

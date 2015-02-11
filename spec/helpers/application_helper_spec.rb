@@ -27,8 +27,4 @@ describe ApplicationHelper do
     it { should be_video_mimetype('video/mpeg') }
     it { should_not be_image_mimetype('text/plain') }
   end
-
-#    helper.image_mimetype?('image/png').should be_true
-#    helper.image_mimetype?('text/plain').should be_false
-#  end
 end

@@ -26,8 +26,8 @@ describe SearchController do
 
     context "部屋指定なし" do
       before do
-        Room.stub(:all_live){ [] }
-        @find_by_text = Message.should_receive(:find_by_text).with(:text => 'foo', :rooms=>[], :limit => SearchController::INTERSECTION_SEARCH_LIMIT){ [] }
+        allow(Room).to receive(:all_live).and_return([])
+        @find_by_text = expect(Message).to receive(:find_by_text).with(:text => 'foo', :rooms=>[], :limit => SearchController::INTERSECTION_SEARCH_LIMIT){ [] }
         get :search, :search => {:message => 'foo'}
       end
 
@@ -44,18 +44,17 @@ describe SearchController do
 
     context "部屋指定あり" do
       before do
-        @room = mock
-        @room.stub(:deleted => false,
+        @room = double
+        allow(@room).to receive_messages(:deleted => false,
                    :title   => "foo",
                    :id => 42,
                    :accessible? => true)
 
-        Room.stub(:all_live => [ @room ])
+        allow(Room).to receive_messages(:all_live => [ @room ])
 
-        @find_room    = Room.should_receive(:any_of).
+        @find_room    = expect(Room).to receive(:any_of).
           with({:_id => '1'}, {:nickname => '1'}){ [ @room ] }
-        @find_by_text = Message.
-          should_receive(:find_by_text).
+        @find_by_text = expect(Message).to receive(:find_by_text).
           with(:text => 'foo', :rooms => [ @room ], :limit => 20){ [] }
         get :search, :search => {:message => 'foo'}, :room => { :id => '1' }
       end
@@ -98,13 +97,13 @@ describe SearchController do
 
     context "検索結果がある" do
       before do
-        @room = mock
-        @room.stub(:deleted => false,
+        @room = double
+        allow(@room).to receive_messages(:deleted => false,
                    :_id => 42,
                    :accessible? => true)
-        Room.stub(:all_live => [ @room ])
-        Room.stub(:any_of).with({:_id => '1'}, {:nickname => '1'}){ [ @room ] }
-        Message.stub(:find_by_text) { [{ :room => @room, :messages => [Message.new] }] }
+        allow(Room).to receive_messages(:all_live => [ @room ])
+        allow(Room).to receive(:any_of).with({:_id => '1'}, {:nickname => '1'}){ [ @room ] }
+        allow(Message).to receive(:find_by_text) { [{ :room => @room, :messages => [Message.new] }] }
         get :search_more, :id => 1, :search_message => 'foo', :room_id => 1
       end
       subject { assigns[:results] }

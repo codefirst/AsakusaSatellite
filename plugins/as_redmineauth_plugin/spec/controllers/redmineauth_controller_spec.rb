@@ -2,7 +2,7 @@
 require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
 
 describe RedmineauthController do
-  before { Setting.stub(:[]).and_return(true) }
+  before { allow(Setting).to receive(:[]).and_return(true) }
 
   describe "index にアクセスすると login に redirect する" do
     before  { get :index }

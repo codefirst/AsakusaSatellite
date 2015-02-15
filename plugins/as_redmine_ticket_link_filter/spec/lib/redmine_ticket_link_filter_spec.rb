@@ -55,7 +55,7 @@ describe AsakusaSatellite::Filter::RedmineTicketLinkFilter do
 JSON
       io = StringIO.new json
 
-      @filter.stub!(:open).with('http://redmine.example.com/a/issues/380.json?key=hoge').and_yield(io)
+      allow(@filter).to receive(:open).with('http://redmine.example.com/a/issues/380.json?key=hoge').and_yield(io)
     end
 
     subject {
@@ -81,7 +81,7 @@ JSON
 JSON
       io = StringIO.new json
 
-      @filter.stub!(:open).with('http://redmine.example.com/a/issues/1334.json?key=hoge').and_yield(io)
+      allow(@filter).to receive(:open).with('http://redmine.example.com/a/issues/1334.json?key=hoge').and_yield(io)
     end
 
     subject {
@@ -101,7 +101,7 @@ JSON
                            'api_key' => 'hoge'
                          }})}
       @filter = AsakusaSatellite::Filter::RedmineTicketLinkFilter.new({})
-      @filter.stub!(:open).and_raise("error")
+      allow(@filter).to receive(:open).and_raise("error")
     end
 
     subject {

@@ -38,7 +38,7 @@ describe Message do
 
   describe "hash" do
     before do
-      AsakusaSatellite::Filter.stub(:process){|message, room| "filtered:#{message.body}" }
+      allow(AsakusaSatellite::Filter).to receive(:process){|message, room| "filtered:#{message.body}" }
     end
 
     subject { @message.to_hash }
@@ -46,7 +46,7 @@ describe Message do
     its(['profile_image_url']) { should == @message.user.profile_image_url }
     its(['body']) { should == @message.body }
     its(['attachment']) { should be_empty }
-    it { subject['id'].should == @message.id }
+    it { expect(subject['id']).to eq @message.id }
     its(['screen_name']) { should == @message.user.screen_name }
     its(['created_at']) { should == @message.created_at.to_s }
     its(['html_body']) { should == "filtered:#{@message.body}" }
@@ -90,13 +90,13 @@ describe Message do
     end
   end
 
-  share_examples_for 'メッセージ有'  do
+  shared_examples_for 'メッセージ有'  do
     subject { @result.first }
     its([:room]) { should == @room }
     its([:messages]) { should have(11).records }
   end
 
-  share_examples_for 'メッセージ無'  do
+  shared_examples_for 'メッセージ無'  do
     subject { @result.first }
     its([:room]) { should == @room }
     its([:messages]) { should have(0).records }
@@ -157,30 +157,30 @@ describe Message do
 
   describe "メッセージの保存・破棄に失敗する" do
     before {
-      @stub_message = mock "message"
-      @stub_message.stub(:body= => nil)
-      Message.stub(:new => @stub_message)
+      @stub_message = double "message"
+      allow(@stub_message).to receive_messages(:body= => nil)
+      allow(Message).to receive_messages(:new => @stub_message)
     }
 
     context "メッセージ作成" do
-      before { @stub_message.should_receive(:save).and_return(false) }
+      before { expect(@stub_message).to receive(:save).and_return(false) }
       it { Message.make(@user, @room, "new message") }
     end
 
     context "メッセージ更新" do
       before {
-        Message.should_receive(:where).and_return([@stub_message])
-        Message.should_receive(:===).and_return(true)
-        @stub_message.should_receive(:save).and_return(false)
+        expect(Message).to receive(:where).and_return([@stub_message])
+        expect(Message).to receive(:===).and_return(true)
+        expect(@stub_message).to receive(:save).and_return(false)
       }
       it { Message.update_body(@user, "0", "modified message") }
     end
 
     context "メッセージ破棄" do
       before {
-        Message.should_receive(:where).and_return([@stub_message])
-        Message.should_receive(:===).and_return(true)
-        @stub_message.should_receive(:destroy).and_return(false)
+        expect(Message).to receive(:where).and_return([@stub_message])
+        expect(Message).to receive(:===).and_return(true)
+        expect(@stub_message).to receive(:destroy).and_return(false)
       }
       it { Message.delete(@user, "0") }
     end
@@ -188,24 +188,24 @@ describe Message do
 
   describe "添付ファイル" do
     before {
-      Setting.should_receive(:[]).with(:attachment_max_size).and_return("1")
+      expect(Setting).to receive(:[]).with(:attachment_max_size).and_return("1")
       @stub_message = Message.make(@user, @room, nil, true)
-      @file = mock "file"
-      @file.stub(:size => 10.kilobyte, :original_filename => "file1.jpg", :content_type => "image/jpeg")
-      @large_file = mock "large file"
-      @large_file.stub(:size => 10.megabyte)
+      @file = double "file"
+      allow(@file).to receive_messages(:size => 10.kilobyte, :original_filename => "file1.jpg", :content_type => "image/jpeg")
+      @large_file = double "large file"
+      allow(@large_file).to receive_messages(:size => 10.megabyte)
     }
 
     context "添付ファイルを保存する" do
       it {
-        Attachment.should_receive(:create_and_save_file)
+        expect(Attachment).to receive(:create_and_save_file)
         @stub_message.attach(@file)
       }
     end
 
     context "添付ファイルのサイズが容量制限を上回る" do
       it {
-        Attachment.should_not_receive(:create_and_save_file)
+        expect(Attachment).not_to receive(:create_and_save_file)
         @stub_message.attach(@large_file)
       }
     end

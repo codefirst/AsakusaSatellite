@@ -7,6 +7,6 @@ describe EmoticonFilter do
   end
 
   it 'enables process' do
-    @filter.process("test").should == "test"
+    expect(@filter.process("test")).to eq "test"
   end
 end

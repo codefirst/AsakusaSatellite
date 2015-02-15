@@ -50,7 +50,7 @@ describe AsakusaSatellite::Filter do
 
   describe "passing tags" do
     before do
-      AsakusaSatellite::Filter.stub(:escapeText){|x| x }
+      allow(AsakusaSatellite::Filter).to receive(:escapeText){|x| x }
     end
 
     describe 'filter text' do

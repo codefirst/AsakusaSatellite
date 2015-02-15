@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.20'
+gem 'rails', '3.2.21'
 
 # mongoid
 gem 'mongoid', '2.5.1'
@@ -29,7 +29,11 @@ group :development, :test do
   gem "rails3-generators"
   gem 'quiet_assets'
 
-  gem "rspec-rails", ">= 2.11.4"
+  gem 'test-unit', '~> 3.0'
+  gem "rspec-rails"
+  gem "rspec-its"
+  gem 'rspec-collection_matchers'
+  gem 'rspec-activemodel-mocks'
   gem 'rcov', :platforms => :ruby_18
   gem 'simplecov', :platforms => :ruby_19
   gem 'coveralls'

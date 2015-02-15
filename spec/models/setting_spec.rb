@@ -9,7 +9,7 @@ describe Setting do
 
   it "各設定を読める" do
     @settings.each do |key, value|
-      Setting[key].should == value
+      expect(Setting[key]).to eq value
     end
   end
 end

@@ -2,7 +2,6 @@ require 'rubygems'
 require 'coveralls'
 Coveralls.wear!('rails')
 require 'spork'
-require 'rspec/autorun'
 
 Spork.prefork do
   if (not ENV['DRB']) and RUBY_VERSION >= '1.9'
@@ -87,6 +86,8 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   #config.use_transactional_fixtures = true
+
+  config.infer_spec_type_from_file_location!
 end
 
 def cleanup_db

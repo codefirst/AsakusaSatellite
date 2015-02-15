@@ -3,69 +3,69 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe RoomHelper do
   before {
-    @room = mock "room"
-    @room.stub(:deleted => false, :is_public => true, :accessible? => true, :nickname => 'nickname')
-    @user = mock 'user'
+    @room = double "room"
+    allow(@room).to receive_messages(:deleted => false, :is_public => true, :accessible? => true, :nickname => 'nickname')
+    @user = double 'user'
   }
 
-  share_examples_for 'room found' do
+  shared_examples_for 'room found' do
     before do
       @called = false
-      Room.stub(:any_of => [ @room ])
+      allow(Room).to receive_messages(:any_of => [ @room ])
 
-      self.should_receive(:current_user).and_return(@user)
-      self.should_not_receive(:redirect_to)
+      expect(self).to receive(:current_user).and_return(@user)
+      expect(self).not_to receive(:redirect_to)
     end
 
     describe "callbacked" do
       before { find_room(0){ @called = true } }
       subject { @called }
-      it { should be_true }
+      it { should be_truthy }
     end
   end
 
-  share_examples_for 'room not found' do
+  shared_examples_for 'room not found' do
     before do
       @called = false
-      Room.stub(:any_of => [])
+      allow(Room).to receive_messages(:any_of => [])
 
-      self.should_receive(:current_user).and_return(@user)
-      self.should_receive(:redirect_to)
+      expect(self).to receive(:current_user).and_return(@user)
+      expect(self).to receive(:redirect_to)
     end
 
     describe "callbacked" do
       before { find_room(0){ @called = true } }
       subject { @called }
-      it { should be_false }
+      it { should be_falsey }
     end
   end
 
   describe "room not found" do
     before {
-      Room.stub(:any_of => [])
-      self.should_receive(:current_user).and_return(@user)
-      self.should_receive(:redirect_to)
+      allow(Room).to receive_messages(:any_of => [])
+      expect(self).to receive(:current_user).and_return(@user)
+      expect(self).to receive(:redirect_to)
     }
     it { find_room(0){} }
   end
 
   context "部屋がない" do
-    before { Room.stub(:any_of => []) }
+    before { allow(Room).to receive_messages(:any_of => []) }
     it_should_behave_like 'room not found'
   end
 
   context "部屋が削除されている" do
     before do
-      @room.stub(:deleted => true)
+      allow(@room).to receive_messages(:deleted => true)
     end
     it_should_behave_like 'room not found'
   end
 
   context 'find by nickname' do
     before {
-      self.should_receive(:current_user).and_return(@user)
-      self.should_not_receive(:redirect_to)
-      Room.stub(:any_of => [ @room ])
+      expect(self).to receive(:current_user).and_return(@user)
+      expect(self).not_to receive(:redirect_to)
+      allow(Room).to receive_messages(:any_of => [ @room ])
     }
     subject { find_room('nickname'){ @room } }
     its(:nickname) { should == 'nickname' }

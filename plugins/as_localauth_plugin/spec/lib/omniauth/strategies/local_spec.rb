@@ -3,14 +3,14 @@ require File.dirname(__FILE__) + '/../../../../../../spec/spec_helper'
 
 describe OmniAuth::Strategies::Local do
   before {
-    @app = mock
-    @app.stub(:url_for) { '/localauth/login' }
+    @app = double
+    allow(@app).to receive(:url_for) { '/localauth/login' }
     @strategy = OmniAuth::Strategies::Local.new({})
-    @strategy.stub(:app) { @app }
-    @strategy.stub(:script_name) { '/as' }
-    @strategy.stub(:env) { {} }
-    @strategy.stub(:call_app!)
-    LocalUser.stub(:[]).with('testuser') { {'screen_name' => 'nickname'} }
+    allow(@strategy).to receive(:app) { @app }
+    allow(@strategy).to receive(:script_name) { '/as' }
+    allow(@strategy).to receive(:env) { {} }
+    allow(@strategy).to receive(:call_app!)
+    allow(LocalUser).to receive(:[]).with('testuser') { {'screen_name' => 'nickname'} }
   }
 
   context 'request phase' do
@@ -19,18 +19,18 @@ describe OmniAuth::Strategies::Local do
     }
     subject { @response }
     its(:status) { 302 }
-    it { subject.header['Location'].should == '/as/localauth/login' }
+    it { expect(subject.header['Location']).to eq '/as/localauth/login' }
   end
 
   context 'callback phase' do
     before {
       @request = {:username => 'testuser'}
-      @strategy.stub(:request) { @request }
+      allow(@strategy).to receive(:request) { @request }
     }
 
     context 'valid user' do
       before {
-        @strategy.stub(:valid_local_user?) { true }
+        allow(@strategy).to receive(:valid_local_user?) { true }
         @strategy.callback_phase
       }
       subject { @strategy.info }
@@ -39,12 +39,12 @@ describe OmniAuth::Strategies::Local do
 
     context 'invalid user' do
       before {
-        @strategy.stub(:valid_local_user?) { false }
+        allow(@strategy).to receive(:valid_local_user?) { false }
         _, _, @response =  @strategy.callback_phase
       }
       subject { @response }
       its(:status) { should == 302 }
-      it { subject.header['Location'].should match(/\/auth\/failure/) }
+      it { expect(subject.header['Location']).to match(/\/auth\/failure/) }
     end
   end
 end

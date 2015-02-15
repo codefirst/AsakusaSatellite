@@ -17,13 +17,13 @@ describe Api::V1::RoomController do
     @private_room.save
   end
 
-  share_examples_for '成功する'  do
+  shared_examples_for '成功する'  do
     subject { response }
     its(:response_code) { should == 200 }
     its(:body) { should have_json("/status[text() = 'ok']") }
   end
 
-  share_examples_for '失敗する'  do
+  shared_examples_for '失敗する'  do
     subject { response }
     its(:response_code) { should_not == 200 }
     its(:body) { should have_json("/status[text() = 'error']") }
@@ -74,7 +74,7 @@ describe Api::V1::RoomController do
       }
       it_should_behave_like '成功する'
       subject { Room.find @room.id }
-      its(:deleted) { should be_true }
+      its(:deleted) { should be_truthy }
     end
 
     context 'nickname' do
@@ -83,7 +83,7 @@ describe Api::V1::RoomController do
       }
       it_should_behave_like '成功する'
       subject { Room.find @room.id }
-      its(:deleted) { should be_true }
+      its(:deleted) { should be_truthy }
     end
   end
 
@@ -191,7 +191,7 @@ describe Api::V1::RoomController do
       }
       it_should_behave_like '失敗する'
       subject { Room.find @room.id }
-      its(:deleted) { should be_false }
+      its(:deleted) { should be_falsey }
     end
   end
 
@@ -236,7 +236,7 @@ describe Api::V1::RoomController do
       }
       it_should_behave_like '失敗する'
       subject { Room.find @room.id }
-      its(:deleted) { should be_false }
+      its(:deleted) { should be_falsey }
     end
 
     describe "部屋の一覧" do
@@ -259,10 +259,10 @@ describe Api::V1::RoomController do
 
     describe "保存に失敗" do
       before {
-        room = stub "room"
-        room.should_receive(:update_attributes).and_return(false)
-        Room.should_receive(:with_room).and_yield(room)
-        
+        room = double "room"
+        expect(room).to receive(:update_attributes).and_return(false)
+        expect(Room).to receive(:with_room).and_yield(room)
+
         post :destroy, :id => @room.id, :api_key => @user.spell, :format => 'json'
       }
       it_should_behave_like '失敗する'

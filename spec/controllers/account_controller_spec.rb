@@ -6,9 +6,9 @@ describe AccountController do
     before do
       users = []
       @user = User.new
-      @user.stub(:generate_spell){ "spell-1" }
+      allow(@user).to receive(:generate_spell){ "spell-1" }
       users << @user
-      User.stub(:where){ users }
+      allow(User).to receive(:where){ users }
 
       session[:current_user_id] = @user.id
     end

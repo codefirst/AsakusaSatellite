@@ -2,9 +2,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Room do
-  share_examples_for '妥当でない部屋'  do
-    its(:save) { should be_false }
-    its(:validate) { should be_false }
+  shared_examples_for '妥当でない部屋'  do
+    its(:save) { should be_falsey }
+    its(:validate) { should be_falsey }
   end
 
   context "タイトルが空" do
@@ -328,7 +328,7 @@ describe Room do
       }
 
       subject { @room.accessible?(@user) }
-      it { should be_true }
+      it { should be_truthy }
     end
 
     context "privateな部屋" do
@@ -341,17 +341,17 @@ describe Room do
 
       context "owner" do
         subject { @room.accessible? @user }
-        it { should be_true }
+        it { should be_truthy }
       end
 
       context "member" do
         subject { @room.accessible? @member }
-        it { should be_true }
+        it { should be_truthy }
       end
 
       context "その他" do
         subject { @room.accessible? @other }
-        it { should be_false }
+        it { should be_falsey }
       end
     end
   end

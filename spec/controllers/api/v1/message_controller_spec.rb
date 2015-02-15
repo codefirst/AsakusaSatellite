@@ -29,7 +29,7 @@ describe Api::V1::MessageController do
     @private_room.save
     @secret_message = Message.new(:room => @private_room, :user => @other_user, :body => 'secret message').tap{|m| m.save! }
 
-    Attachment.stub(:where){ nil }
+    allow(Attachment).to receive(:where){ nil }
   end
 
   describe "特定の発言取得" do
@@ -247,13 +247,13 @@ describe Api::V1::MessageController do
     end
    end
 
-  share_examples_for '成功'  do
+  shared_examples_for '成功'  do
     subject { response }
     its(:response_code) { should == 200 }
     its(:body) { should have_json("/status[text() = 'ok']") }
   end
 
-  share_examples_for '失敗'  do
+  shared_examples_for '失敗'  do
     subject { response }
     its(:response_code) { should_not == 200 }
     its(:body) { should have_json("/status[text() = 'error']") }
@@ -269,7 +269,7 @@ describe Api::V1::MessageController do
           post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
         }.to change { Message.all.size }.by(1)
       }
-      it { response.body.should have_json("/message_id") }
+      it { expect(response.body).to have_json("/message_id") }
     end
     context "API 指定しない" do
       before {
@@ -288,7 +288,7 @@ describe Api::V1::MessageController do
           post :create, :room_id => @room.id, :message => 'message', :api_key => @user.spell
         }.to change { Message.all.size }.by(1)
       }
-      it { response.body.should have_json("/message_id") }
+      it { expect(response.body).to have_json("/message_id") }
     end
 
     describe "空メッセージは無視する" do

@@ -49,15 +49,15 @@ describe Device do
     context "ios?" do
       context 'nil' do
         subject { Device.new(:device_type => nil) }
-        its(:ios?) { should be_true }
+        its(:ios?) { should be_truthy }
       end
       context 'iphone' do
         subject { Device.new(:device_type => 'iphone') }
-        its(:ios?) { should be_true }
+        its(:ios?) { should be_truthy }
       end
       context 'android' do
         subject { Device.new(:device_type => 'indroid') }
-        its(:ios?) { should be_false }
+        its(:ios?) { should be_falsey }
       end
     end
 

@@ -16,6 +16,9 @@ if %(development test).include?(Rails.env)
     RSpec::Core::RakeTask.new(:all) do |t|
       t.pattern = ["./spec/**/*_spec.rb", "./plugins/as_*/spec/**/*_spec.rb"]
     end
+    RSpec::Core::RakeTask.new(:plugins) do |t|
+      t.pattern = ["./plugins/as_*/spec/**/*_spec.rb"]
+    end
   end
 
   if default = Rake.application.instance_variable_get('@tasks')['default']

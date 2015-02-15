@@ -8,22 +8,22 @@ describe CodeHighlightFilter do
   end
 
   it '変換しない' do
-    @filter.process_all(["test"]).should == ["test"]
+    expect(@filter.process_all(["test"])).to eq ["test"]
   end
 
   it 'ハイライトできる' do
     plain = [ "ruby::", "puts \"hello\"",""]
-    @filter.process_all(plain).join.should have_xml("//div[@class='CodeRay']")
+    expect(@filter.process_all(plain).join).to have_xml("//div[@class='CodeRay']")
   end
 
   it '\n が LF に置換されない' do
     plain = [ "ruby::", "\"\\n\"",""]
-    @filter.process_all(plain).join.should have_xml("//span[text()='\\n']")
+    expect(@filter.process_all(plain).join).to have_xml("//span[text()='\\n']")
   end
 
   it 'LF が \n に置換されない' do
     plain = [ "ruby::", "\"one\"\n\"two\"",""]
-    @filter.process_all(plain).join.should have_xml("//pre[text()='\n']")
+    expect(@filter.process_all(plain).join).to have_xml("//pre[text()='\n']")
   end
 
   it "graphvizの可視化に対応" do
@@ -42,6 +42,6 @@ END
 
     result = %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&amp;chl=#{CGI.escape graph.strip}" />)
 
-    @filter.process_all(plain.split("\n")).should == result
+    expect(@filter.process_all(plain.split("\n"))).to eq result
   end
 end

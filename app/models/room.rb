@@ -99,11 +99,7 @@ class Room
   end
 
   def to_param
-    if nickname.blank?
-      id.to_s
-    else
-      nickname
-    end
+    self.nickname.blank? ? self.id.to_s : self.nickname
   end
 
   def yaml
@@ -124,11 +120,14 @@ class Room
     self.is_public || (self.user == user) || (self.members.include? user)
   end
 
-  def self.with_room(id, user, params={}, &f)
-    return f[nil] if id.blank?
+  def self.find_by_id_or_nickname(id)
+    return nil if id.blank?
+    Room.any_of({:_id => id}, {:nickname => id}).first
+  end
 
-    room = Room.any_of({:_id => id}, {:nickname => id}).first
-    if room and room.accessible?(user) then
+  def self.with_room(id, user, params={}, &f)
+    room = find_by_id_or_nickname(id)
+    if room and room.accessible?(user)
       f[room]
     else
       f[nil]

@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 include ApplicationHelper
 describe RoomController do
   before do
-    @user = User.new.tap{|x| x.save! }
-    @room = Room.new(:title => 'title', :user => @user).tap{|x| x.save! }
+    @user = User.create!
+    @room = Room.create!(:title => 'title', :user => @user)
   end
 
   shared_examples_for '部屋を消せる'  do
@@ -104,6 +104,14 @@ describe RoomController do
 
     describe "メンバーが部屋の設定画面を GET" do
       before { get :configure, :id => @room.id }
+      it { expect(response).to render_template("room/configure") }
+    end
+
+    describe "メンバーが部屋の設定画面をニックネームで GET" do
+      before {
+        @room.update_attributes(:nickname => 'nickname2get')
+        get :configure, :id => @room.nickname
+      }
       it { expect(response).to render_template("room/configure") }
     end
 

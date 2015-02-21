@@ -9,10 +9,6 @@ class Message
   embeds_many :attachments
   index :created_at
 
-  def encode_json(_)
-    self.to_hash.to_json
-  end
-
   def to_hash
     if self.user
       profile = self.user.profile_for(self.room._id)

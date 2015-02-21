@@ -8,7 +8,7 @@ class AsRedmineTicketLinkController < ApplicationController
         @hash.merge!(params[:config])
         @room.yaml = @room.yaml.merge :redmine_ticket => @hash
         @room.save!
-        flash[:notice] = t(:notice_saved)
+        flash.now[:notice] = t(:notice_saved)
       end
       @config = OpenStruct.new(@hash)
     end

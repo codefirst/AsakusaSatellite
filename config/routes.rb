@@ -29,8 +29,11 @@ AsakusaSatellite::Application.routes.draw do
     end
   end
 
+  get 'chat/room/:id' => "chat#room", :as => "chat_room"
 
-  match 'message', '/chat/show/:id',:controller => "chat", :action=> "show"
+  match 'room/configure/:id' => "room#configure", :as => "room_configure"
+
+  match 'message', '/chat/show/:id', :controller => "chat", :action=> "show"
 
   match '/auth/:provider/callback', :to => 'login#omniauth_callback'
   match '/auth/failure', :to => 'login#failure'

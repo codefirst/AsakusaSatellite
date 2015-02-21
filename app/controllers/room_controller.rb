@@ -9,7 +9,7 @@ class RoomController < ApplicationController
     data = { :deleted => false, :is_public => true?(params[:room][:is_public]) }
     case room = Room.make(params[:room][:title], current_user, data)
     when Room
-      redirect_to(:controller => :chat, :action => 'room', :id => room.id)
+      redirect_to(chat_room_path(room))
     when :error_on_save
       flash[:error] = t(:error_room_cannot_create)
       redirect_to :action => 'create'
@@ -30,9 +30,11 @@ class RoomController < ApplicationController
   def configure
     unless request.post?
       @id      = params[:id]
-      @plugins = AsakusaSatellite::Config.rooms
-      @room = Room.where(:_id => @id).first
-      @members = @room.members.uniq
+      find_room(@id) do |room|
+        @plugins = AsakusaSatellite::Config.rooms
+        @room = room
+        @members = @room.members.uniq
+      end
       return
     end
 

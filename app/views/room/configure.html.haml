@@ -33,7 +33,7 @@
      - @plugins.each do |message, params|
       %tr
        %td= message + ":"
-       %td= link_to t(:config),params.merge(:id=> @room.id)
+       %td= link_to t(:config), params.merge(:id => @room)
    =submit_tag t(:update_config), :class => "submit red button large"
 
 = content_for :javascripts do

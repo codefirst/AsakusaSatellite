@@ -9,6 +9,10 @@ class Message
   embeds_many :attachments
   index :created_at
 
+  before_validation do |m|
+    m.body.strip! if m.body
+  end
+
   def to_hash
     if self.user
       profile = self.user.profile_for(self.room._id)

@@ -36,6 +36,11 @@ describe Message do
     its(:title) { should == @room.title }
   end
 
+  describe "strip body" do
+    subject { Message.create!(:body => " abc ") }
+    its(:body) { should == "abc" }
+  end
+
   describe "hash" do
     before do
       allow(AsakusaSatellite::Filter).to receive(:process){|message, room| "filtered:#{message.body}" }

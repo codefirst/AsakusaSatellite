@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/../../../../spec/spec_helper'
 
 describe ProfileSettingController do
   before do
-    @user = User.new(:profile_image_url => "http://example.com/profile.png").tap{|u| u.save! }
-    @room1 = Room.new(:title => 'test1').tap{|r| r.save! }
-    @room2 = Room.new(:title => 'test2').tap{|r| r.save! }
+    @user = User.create!(:profile_image_url => "http://example.com/profile.png")
+    @room1 = Room.create!(:title => 'test1')
+    @room2 = Room.create!(:title => 'test2')
   end
 
   describe "ログインしていない場合はエラーになる" do

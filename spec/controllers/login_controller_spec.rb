@@ -13,7 +13,7 @@ describe LoginController do
   context "ログアウト後" do
     context "referer is nil" do
       before do
-        @user = User.new.tap{|user| user.save! }
+        @user = User.create!
         session[:current_user_id] = @user.id
         post :logout
       end
@@ -22,7 +22,7 @@ describe LoginController do
     end
     context "referer is not nil" do
       before do
-        @user = User.new.tap{|user| user.save! }
+        @user = User.create!
         session[:current_user_id] = @user.id
         allow(request).to receive(:referer) { 'http://localhost' }
         post :logout

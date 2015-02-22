@@ -4,11 +4,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe ChatController do
   before do
     Room.delete_all
-    @user = User.new(:profile_image_url => "http://example.com/profile.png").tap{|u| u.save! }
-    @other = User.new.tap{|u| u.save! }
-    @room = Room.new(:title => 'test').tap{|r| r.save! }
+    @user = User.create!(:profile_image_url => "http://example.com/profile.png")
+    @other = User.create!
+    @room = Room.create!(:title => 'test')
     @messages = (0..50).map do
-      Message.new(:room => @room, :user => @user, :body => 'body').tap{|m| m.save! }
+      Message.create!(:room => @room, :user => @user, :body => 'body')
     end
     @message = @messages.first
     session[:current_user_id] = @user.id

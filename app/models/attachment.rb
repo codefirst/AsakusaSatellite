@@ -5,12 +5,11 @@ class Attachment
   class << self
     def create_and_save_file(filename, file, mimetype, message)
       permalink, disk_filename = policy.upload(filename, file, mimetype, message)
-      Attachment.new(:filename => filename,
+      Attachment.create(:filename => filename,
                      :mimetype => mimetype,
                      :permalink => permalink,
                      :disk_filename => disk_filename,
-                     :message => message).tap{|a|
-        a.save }
+                     :message => message)
     end
 
     def register(name, klass)

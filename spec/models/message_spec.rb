@@ -5,17 +5,16 @@ describe Message do
   before do
     cleanup_db
 
-    @room = Room.new(:title => 'test room').tap{|x| x.save! }
-    @user = User.new(:name => 'test user', :screen_name => 'test').tap{|x| x.save! }
+    @room = Room.create!(:title => 'test room')
+    @user = User.create!(:name => 'test user', :screen_name => 'test')
 
-    @other_room = Room.new(:title => "dummy_room")
-    @other_room.save!
+    @other_room = Room.create!(:title => "dummy_room")
 
     @messages = (0..10).map do|i|
-      Message.new(:body => "dummy", :user => @user, :room => @other_room).save!
-      Message.new(:body => "body of message #{i}",
+      Message.create!(:body => "dummy", :user => @user, :room => @other_room)
+      Message.create!(:body => "body of message #{i}",
                     :user => @user,
-                    :room => @room).tap{|m| m.save! }
+                    :room => @room)
     end
 
     @message = @messages[5]

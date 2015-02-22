@@ -22,7 +22,7 @@ describe RoomController do
 
   context "ログイン時" do
     before do
-      user = User.new.tap{|x| x.save! }
+      user = User.create!
       session[:current_user_id] = user.id
     end
     it_should_behave_like '部屋を消せる'

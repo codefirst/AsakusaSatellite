@@ -8,26 +8,23 @@ describe Api::V1::MessageController do
     session[:current_user_id] = nil
 
     @image_url = 'http://example.com/hoge.png'
-    @user = User.new(:screen_name=>'user',
+    @user = User.create!(:screen_name=>'user',
                      :name =>'name',
                      :spell => 'spell',
                      :profile_image_url => @image_url)
-    @user.save!
 
-    @room = Room.new(:title=>'hoge',:user=>@user, :nickname => 'nick')
-    @room.save!
+    @room = Room.create!(:title=>'hoge',:user=>@user, :nickname => 'nick')
 
     @messages = (0..50).map do
-      Message.new(:room => @room, :user => @user, :body => 'hoge').tap{|m| m.save! }
+      Message.create!(:room => @room, :user => @user, :body => 'hoge')
     end
     @message = @messages.first
 
-    @other_user = User.new(:spell => 'other')
-    @other_user.save
+    @other_user = User.create!(:spell => 'other')
     @private_room = Room.new(:title => 'private', :is_public => false)
     @private_room.user = @other_user
     @private_room.save
-    @secret_message = Message.new(:room => @private_room, :user => @other_user, :body => 'secret message').tap{|m| m.save! }
+    @secret_message = Message.create!(:room => @private_room, :user => @other_user, :body => 'secret message')
 
     allow(Attachment).to receive(:where){ nil }
   end

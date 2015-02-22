@@ -148,7 +148,7 @@ describe Api::V1::RoomController do
       its(:id) { should  == @another_user.id }
     end
 
-    context 'dupricated member' do
+    context 'duplicated member' do
       before {
         @another_user = User.new
         @another_user.save

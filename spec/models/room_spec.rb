@@ -107,8 +107,7 @@ describe Room do
   describe "messages" do
     before do
       @messages = (0..10).map do|i|
-        Message.new(:body => "body of message #{i}",
-                    :room => @room).tap{|m| m.save! }
+        Message.create!(:body => "body of message #{i}", :room => @room)
       end
     end
     context "messages" do

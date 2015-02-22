@@ -20,8 +20,8 @@ describe Api::V1::LoginController do
     end
 
     it "複数のユーザがいる場合でもちゃんと動作する" do
-      alice = User.new(:screen_name => 'alice', :spell => 'password').tap{|x| x.save }
-      bob = User.new(:screen_name => 'bob', :spell => 'password').tap{|x| x.save }
+      alice = User.create!(:screen_name => 'alice', :spell => 'password')
+      bob = User.create!(:screen_name => 'bob', :spell => 'password')
 
       get :index, :user => 'bob', :password => 'password', :format => 'json'
       expect(response.body).to have_json("/status[text() = 'ok']")

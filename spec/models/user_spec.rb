@@ -4,9 +4,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User do
   before  do
-    @room1 = Room.new(:title => 'testroom1').tap{|r| r.save! }
-    @room2 = Room.new(:title => 'testroom2').tap{|r| r.save! }
-    @room3 = Room.new(:title => 'testroom3').tap{|r| r.save! }
+    @room1 = Room.create!(:title => 'testroom1')
+    @room2 = Room.create!(:title => 'testroom2')
+    @room3 = Room.create!(:title => 'testroom3')
     @user = User.new(:name => 'test user',
                      :screen_name => 'test',
                      :email => 'user@example.com',

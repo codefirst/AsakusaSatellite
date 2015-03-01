@@ -28,7 +28,7 @@
   },
   "addons": [
     "pusher",
-    "mongohq"
+    "mongolab"
   ]
 }
 

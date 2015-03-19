@@ -94,7 +94,8 @@ class Room
       :name => self.title,
       :nickname => self.nickname,
       :updated_at => self.updated_at.to_s,
-      :user => (self.user ? self.user.to_json : nil)
+      :user => (self.user ? self.user.to_json : nil),
+      :members => self.members.map(&:to_json)
     }
   end
 

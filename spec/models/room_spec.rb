@@ -95,6 +95,7 @@ describe Room do
     its([:user])  { should == @user.to_json }
     its([:nickname])  { should == "nickname" }
     its([:updated_at]) { should == @room.updated_at.to_s }
+    its([:members]) { should == [] }
   end
 
   describe "yaml field" do
@@ -317,6 +318,11 @@ describe Room do
         subject { @public_room.owner_and_members }
         it { should == [] }
       end
+    end
+
+    context "to_json" do
+      subject { @room.to_json }
+      its([:members]) { should == [@member.to_json] }
     end
   end
 

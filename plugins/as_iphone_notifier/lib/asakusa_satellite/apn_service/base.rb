@@ -2,7 +2,7 @@
 module AsakusaSatellite
   module APNService
     class Base
-      PAYLOAD_SIZE_LIMIT = 150
+      PAYLOAD_SIZE_LIMIT = 2048 - 256
 
       class << self
         def inherited(child)

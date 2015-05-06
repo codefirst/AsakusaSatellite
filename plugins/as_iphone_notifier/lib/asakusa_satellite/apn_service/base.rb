@@ -3,6 +3,7 @@ module AsakusaSatellite
   module APNService
     class Base
       PAYLOAD_SIZE_LIMIT = 2048 - 256
+      NOTIFICATION_CATEGORY = 'CREATE_MESSAGE'
 
       class << self
         def inherited(child)

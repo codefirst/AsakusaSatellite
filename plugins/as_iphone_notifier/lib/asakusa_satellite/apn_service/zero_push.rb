@@ -23,6 +23,7 @@ module AsakusaSatellite
           :device_tokens => device_tokens.map(&method(:normalize)),
           :alert => alert(message),
           :sound => "default",
+          :category => NOTIFICATION_CATEGORY,
           :info  => {
             :room_id => room.id.to_s,
             :user => message.user.screen_name

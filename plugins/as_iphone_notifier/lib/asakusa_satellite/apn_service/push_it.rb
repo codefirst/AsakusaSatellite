@@ -30,7 +30,8 @@ module AsakusaSatellite
           :payload => {
             :aps => {
               :alert => alert(message),
-              :sound => "default"
+              :sound => "default",
+              :category => NOTIFICATION_CATEGORY
             },
             :room_id => room.id.to_s,
             :user => message.user.screen_name

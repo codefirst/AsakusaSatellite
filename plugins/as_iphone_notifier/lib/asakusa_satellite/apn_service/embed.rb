@@ -28,6 +28,7 @@ module AsakusaSatellite
           APNS::Notification.new(device_token,
             :alert => alert(message),
             :sound => 'default',
+            :category => NOTIFICATION_CATEGORY,
             :other => {
               :room_id => room.id.to_s,
               :user => message.user.screen_name

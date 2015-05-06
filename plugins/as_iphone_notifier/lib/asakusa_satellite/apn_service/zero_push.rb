@@ -18,12 +18,15 @@ module AsakusaSatellite
         ::ZeroPush.unregister(normalize(device.name)) if device.ios?
       end
 
-      def send_message(device_tokens, room, text)
+      def send_message(device_tokens, room, message)
         ::ZeroPush.notify({
           :device_tokens => device_tokens.map(&method(:normalize)),
-          :alert => text,
+          :alert => alert(message),
           :sound => "default",
-          :info  => { :id => room.id.to_s }
+          :info  => {
+            :room_id => room.id.to_s,
+            :user => message.user.screen_name
+          }
         })
       end
 

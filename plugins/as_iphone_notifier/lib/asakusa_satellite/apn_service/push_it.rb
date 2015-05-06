@@ -4,8 +4,8 @@ module AsakusaSatellite
   module APNService
     class PushIt < Base
 
-      def send_message(device_tokens, room, text)
-        body = json(device_tokens, room, text).to_json
+      def send_message(device_tokens, room, message)
+        body = json(device_tokens, room, message).to_json
         begin
           client.start do |connection|
             connection.post("/message", body)
@@ -24,15 +24,16 @@ module AsakusaSatellite
         client
       end
 
-      def json(device_tokens, room, text)
+      def json(device_tokens, room, message)
         {
           :tokens => device_tokens,
           :payload => {
             :aps => {
-              :alert => text,
+              :alert => alert(message),
               :sound => "default"
             },
-            :id => room.id.to_s
+            :room_id => room.id.to_s,
+            :user => message.user.screen_name
           }
         }
       end

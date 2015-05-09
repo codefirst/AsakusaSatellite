@@ -33,8 +33,15 @@ class Message
     }
   end
 
-  def html_body(room)
+  def html_body(room = nil)
     AsakusaSatellite::Filter.process self, room || self.room
+  end
+
+  def inner_text
+    doc = REXML::Document.new(html_body || '')
+    doc.delete_element('//style')
+    doc.delete_element('//script')
+    REXML::XPath.match(doc, "//text()").join(" ").strip
   end
 
   def prev(offset)

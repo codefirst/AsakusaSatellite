@@ -25,8 +25,10 @@ module AsakusaSatellite
       def send_message(device_tokens, room, message); end
 
       def alert(message)
-        not_attached = message.attachments.empty?
-        body = not_attached ? message.body : message.attachments[0].filename
+        body = ''
+        body = message.attachments[0].filename unless message.attachments.empty?
+        body = message.inner_text if body.blank?
+        body = message.body if body.blank?
         strip("#{message.user.name} / #{body}", PAYLOAD_SIZE_LIMIT)
       end
 

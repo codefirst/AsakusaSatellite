@@ -7,12 +7,12 @@
 
   - if has_button
    .right
-    =image_tag('private.gif', :alt => t(:private_room), :title => t(:private_room)) unless room.is_public
-    =image_tag("connection_fail.gif", :class => 'websocket-status', :alt => t(:websocket_status), :title => t(:websocket_status))
+    =image_tag('private.png', :class => 'icon', :alt => t(:private_room), :title => t(:private_room)) unless room.is_public
+    =image_tag("connection_fail.png", :class => 'icon websocket-status', :alt => t(:websocket_status), :title => t(:websocket_status))
     - if logged?
-     = link_to(image_tag("config.gif", :alt => t(:config), :title => t(:config)), room_configure_path(room))
+     = link_to(image_tag("config.png", :class => 'icon', :alt => t(:config), :title => t(:config)), room_configure_path(room))
      = form_tag({:controller => :room, :action => :delete, :id => room}, {:onsubmit => "return confirm('#{t(:are_you_sure_you_want_to_delete_this_room)}');", :action => :post, :class => 'delete-form'}) do
-      = image_submit_tag "room_delete.gif", :alt => t(:delete_this_room), :title => t(:delete_this_room)
+      = image_submit_tag "room_delete.png", :class => 'icon', :alt => t(:delete_this_room), :title => t(:delete_this_room)
   .clear
  - unless room.user.nil?
   %div.room-owner

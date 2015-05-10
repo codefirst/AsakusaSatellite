@@ -18,7 +18,7 @@ END
     project_name = info["project_name"]
     url =  URI.join(root,
                     "./projects/#{project_name}/issues/new?issue[description]=#{description}&amp;issue[subject]=#{subject}")
-    %(<a target="_blank" href="#{url}"><img src="#{path}" /></a>)
+    %(<a target="_blank" href="#{url}"><img src="#{path}" title="Redmine" class="icon" /></a>)
   rescue => e
     ""
   end

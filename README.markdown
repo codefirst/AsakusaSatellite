@@ -130,7 +130,8 @@ Thanks
 
 ### Very cute icons
 
-Several icons is created by Mark James and distributed at [mini icons - famfamfam.com](http://www.famfamfam.com/lab/icons/mini/).
+Several icons are from [Farm-Fresh Web Icons](http://www.fatcow.com/free-icons).
+These icon sets are licensed under a Creative Commons Attribution 3.0 License.
 
 ### Cool sound
 

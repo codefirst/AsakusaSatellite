@@ -12,8 +12,8 @@
    .edit-icons
     %span.message-buttons= raw(call_hook(:message_buttons, :self => self, :message => message, :permlink => message_url(:id => message.id)))
     %span.own-message{:style=>'display:none'}
-     = image_tag("message_edit.gif", :class=>'edit', :alt => t(:edit_this_message), :title => t(:edit_this_message))
-     = image_tag("message_delete.gif", :class=>'delete', :alt => t(:delete_this_message), :title => t(:delete_this_message))
+     = image_tag("message_edit.png", :class => 'icon edit', :alt => t(:edit_this_message), :title => t(:edit_this_message))
+     = image_tag("message_delete.png", :class => 'icon delete', :alt => t(:delete_this_message), :title => t(:delete_this_message))
 
    %div.body{ :original => message.body, :id => message.id }
     :plain
@@ -30,5 +30,5 @@
          %video{:src => fullpath, :controls => ''}
       %p
        %a{:target => "_blank", :href => fullpath}
-        = image_tag("page_attachment.gif")
+        = image_tag("page_attachment.png", :class => 'icon')
         = attachment.filename

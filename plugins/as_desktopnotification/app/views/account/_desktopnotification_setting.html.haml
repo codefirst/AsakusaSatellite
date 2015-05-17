@@ -14,6 +14,6 @@
      %tr
       %td
        =link_to room.title, chat_room_path(room)
-       =image_tag('private.gif', :alt => t(:private_room), :title => t(:private_room)) unless room.is_public
+       =image_tag('private.png', :class => 'icon', :alt => t(:private_room), :title => t(:private_room)) unless room.is_public
       %td
        =submit_tag 'Notification Off', :class => "submit red button", :name => room._id

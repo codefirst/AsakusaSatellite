@@ -22,7 +22,7 @@
          %img.profile-image{:src=>member.profile_image_url}
          %span.screen-name= member.screen_name
          %a.action.delete-member-button
-          = image_tag "room_delete.gif"
+          = image_tag "room_delete.png", :class => 'icon'
       .add-member
        =text_field_tag '', '', {:class => :text, :id => 'add-member-name', :placeholder => t(:member_name)}
        %input{:type=>'submit', :id => 'add-member-button', :value=> t(:add) }
@@ -52,7 +52,7 @@
           var html = '<li class="new">' +
                         '<input type="hidden" name="room[members[' + length + ']]" class="member-hidden" value="' + name + '">' +
                         '<span class="screen-name">' + name + '</span>' +
-                        '<a class="action delete-member-button">#{image_tag "room_delete.gif"}</a>' +
+                        '<a class="action delete-member-button">#{image_tag "room_delete.png"}</a>' +
                      '</li>';
           $('.members ul').append($(html));
         }

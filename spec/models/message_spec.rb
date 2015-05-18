@@ -190,6 +190,33 @@ describe Message do
     end
   end
 
+  describe "inner_text" do
+    context 'simple' do
+      before {
+        @message = Message.new
+        allow(@message).to receive(:html_body).and_return('<div class="body">text</div>')
+      }
+      subject { @message }
+      its(:inner_text) { should == "text" }
+    end
+    context 'not html' do
+      before {
+        @message = Message.new
+        allow(@message).to receive(:html_body).and_return('text')
+      }
+      subject { @message }
+      its(:inner_text) { should == "text" }
+    end
+    context 'html with style' do
+      before {
+        @message = Message.new
+        allow(@message).to receive(:html_body).and_return('<div><style>html{color:red;}</style> <div>text</div></div>')
+      }
+      subject { @message }
+      its(:inner_text) { should == "text" }
+    end
+  end
+
   describe "添付ファイル" do
     before {
       expect(Setting).to receive(:[]).with(:attachment_max_size).and_return("1")

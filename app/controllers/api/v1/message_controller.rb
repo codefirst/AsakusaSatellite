@@ -97,6 +97,19 @@ module Api
         when :error_on_destroy        then render_error "destroy error"
         end
       end
+
+      def search
+        room_id = params[:room_id]
+        query   = params[:query]
+
+        messages = {}
+        Room.with_room(room_id, current_user) do |room|
+          return render_error("room does not exist", 403) unless room
+
+          messages = Message.find_by_text(:text => query, :rooms => [ room ], :limit => 20)
+        end unless query.blank?
+        render :json => messages.map { |m| { :room => m[:room], :messages => m[:messages].map(&:to_hash) } }
+      end
     end
   end
 end

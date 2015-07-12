@@ -50,7 +50,6 @@ GEM
     chunky_png (1.2.6)
     ci_reporter (1.6.5)
       builder (>= 2.1.2)
-    coderay (1.1.0)
     colorize (0.5.8)
     compass (0.12.2)
       chunky_png (~> 1.2)
@@ -189,6 +188,7 @@ GEM
     ref (2.0.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rouge (1.9.0)
     rspec-activemodel-mocks (1.0.1)
       activemodel (>= 3.0)
       activesupport (>= 3.0)
@@ -291,7 +291,6 @@ DEPENDENCIES
   bson_ext
   c2dm
   ci_reporter
-  coderay
   compass-rails
   coveralls
   eventmachine
@@ -315,6 +314,7 @@ DEPENDENCIES
   rb-fsevent
   rcov
   rest-client
+  rouge
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-its

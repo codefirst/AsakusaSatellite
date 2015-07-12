@@ -1,2 +1,2 @@
-gem 'coderay'
+gem 'rouge'
 

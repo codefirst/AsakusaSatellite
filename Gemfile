@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.22'
 
 # mongoid
-gem 'mongoid', '2.5.1'
+gem 'mongoid', '2.8.1'
 
 # push notification
 gem 'eventmachine'
@@ -48,7 +48,7 @@ end
 platform :ruby, :mswin, :mingw do
   gem 'socky-server', '>= 0.5.0.beta1'
   gem 'thin'
-  gem 'bson_ext', '1.7.0'
+  gem 'bson_ext'
   gem 'newrelic_rpm'
   gem 'airbrake'
 end

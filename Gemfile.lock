@@ -39,10 +39,10 @@ GEM
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
-    bson (1.7.0)
-    bson (1.7.0-java)
-    bson_ext (1.7.0)
-      bson (~> 1.7.0)
+    bson (1.12.3)
+    bson (1.12.3-java)
+    bson_ext (1.12.3)
+      bson (~> 1.12.3)
     builder (3.0.4)
     c2dm (0.2.2)
       httparty
@@ -127,11 +127,11 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    mongo (1.7.0)
-      bson (~> 1.7.0)
-    mongoid (2.5.1)
+    mongo (1.12.3)
+      bson (= 1.12.3)
+    mongoid (2.8.1)
       activemodel (~> 3.1)
-      mongo (~> 1.7)
+      mongo (~> 1.9)
       tzinfo (~> 0.3.22)
     multi_json (1.11.2)
     multi_xml (0.5.1)
@@ -288,7 +288,7 @@ PLATFORMS
 DEPENDENCIES
   airbrake
   apns
-  bson_ext (= 1.7.0)
+  bson_ext
   c2dm
   ci_reporter
   coderay
@@ -303,7 +303,7 @@ DEPENDENCIES
   guard-spork
   haml-rails
   json
-  mongoid (= 2.5.1)
+  mongoid (= 2.8.1)
   newrelic_rpm
   omniauth
   omniauth-twitter (>= 0.0.14)
@@ -331,3 +331,6 @@ DEPENDENCIES
   uuidtools
   warbler
   zero_push
+
+BUNDLED WITH
+   1.10.6

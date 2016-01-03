@@ -25,7 +25,7 @@
      .notice_message= flash[:notice]
     = yield
    .footer
-    %p!="Powered by #{link_to "AsakusaSatellite", :controller=>:application, :action=>:about}. Copyright (C) 2011-2015 <a href='http://www.codefirst.org'>codefirst.org</a>. All rights reserved."
+    %p!="Powered by #{link_to "AsakusaSatellite", :controller=>:application, :action=>:about}. Copyright (C) 2011-2016 <a href='https://www.codefirst.org'>codefirst.org</a>. All rights reserved."
   = javascript_include_tag "application"
   = yield :javascripts
   = raw(call_hook :global_footer)

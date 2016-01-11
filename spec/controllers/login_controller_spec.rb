@@ -33,14 +33,24 @@ describe LoginController do
   end
 
   context "callback" do
-    before do
-      request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter] 
-      post :omniauth_callback, :provider => 'twitter'
+    context "user created with twitter account" do
+      before do
+        request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        post :omniauth_callback, :provider => 'twitter'
+      end
+      subject { controller.current_user }
+      its(:name) { should == 'name' }
+      its(:screen_name) { should == 'nickname' }
+      its(:profile_image_url) { should == 'http://example.com/a.jpg' }
     end
-    subject { controller.current_user }
-    its(:name) { should == 'name' }
-    its(:screen_name) { should == 'nickname' }
-    its(:profile_image_url) { should == 'http://example.com/a.jpg' }
+    context "callback to custom scheme" do
+      before do
+        request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
+        request.env["omniauth.params"] = {"callback_scheme" => "callback.app"}
+        post :omniauth_callback, :provider => 'twitter'
+      end
+      it { should redirect_to "callback.app:///login?#{{:api_key => controller.current_user.spell}.to_query}" }
+    end
   end
 
   context "login/failure" do

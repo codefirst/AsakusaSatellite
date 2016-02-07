@@ -13,7 +13,7 @@ $(function(){
         return ":" + value + ":";
       },
       template: function(value){
-        return "<img src='<%= ActionController::Base.helpers.asset_path('emoji') %>/" + value + ".png'>" + value + "</img>";
+        return "<img src='<%= Rails.application.config.relative_url_root %><%= ActionController::Base.helpers.asset_path('emoji') %>/" + value + ".png'>" + value + "</img>";
       },
       maxCount: 5,
     }

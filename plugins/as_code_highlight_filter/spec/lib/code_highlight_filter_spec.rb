@@ -13,7 +13,7 @@ describe CodeHighlightFilter do
 
   it 'ハイライトできる' do
     plain = [ "ruby::", "puts \"hello\"",""]
-    expect(@filter.process_all(plain).join).to have_xml("//div[@class='CodeRay']")
+    expect(@filter.process_all(plain).join).to have_xml("//pre[@class='highlight']")
   end
 
   it '\n が LF に置換されない' do
@@ -23,7 +23,7 @@ describe CodeHighlightFilter do
 
   it 'LF が \n に置換されない' do
     plain = [ "ruby::", "\"one\"\n\"two\"",""]
-    expect(@filter.process_all(plain).join).to have_xml("//pre[text()='\n']")
+    expect(@filter.process_all(plain).join).to have_xml("//code[text()='\n']")
   end
 
   it "graphvizの可視化に対応" do
@@ -40,7 +40,7 @@ graphviz::
 #{graph}
 END
 
-    result = %(<img class="graphviz" src="http://chart.googleapis.com/chart?cht=gv&amp;chl=#{CGI.escape graph.strip}" />)
+    result = %(<img class="graphviz" src="https://chart.googleapis.com/chart?cht=gv&amp;chl=#{CGI.escape graph.strip}" />)
 
     expect(@filter.process_all(plain.split("\n"))).to eq result
   end

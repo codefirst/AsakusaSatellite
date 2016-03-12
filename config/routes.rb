@@ -17,6 +17,7 @@ AsakusaSatellite::Application.routes.draw do
     namespace(:v1) do
       get 'room/list', :controller => 'room', :action => 'list'
       get 'message/list', :controller => 'message', :action => 'list'
+      get 'message/search', :controller => 'message', :action => 'search'
       get 'user', :controller => 'user', :action => 'show'
       post 'user', :controller => 'user', :action => 'update'
       get 'user/add_device', :controller => 'user', :action => 'add_device'

@@ -425,4 +425,28 @@ describe Api::V1::MessageController do
       its(:response_code) { should == 403 }
     end
   end
+
+  describe "search" do
+    context 'normal' do
+      before {
+        get :search, :room_id => @room.id, :query => 'hoge', :format => 'json'
+      }
+      subject { response.body }
+      it { should have_json("//body[text() = 'hoge']") }
+    end
+    context 'empty query' do
+      before {
+        get :search, :room_id => @room.id, :format => 'json'
+      }
+      subject { response }
+      its(:response_code) { should == 200 }
+    end
+    context 'private room' do
+      before {
+        get :search, :room_id => @private_room.id, :query => 'hoge', :format => 'json'
+      }
+      subject { response.body }
+      it { should have_json("/status[text() = 'error']") }
+    end
+  end
 end

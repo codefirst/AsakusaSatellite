@@ -13,9 +13,6 @@ build:
         - script:
             name: rspec
             code: bundle exec rake spec
-        - script:
-            name: qunit
-            code: bundle exec rake qunit
     after-steps:
         - mzp/http-notify:
             url: $DASHBOZU_URL

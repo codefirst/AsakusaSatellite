@@ -1,6 +1,6 @@
-box: wercker/rvm
+box: ruby:2.3
 services:
-  - wercker/mongodb
+  - id: mongo:3.2
 build:
     steps:
         - bundle-install
@@ -19,3 +19,10 @@ build:
     after-steps:
         - mzp/http-notify:
             url: $DASHBOZU_URL
+deploy:
+  steps:
+    - heroku-deploy:
+        key: $HEROKU_KEY
+        user: $HEROKU_USER
+        app-name: $HEROKU_APP_NAME
+

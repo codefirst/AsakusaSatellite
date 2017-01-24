@@ -3,7 +3,7 @@ development:
   database: asakusa_satellite_development
 
 test:
-  host: <%= ENV['WERCKER_MONGODB_HOST'] || 'localhost' %>
+  host: <%= ENV['MONGO_PORT_27017_TCP_ADDR'] || 'localhost' %>
   database: asakusa_satellite_test
 
 production:

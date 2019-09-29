@@ -1,6 +1,7 @@
 development:
-  host: localhost
+  host: <%= ENV['MONGODB_HOST'] || 'localhost' %>
   database: asakusa_satellite_development
+  port: <%= ENV['MONGODB_PORT'] || 27017 %>
 
 test:
   host: <%= ENV['MONGO_PORT_27017_TCP_ADDR'] || 'localhost' %>

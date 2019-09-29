@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: script/dockerfiles/Dockerfile.app
+    ports:
+      - "3000:3000"
+    command: bash -c "bundle install && rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/work
+      - bundle:/usr/local/bundle
+    environment:
+      MONGODB_HOST: mongo
+      MONGO_PORT_27017_TCP_ADDR: mongo
+      MONGODB_PORT: 27017
+      MESSAGE_PUSHER_SOCKY_HTTP_URL: http://socky:3002/http
+    links:
+      - mongo
+      - socky
+  socky:
+    build:
+      context: ./
+      dockerfile: script/dockerfiles/Dockerfile.socky
+    ports:
+      - "3002:3002"
+    command: bundle exec thin -R config.ru -p3002 -t0 start
+  mongo:
+    image: mongo:3.2
+    restart: always
+    ports:
+      - 27017
+    volumes:
+      - db_data:/data/db
+      - configdb_data:/data/configdb
+  mongo-express:
+    image: mongo-express:0.49.0
+    restart: always
+    ports:
+      - 8081:8081
+    links:
+      - mongo
+volumes:
+
+volumes:
+  bundle:
+  db_data:
+  configdb_data:

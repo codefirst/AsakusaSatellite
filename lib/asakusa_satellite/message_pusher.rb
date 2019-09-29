@@ -123,7 +123,7 @@ module AsakusaSatellite
       end
 
       def jsFiles
-        ['http://js.socky.org/v0.5.0-beta1/socky.min.js']
+        ['/socky/v0.5.0/socky.min.js']
       end
 
       def jsClass

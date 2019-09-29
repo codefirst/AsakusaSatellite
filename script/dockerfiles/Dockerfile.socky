@@ -1,0 +1,10 @@
+FROM ruby:2.3.0
+
+WORKDIR /root
+
+RUN mkdir -p /root/socky
+
+COPY Gemfile Gemfile.lock socky/config.ru /root/
+
+RUN bundle
+

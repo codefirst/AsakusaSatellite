@@ -29,7 +29,7 @@ describe AsakusaSatellite::MessagePusher do
       @pusher = AsakusaSatellite::MessagePusher::Socky.new(opt)
     }
     subject { @pusher }
-    its (:jsFiles) { should == ['http://js.socky.org/v0.5.0-beta1/socky.min.js'] }
+    its (:jsFiles) { should == ['/socky/v0.5.0/socky.min.js'] }
     its (:jsClass) { should =~ /ws:\/\/localhost\/socky/m }
   end
 

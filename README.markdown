@@ -69,43 +69,43 @@ For JRuby user
 For developers
 ---------------
 
-### Install for Developer
+### Run
 
-    $ cp misc/bleis-hooks/* .git/hooks
+
+    docker-compose up
+
+
+and access to http://localhost:3000/
 
 ### Test
 
-You need test db to run tests.
-
-    $ mongod --dbpath <test_dir_name>
-
 #### individual testing
 
-    $ bundle exec rspec spec/{controller,model}/$(name)_spec.rb
+    $ docker-compose run app bundle exec rspec spec/{controller,model}/$(name)_spec.rb
 
 #### test all
 
-    $ bundle exec rake
+    $ docker-compose run app bundle exec rake
 
 #### run with rcov
 
-    $ bundle exec rake spec:rcov
+    $ docker-compose run app bundle exec rake spec:rcov
 
 #### auto testing
 
-    $ bundle exec guard start
+    $ docker-compose run app bundle exec guard start
 
 #### JavaScript testing
 
 Requirement: phantomjs 1.5+
 
-    $ bundle exec rake qunit
+    $ docker-compose run app bundle exec rake qunit
 
 ### Generate Plugin Template
 
 #### generate filter
 
-    $ rails g as_filter test
+    $ docker-compose run app rails g as_filter test
 
 edit filies
 
@@ -118,7 +118,7 @@ edit config/filters.yml
 
 #### generate viewhook
 
-    $ rails g as_viewhook test
+    $ docker-compose run app rails g as_viewhook test
 
 edit files
 

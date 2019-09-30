@@ -1,0 +1,25 @@
+name: Ruby
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:3.2
+        ports:
+          - 27017:27017
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby 2.3
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.3.x
+    - name: Build and test with Rake
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        bundle exec rake
+      env:
+        MONGODB_HOST: localhost
+        MONGO_PORT_27017_TCP_ADDR: localhost
+        MONGODB_PORT: 27017

@@ -72,7 +72,7 @@ describe RoomController do
       before {
           post :create, {:room => {:title => 'foo private', :is_public => false }}
       }
-      subject { Room.last }
+      subject { Room.find(File.basename(response['Location'])) }
       its(:is_public) { should be_falsey }
     end
 
@@ -80,7 +80,7 @@ describe RoomController do
       before {
           post :create, {:room => {:title => 'foo', :is_public => true }}
       }
-      subject { Room.last }
+      subject { Room.find(File.basename(response['Location'])) }
       its(:is_public) { should be_truthy }
     end
 

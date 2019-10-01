@@ -53,7 +53,7 @@ describe Api::V1::UserController do
       before {
         post :update, :api_key => @user.spell, :format => 'json', :name => "modified name"
       }
-      subject { User.first(:conditions => {:_id => @user.id }).name }
+      subject { @user.reload.name }
       it { should == "modified name" }
     end
 
@@ -61,7 +61,7 @@ describe Api::V1::UserController do
       before {
         post :update, :api_key => @user.spell, :format => 'json', :profile_image_url => "http://example.com/somepic.jpg"
       }
-      subject { User.first(:conditions => {:_id => @user.id }).profile_image_url }
+      subject { @user.reload.profile_image_url }
       it { should == "http://example.com/somepic.jpg" }
     end
 
@@ -69,7 +69,7 @@ describe Api::V1::UserController do
       before {
         post :update, :api_key => @user.spell, :format => 'json', :invalid_param => "evil value"
       }
-      subject { User.first(:conditions => {:_id => @user.id }) }
+      subject { @user.reload }
       it { should_not respond_to :invalid_param }
     end
   end
@@ -78,7 +78,7 @@ describe Api::V1::UserController do
     context "api_keyが一致" do
       before {
         post :add_device, :api_key => @user.spell, :format => 'json', :device => 'device_id'
-        @user = User.where(:_id => @user.id).first
+        @user = @user.reload
       }
       subject { @user.devices[0].name }
       it { should == 'device_id' }

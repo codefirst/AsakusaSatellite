@@ -58,7 +58,7 @@ module Api
       private
 
       def update_profile(profile_info)
-        user = User.first(:conditions => {:_id => current_user.id})
+        user = User.find(current_user.id)
         user.update_attributes(profile_info)
         user.save
       end

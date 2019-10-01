@@ -1,25 +1,23 @@
 development:
-  sessions:
-    default:
-      hosts:
-        - <%= ENV['MONGODB_HOST'] || 'localhost' %>:<%= ENV['MONGODB_PORT'] || 27017 %>
-      database: asakusa_satellite_development
+  host: <%= ENV['MONGODB_HOST'] || 'localhost' %>
+  database: asakusa_satellite_development
+  port: <%= ENV['MONGODB_PORT'] || 27017 %>
 
 test:
-  sessions:
-    default:
-      hosts:
-        - <%= ENV['MONGO_PORT_27017_TCP_ADDR'] || 'localhost' %>:27017
-      database: asakusa_satellite_test
+  host: <%= ENV['MONGO_PORT_27017_TCP_ADDR'] || 'localhost' %>
+  database: asakusa_satellite_test
 
 production:
-  sessions:
-    default:
-      # if uri is available, uri has priority
-      uri: <%= ENV['MONGODB_URI'] || ENV['MONGOHQ_URL'] || ENV['MONGOLAB_URI'] %>
-      # if uri is not available, use below configuration
-      hosts:
-        - <%= ENV['MONGODB_HOST'] || 'localhost' %>:<%= ENV['MONGODB_PORT'] || 27017 %>
-      database: <%= ENV['MONGODB_DATABASE'] || 'asakusa_satellite_production' %>
-      username: <%= ENV['MONGODB_USERNAME'] %>
-      password: <%= ENV['MONGODB_PASSWORD'] %>
+  # if uri is available, uri has priority
+  uri: <%= ENV['MONGODB_URI'] || ENV['MONGOHQ_URL'] || ENV['MONGOLAB_URI'] %>
+  # if uri is not available, use below configuration
+  host: <%= ENV['MONGODB_HOST'] || 'localhost' %>
+  port: <%= ENV['MONGODB_PORT'] || 27017 %>
+  database: <%= ENV['MONGODB_DATABASE'] || 'asakusa_satellite_production' %>
+  username: <%= ENV['MONGODB_USERNAME'] %>
+  password: <%= ENV['MONGODB_PASSWORD'] %>
+  # slaves:
+  #   - host: slave1.local
+  #     port: 27018
+  #   - host: slave2.local
+  #     port: 27019

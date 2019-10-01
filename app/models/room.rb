@@ -8,7 +8,7 @@ class Room
   field :nickname
   field :yaml
   belongs_to :user, :polymorphic => true
-  has_and_belongs_to_many :members, :class_name => 'User'
+  has_and_belongs_to_many :members, :class_name => 'User', :inverse_of => nil
 
   validates_presence_of :title
   validates_format_of :nickname, :with => /\A[\w-]*\Z/

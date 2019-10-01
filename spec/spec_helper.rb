@@ -1,43 +1,4 @@
 require 'rubygems'
-require 'coveralls'
-Coveralls.wear!('rails')
-require 'spork'
-
-Spork.prefork do
-  if (not ENV['DRB']) and RUBY_VERSION >= '1.9'
-    begin
-      require 'simplecov'
-      SimpleCov.start 'rails' do
-        add_filter '.bundle'
-      end
-    rescue LoadError
-    end
-  end
-
-  # Loading more in this block will cause your tests to run faster. However,
-  # if you change any configuration or code from libraries loaded here, you'll
-  # need to restart spork for it take effect.
-  ENV["RAILS_ENV"] ||= 'test'
-  require File.expand_path("../../config/environment", __FILE__)
-  require 'rspec/rails'
-
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-
-  RSpec.configure do |config|
-    config.mock_with :rspec
-#    config.fixture_path = "#{::Rails.root}/spec/fixtures"
-#    config.use_transactional_fixtures = true
-  end
-end
-
-Spork.each_run do
-  # This code will be run each time you run your specs.
-  silence_warnings do
-    Dir[Rails.root.join('app/**/*.rb')].each do |file|
-      load file
-    end
-  end
-end
 
 # --- Instructions ---
 # - Sort through your spec_helper file. Place as much environment loading

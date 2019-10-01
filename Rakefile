@@ -10,7 +10,6 @@ AsakusaSatellite::Application.load_tasks
 if %(development test).include?(Rails.env)
   require 'rspec/core'
   require 'rspec/core/rake_task'
-  require 'ci/reporter/rake/rspec'
 
   namespace :spec do
     RSpec::Core::RakeTask.new(:all) do |t|

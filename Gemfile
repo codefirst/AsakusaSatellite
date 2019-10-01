@@ -34,15 +34,6 @@ group :development, :test do
   gem "rspec-its"
   gem 'rspec-collection_matchers'
   gem 'rspec-activemodel-mocks'
-  gem 'rcov', :platforms => :ruby_18
-  gem 'simplecov', :platforms => :ruby_19
-  gem 'coveralls'
-  gem 'ci_reporter'
-
-  gem 'spork'
-  gem 'rb-fsevent'
-  gem 'guard-spork'
-  gem 'guard-rspec'
 end
 
 platform :ruby, :mswin, :mingw do

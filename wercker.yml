@@ -1,6 +1,6 @@
 box: ruby:2.3
 services:
-  - id: mongo:3.2
+  - id: mongo:3.6.12
 build:
     steps:
         - bundle-install

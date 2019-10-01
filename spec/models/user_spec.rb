@@ -7,14 +7,14 @@ describe User do
     @room1 = Room.create!(:title => 'testroom1')
     @room2 = Room.create!(:title => 'testroom2')
     @room3 = Room.create!(:title => 'testroom3')
-    @user = User.new(:name => 'test user',
-                     :screen_name => 'test',
-                     :email => 'user@example.com',
-                     :profile_image_url => 'http://example.com/profile.png',
-                     :user_profiles => [UserProfile.new(:room_id => @room1._id,
-                                                        :name => "name for room1",
-                                                        :profile_image_url => "http://example.com/pic.jpg")],
-                     :spell => 'spell')
+    @user  = User.create!(:name => 'test user',
+                          :screen_name => 'test',
+                          :email => 'user@example.com',
+                          :profile_image_url => 'http://example.com/profile.png',
+                          :user_profiles => [UserProfile.new(:room_id => @room1._id,
+                                                             :name => "name for room1",
+                                                             :profile_image_url => "http://example.com/pic.jpg")],
+                          :spell => 'spell')
   end
 
   subject { @user }

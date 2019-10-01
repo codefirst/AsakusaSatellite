@@ -8,7 +8,7 @@ class Room
   field :nickname
   field :yaml
   belongs_to :user, :polymorphic => true
-  has_and_belongs_to_many :members, :class_name => 'User'
+  has_and_belongs_to_many :members, :class_name => 'User', :inverse_of => nil
 
   validates_presence_of :title
   validates_format_of :nickname, :with => /\A[\w-]*\Z/
@@ -118,7 +118,7 @@ class Room
 
   def accessible?(user)
     return false if self.deleted
-    self.is_public || (self.user == user) || (self.members.include? user)
+    self.is_public || (user.present? && ((self.user == user) || (self.members.include? user)))
   end
 
   def self.find_by_id_or_nickname(id)

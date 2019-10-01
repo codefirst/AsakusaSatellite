@@ -27,7 +27,7 @@ services:
       - "3002:3002"
     command: bundle exec thin -R config.ru -p3002 -t0 start
   mongo:
-    image: mongo:3.2
+    image: mongo:3.6.12
     restart: always
     ports:
       - 27017

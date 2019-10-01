@@ -7,11 +7,11 @@ module ApplicationHelper
   end
 
   def current_user
-    @cached_user ||= User.where(:_id => session[:current_user_id]).first
+    @cached_user ||= User.where(id: session[:current_user_id].to_s).first
   end
 
   def set_current_user(user)
-    session[:current_user_id] = user.id
+    session[:current_user_id] = user.id.to_s
   end
 
   def image_mimetype?(mimetype)

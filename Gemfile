@@ -3,8 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.22.2'
 
 # mongoid
-gem 'mongoid', '3.1.7'
-gem 'bson'
+gem 'mongoid', '2.8.1'
 
 # push notification
 gem 'eventmachine'

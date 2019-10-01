@@ -7,7 +7,7 @@ class Message
   belongs_to :room
   belongs_to :user
   embeds_many :attachments
-  index :created_at => 1
+  index :created_at
 
   before_validation do |m|
     m.body.strip! if m.body

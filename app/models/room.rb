@@ -118,7 +118,7 @@ class Room
 
   def accessible?(user)
     return false if self.deleted
-    self.is_public || (self.user == user) || (self.members.include? user)
+    self.is_public || (user.present? && ((self.user == user) || (self.members.include? user)))
   end
 
   def self.find_by_id_or_nickname(id)

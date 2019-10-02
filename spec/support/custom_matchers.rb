@@ -9,7 +9,7 @@ RSpec::Matchers.define :have_json do |selector|
     when Hash
       "/hash"
     end
-    doc = REXML::Document.new(json.to_xml).root
+    doc = REXML::Document.new(json.to_xml.gsub('$oid','oid')).root
     REXML::XPath.match(doc, prefix + selector).size > 0
   end
 end

@@ -50,7 +50,7 @@ describe Message do
     its(['profile_image_url']) { should == @message.user.profile_image_url }
     its(['body']) { should == @message.body }
     its(['attachment']) { should be_empty }
-    it { expect(subject['id']).to eq @message.id }
+    it { expect(subject['id']).to eq @message.id.to_s }
     its(['screen_name']) { should == @message.user.screen_name }
     its(['created_at']) { should == @message.created_at.to_s }
     its(['html_body']) { should == "filtered:#{@message.body}" }

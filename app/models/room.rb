@@ -1,14 +1,14 @@
 class Room
   include Mongoid::Document
   include Mongoid::Timestamps
-#  field :updated_at, :type => Time
+  include Mongoid::Attributes::Dynamic
   field :title
   field :deleted, :type => Boolean, :default => false
   field :is_public, :type => Boolean, :default => true
   field :nickname
   field :yaml
   belongs_to :user, :polymorphic => true
-  has_and_belongs_to_many :members, :class_name => 'User'
+  has_and_belongs_to_many :members, :class_name => 'User', :inverse_of => nil
 
   validates_presence_of :title
   validates_format_of :nickname, :with => /\A[\w-]*\Z/
@@ -90,7 +90,7 @@ class Room
 
   def to_json
     {
-      :id => self.id,
+      :id => self.id.to_s,
       :name => self.title,
       :nickname => self.nickname,
       :updated_at => self.updated_at.to_s,
@@ -118,7 +118,10 @@ class Room
 
   def accessible?(user)
     return false if self.deleted
-    self.is_public || (self.user == user) || (self.members.include? user)
+    return true if self.is_public
+    return false if user.nil?
+
+    (self.user == user) || self.members.include?(user)
   end
 
   def self.find_by_id_or_nickname(id)
@@ -138,7 +141,7 @@ class Room
   def self.make(name, owner, attributes={})
     return :login_error if owner.nil?
 
-    room = Room.new(:title => name, :user => owner, :update_at => Time.now)
+    room = Room.new(:title => name, :user => owner)
     if room.update_attributes(attributes) then room
                                           else :error_on_save
     end

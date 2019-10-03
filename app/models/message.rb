@@ -7,7 +7,7 @@ class Message
   belongs_to :room
   belongs_to :user
   embeds_many :attachments
-  index :created_at
+  index({ :created_at => 1 })
 
   before_validation do |m|
     m.body.strip! if m.body
@@ -21,7 +21,7 @@ class Message
     end
 
     {
-      'id'   => self.id,
+      'id'   => self.id.to_s,
       'body' => self.body,
       'html_body' => self.html_body(self.room),
       'name' => profile[:name],

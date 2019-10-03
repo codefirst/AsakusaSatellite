@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.22.2'
+gem 'rails', '4.0.13'
 
 # mongoid
-gem 'mongoid', '2.8.1'
+gem 'mongoid', '5.0.2'
 
 # push notification
 gem 'eventmachine'
@@ -12,7 +12,7 @@ gem 'socky-client', '>= 0.5.0.beta1'
 
 # html
 gem 'haml-rails'
-gem 'sass-rails'
+gem 'sass-rails', '4.0.5'
 gem 'compass-rails'
 gem "execjs"
 gem 'therubyracer', :platform => :ruby
@@ -26,7 +26,6 @@ gem 'omniauth'
 gem 'json'
 
 group :development, :test do
-  gem "rails3-generators"
   gem 'quiet_assets'
 
   gem 'test-unit', '~> 3.0'
@@ -34,21 +33,11 @@ group :development, :test do
   gem "rspec-its"
   gem 'rspec-collection_matchers'
   gem 'rspec-activemodel-mocks'
-  gem 'rcov', :platforms => :ruby_18
-  gem 'simplecov', :platforms => :ruby_19
-  gem 'coveralls'
-  gem 'ci_reporter'
-
-  gem 'spork'
-  gem 'rb-fsevent'
-  gem 'guard-spork'
-  gem 'guard-rspec'
 end
 
 platform :ruby, :mswin, :mingw do
   gem 'socky-server', '>= 0.5.0.beta1'
   gem 'thin'
-  gem 'bson_ext'
   gem 'newrelic_rpm'
   gem 'airbrake'
 end

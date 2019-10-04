@@ -21,7 +21,7 @@ module ChatHelper
   def current_info(room)
     {
       :user => current_user && current_user.screen_name,
-      :room => room.id,
+      :room => room.id.to_s,
       :public => room.is_public,
       :member => room.owner_and_members.map{|user| user._id}
     }

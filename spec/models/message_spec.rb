@@ -75,7 +75,7 @@ describe Message do
   describe "prev_id" do
     context "has prev" do
       subject { @messages[5].prev_id }
-      it { should == @messages[4].id }
+      it { should == @messages[4].id.to_s }
     end
     context "not has prev" do
       subject { @messages[0].prev_id }

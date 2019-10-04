@@ -8,14 +8,14 @@
     %span.screen-name= message.user.screen_name rescue "** Unknown user **"
     %span.user-name= message.user.profile_for(room.id)[:name] rescue "** Unknown user **"
    .update-time
-    %a{:href => message_url(:id => message.id, :only_path => true) }= l(message.created_at)
+    %a{:href => message_url(:id => message.id.to_s, :only_path => true) }= l(message.created_at)
    .edit-icons
-    %span.message-buttons= raw(call_hook(:message_buttons, :self => self, :message => message, :permlink => message_url(:id => message.id)))
+    %span.message-buttons= raw(call_hook(:message_buttons, :self => self, :message => message, :permlink => message_url(:id => message.id.to_s)))
     %span.own-message{:style=>'display:none'}
      = image_tag("message_edit.png", :class => 'icon edit', :alt => t(:edit_this_message), :title => t(:edit_this_message))
      = image_tag("message_delete.png", :class => 'icon delete', :alt => t(:delete_this_message), :title => t(:delete_this_message))
 
-   %div.body{ :original => message.body, :id => message.id }
+   %div.body{ :original => message.body, :id => message.id.to_s }
     :plain
      #{message.html_body(room)}
    - unless message.attachments.nil?

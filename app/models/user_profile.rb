@@ -8,8 +8,8 @@ class UserProfile
 
   def to_json
     {
-      :id => self.id,
-      :room_id => self.room_id,
+      :id => self.id.to_s,
+      :room_id => self.room_id.to_s,
       :name => self.name,
       :profile_image_url => self.profile_image_url
     }

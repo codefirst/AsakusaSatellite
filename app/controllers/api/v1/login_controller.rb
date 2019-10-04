@@ -11,7 +11,7 @@ module Api
           render_error 'login failed', 403
           return
         end
-        session[:current_user_id] = users.first.id
+        session[:current_user_id] = users.first.id.to_s
         render :json => {:status => 'ok', :message => 'login successful'}
       end
     end

@@ -25,7 +25,7 @@ describe Api::V1::LoginController do
 
       get :index, :user => 'bob', :password => 'password', :format => 'json'
       expect(response.body).to have_json("/status[text() = 'ok']")
-      expect(session[:current_user_id]).to eq bob.id
+      expect(session[:current_user_id]).to eq bob.id.to_s
     end
   end
 end

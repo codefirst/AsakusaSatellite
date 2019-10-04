@@ -16,3 +16,5 @@ production:
   clients:
     default:
       uri: <%= ENV['MONGODB_URI'] || ENV['MONGOHQ_URL'] || ENV['MONGOLAB_URI'] %>
+      options:
+        retry_writes: false

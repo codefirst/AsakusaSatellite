@@ -68,7 +68,7 @@ module Api
             files.each {|file| message.attach(file)}
             room.update_attributes(:updated_at => Time.now)
             publish_message(:create, message, room)
-            render :json => {:status => 'ok', :message_id => message.id}
+            render :json => {:status => 'ok', :message_id => message.id.to_s}
           when :login_error   then render_login_error
           when :empty_message then render_error "empty message"
           when :error_on_save then render_message_creation_error

@@ -2,12 +2,10 @@
 module Api
   module V1
     class ServiceController < ApplicationController
-      respond_to :json
-
       def info
-        respond_with( {
+        render :json => ({
           :message_pusher => AsakusaSatellite::MessagePusher.to_json
-        } )
+        })
       end
     end
   end

@@ -7,7 +7,6 @@ module Api
 
       before_filter :check_spell
 
-      respond_to :json
       def create
         render_login_error and return unless logged?
 

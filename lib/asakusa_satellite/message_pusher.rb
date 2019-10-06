@@ -127,7 +127,7 @@ module AsakusaSatellite
       end
 
       def jsClass
-        <<END
+        <<END.html_safe
 (function() {
  var map = {
   'connected' : 'socky:connection:established',

@@ -7,7 +7,6 @@ module Api
       include Rails.application.routes.url_helpers
 
       before_filter :check_spell
-      respond_to :json
 
       def list
         room_id    = params[:room_id]
@@ -40,7 +39,7 @@ module Api
             messages = room.messages(count, order)
           end
 
-          respond_with(messages.map{|m| cache([m, :api]){to_json(m)}})
+          render :json => (messages.map{|m| cache([m, :api]){to_json(m)}})
         end
       end
 
@@ -48,7 +47,7 @@ module Api
         case message = Message.where(:_id => params[:id]).first
         when Message
           if message.accessible?(current_user)
-            respond_with(to_json(message))
+            render :json => (to_json(message))
           else
             render_message_not_found(params[:id])
           end

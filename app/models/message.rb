@@ -52,7 +52,7 @@ class Message
   def prev_id
     prev_messages = prev(1)
     return nil if prev_messages.empty?
-    prev_messages.first.id
+    prev_messages.first.id.to_s
   end
 
   def next(offset)

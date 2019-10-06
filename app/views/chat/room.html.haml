@@ -14,7 +14,7 @@
  - if logged?
   - cache [:inputfield, @room.id] do
    .input
-    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id }, :html => {:class => :inputarea} do |f|
+    = form_for :chat, :url => {:controller => :chat, :action => :message, :room_id => @room.id.to_s }, :html => {:class => :inputarea} do |f|
      =text_area_tag :message, '', :class => :text, :autofocus=>true, :placeholder=> t('placeholder_message')
      =submit_tag t(:send), :class => 'submit red button large', :id => 'send'
 .chat_room_bottom= raw(call_hook(:chat_room_bottom, :room => @room))

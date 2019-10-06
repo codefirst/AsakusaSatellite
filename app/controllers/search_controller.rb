@@ -50,6 +50,6 @@ class SearchController < ApplicationController
 
   private
   def search_from
-    Room.all_live(current_user).map {|room| [room.title, room.id]}
+    Room.all_live(current_user).map {|room| [room.title, room.id.to_s]}
   end
 end

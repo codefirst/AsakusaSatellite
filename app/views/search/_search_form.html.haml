@@ -6,7 +6,7 @@
   .left
    =text_field :search, :message, {:class => :text, :value => @query}
    =select :room, :id, @rooms, {:selected => @room_id, :prompt => t('select_a_room')} if advanced
-   =hidden_field_tag("room[id]", room.id) if defined? room
+   =hidden_field_tag("room[id]", room.id.to_s) if defined? room
   .right
    =submit_tag t(:search), :class => "submit red button large"
   .clear

@@ -17,7 +17,7 @@
     %td= Rails::VERSION::STRING
    %tr
     %td.first= t(:mongodb)
-    %td= Mongoid.database.connection.server_version.to_s
+    %td= Mongoid.default_client.command(buildInfo: 1).first[:version]
    %tr
     %td.first= t(:jquery)
     %td

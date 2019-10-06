@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def set_current_user(user)
-    session[:current_user_id] = user.id
+    session[:current_user_id] = user.id.to_s
   end
 
   def image_mimetype?(mimetype)

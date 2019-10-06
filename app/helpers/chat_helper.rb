@@ -30,7 +30,7 @@ module ChatHelper
   private
   def publish_message(event, message, room)
     data = if event == :delete
-             { :content => { :id => message.id } }
+             { :content => { :id => message.id.to_s } }
            elsif event == :create
              { :content => to_json(message, room).merge({ :prev_id => message.prev_id }) }
            else
@@ -39,7 +39,7 @@ module ChatHelper
 
     AsakusaSatellite::AsyncRunner.run do
       begin
-        AsakusaSatellite::MessagePusher.trigger("as-#{room.id}",
+        AsakusaSatellite::MessagePusher.trigger("as-#{room.id.to_s}",
                                                 "message_#{event}",
                                                 data.to_json)
       rescue => e

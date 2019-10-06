@@ -6,7 +6,7 @@
   = stylesheet_link_tag 'application'
   %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"}
   = csrf_meta_tag
-  = favicon_link_tag
+  = favicon_link_tag('/favicon.ico')
   %title= "#{@title and "#{@title} - "}AsakusaSatellite"
   = raw(call_hook :global_header)
  %body

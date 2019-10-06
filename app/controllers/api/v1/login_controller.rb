@@ -3,7 +3,6 @@ module Api
   module V1
     class LoginController < ApplicationController
       include ApiHelper
-      respond_to :json
       def index
         ActiveSupport::Deprecation.warn "Api::V1::LoginController is deprecated. Instead, please use api_key parameter"
         users = User.where(:screen_name => params[:user], :spell => params[:password])

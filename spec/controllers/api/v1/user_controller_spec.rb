@@ -18,7 +18,7 @@ describe Api::V1::UserController do
   describe "show" do
     context "api_keyが一致" do
       before {
-        get :show, :api_key => @user.spell, :format => 'json'
+        get :show, :params => { :api_key => @user.spell, :format => 'json' }
       }
       subject { response.body }
       it { should have_json("/id[text() = '#{@user.id}']") }
@@ -29,7 +29,7 @@ describe Api::V1::UserController do
 
     context "api_keyが不一致" do
       before {
-        get :show, :api_key => "peropero", :format => 'json'
+        get :show, :params => { :api_key => "peropero", :format => 'json' }
       }
       subject { response }
       its(:response_code) { should == 403 }
@@ -39,7 +39,7 @@ describe Api::V1::UserController do
 
     context "without api_key" do
       before {
-        get :show, :api_key => nil, :format => 'json'
+        get :show, :params => { :api_key => nil, :format => 'json' }
       }
       subject { response }
       its(:response_code) { should == 403 }
@@ -51,7 +51,7 @@ describe Api::V1::UserController do
   describe "update" do
     context "名前の変更" do
       before {
-        post :update, :api_key => @user.spell, :format => 'json', :name => "modified name"
+        post :update, :params => { :api_key => @user.spell, :format => 'json', :name => "modified name" }
       }
       subject { @user.reload.name }
       it { should == "modified name" }
@@ -59,7 +59,7 @@ describe Api::V1::UserController do
 
     context "アイコンの変更" do
       before {
-        post :update, :api_key => @user.spell, :format => 'json', :profile_image_url => "http://example.com/somepic.jpg"
+        post :update, :params => { :api_key => @user.spell, :format => 'json', :profile_image_url => "http://example.com/somepic.jpg" }
       }
       subject { @user.reload.profile_image_url }
       it { should == "http://example.com/somepic.jpg" }
@@ -67,7 +67,7 @@ describe Api::V1::UserController do
 
     context "存在しないパラメータの変更" do
       before {
-        post :update, :api_key => @user.spell, :format => 'json', :invalid_param => "evil value"
+        post :update, :params => { :api_key => @user.spell, :format => 'json', :invalid_param => "evil value" }
       }
       subject { @user.reload }
       it { should_not respond_to :invalid_param }
@@ -77,7 +77,7 @@ describe Api::V1::UserController do
   describe "add_device" do
     context "api_keyが一致" do
       before {
-        post :add_device, :api_key => @user.spell, :format => 'json', :device => 'device_id'
+        post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'device_id' }
         @user = @user.reload
       }
       subject { @user.devices[0].name }
@@ -85,7 +85,7 @@ describe Api::V1::UserController do
     end
     context "api_keyが不一致" do
       before {
-        post :add_device, :api_key => "peropero", :format => 'json', :device => 'device_id'
+        post :add_device, :params => { :api_key => "peropero", :format => 'json', :device => 'device_id' }
       }
       subject { response }
       its(:response_code) { should == 403 }
@@ -99,7 +99,7 @@ describe Api::V1::UserController do
         allow(devices).to receive_messages(:where => [double('device')])
         allow(user).to receive_messages(:save => false, :devices => devices, :to_json => '')
         allow(controller).to receive(:current_user).and_return(user)
-        post :add_device, :api_key => @user.spell, :format => 'json', :device => 'device_id'
+        post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'device_id' }
       }
       subject { response }
       its(:response_code) { should == 500 }

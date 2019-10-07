@@ -32,7 +32,7 @@ describe Api::V1::RoomController do
   describe "部屋作成" do
     describe "response" do
       before {
-        post :create, :name => 'room name', :api_key => @user.spell, :format => 'json'
+        post :create, :params => { :name => 'room name', :api_key => @user.spell, :format => 'json' }
       }
       subject { response.body }
       it_should_behave_like '成功する'
@@ -41,7 +41,7 @@ describe Api::V1::RoomController do
 
     describe "DB" do
       it { expect {
-          post :create, :name => 'room name', :api_key => @user.spell, :format => 'json'
+          post :create, :params => { :name => 'room name', :api_key => @user.spell, :format => 'json' }
         }.to change { Room.all.size }.by(1)
       }
     end
@@ -50,7 +50,7 @@ describe Api::V1::RoomController do
   describe "部屋名の変更" do
     context 'id' do
       before {
-        post :update, :id => @room.id, :name => 'new_name', :api_key => @user.spell, :format => 'json'
+          post :update, :params => { :id => @room.id, :name => 'new_name', :api_key => @user.spell, :format => 'json' }
       }
       it_should_behave_like '成功する'
       subject { Room.find @room.id }
@@ -59,7 +59,7 @@ describe Api::V1::RoomController do
 
     context 'nickname' do
       before {
-        post :update, :id => @room.nickname, :name => 'new name', :api_key => @user.spell, :format => 'json'
+        post :update, :params => { :id => @room.nickname, :name => 'new name', :api_key => @user.spell, :format => 'json' }
       }
       it_should_behave_like '成功する'
       subject { Room.find @room.id }
@@ -70,7 +70,7 @@ describe Api::V1::RoomController do
   describe "部屋の削除" do
     context 'id' do
       before {
-        post :destroy, :id => @room.id, :api_key => @user.spell, :format => 'json'
+        post :destroy, :params => { :id => @room.id, :api_key => @user.spell, :format => 'json' }
       }
       it_should_behave_like '成功する'
       subject { Room.find @room.id }
@@ -79,7 +79,7 @@ describe Api::V1::RoomController do
 
     context 'nickname' do
       before {
-        post :destroy, :id => @room.nickname, :api_key => @user.spell, :format => 'json'
+        post :destroy, :params => { :id => @room.nickname, :api_key => @user.spell, :format => 'json' }
       }
       it_should_behave_like '成功する'
       subject { Room.find @room.id }
@@ -90,7 +90,7 @@ describe Api::V1::RoomController do
   describe "部屋の一覧" do
     context "パブリックな部屋" do
       before {
-        post :list, :api_key => @user.spell, :format => 'json'
+        post :list, :params => { :api_key => @user.spell, :format => 'json' }
       }
       subject { response.body }
 
@@ -98,7 +98,7 @@ describe Api::V1::RoomController do
     end
     context "プライベートな部屋は見えない" do
       before {
-        post :list, :api_key => @user.spell, :format => 'json'
+        post :list, :params => { :api_key => @user.spell, :format => 'json' }
       }
       subject { response.body }
 
@@ -107,7 +107,7 @@ describe Api::V1::RoomController do
     end
     context "作った人にはプライベートな部屋が見える" do
       before {
-        post :list, :api_key => @other_user.spell, :format => 'json'
+        post :list, :params => { :api_key => @other_user.spell, :format => 'json' }
       }
       subject { response.body }
 
@@ -116,7 +116,7 @@ describe Api::V1::RoomController do
     end
     context "api_key 無しの場合は public な部屋のみ取得できる" do
       before {
-        post :list, :format => 'json'
+        post :list, :params => { :format => 'json' }
       }
       subject { response.body }
 
@@ -130,7 +130,7 @@ describe Api::V1::RoomController do
       before {
         @another_user = User.new
         @another_user.save
-        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        post :add_member, :params => { :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json' }
         @room = Room.where(:_id =>@room.id).first
       }
       subject { @room.members[0] }
@@ -141,7 +141,7 @@ describe Api::V1::RoomController do
       before {
         @another_user = User.new
         @another_user.save
-        post :add_member, :id => @room.nickname, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        post :add_member, :params => { :id => @room.nickname, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json' }
         @room = Room.where(:_id =>@room.id).first
       }
       subject { @room.members[0] }
@@ -152,9 +152,9 @@ describe Api::V1::RoomController do
       before {
         @another_user = User.new
         @another_user.save
-        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        post :add_member, :params => { :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json' }
         @size = Room.where(:_id =>@room.id).first.members.size
-        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json'
+        post :add_member, :params => { :id => @room.id, :user_id => @another_user.id, :api_key => @user.spell, :format => 'json' }
         @room = Room.where(:_id =>@room.id).first
       }
       describe "size not changed for duplicated" do
@@ -171,14 +171,14 @@ describe Api::V1::RoomController do
   context "復活の呪文を間違えた" do
     describe "部屋の作成" do
       before {
-        post :create, :name => 'room name', :api_key => '(puke)', :format => 'json'
+        post :create, :params => { :name => 'room name', :api_key => '(puke)', :format => 'json' }
       }
       it_should_behave_like '失敗する'
     end
 
     describe "部屋名の変更" do
       before {
-        post :update, :id => @room.id, :name => 'new_name', :api_key => '(puke)', :format => 'json'
+        post :update, :params => { :id => @room.id, :name => 'new_name', :api_key => '(puke)', :format => 'json' }
       }
       it_should_behave_like '失敗する'
       subject { Room.find @room.id }
@@ -187,7 +187,7 @@ describe Api::V1::RoomController do
 
     describe "部屋の削除" do
       before {
-        post :destroy, :id => @room.id, :api_key => '(puke)', :format => 'json'
+        post :destroy, :params => { :id => @room.id, :api_key => '(puke)', :format => 'json' }
       }
       it_should_behave_like '失敗する'
       subject { Room.find @room.id }
@@ -213,7 +213,7 @@ describe Api::V1::RoomController do
       before do
         @another_user = User.new
         @another_user.save
-        post :add_member, :id => @room.id, :user_id => @another_user.id, :api_key => @other_user.spell, :format => 'json'
+        post :add_member, :params => { :id => @room.id, :user_id => @another_user.id, :api_key => @other_user.spell, :format => 'json' }
       end
 
       it_should_behave_like '失敗する'
@@ -223,7 +223,7 @@ describe Api::V1::RoomController do
 
     describe "部屋名の変更" do
       before {
-        post :update, :id => @room.id, :name => 'new_name', :api_key => @other_user.spell, :format => 'json'
+        post :update, :params => { :id => @room.id, :name => 'new_name', :api_key => @other_user.spell, :format => 'json' }
       }
       it_should_behave_like '失敗する'
       subject { Room.find @room.id }
@@ -232,7 +232,7 @@ describe Api::V1::RoomController do
 
     describe "部屋の削除" do
       before {
-        post :destroy, :id => @room.id, :api_key => @other_user.spell, :format => 'json'
+        post :destroy, :params => { :id => @room.id, :api_key => @other_user.spell, :format => 'json' }
       }
       it_should_behave_like '失敗する'
       subject { Room.find @room.id }
@@ -241,7 +241,7 @@ describe Api::V1::RoomController do
 
     describe "部屋の一覧" do
       before {
-        get :list, :api_key => @other_user.spell, :format => 'json'
+        get :list, :params => { :api_key => @other_user.spell, :format => 'json' }
       }
       subject { response.body }
 
@@ -252,7 +252,7 @@ describe Api::V1::RoomController do
   context "部屋の削除" do
     describe "未ログイン時" do
       before {
-        post :destroy, :id => @room.id, :api_key => "", :format => 'json'
+        post :destroy, :params => { :id => @room.id, :api_key => "", :format => 'json' }
       }
       it_should_behave_like '失敗する'
     end
@@ -263,7 +263,7 @@ describe Api::V1::RoomController do
         expect(room).to receive(:update_attributes).and_return(false)
         expect(Room).to receive(:with_room).and_yield(room)
 
-        post :destroy, :id => @room.id, :api_key => @user.spell, :format => 'json'
+        post :destroy, :params => { :id => @room.id, :api_key => @user.spell, :format => 'json' }
       }
       it_should_behave_like '失敗する'
     end

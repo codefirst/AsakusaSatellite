@@ -16,4 +16,4 @@ AsakusaSatellite::MessagePusher.engines = config['message_pusher']['engines']
 AsakusaSatellite::MessagePusher.default = config['message_pusher']['default']
 
 # Initialize the rails application
-AsakusaSatellite::Application.initialize!
+Rails.application.initialize!

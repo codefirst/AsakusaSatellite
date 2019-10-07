@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-AsakusaSatellite::Application.routes.draw do
+Rails.application.routes.draw do
 
   get "search/index"
 

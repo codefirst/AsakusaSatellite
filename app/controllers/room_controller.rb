@@ -38,12 +38,12 @@ class RoomController < ApplicationController
       return
     end
 
-    members = (params[:room][:members] || []).map do |_, user_name|
+    members = (params.dig(:room, :members) || []).map do |_, user_name|
       User.find_or_create_by(:screen_name => user_name)
     end
     data = {
-      :title    => params[:room][:title],
-      :nickname => params[:room][:nickname],
+      :title    => params.dig(:room, :title),
+      :nickname => params.dig(:room, :nickname),
       :members  => members
     }
     case room = Room.configure(params[:id], current_user, data)
@@ -63,7 +63,7 @@ class RoomController < ApplicationController
   end
 
   def true?(x)
-    not ['0', false, nil].include?(x)
+    not ['0', 'false', false, nil].include?(x)
   end
 
 end

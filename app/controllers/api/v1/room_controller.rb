@@ -5,7 +5,7 @@ module Api
       include ChatHelper
       include ApiHelper
 
-      before_filter :check_spell
+      before_action :check_spell
 
       def create
         render_login_error and return unless logged?

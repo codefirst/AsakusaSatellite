@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class RoomController < ApplicationController
   include RoomHelper
-  before_filter :reject_unless_logged_in
+  before_action :reject_unless_logged_in
 
   def create
     return unless request.post?

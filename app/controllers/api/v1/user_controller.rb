@@ -4,7 +4,7 @@ module Api
     class UserController < ApplicationController
       include ApiHelper
 
-      before_filter :check_spell
+      before_action :check_spell
 
       def show
         user = current_user

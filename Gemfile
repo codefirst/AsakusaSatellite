@@ -12,7 +12,7 @@ gem 'socky-client', '>= 0.5.0.beta1'
 
 # html
 gem 'haml-rails'
-gem 'sass-rails', '5.0.5'
+gem 'sass-rails', '5.0.6'
 gem 'compass-rails', '3.1.0'
 gem "execjs"
 gem 'therubyracer', :platform => :ruby

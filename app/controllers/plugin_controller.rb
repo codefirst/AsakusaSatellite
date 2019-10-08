@@ -14,9 +14,9 @@ class PluginController < ApplicationController
       else
         File.read(absolute_path)
       end
-      render :text => content, :content_type => content_type
+      render :plain => content, :content_type => content_type
     rescue
-      render :nothing => true, :status => 404
+      head :not_found
     end
   end
 

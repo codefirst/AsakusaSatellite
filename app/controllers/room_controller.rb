@@ -39,8 +39,8 @@ class RoomController < ApplicationController
     end
 
     params.permit(:room => { :members => [:screen_name]})
-    members = (params.dig(:room, :members) || []).map do |_, user_name|
-      User.find_or_create_by(:screen_name => user_name)
+    members = (params.values_at(:room, :members) || []).map do |user_name|
+      User.find_or_create_by(:screen_name => user_name.to_s)
     end
     data = {
       :title    => params.dig(:room, :title),

@@ -22,7 +22,7 @@ module AsakusaSatellite::Hook
         else
           begin
             elem = listener.send(hook, context)
-            html + ((elem.class == String and not elem.nil?) ? elem : '')
+            html + ((elem.is_a?(String) and not elem.nil?) ? elem : '')
           rescue => e
             Rails.logger.error e
             html

@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.0.7.2'
+gem 'rails', '5.2.3'
+gem 'bootsnap', require: false
 
 # mongoid
 gem 'mongoid', '6.0.3'

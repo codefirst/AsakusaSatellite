@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class ProfileSettingController < ApplicationController
   include ApiHelper
-  before_filter :check_spell, :check_if_login
+  before_action :check_spell, :check_if_login
 
   def create
     current_user.find_or_create_profile_for(params[:new_room][:room_id]) if params[:new_room]

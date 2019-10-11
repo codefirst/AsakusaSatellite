@@ -12,12 +12,12 @@ class Device
 
   def self.register_callback(event)
     class_eval <<-EOS
-      @@#{event.to_s}_procs = []
+      @@_#{event.to_s}_procs = []
       def self.add_#{event.to_s}(&proc)
-        @@#{event.to_s}_procs << proc if block_given?
+        @@_#{event.to_s}_procs << proc if block_given?
       end
       #{event.to_s} do |device|
-        @@#{event.to_s}_procs.each do |proc|
+        @@_#{event.to_s}_procs.each do |proc|
           proc.call(device)
         end
       end

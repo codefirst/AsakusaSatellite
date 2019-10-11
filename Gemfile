@@ -16,7 +16,7 @@ gem 'sass-rails', '5.0.6'
 gem 'compass-rails', '3.1.0'
 gem "execjs"
 gem 'therubyracer', :platform => :ruby
-gem 'uglifier', '>= 1.0.3'
+gem 'uglifier', '~> 2.7'
 
 # util
 gem 'rest-client'

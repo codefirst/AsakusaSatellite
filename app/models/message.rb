@@ -4,8 +4,8 @@ class Message
   include Mongoid::Timestamps
   field :created_at, :type => Time
   field :body
-  belongs_to :room
-  belongs_to :user
+  belongs_to :room, :optional => true
+  belongs_to :user, :optional => true
   embeds_many :attachments
   index({ :created_at => 1 })
 

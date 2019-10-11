@@ -7,7 +7,7 @@ class Room
   field :is_public, :type => Boolean, :default => true
   field :nickname
   field :yaml
-  belongs_to :user, :polymorphic => true
+  belongs_to :user, :polymorphic => true, :optional => true
   has_and_belongs_to_many :members, :class_name => 'User', :inverse_of => nil
 
   validates_presence_of :title

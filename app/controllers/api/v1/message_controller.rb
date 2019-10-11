@@ -6,7 +6,7 @@ module Api
       include ApiHelper
       include Rails.application.routes.url_helpers
 
-      before_filter :check_spell
+      before_action :check_spell
 
       def list
         room_id    = params[:room_id]

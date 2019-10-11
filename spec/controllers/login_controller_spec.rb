@@ -36,7 +36,7 @@ describe LoginController do
     context "user created with twitter account" do
       before do
         request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
-        post :omniauth_callback, :provider => 'twitter'
+        post :omniauth_callback, :params => { :provider => 'twitter' }
       end
       subject { controller.current_user }
       its(:name) { should == 'name' }
@@ -47,7 +47,7 @@ describe LoginController do
       before do
         request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:twitter]
         request.env["omniauth.params"] = {"callback_scheme" => "callback.app"}
-        post :omniauth_callback, :provider => 'twitter'
+        post :omniauth_callback, :params => { :provider => 'twitter' }
       end
       it { should redirect_to "callback.app:///login?#{{:api_key => controller.current_user.spell}.to_query}" }
     end

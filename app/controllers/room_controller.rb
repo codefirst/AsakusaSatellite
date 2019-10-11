@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class RoomController < ApplicationController
   include RoomHelper
-  before_filter :reject_unless_logged_in
+  before_action :reject_unless_logged_in
 
   def create
     return unless request.post?
@@ -38,12 +38,13 @@ class RoomController < ApplicationController
       return
     end
 
-    members = (params[:room][:members] || []).map do |_, user_name|
-      User.find_or_create_by(:screen_name => user_name)
+    params.permit(:room => { :members => [:screen_name]})
+    members = (params.values_at(:room, :members) || []).map do |user_name|
+      User.find_or_create_by(:screen_name => user_name.to_s)
     end
     data = {
-      :title    => params[:room][:title],
-      :nickname => params[:room][:nickname],
+      :title    => params.dig(:room, :title),
+      :nickname => params.dig(:room, :nickname),
       :members  => members
     }
     case room = Room.configure(params[:id], current_user, data)
@@ -63,7 +64,7 @@ class RoomController < ApplicationController
   end
 
   def true?(x)
-    not ['0', false, nil].include?(x)
+    not ['0', 'false', false, nil].include?(x)
   end
 
 end

@@ -19,7 +19,7 @@ describe SearchController do
 
   describe "search" do
     context "空文字列" do
-      before { get :search, :search => {:message => ''} }
+      before { get :search, :params => { :search => {:message => ''} } }
       subject { response }
       it { should redirect_to(:controller => 'search', :action => 'index') }
     end
@@ -28,7 +28,7 @@ describe SearchController do
       before do
         allow(Room).to receive(:all_live).and_return([])
         @find_by_text = expect(Message).to receive(:find_by_text).with(:text => 'foo', :rooms=>[], :limit => SearchController::INTERSECTION_SEARCH_LIMIT){ [] }
-        get :search, :search => {:message => 'foo'}
+        get :search, :params => { :search => {:message => 'foo'} }
       end
 
       describe "Message.find_by_text" do
@@ -56,7 +56,7 @@ describe SearchController do
           with({:_id => '1'}, {:nickname => '1'}){ [ @room ] }
         @find_by_text = expect(Message).to receive(:find_by_text).
           with(:text => 'foo', :rooms => [ @room ], :limit => 20){ [] }
-        get :search, :search => {:message => 'foo'}, :room => { :id => '1' }
+        get :search, :params => { :search => {:message => 'foo'}, :room => { :id => '1' } }
       end
 
       describe "Message.find_by_text" do
@@ -78,19 +78,19 @@ describe SearchController do
 
   describe "search_more" do
     context "search_message が空" do
-      before { get :search_more, :room_id => 1 }
+      before { get :search_more, :params => { :room_id => 1 } }
       subject { assigns[:results] }
       it { should be_nil }
     end
 
     context "room_id が空" do
-      before { get :search_more, :search_message => 'foo' }
+      before { get :search_more, :params => { :search_message => 'foo' } }
       subject { assigns[:results] }
       it { should be_nil }
     end
 
     context "存在しない部屋" do
-      before { get :search_more, :search_message => 'foo', :room_id => 'not_exisiting_room_id'}
+      before { get :search_more, :params => { :search_message => 'foo', :room_id => 'not_exisiting_room_id'} }
       subject { response }
       it { should redirect_to(:controller => 'chat', :action => 'index') }
     end
@@ -104,7 +104,7 @@ describe SearchController do
         allow(Room).to receive_messages(:all_live => [ @room ])
         allow(Room).to receive(:any_of).with({:_id => '1'}, {:nickname => '1'}){ [ @room ] }
         allow(Message).to receive(:find_by_text) { [{ :room => @room, :messages => [Message.new] }] }
-        get :search_more, :id => 1, :search_message => 'foo', :room_id => 1
+        get :search_more, :params => { :id => 1, :search_message => 'foo', :room_id => 1 }
       end
       subject { assigns[:results] }
       its(:size) { should == 1 }

@@ -18,13 +18,11 @@ Rails.application.routes.draw do
       get 'room/list', :controller => 'room', :action => 'list'
       get 'message/list', :controller => 'message', :action => 'list'
       get 'message/search', :controller => 'message', :action => 'search'
-      delete 'message/destroy(/:id)', :controller => 'message', :action => 'destroy'
       get 'user', :controller => 'user', :action => 'show'
       post 'user', :controller => 'user', :action => 'update'
       get 'user/add_device', :controller => 'user', :action => 'add_device'
       post 'user/add_device', :controller => 'user', :action => 'add_device'
       post 'user/delete_device', :controller => 'user', :action => 'delete_device'
-      post 'room/add_member/:id', :controller => 'room', :action => 'add_member'
       resources :room
       resources :message
       get 'login', :controller => 'login', :action => 'index'
@@ -32,7 +30,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'chat/room(/:id)' => "chat#room", :as => "chat_room"
+  get 'chat/room/:id' => "chat#room", :as => "chat_room"
 
   match 'room/configure/:id' => "room#configure", :as => "room_configure", :via => [:get, :post]
 
@@ -40,8 +38,6 @@ Rails.application.routes.draw do
 
   get '/auth/:provider/callback', :to => 'login#omniauth_callback'
   get '/auth/failure', :to => 'login#failure'
-  get '/login/index', :controller => 'login', :action => 'index'
-  post '/login/logout', :controller => 'login', :action => 'logout'
 
   get '/plugin/:plugin/:type/:file.:format', :to => 'plugin#asset', :as => :plugin_asset
 
@@ -56,9 +52,6 @@ Rails.application.routes.draw do
   get 'chat/show/:id', :controller => 'chat', :action => :show
   match 'chat/message', :controller => 'chat', :action => :message, :via => [:get, :post]
 
-  get 'search', :controller => 'search', :action => :index
-  get 'search/search', :controller => 'search', :action => :search
-  get 'search/search_more', :controller => 'search', :action => :search_more
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

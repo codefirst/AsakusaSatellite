@@ -13,7 +13,7 @@ describe PluginController do
     end
 
     describe "get" do
-      before { get 'asset', :plugin => 'imaginary_plugin', :type => 'javascript', :file => 'some', :format => 'js' }
+      before { get 'asset', :params => { :plugin => 'imaginary_plugin', :type => 'javascript', :file => 'some', :format => 'js' } }
       subject { response }
       it { should be_success }
     end
@@ -25,7 +25,7 @@ describe PluginController do
     end
 
     describe "get" do
-      before { get 'asset', :plugin => 'imaginary_plugin', :type => 'javascript', :file => 'some', :format => 'js' }
+      before { get 'asset', :params => { :plugin => 'imaginary_plugin', :type => 'javascript', :file => 'some', :format => 'js' } }
       subject { response }
       it { should_not be_success }
     end
@@ -34,19 +34,19 @@ describe PluginController do
   context "外部のファイルを取得しようとしたとき" do
     describe "attempt to get secret file" do
       describe "bad plugin name" do
-        before { get 'asset', :plugin => '..', :type => 'javascript', :file => 'application', :format => 'js' }
+        before { get 'asset', :params => { :plugin => '..', :type => 'javascript', :file => 'application', :format => 'js' } }
         subject { response }
         it { should_not be_success }
       end
 
       describe "bad type name" do
-        before { get 'asset', :plugin => 'imaginary_plugin', :type => '../../../../app/assets/javascript', :file => 'application', :format => 'js' }
+        before { get 'asset', :params => { :plugin => 'imaginary_plugin', :type => '../../../../app/assets/javascript', :file => 'application', :format => 'js' } }
         subject { response }
         it { should_not be_success }
       end
 
       describe "bad file name" do
-        before { get 'asset', :plugin => 'imaginary_plugin', :type => 'javascript', :file => '../../../../../README', :format => 'markdown' }
+        before { get 'asset', :params => { :plugin => 'imaginary_plugin', :type => 'javascript', :file => '../../../../../README', :format => 'markdown' } }
         subject { response }
         it { should_not be_success }
       end

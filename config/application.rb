@@ -46,5 +46,8 @@ module AsakusaSatellite
 
     # avoid assets:precompile failure on Heroku
     config.assets.initialize_on_precompile = false
+
+    # TODO: Disable autoload at production env
+    config.enable_dependency_loading = true
   end
 end

@@ -13,6 +13,6 @@ describe LocalauthController do
   describe "/login" do
     before  { get :login }
     subject { response }
-    it { should be_success }
+    it { should be_ok }
   end
 end

@@ -3,7 +3,7 @@ require 'asakusa_satellite/message_pusher'
 
 module ChatHelper
   def to_json(message, room = message.room)
-    view = render_to_string(:file    => "app/views/chat/_message",
+    view = render_to_string(:template => "chat/_message",
                             :locals  => { :message => message, :room => room },
                             :formats => [ :html ],
                             :layout  => false)

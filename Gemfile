@@ -1,11 +1,10 @@
 source 'https://rubygems.org'
 ruby ENV['CUSTOM_RUBY_VERSION'] || '2.5.7'
 
-gem 'rails', '5.2.3'
-gem 'bootsnap', require: false
+gem 'rails', '6.0.0'
 
 # mongoid
-gem 'mongoid', '6.4.4'
+gem 'mongoid', '7.0.5'
 
 # push notification
 gem 'eventmachine'
@@ -14,7 +13,7 @@ gem 'socky-client', '>= 0.5.0.beta1'
 
 # html
 gem 'haml-rails'
-gem 'sass-rails', '5.0.6'
+gem 'sass-rails', '5.0.8'
 gem 'compass-rails', '3.1.0'
 gem "execjs"
 gem 'therubyracer', :platform => :ruby
@@ -34,7 +33,7 @@ end
 group :development, :test do
   gem 'test-unit', '~> 3.0'
   gem 'rails-controller-testing'
-  gem "rspec-rails"
+  gem "rspec-rails", '4.0.0.beta2'
   gem "rspec-its"
   gem 'rspec-collection_matchers'
   gem 'rspec-activemodel-mocks'

@@ -19,9 +19,10 @@ describe ProfileSettingController do
   describe "1つめのプロファイル追加" do
     before do
       session[:current_user_id] = @user.id
-      put(:update,
-          :room => {"id" => @room1._id},
-          :account => { "name" => "user1", "image_url" => "http://example.com/pic1.jpg" })
+      put(:update, :params => {
+        :room => {"id" => @room1._id},
+        :account => { "name" => "user1", "image_url" => "http://example.com/pic1.jpg" }
+      })
     end
 
     describe "プロファイルを追加する" do
@@ -56,9 +57,10 @@ describe ProfileSettingController do
       describe "2つめのプロファイルを追加する" do
         before {
           session[:current_user_id] = @user.id
-          put(:update,
-              :room => {"id" => @room2._id},
-              :account => { "name" => "user2", "image_url" => "http://example.com/pic2.jpg" })
+          put(:update, :params => {
+            :room => {"id" => @room2._id},
+            :account => { "name" => "user2", "image_url" => "http://example.com/pic2.jpg" }
+          })
         }
 
         describe "プロファイルを追加する" do
@@ -92,9 +94,10 @@ describe ProfileSettingController do
           describe "1つめのプロファイルを変更する" do
             before {
               session[:current_user_id] = @user.id
-              put(:update,
-                  :room => {"id" => @room1._id},
-                  :account => { "name" => "user3", "image_url" => "http://example.com/pic3.jpg" })
+              put(:update, :params => {
+                :room => {"id" => @room1._id},
+                :account => { "name" => "user3", "image_url" => "http://example.com/pic3.jpg" }
+              })
             }
 
             describe "プロファイルを追加する" do
@@ -130,9 +133,10 @@ describe ProfileSettingController do
           describe "1つめのプロファイルを削除する" do
             before {
               session[:current_user_id] = @user.id
-              put(:update,
-                  :room => {"id" => @room1._id},
-                  :remove =>  "Remove")
+              put(:update, :params => {
+                :room => {"id" => @room1._id},
+                :remove =>  "Remove"
+              })
             }
 
             describe "プロファイルを追加する" do

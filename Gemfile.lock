@@ -372,7 +372,7 @@ DEPENDENCIES
   zero_push
 
 RUBY VERSION
-   ruby 2.4.8p361
+   ruby 2.5.7p206
 
 BUNDLED WITH
    1.17.3

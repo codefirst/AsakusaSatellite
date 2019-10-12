@@ -4,7 +4,7 @@ gem 'rails', '5.2.3'
 gem 'bootsnap', require: false
 
 # mongoid
-gem 'mongoid', '6.0.3'
+gem 'mongoid', '6.4.4'
 
 # push notification
 gem 'eventmachine'
@@ -25,6 +25,10 @@ gem 'on_the_spot'
 gem "uuidtools"
 gem 'omniauth'
 gem 'json'
+
+group :development do
+  gem 'listen'
+end
 
 group :development, :test do
   gem 'test-unit', '~> 3.0'

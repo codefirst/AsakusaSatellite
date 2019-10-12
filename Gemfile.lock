@@ -141,6 +141,9 @@ GEM
     launchy (2.3.0)
       addressable (~> 2.3)
     libv8 (3.16.14.13)
+    listen (3.2.0)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.3.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -158,9 +161,9 @@ GEM
     minitest (5.12.2)
     mongo (2.10.2)
       bson (>= 4.4.2, < 5.0.0)
-    mongoid (6.0.3)
-      activemodel (~> 5.0)
-      mongo (~> 2.3)
+    mongoid (6.4.4)
+      activemodel (>= 5.1, < 6.0.0)
+      mongo (>= 2.5.1, < 3.0.0)
     msgpack (1.3.1)
     msgpack (1.3.1-java)
     multi_json (1.13.1)
@@ -344,7 +347,8 @@ DEPENDENCIES
   google-api-client
   haml-rails
   json
-  mongoid (= 6.0.3)
+  listen
+  mongoid (= 6.4.4)
   newrelic_rpm
   omniauth
   omniauth-twitter (>= 0.0.14)

@@ -6,484 +6,484 @@ $link-visited-color: #e597b2
 
 // layout
 body
-  :background-color #fafafa
-  :color #333
+  background-color: #fafafa
+  color: #333
 
 .header
-  :height 70px
-  :margin 15px
-  :margin-bottom 40px
-  :border-bottom 1px solid #ccc
+  height: 70px
+  margin: 15px
+  margin-bottom: 40px
+  border-bottom: 1px solid #ccc
   >a
-    :float left
+    float: left
 
 .main
-  :width 720px
-  :margin auto
-  :border 1px solid #ccc
-  :background-color #fff
+  width: 720px
+  margin: auto
+  border: 1px solid #ccc
+  background-color: #fff
   @include box-shadow(1px 1px 2px #999)
 
 #audio
-  :display none
+  display: none
 
 .footer
-  :margin-top 50px
-  :margin-left 15px
-  :margin-right 15px
-  :color #999
-  :text-align center
-  :font-size 80%
-  :border-top 1px solid #ccc
+  margin-top: 50px
+  margin-left: 15px
+  margin-right: 15px
+  color: #999
+  text-align: center
+  font-size: 80%
+  border-top: 1px solid #ccc
 
 .droppable
-  :position fixed
-  :left 0px
-  :top 0px
-  :width 100%
-  :height 100%
-  :z-index 1000
-  :display none
-  :opacity 0
-  :box-shadow 0px 0px 10px 5px #e2949b inset
+  position: fixed
+  left: 0px
+  top: 0px
+  width: 100%
+  height: 100%
+  z-index: 1000
+  display: none
+  opacity: 0
+  box-shadow: 0px 0px 10px 5px #e2949b inset
   @include single-transition(opacity, 0.2s, linear)
 
 .yield
-  :width 660px
-  :margin auto
-  :text-align center
+  width: 660px
+  margin: auto
+  text-align: center
 
 .about
-  :text-align left
-  :font-size 90%
+  text-align: left
+  font-size: 90%
   table.version
-    :border-collapse collapse
-    :border-bottom 1px solid #ddd
+    border-collapse: collapse
+    border-bottom: 1px solid #ddd
     td
-      :padding 5px
+      padding: 5px
     td.first
-      :padding-right 50px
+      padding-right: 50px
 
 .room-info
   @include background(linear-gradient(top, #fbfbfb 41%, #ededed 100%), #f9f9f9)
   @include border-radius(5px)
-  :border 1px solid #ccc
-  :font-size 100%
-  :padding 5px
-  :margin-top 15px
-  :margin-bottom 15px
+  border: 1px solid #ccc
+  font-size: 100%
+  padding: 5px
+  margin-top: 15px
+  margin-bottom: 15px
   .left
-    :float left
-    :text-align left
-    :width 80%
+    float: left
+    text-align: left
+    width: 80%
     .title a
-      :color #444
-      :text-decoration none
+      color: #444
+      text-decoration: none
   .right
-    :float right
-    :text-align right
-    :width 20%
+    float: right
+    text-align: right
+    width: 20%
     img
-      :margin-top 3px
-      :margin-right 3px
+      margin-top: 3px
+      margin-right: 3px
 
 .room-date, .room-owner
-  :text-align right
-  :color #666
-  :font-size 80%
+  text-align: right
+  color: #666
+  font-size: 80%
 
 .room-members
-  :text-align right
+  text-align: right
 
 .clear
-  :clear both
+  clear: both
 
 .search-form
   .left
-    :width 75%
-    :float left
+    width: 75%
+    float: left
   .right
-    :width 25%
-    :float right
-    :text-align left
+    width: 25%
+    float: right
+    text-align: left
 .delete-form
-  :display inline
+  display: inline
 
 .show-form
   select
-    :width 50px
-    :margin-left 0px
+    width: 50px
+    margin-left: 0px
 
 // normal tag
 h3
-  :padding 2px
-  :margin 2px
-  :margin-left 5px
-  :text-align left
-  :font-size 100%
+  padding: 2px
+  margin: 2px
+  margin-left: 5px
+  text-align: left
+  font-size: 100%
 
 td
-  :border-top 1px solid #ddd
+  border-top: 1px solid #ddd
 
 a img
-  :border-style none
+  border-style: none
 
 // pages
 .room-list
-  :width 660px
-  :margin auto
-  :margin-top 30px
+  width: 660px
+  margin: auto
+  margin-top: 30px
   td
-    :text-align center
+    text-align: center
   .name
-    :width 60%
+    width: 60%
   .update
-    :font-size 80%
+    font-size: 80%
 
 .message-list
-  :margin-bottom 20px
+  margin-bottom: 20px
 
 .message
-  :border 1px solid #eee
-  :text-align left
-  :padding 5px
-  :padding-left 10px
-  :padding-right 10px
-  :margin-bottom 3px
+  border: 1px solid #eee
+  text-align: left
+  padding: 5px
+  padding-left: 10px
+  padding-right: 10px
+  margin-bottom: 3px
   @include border-radius(3px)
   @include background(linear-gradient(top, #fcfcfc 40%, #efefef 100%), #fcfcfc)
   @include box-shadow(0 1px 1px #ccc)
-  :font-size 90%
+  font-size: 90%
   div
-    :padding 0
-    :margin 0
+    padding: 0
+    margin: 0
     .profile
-      :display inline-block
-      :float left
-      :height 21px
+      display: inline-block
+      float: left
+      height: 21px
       img.profile
-        :height 16px
+        height: 16px
       .user-name
-        :font-weight bold
-        :margin-left 3px
+        font-weight: bold
+        margin-left: 3px
       .screen-name
-        :display none
+        display: none
     .update-time
-      :float right
-      :text-align right
-      :height 21px
-      :font-size 75%
-      :font-weight normal
-      :vertical-align bottom
+      float: right
+      text-align: right
+      height: 21px
+      font-size: 75%
+      font-weight: normal
+      vertical-align: bottom
       a
-        :color #666
-        :text-decoration none
+        color: #666
+        text-decoration: none
       a:hover
-        :text-decoration underline
+        text-decoration: underline
     .edit-icons
-      :float right
-      :margin-right 5px
-      :height 21px
-      :display none
+      float: right
+      margin-right: 5px
+      height: 21px
+      display: none
       img
-        :cursor pointer
+        cursor: pointer
   .body
-    :clear both
-    :padding-top 6px
+    clear: both
+    padding-top: 6px
     span
-      :font-weight normal
+      font-weight: normal
     pre
-      :margin-top 0
-      :margin-bottom 0
-      :font-size 80%
+      margin-top: 0
+      margin-bottom: 0
+      font-size: 80%
       code
-        :font-family "Menlo", "Courier", monospace
+        font-family: "Menlo", "Courier", monospace
   .thumbnail,.expand-image,.attachment
     img
-      :max-width 500px
-      :max-height 500px
+      max-width: 500px
+      max-height: 500px
       @include border-radius(5px)
       @include box-shadow(1px 1px 2px #999)
     video
-      :max-width 500px
-      :max-height 500px
+      max-width: 500px
+      max-height: 500px
       @include box-shadow(1px 1px 2px #999)
 
 .message.target
-  :border 3px solid #ccc
+  border: 3px solid #ccc
 
 .read-more
-  :border 1px solid #eee
-  :background-color #fafafa
-  :color #555
-  :font-size 90%
-  :cursor pointer
-  :margin-bottom 5px
-  :padding 3px
+  border: 1px solid #eee
+  background-color: #fafafa
+  color: #555
+  font-size: 90%
+  cursor: pointer
+  margin-bottom: 5px
+  padding: 3px
   @include border-radius(4px)
-  :text-decoration underline
+  text-decoration: underline
   img
-    :width 16px
-    :height 16px
+    width: 16px
+    height: 16px
 .read-more:hover
-  :background-color #fee
+  background-color: #fee
 .read-more.loading
-  :background white
-  :border none
+  background: white
+  border: none
 .read-more.loading:hover
-  :background white
+  background: white
 .read-more a
-  :display block
-  :width 100%
-  :height 100%
+  display: block
+  width: 100%
+  height: 100%
 
 img.logo
-  :height 54px
+  height: 54px
 
 input.icon, img.icon
-  :width 16px
-  :height 16px
+  width: 16px
+  height: 16px
 
 img.profile
-  :width 16px
-  :height 16px
+  width: 16px
+  height: 16px
 
 .buttons
-  :text-align center
-  :margin-top 20px
+  text-align: center
+  margin-top: 20px
 
 .configure
   .text
-    :margin-left 0px
+    margin-left: 0px
   table.plugin-configure
-    :margin auto
-    :width 360px
+    margin: auto
+    width: 360px
     td
-      :border none
+      border: none
   .submit
-    :margin-top 20px
+    margin-top: 20px
   .members
-    :text-align left
-    :width 420px
-    :margin auto
+    text-align: left
+    width: 420px
+    margin: auto
     ul
-      :padding 0
+      padding: 0
     li
       img.profile-image
-        :float left
-        :max-width 20px
-        :max-height 20px
-        :padding-right 5px
-      :border 1px solid #DDD
+        float: left
+        max-width: 20px
+        max-height: 20px
+        padding-right: 5px
+      border: 1px solid #DDD
       @include border-radius(3px)
-      :list-style-type none
-      :padding 5px
-      :position relative
-      :margin-top 3px
+      list-style:-type none
+      padding: 5px
+      position: relative
+      margin-top: 3px
       a.action
-        :position absolute
-        :right 10px
-        :top 7px
+        position: absolute
+        right: 10px
+        top: 7px
     .new
-      :border-color #8D8
-      :background   #9E9
+      border-color: #8D8
+      background:   #9E9
     .add-member
       input.text
-        :width 360px
+        width: 360px
       #add-member-button
-        :width 40px
+        width: 40px
 
 .set-notification-time
-  :margin-top 10px
+  margin-top: 10px
   input.text
-    :margin-left 10px
-    :width 40px
+    margin-left: 10px
+    width: 40px
   #set-notification-timer-button
-    :width 40px
+    width: 40px
 
 
 // link
 a
-  :color $link-color
-  :font-style normal
-  :text-decoration underline
+  color: $link-color
+  font-style: normal
+  text-decoration: underline
 
 a:link
-  :color $link-color
-  :font-style normal
-  :text-decoration underline
+  color: $link-color
+  font-style: normal
+  text-decoration: underline
 
 a:visited
-  :color $link-visited-color
-  :text-decoration underline
+  color: $link-visited-color
+  text-decoration: underline
 
 a:hover
-  :color $link-color
-  :font-style normal
-  :text-decoration underline
+  color: $link-color
+  font-style: normal
+  text-decoration: underline
 
 a:active
-  :text-decoration none
+  text-decoration: none
 
 // form
 form
   //:vertical-align bottom
 .text
-  :border 1px solid #999
-  :font-size 18px
-  :width 360px
-  :background-color #fafafa
-  :margin-left 50px
+  border: 1px solid #999
+  font-size: 18px
+  width: 360px
+  background-color: #fafafa
+  margin-left: 50px
 textarea.text
-  :height 52px
+  height: 52px
 .text:focus
-  :background-color #fff
+  background-color: #fff
 input.submit, input.submit:hover
-  :border none
+  border: none
 fieldset
-  :border none
-  :border-top 1px solid #ddd
-  :border-bottom 1px solid #ddd
-  :padding-bottom 20px
+  border: none
+  border-top: 1px solid #ddd
+  border-bottom: 1px solid #ddd
+  padding-bottom: 20px
 legend
-  :padding 10px
+  padding: 10px
 select
-  :font-size 18px
-  :width 240px
-  :margin-left 50px
-  :margin-top 10px
+  font-size: 18px
+  width: 240px
+  margin-left: 50px
+  margin-top: 10px
 form.inputarea
   input.submit
-    :vertical-align top
-    :margin-top 0.5em
+    vertical-align: top
+    margin-top: 0.5em
 
 // http://papermashup.com/pretty-css3-buttons/
 .button, .button:hover, .button:visited, .button:link
-  :background #222 url(<%= asset_path ('overlay.png') %>) repeat-x
-  :display inline-block
-  :padding 5px 10px 6px
-  :color #fff
-  :text-decoration none
+  background: #222 url(<%= asset_path ('overlay.png') %>) repeat-x
+  display: inline-block
+  padding: 5px 10px 6px
+  color: #fff
+  text-decoration: none
   @include border-radius(6px)
   @include box-shadow(0 1px 3px rgba(0,0,0,0.6))
-  :text-shadow 0 -1px 1px rgba(0,0,0,0.25)
-  :border-bottom 1px solid rgba(0,0,0,0.25)
-  :position relative
-  :cursor pointer
+  text-shadow: 0 -1px 1px rgba(0,0,0,0.25)
+  border-bottom: 1px solid rgba(0,0,0,0.25)
+  position: relative
+  cursor: pointer
 
 .large.button, .large.button:visited
-  :font-size 14px
-  :padding 8px 14px 9px
-  :font-weight bold
+  font-size: 14px
+  padding: 8px 14px 9px
+  font-weight: bold
 
 .red.button, .red.button:visited
-  :background-color #e62728
+  background-color: #e62728
 .red.button:hover
-  :background-color #cf2525
+  background-color: #cf2525
 
 .gray.button, .gray.button:visited, .gray.button:hover
-  :background-color #969696
+  background-color: #969696
 .gray.button:disabled
-  :cursor default
+  cursor: default
 
 .form-inline
   input, label, button
-    :display inline-block
-    :margin-bottom 0
-    :vertical-align middle
+    display: inline-block
+    margin-bottom: 0
+    vertical-align: middle
 
 .contextual
-  :float right
-  :white-space nowrap
-  :line-height 1.4em
-  :margin-top 5px
-  :padding-left 10px
-  :font-size 0.9em
+  float: right
+  white-space: nowrap
+  line-height: 1.4em
+  margin-top: 5px
+  padding-left: 10px
+  font-size: 0.9em
 
   form, div
-    :display inline
+    display: inline
     input
-      :border none
-      :background-color inherit
-      :color $link-color
-      :font-style normal
-      :font-weight normal
-      :text-decoration underline
-      :font-size 1em
-      :cursor pointer
+      border: none
+      background-color: inherit
+      color: $link-color
+      font-style: normal
+      font-weight: normal
+      text-decoration: underline
+      font-size: 1em
+      cursor: pointer
 
 .error_message, .notice_message
-  :width 95%
-  :padding-top 3px
-  :padding-bottom 3px
-  :padding-left 10px
-  :margin-left 10px
-  :margin-bottom 10px
+  width: 95%
+  padding-top: 3px
+  padding-bottom: 3px
+  padding-left: 10px
+  margin-left: 10px
+  margin-bottom: 10px
 
 .error_message
-  :border 1px solid #D00
-  :background-color #FFE2E2
-  :color #B00
+  border: 1px solid #D00
+  background-color: #FFE2E2
+  color: #B00
 
 .notice_message
-  :border 1px solid #0D0
-  :background-color #E2FFE2
-  :color #0A0
+  border: 1px solid #0D0
+  background-color: #E2FFE2
+  color: #0A0
 
 
 @mixin smart-phone-css($width)
   .main
-    :width $width
-    :margin 0
+    width: $width
+    margin: 0
     @include box-shadow(0 0 0 #fff)
   .header
-    :margin 0
+    margin: 0
     img
-      :height 29px
+      height: 29px
   .footer
-    :margin-top 10px
+    margin-top: 10px
   .yield
-    :width $width
-    :margin 0
+    width: $width
+    margin: 0
   textarea.text
-    :width $width - 25px
-    :margin 0
+    width: $width - 25px
+    margin: 0
   #send
-    :display none
+    display: none
   .message
     .thumbnail,.expand-image,.attachment
       img
-        :max-width $width - 30px
-        :max-height $width - 30px
+        max-width: $width - 30px
+        max-height: $width - 30px
         @include border-radius(5px)
         @include box-shadow(1px 1px 2px #999)
       video
-        :max-width $width - 30px
-        :max-height $width - 30px
+        max-width: $width - 30px
+        max-height: $width - 30px
         @include box-shadow(1px 1px 2px #999)
 
   .text
-    :font-size 18px
-    :width 170px
-    :margin-left 0
-    :margin-right 0
+    font-size: 18px
+    width: 170px
+    margin-left: 0
+    margin-right: 0
   .room-list
-    :width $width
+    width: $width
   .room-info
-    :margin-top 0
+    margin-top: 0
     .left
-      :width 70%
+      width: 70%
     .right
-      :width 30%
+      width: 30%
 
   .configure
     table.plugin-configure
-      :width $width - 30px
+      width: $width - 30px
     .members
-      :width $width - 30px
+      width: $width - 30px
       .add-member
         input.text
-          :width 170px
+          width: 170px
 
 // for iPhone 4 or 5
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px)

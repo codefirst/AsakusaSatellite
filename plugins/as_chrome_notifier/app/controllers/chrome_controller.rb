@@ -1,6 +1,6 @@
 class ChromeController < ApplicationController
   include ApiHelper
-  before_filter :check_spell
+  before_action :check_spell
 
   def auth
     callback_url = request.url.sub(/\/auth$/, "/callback")

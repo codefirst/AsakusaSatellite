@@ -16,7 +16,7 @@ describe AccountController do
     describe "index" do
       before  { get 'index' }
       subject { response }
-      it { should be_success }
+      it { should be_ok }
 
       context "既に設定されている" do
         before  { @user.spell = 'spell-2'; get 'index' }

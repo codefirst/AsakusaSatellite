@@ -15,7 +15,7 @@ describe PluginController do
     describe "get" do
       before { get 'asset', :params => { :plugin => 'imaginary_plugin', :type => 'javascript', :file => 'some', :format => 'js' } }
       subject { response }
-      it { should be_success }
+      it { should be_ok }
     end
   end
 
@@ -27,7 +27,7 @@ describe PluginController do
     describe "get" do
       before { get 'asset', :params => { :plugin => 'imaginary_plugin', :type => 'javascript', :file => 'some', :format => 'js' } }
       subject { response }
-      it { should_not be_success }
+      it { should_not be_ok }
     end
   end
 
@@ -36,19 +36,19 @@ describe PluginController do
       describe "bad plugin name" do
         before { get 'asset', :params => { :plugin => '..', :type => 'javascript', :file => 'application', :format => 'js' } }
         subject { response }
-        it { should_not be_success }
+        it { should_not be_ok }
       end
 
       describe "bad type name" do
         before { get 'asset', :params => { :plugin => 'imaginary_plugin', :type => '../../../../app/assets/javascript', :file => 'application', :format => 'js' } }
         subject { response }
-        it { should_not be_success }
+        it { should_not be_ok }
       end
 
       describe "bad file name" do
         before { get 'asset', :params => { :plugin => 'imaginary_plugin', :type => 'javascript', :file => '../../../../../README', :format => 'markdown' } }
         subject { response }
-        it { should_not be_success }
+        it { should_not be_ok }
       end
     end
   end

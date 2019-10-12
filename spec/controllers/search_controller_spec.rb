@@ -8,7 +8,7 @@ describe SearchController do
 
     describe "response" do
       subject { response }
-      it { should be_success }
+      it { should be_ok }
     end
 
     describe "assigns" do

@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 ruby ENV['CUSTOM_RUBY_VERSION'] || '2.5.7'
 
 gem 'rails', '6.0.0'
-gem 'bootsnap', require: false
 
 # mongoid
 gem 'mongoid', '7.0.5'
@@ -34,7 +33,7 @@ end
 group :development, :test do
   gem 'test-unit', '~> 3.0'
   gem 'rails-controller-testing'
-  gem "rspec-rails", '~> 4.0.0.beta2'
+  gem "rspec-rails", '4.0.0.beta2'
   gem "rspec-its"
   gem 'rspec-collection_matchers'
   gem 'rspec-activemodel-mocks'

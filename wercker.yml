@@ -1,4 +1,4 @@
-box: ruby:2.3
+box: ruby:2.4.8
 services:
   - id: mongo:3.6.2
 build:

@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.4.8'
 
 gem 'rails', '5.2.3'
 gem 'bootsnap', require: false

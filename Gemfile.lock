@@ -373,5 +373,8 @@ DEPENDENCIES
   warbler
   zero_push
 
+RUBY VERSION
+   ruby 2.4.8p361
+
 BUNDLED WITH
-   1.11.2
+   1.17.3

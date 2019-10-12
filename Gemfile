@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 ruby ENV['CUSTOM_RUBY_VERSION'] || '2.5.7'
 
-gem 'rails', '5.2.3'
+gem 'rails', '6.0.0'
 gem 'bootsnap', require: false
 
 # mongoid
-gem 'mongoid', '6.4.4'
+gem 'mongoid', '7.0.5'
 
 # push notification
 gem 'eventmachine'
@@ -14,7 +14,7 @@ gem 'socky-client', '>= 0.5.0.beta1'
 
 # html
 gem 'haml-rails'
-gem 'sass-rails', '5.0.6'
+gem 'sass-rails', '5.0.8'
 gem 'compass-rails', '3.1.0'
 gem "execjs"
 gem 'therubyracer', :platform => :ruby

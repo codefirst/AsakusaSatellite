@@ -23,3 +23,4 @@ jobs:
         MONGODB_HOST: localhost
         MONGO_PORT_27017_TCP_ADDR: localhost
         MONGODB_PORT: 27017
+        CUSTOM_RUBY_VERSION: 2.5.5

@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby ENV['CUSTOM_RUBY_VERSION'] || '2.4.8'
 
 gem 'rails', '5.2.3'
 gem 'bootsnap', require: false
@@ -42,7 +43,6 @@ end
 platform :ruby, :mswin, :mingw do
   gem 'socky-server', '>= 0.5.0.beta1'
   gem 'thin'
-  gem 'newrelic_rpm'
 end
 
 platform :jruby do

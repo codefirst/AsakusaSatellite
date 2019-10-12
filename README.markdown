@@ -64,7 +64,6 @@ For JRuby user
 ### limitation
 
  * Don't use socky on JRuby. use keima or pusher
- * Don't use newrelic
 
 For developers
 ---------------

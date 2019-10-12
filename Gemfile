@@ -43,7 +43,6 @@ end
 platform :ruby, :mswin, :mingw do
   gem 'socky-server', '>= 0.5.0.beta1'
   gem 'thin'
-  gem 'newrelic_rpm'
 end
 
 platform :jruby do

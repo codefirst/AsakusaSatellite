@@ -1,8 +1,9 @@
-FROM ruby:2.4.8
+FROM ruby:2.5.7
 
 WORKDIR /root
 
-RUN mkdir -p /root/socky
+RUN gem install bundler && \
+    mkdir -p /root/socky
 
 COPY Gemfile Gemfile.lock socky/config.ru /root/
 

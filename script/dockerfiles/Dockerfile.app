@@ -1,4 +1,4 @@
-FROM ruby:2.4.8
+FROM ruby:2.5.7
 
 WORKDIR /tmp
 

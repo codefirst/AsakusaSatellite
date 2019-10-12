@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby ENV['CUSTOM_RUBY_VERSION'] || '2.5.7'
+ruby ENV['CUSTOM_RUBY_VERSION'] || '2.6.5'
 
 gem 'rails', '6.0.0'
 

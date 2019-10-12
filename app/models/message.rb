@@ -38,7 +38,7 @@ class Message
   end
 
   def inner_text
-    doc = REXML::Document.new(html_body || '')
+    doc = REXML::Document.new("<message>#{html_body}</message>")
     doc.delete_element('//style')
     doc.delete_element('//script')
     REXML::XPath.match(doc, "//text()").join(" ").strip

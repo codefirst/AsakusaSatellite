@@ -88,7 +88,7 @@ GEM
       faraday (>= 0.7.4, < 0.10)
     ffi (1.11.1)
     ffi (1.11.1-java)
-    gemoji (3.0.1)
+    gemoji (1.4.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-api-client (0.32.1)
@@ -362,7 +362,7 @@ DEPENDENCIES
   eventmachine
   execjs
   faraday
-  gemoji
+  gemoji (= 1.4.0)
   google-api-client
   haml-rails
   json
@@ -379,7 +379,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-its
-  rspec-rails (= 4.0.0.beta2)
+  rspec-rails (>= 4.0.0.beta2)
   sass-rails
   socky-client (>= 0.5.0.beta1)
   socky-server (>= 0.5.0.beta1)

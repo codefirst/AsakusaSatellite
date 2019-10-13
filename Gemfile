@@ -13,7 +13,7 @@ gem 'socky-client', '>= 0.5.0.beta1'
 
 # html
 gem 'haml-rails'
-gem 'sass-rails', '5.0.8'
+gem 'sass-rails'
 gem "execjs"
 gem 'therubyracer', :platform => :ruby
 gem 'uglifier', '~> 2.7'

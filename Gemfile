@@ -16,7 +16,7 @@ gem 'haml-rails'
 gem 'sass-rails'
 gem "execjs"
 gem 'therubyracer', :platform => :ruby
-gem 'uglifier', '~> 2.7'
+gem 'uglifier'
 
 # util
 gem 'rest-client'
@@ -30,7 +30,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'test-unit', '~> 3.0'
+  gem 'test-unit'
   gem 'rails-controller-testing'
   gem "rspec-rails", '4.0.0.beta2'
   gem "rspec-its"

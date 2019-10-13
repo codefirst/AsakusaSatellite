@@ -10,7 +10,8 @@ class CodeHighlightFilter < AsakusaSatellite::Filter::Base
     when /\A(\w+)::\Z/
       lexer_class = Rouge::Lexer.find($1)
       lexer = lexer_class ? lexer_class.new : Rouge::Lexers::PlainText.new
-      formatter = Rouge::Formatters::HTML.new(:css_class => 'highlight', :inline_theme => 'github')
+      formatter = Rouge::Formatters::HTMLPygments.new(Rouge::Formatters::HTMLInline.new('github'),
+                                                      'highlight')
       [formatter.format(lexer.lex(content))]
     else
       lines

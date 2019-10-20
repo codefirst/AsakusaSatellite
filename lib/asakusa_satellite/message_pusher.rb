@@ -54,7 +54,7 @@ module AsakusaSatellite
 
       def jsClass
         key = @opt['key'] || URI.parse(ENV['PUSHER_URL']).user
-        "new Pusher('#{key}')"
+        "new Pusher('#{key}')".html_safe
       end
     end
 

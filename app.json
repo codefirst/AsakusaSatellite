@@ -8,6 +8,10 @@
       "description": "Filter file name",
       "value": "filter"
     },
+    "SETTINGS": {
+      "description": "Settings file name",
+      "value": "settings"
+    },
     "MESSAGE_PUSHER_ENGINE": {
       "description": "Message pusher type",
       "value": "pusher"

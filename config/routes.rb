@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
   get 'message', '/chat/show/:id', :controller => "chat", :action=> "show"
 
-  get '/auth/:provider/callback', :to => 'login#omniauth_callback'
+  match '/auth/:provider/callback', :to => 'login#omniauth_callback', :via => [:get, :post]
   get '/auth/failure', :to => 'login#failure'
   get '/login/index', :controller => 'login', :action => 'index'
   post '/login/logout', :controller => 'login', :action => 'logout'

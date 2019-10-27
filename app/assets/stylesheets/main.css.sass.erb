@@ -1,26 +1,79 @@
-// variable
+$base-color: #e62728
 $link-color: #e2041b
 $link-visited-color: #e597b2
 
+
+*:root
+  --background-color: #fafafa
+  --border-color: #ccc
+  --font-color: #333
+
+  --link-color: #{$link-color}
+  --link-visited-color: #{$link-visited-color}
+
+  --form-border-color: #ddd
+  --form-element-border-color: #999
+
+  --content-background-color: #fff
+  --message-background-color: linear-gradient(top, #fcfcfc 40%, #efefef 100%), #fcfcfc
+  --message-border-color: #eee
+  --message-shadow-color: #ccc
+
+  --read-more-background-color: #fafafa
+  --read-more-border-color: #eee
+
+  --theme-button: #{$base-color}
+
+@media (prefers-color-scheme: dark)
+  *:root
+    --background-color: #333
+    --border-color: #333
+    --font-color: #fafafa
+
+    --link-color: #{darken($link-color, 20%)}
+    --link-visited-color: #{darken($link-visited-color, 20%)}
+
+    --form-border-color: #222
+    --form-element-border-color: #555
+
+    --content-background-color: black
+    --message-background-color: black
+    --message-border-color: #111
+    --message-shadow-color: rgba(0,0,0,0)
+
+    --read-more-background-color: #333
+    --read-more-border-color: #111
+
+    --theme-button: #{darken($base-color, 20%)}
+
+  input.icon, img.icon
+    filter: grayscale(100%)
+
+  img.logo
+    filter: invert(100%) grayscale(100%)
+
+  legend
+    color: #555
+
 // layout
 body
-  background-color: #fafafa
-  color: #333
+  background-color: var(--background-color)
+  color: var(--font-color)
 
 .header
   height: 70px
   margin: 15px
   margin-bottom: 40px
-  border-bottom: 1px solid #ccc
+  border-bottom: 1px solid var(--border-color)
   >a
     float: left
 
 .main
   width: 720px
   margin: auto
-  border: 1px solid #ccc
-  background-color: #fff
-  box-shadow: 1px 1px 2px #999
+  border: 1px solid var(--border-color)
+  background-color: var(--content-background-color)
+  box-shadow: 1px 1px 2px var(--form-element-border-color)
 
 #audio
   display: none
@@ -29,10 +82,10 @@ body
   margin-top: 50px
   margin-left: 15px
   margin-right: 15px
-  color: #999
+  color: var(--form-element-border-color)
   text-align: center
   font-size: 80%
-  border-top: 1px solid #ccc
+  border-top: 1px solid var(--border-color)
 
 .droppable
   position: fixed
@@ -56,7 +109,7 @@ body
   font-size: 90%
   table.version
     border-collapse: collapse
-    border-bottom: 1px solid #ddd
+    border-bottom: 1px solid var(--form-border-color)
     td
       padding: 5px
     td.first
@@ -65,7 +118,7 @@ body
 .room-info
   background: linear-gradient(top, #fbfbfb 41%, #ededed 100%), #f9f9f9
   border-radius: 5px
-  border: 1px solid #ccc
+  border: 1px solid var(--border-color)
   font-size: 100%
   padding: 5px
   margin-top: 15px
@@ -121,7 +174,7 @@ h3
   font-size: 100%
 
 td
-  border-top: 1px solid #ddd
+  border-top: 1px solid var(--form-border-color)
 
 a img
   border-style: none
@@ -142,15 +195,15 @@ a img
   margin-bottom: 20px
 
 .message
-  border: 1px solid #eee
+  border: 1px solid var(--message-border-color)
   text-align: left
   padding: 5px
   padding-left: 10px
   padding-right: 10px
   margin-bottom: 3px
   border-radius: 3px
-  background: linear-gradient(top, #fcfcfc 40%, #efefef 100%), #fcfcfc
-  box-shadow: 0 1px 1px #ccc
+  background: var(--message-background-color)
+  box-shadow: 0 1px 1px var(--message-shadow-color)
   font-size: 90%
   div
     padding: 0
@@ -201,18 +254,18 @@ a img
       max-width: 500px
       max-height: 500px
       border-radius: 5px
-      box-shadow: 1px 1px 2px #999
+      box-shadow: 1px 1px 2px var(--form-element-border-color)
     video
       max-width: 500px
       max-height: 500px
-      box-shadow: 1px 1px 2px #999
+      box-shadow: 1px 1px 2px var(--form-element-border-color)
 
 .message.target
-  border: 3px solid #ccc
+  border: 3px solid var(--border-color)
 
 .read-more
-  border: 1px solid #eee
-  background-color: #fafafa
+  border: 1px solid var(--read-more-border-color)
+  background-color: var(--read-more-background-color)
   color: #555
   font-size: 90%
   cursor: pointer
@@ -272,7 +325,7 @@ img.profile
         max-width: 20px
         max-height: 20px
         padding-right: 5px
-      border: 1px solid #DDD
+      border: 1px solid var(--form-border-color)
       border-radius: 3px
       list-style:-type none
       padding: 5px
@@ -302,21 +355,21 @@ img.profile
 
 // link
 a
-  color: $link-color
+  color: var(--link-color)
   font-style: normal
   text-decoration: underline
 
 a:link
-  color: $link-color
+  color: var(--link-color)
   font-style: normal
   text-decoration: underline
 
 a:visited
-  color: $link-visited-color
+  color: var(--link-visited-color)
   text-decoration: underline
 
 a:hover
-  color: $link-color
+  color: var(--link-color)
   font-style: normal
   text-decoration: underline
 
@@ -327,10 +380,10 @@ a:active
 form
   //:vertical-align bottom
 .text
-  border: 1px solid #999
+  border: 1px solid var(--form-element-border-color)
   font-size: 18px
   width: 360px
-  background-color: #fafafa
+  background-color: var(--background-color)
   margin-left: 50px
 textarea.text
   height: 52px
@@ -340,8 +393,8 @@ input.submit, input.submit:hover
   border: none
 fieldset
   border: none
-  border-top: 1px solid #ddd
-  border-bottom: 1px solid #ddd
+  border-top: 1px solid var(--form-border-color)
+  border-bottom: 1px solid var(--form-border-color)
   padding-bottom: 20px
 legend
   padding: 10px
@@ -375,7 +428,7 @@ form.inputarea
   font-weight: bold
 
 .red.button, .red.button:visited
-  background-color: #e62728
+  background-color: var(--theme-button)
 .red.button:hover
   background-color: #cf2525
 
@@ -403,7 +456,7 @@ form.inputarea
     input
       border: none
       background-color: inherit
-      color: $link-color
+      color: var(--link-color)
       font-style: normal
       font-weight: normal
       text-decoration: underline
@@ -454,11 +507,11 @@ form.inputarea
         max-width: $width - 30px
         max-height: $width - 30px
         border-radius: 5px
-        box-shadow: 1px 1px 2px #999
+        box-shadow: 1px 1px 2px var(--form-element-border-color)
       video
         max-width: $width - 30px
         max-height: $width - 30px
-        box-shadow: 1px 1px 2px #999
+        box-shadow: 1px 1px 2px var(--form-element-border-color)
 
   .text
     font-size: 18px

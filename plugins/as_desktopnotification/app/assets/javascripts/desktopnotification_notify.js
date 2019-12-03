@@ -62,7 +62,7 @@
 
         var setting = $.extend(defaults, options);
         if ($.DesktopNotification.isAvailable()) {
-            if ($.DesktopNotification.checkPermission() != 2) {
+            var send = function() {
                 var popup = $.DesktopNotification.createNotification(
                     setting.picture,
                     setting.title,
@@ -80,6 +80,18 @@
                         }
                     }, delay * 1000);
                 }
+            }
+            switch ($.DesktopNotification.checkPermission()) {
+              case 0:
+                // granted
+                send();
+                break;
+              case 1:
+                // default
+                $.DesktopNotification.requestPermission(send);
+                break;
+              default:
+                // denied
             }
         }
     };

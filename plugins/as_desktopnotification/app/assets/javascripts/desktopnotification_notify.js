@@ -62,7 +62,7 @@
 
         var setting = $.extend(defaults, options);
         if ($.DesktopNotification.isAvailable()) {
-            if (!$.DesktopNotification.checkPermission()) {
+            if ($.DesktopNotification.checkPermission() != 2) {
                 var popup = $.DesktopNotification.createNotification(
                     setting.picture,
                     setting.title,

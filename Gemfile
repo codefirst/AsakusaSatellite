@@ -4,6 +4,9 @@ ruby ENV['CUSTOM_RUBY_VERSION'] || '2.6.5'
 gem 'rails', '6.0.0'
 gem 'bundler'
 
+# rack middleware
+gem "rack-cors", "~> 1.1"
+
 # mongoid
 gem 'mongoid', '7.0.5'
 
@@ -46,3 +49,4 @@ end
 Dir.glob(File.join(File.dirname(__FILE__), 'plugins', '**', "Gemfile")) do |gemfile|
   self.send(:eval, File.open(gemfile, 'r').read)
 end
+

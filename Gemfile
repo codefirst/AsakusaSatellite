@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby ENV['CUSTOM_RUBY_VERSION'] || '2.6.5'
 
 gem 'rails', '6.0.0'
+gem 'bundler'
 
 # mongoid
 gem 'mongoid', '7.0.5'

@@ -75,9 +75,29 @@ describe Api::V1::UserController do
   end
 
   describe "add_device" do
-    context "api_keyが一致" do
+    context "デバイスIDがない" do
+      before {
+        post :add_device, :params => { :api_key => @user.spell, :format => 'json', :name => 'device_name' }
+        @user = @user.reload
+      }
+      subject { response }
+      its(:response_code) { should == 500 }
+      its(:body) { should have_json("/status[text() = 'error']") }
+      its(:body) { should have_json("/error[text() = 'device id and name cannot be empty']") }
+    end
+    context "デバイス名がない" do
       before {
         post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'device_id' }
+        @user = @user.reload
+      }
+      subject { response }
+      its(:response_code) { should == 500 }
+      its(:body) { should have_json("/status[text() = 'error']") }
+      its(:body) { should have_json("/error[text() = 'device id and name cannot be empty']") }
+    end
+    context "api_keyが一致" do
+      before {
+        post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'device_id', :name => 'device_name' }
         @user = @user.reload
       }
       subject { @user.devices[0].name }
@@ -85,7 +105,7 @@ describe Api::V1::UserController do
     end
     context "api_keyが不一致" do
       before {
-        post :add_device, :params => { :api_key => "peropero", :format => 'json', :device => 'device_id' }
+        post :add_device, :params => { :api_key => "peropero", :format => 'json', :device => 'device_id', :name => 'device_name' }
       }
       subject { response }
       its(:response_code) { should == 403 }
@@ -99,7 +119,7 @@ describe Api::V1::UserController do
         allow(devices).to receive_messages(:where => [double('device')])
         allow(user).to receive_messages(:save => false, :devices => devices, :to_json => '')
         allow(controller).to receive(:current_user).and_return(user)
-        post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'device_id' }
+        post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'device_id', :name => 'device_name' }
       }
       subject { response }
       its(:response_code) { should == 500 }

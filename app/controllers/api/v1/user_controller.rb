@@ -28,6 +28,11 @@ module Api
       end
 
       def add_device
+        unless params[:device] && params[:name]
+          render_error 'device id and name cannot be empty'
+          return
+        end
+
         manage_device do |user|
           if user.devices.where(:name => params[:device]).empty?
             user.devices << Device.new(:name => params[:device],
@@ -45,6 +50,11 @@ module Api
       end
 
       def delete_device
+        unless params[:device]
+          render_error 'device id cannot be empty'
+          return
+        end
+
         manage_device do |user|
           unless user.devices.where(:name => params[:device]).empty?
             device = user.devices.where(:name => params[:device])

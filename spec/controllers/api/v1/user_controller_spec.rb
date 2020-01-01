@@ -4,9 +4,16 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe Api::V1::UserController do
   before do
     User.all.each{|u| u.delete }
+
+    device = Device.new(:name => 'hogehoge_id',
+      :device_name => 'hogehoge_phone',
+      :device_type => 'iphone')
+    devices = [device]
+
     @user = User.new(:name => 'name',
                      :screen_name => 'screen-name',
                      :profile_image_url => 'url',
+                     :devices => devices,
                      :spell => 'spell')
     @user.save!
     User.new(:name => 'test',
@@ -100,7 +107,7 @@ describe Api::V1::UserController do
         post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'device_id', :name => 'device_name' }
         @user = @user.reload
       }
-      subject { @user.devices[0].name }
+      subject { @user.devices[1].name }
       it { should == 'device_id' }
     end
     context "api_keyが不一致" do
@@ -125,6 +132,35 @@ describe Api::V1::UserController do
       its(:response_code) { should == 500 }
       its(:body) { should have_json("/status[text() = 'error']") }
       its(:body) { should have_json("/error[text() = 'cannot save device data']") }
+    end
+  end
+
+  describe "delete_device" do
+    context "デバイスIDがない" do
+      before {
+        post :delete_device, :params => { :api_key => @user.spell, :format => 'json' }
+        @user = @user.reload
+      }
+      subject { response }
+      its(:response_code) { should == 500 }
+      its(:body) { should have_json("/status[text() = 'error']") }
+      its(:body) { should have_json("/error[text() = 'device id cannot be empty']") }
+    end
+    context "api_keyが一致" do
+      before {
+        post :delete_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'hogehoge_id' }
+        @user = @user.reload
+      }
+      subject { @user.devices.where(:name => 'hogehoge_id').first }
+      it { should be_nil }
+    end
+    context "api_keyが不一致" do
+      before {
+        post :delete_device, :params => { :api_key => "peropero", :format => 'json', :device => 'hogehoge_id' }
+        @user = @user.reload
+      }
+      subject { @user.devices.where(:name => 'hogehoge_id').first }
+      it { should_not be_nil }
     end
   end
 

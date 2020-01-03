@@ -14,6 +14,9 @@ describe User do
                          :user_profiles => [UserProfile.new(:room_id => @room1._id,
                                                             :name => "name for room1",
                                                             :profile_image_url => "http://example.com/pic.jpg")],
+                         :devices => [Device.new(:name => "deadbeaf",
+                                                 :device_name => "iPhoneX",
+                                                 :device_type => "iphone")],
                          :spell => 'spell')
   end
 
@@ -30,6 +33,8 @@ describe User do
     its([:name]) { should == "test user" }
     its([:screen_name]) { should == "test" }
     its([:profile_image_url]) { should == "http://example.com/profile.png" }
+    it { should have_key(:user_profiles) }
+    it { should have_key(:devices) }
     it { should_not have_key(:spell) }
     it { should_not have_key(:email) }
   end

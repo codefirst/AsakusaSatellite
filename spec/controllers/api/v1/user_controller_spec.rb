@@ -123,7 +123,7 @@ describe Api::V1::UserController do
       before {
         user = double 'user'
         devices = double 'devices'
-        allow(devices).to receive_messages(:where => [double('device')])
+        allow(devices).to receive_messages(:where => [], :<< => devices)
         allow(user).to receive_messages(:save => false, :devices => devices, :to_json => '')
         allow(controller).to receive(:current_user).and_return(user)
         post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'device_id', :name => 'device_name' }
@@ -132,6 +132,15 @@ describe Api::V1::UserController do
       its(:response_code) { should == 500 }
       its(:body) { should have_json("/status[text() = 'error']") }
       its(:body) { should have_json("/error[text() = 'cannot save device data']") }
+    end
+    context "デバイス情報を更新" do
+      before {
+        post :add_device, :params => { :api_key => @user.spell, :format => 'json', :device => 'hogehoge_id', :name => 'new_name', :type => 'chrome' }
+        @user = @user.reload
+      }
+      subject { @user.devices.first }
+      its(:device_name) { should == 'new_name' }
+      its(:device_type) { should == 'chrome' }
     end
   end
 

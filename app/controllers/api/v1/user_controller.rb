@@ -34,10 +34,15 @@ module Api
         end
 
         manage_device do |user|
-          if user.devices.where(:name => params[:device]).empty?
+          devices = user.devices.where(:name => params[:device])
+          if devices.empty?
             user.devices << Device.new(:name => params[:device],
                                        :device_name => params[:name],
                                        :device_type => params[:type] || 'iphone')
+          else
+            device = devices.first
+            device.update_attributes({:device_name => params[:name],
+                                      :device_type => params[:type] || 'iphone'})
           end
 
           unless user.save

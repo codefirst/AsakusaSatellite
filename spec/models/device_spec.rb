@@ -15,6 +15,13 @@ describe Device do
   it { should be_respond_to :device_name }
   it { should be_respond_to :device_type }
 
+  describe "to_json" do
+    subject { @device.to_json }
+    its([:name]) { should == "test-device-token-name" }
+    its([:device_name]) { should == "iphone10" }
+    its([:device_type]) { should == "android" }
+  end
+
   context "Callbacks" do
     context "save" do
       before do

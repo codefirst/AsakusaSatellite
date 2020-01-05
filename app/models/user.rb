@@ -18,7 +18,8 @@ class User
       :name => self.name,
       :screen_name => self.screen_name,
       :profile_image_url => self.profile_image_url,
-      :user_profiles => self.user_profiles.map {|profile| profile.to_json}
+      :user_profiles => self.user_profiles.map {|profile| profile.to_json},
+      :devices => self.devices.map {|device| device.to_json}
     }
   end
 

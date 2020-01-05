@@ -10,6 +10,15 @@ class Device
     device_type.nil? or device_type == "iphone"
   end
 
+  def to_json
+    {
+      :id => self.id.to_s,
+      :device_name => self.device_name,
+      :device_type => self.device_type,
+      :name => self.name
+      }
+  end
+
   def self.register_callback(event)
     class_eval <<-EOS
       @@_#{event.to_s}_procs = []

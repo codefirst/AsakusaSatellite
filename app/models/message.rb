@@ -64,6 +64,12 @@ class Message
     return :login_error if user.nil?
     return :empty_message if not allow_empty and message_body.strip.empty?
 
+    profile = user.user_profiles.to_a.find{|profile| profile.room_id == room._id}
+    if profile
+      user.name = profile.name
+      user.profile_image_url = profile.profile_image_url
+    end
+
     message = Message.new(:room => room, :body => message_body || "", :user => user)
     if message.save then message
                     else :error_on_save
